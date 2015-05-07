@@ -1,0 +1,13 @@
+package de.monticore.umlsc;
+
+/**
+ * Grammar StatechartJava, Version May 06th, 2015
+ *
+ */
+grammar StatechartWithJava extends de.monticore.umlsc.Statechart, mc.javadsl.JavaDSL {
+
+     SCStatements = Statements;
+     SCExpression = Expression;
+     SCInvariantContent = Expression;
+  
+}

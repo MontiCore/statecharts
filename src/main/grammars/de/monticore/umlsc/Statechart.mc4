@@ -1,0 +1,292 @@
+package de.monticore.umlsc;
+
+/**
+ * Grammar Statechart, Version May 06th, 2015
+ *
+ */
+ component grammar Statechart extends de.monticore.types.Types {
+   
+  /** ASTSCCompilationUnit represents the complete Diagram
+    @attribute package          The package declaration of this Statechart
+    @attribute importStatements List of imported elements
+    @attribute scDefinition   
+  */
+  SCCompilationUnit =
+    ("package" Package:(Name& || ".")+ ";")? 
+    (ImportStatement)*
+    SCDefinition;
+
+
+    /*========================================================================*/
+    /*================== INTERFACES AND EXTERNAL SYMBOLS =====================*/
+    /*========================================================================*/
+    
+    /** ASTSCElement represents all Elements of a UML Statechart diagram
+    */
+    abstract SCElement;
+    
+    /** ASTSCEvent represents Events of Transitions in a UML Statechart diagram
+    */
+    abstract SCEvent;
+    
+    external SCStatements;
+    external SCExpression;
+    external SCInvariantContent;
+    
+    
+    /*========================================================================*/
+    /*============================== GRAMMAR =================================*/
+    /*========================================================================*/
+    
+    /** ASTSCDefinition represents a UML Statechart diagram
+        @attribute completeness  Optional Comleteness of this Statechart diagram
+        @attribute stereotype    Optional Stereotype
+        @attribute name          Name of this Statechart diagram
+        @attribute className     Optional name of the class modeled with this
+                                 Statechart diagram (if it differs from the name
+                                 of the Statechart diagram)
+        @attribute sCMethod      Optional method for method Statecahrt diagrams
+        @attribute sCStates      List of States of this Statechart diagram
+        @attribute sCTransitions List of Transitions of this Statechart diagram
+        @attribute sCCode        List of Code-blocks of this Statechart diagram
+    */
+    SCDefinition =
+        Completeness?
+        Stereotype?
+        "statechart" Name
+        (SCMethod | className:ReferenceType)?
+        "{"
+          (
+            sCStates:SCState
+            |
+            sCTransitions:SCTransition
+            |
+            SCCode
+          )*
+        "}";
+    
+    
+    /** ASTSCMethod represents the Method of a method Statechart diagram
+        @attribute name         Name of this Method
+        @attribute sCParameters Optional list of parameters
+    */
+    SCMethod =
+        name:QualifiedName "("
+          (SCParameter || ",")*
+        ")";
+    
+    
+    /** ASTSCParameter represents a Parameter of a Method
+        @attribute type Type of this Parameter
+        @attribute ellipsis Optional indicator for a variable Parameter length
+        @attribute name Name of this Parameter
+    */
+    SCParameter =
+        Type (Ellipsis:["..."])? Name;
+    
+    
+    /** ASTSCAction represents the general part of do-, entry-, and exit-Actions
+        @attribute preCondition  Pre-Condition for this Action
+        @attribute SCStatements    Statements of this Action
+        @attribute postCondition Post-Condition for this Action
+    */
+    SCAction =
+        (preCondition:Invariant)?
+        (
+          ";"
+          |
+          ("/" SCStatements
+            (postCondition:Invariant ";")?)
+        );
+    
+    
+    /** ASTSCDoAction represents a do-Action of States
+        @attribute sCAction Action for this do-Action
+    */
+    SCDoAction =
+        "do" SCAction;
+    
+    
+    /** ASTSCEntryAction represents an entry-Action of States
+        @attribute sCAction Action for this entry-Action
+    */
+    SCEntryAction =
+        "entry" SCAction;
+    
+    
+    /** ASTSCExitAction represents an exit-Action of States
+        @attribute sCAction Action for this exit-Action
+    */
+    SCExitAction =
+        "exit" SCAction;
+    
+    
+    /** ASTSCModifier represents a Modifier for a State
+        @attribute stereotype Optional Stereotpye
+        @attribute initial    true if State is initial
+        @attribute final      true if State is final
+        @attribute local      true if State is local
+    */
+    //own modifier needed as common-modifier causes nondeterminism
+    //because of derived "/"
+    SCModifier =
+        Stereotype?
+        (["initial"] | ["final"] | ["local"])*;
+    
+    
+    /** ASTSCState represents a (hierarchical) State in a UML Statechart diagram
+        @attribute completeness        Optional Comleteness of this State
+        @attribute sCModifier          Modifier of this State
+        @attribute name                Name of this State
+        @attribute invariant           Invariant for this State
+        @attribute sCEntryAction       entry-Action for this State
+        @attribute sCDoAction          do-Action for this State
+        @attribute sCExitAction        exit-Action for this State
+        @attribute sCStates            List of States included in this State
+        @attribute sCTransitions       List of Transitions included in this State
+        @attribute sCCode              List of Code-blocks included in this State
+        @attribute sCInternTransitions List of Intern Transitions for this State
+    */
+    SCState =
+        Completeness?
+        SCModifier
+        "state" Name
+        (
+          ("{"
+            (Invariant ";")?
+            SCEntryAction?
+            SCDoAction?
+            SCExitAction?
+            (
+              sCStates:SCState
+              |
+              sCTransitions:SCTransition
+              |
+              SCCode
+              |
+              sCInternTransitions:SCInternTransition
+            )*
+          "}")
+          |
+          ";"
+        );
+    
+    
+    /** ASTSCInternTransition represents an Intern Transition of a State in a
+        UML Statechart diagram
+        @attribute stereotype       Optional Stereotype
+        @attribute sCTransitionBody Body of this Transition
+    */
+    SCInternTransition =
+        Stereotype? "->" ":"? SCTransitionBody;
+    
+    
+    /** ASTSCTransition represents a Transition between two States in a
+        UML Statechart diagram
+        @attribute stereotype       Optional Stereotype
+        @attribute sourceName       Name of the source of this Transition
+        @attribute targetName       Name of the target of this Transition
+        @attribute sCTransitionBody Body of this Transition
+    */
+    SCTransition =
+        Stereotype?
+        sourceName:QualifiedName "->" targetName:QualifiedName
+        (
+          (":" SCTransitionBody)
+          |
+          ";"
+        );
+    
+    
+    /** ASTSCTransitionBody represents the Body of a Transition in a
+        UML Statechart diagram
+        @attribute preCondition  Pre-Condition of this Transition Body
+        @attribute sCEvent       Event for this Transition Body to take place
+        @attribute SCStatements    Actions of this Transition Body
+        @attribute postCondition Post-Condition of this Transition Body
+    */
+    SCTransitionBody =
+        (preCondition:Invariant)?
+        SCEvent?
+        (
+          ("/" SCStatements
+              (postCondition:Invariant ";")?)
+          |
+          ";"
+        );
+    
+    
+    /** ASTSCMethodOrExceptionCall represents a call of a method or exception
+        of a Transition in a UML Statechart diagram
+        @attribute name        Name of this method call
+        @attribute sCArguments Optional Arguments of this method call
+    */
+    SCMethodOrExceptionCall extends SCEvent =
+        name:QualifiedName SCArguments?;
+    
+    
+    /** ASTSCReturnStatement represents a return statement of a Transition
+        in a UML Statechart diagram
+        @attribute incomplete True if return statement is
+                              incomplete/underspecified
+        @attribute SCExpression Expression of this return statement
+    */
+    SCReturnStatement extends SCEvent =
+        "return"
+        (
+          ("(" SCExpression ")") // brackets needed to prevent clash with "/"
+          | [incomplete:"..."]
+        )?;
+    
+    
+    /** ASTSCArguments represents Arguments of an Event in a UML Statechart
+        diagram
+        @attribute incomplete  True if Arguments are incomplete (underspecified)
+        @attribute SCExpressions Specified Arguments as a list of Expressions
+    */
+    SCArguments =
+        ("(" [incomplete:"..."] ")")
+        | ("(" ")")
+        | ("(" (SCExpression || "," )* ")");
+    
+    
+    /** ASTSCCode represents user added code to the Statechart diagram or to
+        States
+        @attribute SCStatements The code added by the user
+    */
+    SCCode extends SCElement =
+        "code" SCStatements;
+        
+    Completeness =
+    //the following complex lexer symbol construction is to prevent clash
+    //with ident "c"
+    complete:[COMPLETE:"(c)"] 
+      | ("(" [incomplete:"..."] ")") //separate brackets to avoid
+                                             //lexer-symbol clash with SD/SC
+      | [incomplete:"(...,...)"] 
+      | [complete:"(c,c)"]
+      | [rightComplete:"(...,c)"] 
+      | [leftComplete:"(c,...)"];
+ 
+    /** ASTStereotype represents Stereotypes in a Statechart
+   	    @attribute values List of Values of this Stereotype
+  	*/
+  	Stereotype = "<<" values:(StereoValue || ",")+ ">>";
+    
+
+    /** ASTStereoValue represents a Value of a Stereotype in a Classdiagram
+        @attribute name  Name of the Stereotype-Value
+    */
+    StereoValue = Name ("=" value:String)?;
+
+    /** ASTValue represents a Value
+        @attribute literal  Value
+    */
+    Value = SignedLiteral;
+    
+    Invariant = 
+        (kind:Name ":")?
+        "[" content:SCInvariantContent "]";
+    
+
+}
