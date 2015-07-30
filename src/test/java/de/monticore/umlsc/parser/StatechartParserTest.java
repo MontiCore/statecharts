@@ -17,9 +17,9 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.monticore.umlsc._ast.ASTSCCompilationUnit;
-import de.monticore.umlsc._parser.SCCompilationUnitMCParser;
-import de.monticore.umlsc._parser.StatechartWithJavaParserFactory;
+import de.monticore.umlsc.statechart._ast.ASTSCCompilationUnit;
+import de.monticore.umlsc.statechartwithjava._parser.SCCompilationUnitMCParser;
+import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParserFactory;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.Slf4jLog;
 

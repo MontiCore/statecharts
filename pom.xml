@@ -12,8 +12,8 @@
 
     <!-- .. Libraries ..................................................... -->
 
-    <monticore.version>4.1.3</monticore.version>
-    <monticore.java.version>4.1.0.M4</monticore.java.version>
+    <monticore.version>4.1.6</monticore.version>
+    <monticore.java.version>4.1.0.M12</monticore.java.version>
     
     <guava.version>18.0</guava.version>
     <junit.version>4.11</junit.version>
@@ -22,7 +22,7 @@
 
     <!-- .. Plugins ....................................................... -->
 
-    <mc4.maven.version>4.1.3</mc4.maven.version>
+    <mc4.maven.version>4.1.5.1</mc4.maven.version>
 
     <compiler.plugin>3.2</compiler.plugin>
     <release.plugin>2.5.1</release.plugin>
