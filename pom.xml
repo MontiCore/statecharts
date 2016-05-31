@@ -27,12 +27,14 @@
     <compiler.plugin>3.2</compiler.plugin>
     <release.plugin>2.5.1</release.plugin>
     <source.plugin>2.4</source.plugin>
+	<assembly.plugin>2.5.4</assembly.plugin>
 
     <!-- Classifiers -->
 
     <grammars.classifier>grammars</grammars.classifier>
     <symbols.classifier>symbols</symbols.classifier>
     <models.classifier>models</models.classifier>
+    <mc.grammars.assembly.version>0.0.6</mc.grammars.assembly.version>
 
     <!-- .. Misc .......................................................... -->
 
@@ -130,9 +132,33 @@
         </executions>
       </plugin>
       <!-- Create grammars jar -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
+     <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>${assembly.plugin}</version>
+          <dependencies>
+            <dependency>
+              <groupId>de.monticore</groupId>
+              <artifactId>mc-assemblies</artifactId>
+              <version>${mc.grammars.assembly.version}</version>
+            </dependency>
+          </dependencies>
+          <executions>
+            <execution>
+              <id>grammars</id>
+              <configuration>
+                <descriptorRefs>
+                  <descriptorRef>grammars-assembly</descriptorRef>
+                </descriptorRefs>
+                <formats>
+                  <format>jar</format>
+                </formats>
+              </configuration>
+              <phase>package</phase>
+              <goals>
+                <goal>single</goal>
+              </goals>
+            </execution>
+          </executions>
       </plugin>
     </plugins>
 
