@@ -12,22 +12,22 @@
 
     <!-- .. Libraries ..................................................... -->
 
-    <monticore.version>4.1.6</monticore.version>
-    <monticore.java.version>4.1.0.M12</monticore.java.version>
-    
+    <monticore.version>4.4.1-SNAPSHOT</monticore.version>
+    <monticore.java.version>4.3.3</monticore.java.version>
+
     <guava.version>18.0</guava.version>
     <junit.version>4.11</junit.version>
-    <se-commons.version>1.7.0</se-commons.version>
+    <se-commons.version>1.7.6</se-commons.version>
     <antlr.version>4.5</antlr.version>
 
     <!-- .. Plugins ....................................................... -->
 
-    <mc4.maven.version>4.1.5.1</mc4.maven.version>
+    <mc4.maven.version>4.4.0</mc4.maven.version>
 
     <compiler.plugin>3.2</compiler.plugin>
     <release.plugin>2.5.1</release.plugin>
     <source.plugin>2.4</source.plugin>
-	<assembly.plugin>2.5.4</assembly.plugin>
+    <assembly.plugin>2.5.4</assembly.plugin>
 
     <!-- Classifiers -->
 
@@ -97,7 +97,7 @@
             </goals>
           </execution>
         </executions>
-       </plugin>
+      </plugin>
 
       <!-- Other Configuration -->
       <plugin>
@@ -132,33 +132,33 @@
         </executions>
       </plugin>
       <!-- Create grammars jar -->
-     <plugin>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <version>${assembly.plugin}</version>
-          <dependencies>
-            <dependency>
-              <groupId>de.monticore</groupId>
-              <artifactId>mc-assemblies</artifactId>
-              <version>${mc.grammars.assembly.version}</version>
-            </dependency>
-          </dependencies>
-          <executions>
-            <execution>
-              <id>grammars</id>
-              <configuration>
-                <descriptorRefs>
-                  <descriptorRef>grammars-assembly</descriptorRef>
-                </descriptorRefs>
-                <formats>
-                  <format>jar</format>
-                </formats>
-              </configuration>
-              <phase>package</phase>
-              <goals>
-                <goal>single</goal>
-              </goals>
-            </execution>
-          </executions>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>${assembly.plugin}</version>
+        <dependencies>
+          <dependency>
+            <groupId>de.monticore</groupId>
+            <artifactId>mc-assemblies</artifactId>
+            <version>${mc.grammars.assembly.version}</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>grammars</id>
+            <configuration>
+              <descriptorRefs>
+                <descriptorRef>grammars-assembly</descriptorRef>
+              </descriptorRefs>
+              <formats>
+                <format>jar</format>
+              </formats>
+            </configuration>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
 

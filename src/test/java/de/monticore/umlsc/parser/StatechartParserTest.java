@@ -18,8 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.monticore.umlsc.statechart._ast.ASTSCCompilationUnit;
-import de.monticore.umlsc.statechartwithjava._parser.SCCompilationUnitMCParser;
-import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParserFactory;
+import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParser;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.Slf4jLog;
 
@@ -34,8 +33,8 @@ public class StatechartParserTest {
   @Test
   public void testSingleState() throws RecognitionException, IOException {
     Path model = Paths.get("src/test/resources/de/monticore/umlsc/parser/SingleState.sc");
-    SCCompilationUnitMCParser parser = StatechartWithJavaParserFactory.createSCCompilationUnitMCParser();
-    Optional<ASTSCCompilationUnit> scDef = parser.parse(model.toString());
+    StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
+    Optional<ASTSCCompilationUnit> scDef = parser.parseSCCompilationUnit(model.toString());
     assertFalse(parser.hasErrors());
     assertTrue(scDef.isPresent());
   }
@@ -43,8 +42,8 @@ public class StatechartParserTest {
   @Test
   public void testEncryptedDocument() throws RecognitionException, IOException {
     Path model = Paths.get("src/test/resources/de/monticore/umlsc/parser/EncryptedDocument.sc");
-    SCCompilationUnitMCParser parser = StatechartWithJavaParserFactory.createSCCompilationUnitMCParser();
-    Optional<ASTSCCompilationUnit> scDef = parser.parse(model.toString());
+    StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
+    Optional<ASTSCCompilationUnit> scDef = parser.parseSCCompilationUnit(model.toString());
     assertFalse(parser.hasErrors());
     assertTrue(scDef.isPresent());
   }
@@ -52,8 +51,8 @@ public class StatechartParserTest {
   @Test
   public void testSimple() throws RecognitionException, IOException {
     Path model = Paths.get("src/test/resources/de/monticore/umlsc/parser/Simple.sc");
-    SCCompilationUnitMCParser parser = StatechartWithJavaParserFactory.createSCCompilationUnitMCParser();
-    Optional<ASTSCCompilationUnit> scDef = parser.parse(model.toString());
+    StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
+    Optional<ASTSCCompilationUnit> scDef = parser.parseSCCompilationUnit(model.toString());
     assertFalse(parser.hasErrors());
     assertTrue(scDef.isPresent());
   }
@@ -61,8 +60,8 @@ public class StatechartParserTest {
   @Test
   public void testVariants() throws RecognitionException, IOException {
     Path model = Paths.get("src/test/resources/de/monticore/umlsc/parser/Variants.sc");
-    SCCompilationUnitMCParser parser = StatechartWithJavaParserFactory.createSCCompilationUnitMCParser();
-    Optional<ASTSCCompilationUnit> scDef = parser.parse(model.toString());
+    StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
+    Optional<ASTSCCompilationUnit> scDef = parser.parseSCCompilationUnit(model.toString());
     assertFalse(parser.hasErrors());
     assertTrue(scDef.isPresent());
   }
@@ -70,8 +69,8 @@ public class StatechartParserTest {
   @Test
   public void testWebBidding_login() throws RecognitionException, IOException {
     Path model = Paths.get("src/test/resources/de/monticore/umlsc/parser/WebBidding_login.sc");
-    SCCompilationUnitMCParser parser = StatechartWithJavaParserFactory.createSCCompilationUnitMCParser();
-    Optional<ASTSCCompilationUnit> scDef = parser.parse(model.toString());
+    StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
+    Optional<ASTSCCompilationUnit> scDef = parser.parseSCCompilationUnit(model.toString());
     assertFalse(parser.hasErrors());
     assertTrue(scDef.isPresent());
   }
