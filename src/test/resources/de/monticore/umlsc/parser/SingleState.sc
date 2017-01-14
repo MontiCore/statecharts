@@ -1,6 +1,6 @@
 package de.monticore.umlsc.parser;
 
-statechart SingleState {
+statechart for SingleStateClass {
 
   (c) state AuctionOpen {
     Java:[timePol.status == TimingPolicy.RUNNING];

@@ -1,7 +1,7 @@
 package de.monticore.umlsc.parser;
 
 <<conditions="Java">>
-statechart EncryptedDocument {
+statechart for EncryptedDocument {
 
   initial state WaitForUserEntry {
     entry / {timer.set(5);} [timer.running()];

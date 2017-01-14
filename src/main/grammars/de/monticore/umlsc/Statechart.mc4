@@ -1,7 +1,7 @@
 package de.monticore.umlsc;
 
 /**
- * Grammar Statechart, Version May 06th, 2015
+ * Grammar Statechart, Version Dec 20th, 2016
  *
  */
  component grammar Statechart extends de.monticore.types.Types {
@@ -45,7 +45,7 @@ package de.monticore.umlsc;
         @attribute className     Optional name of the class modeled with this
                                  Statechart diagram (if it differs from the name
                                  of the Statechart diagram)
-        @attribute sCMethod      Optional method for method Statecahrt diagrams
+        @attribute sCMethod      Optional method for method Statechart diagrams
         @attribute sCStates      List of States of this Statechart diagram
         @attribute sCTransitions List of Transitions of this Statechart diagram
         @attribute sCCode        List of Code-blocks of this Statechart diagram
@@ -53,8 +53,9 @@ package de.monticore.umlsc;
     SCDefinition =
         Completeness?
         Stereotype?
-        "statechart" Name
-        (SCMethod | className:ReferenceType)?
+        "statechart" Name?
+        "for" className:ReferenceType
+        ("refines" superSC:Name)?
         "{"
           (
             sCStates:SCState
@@ -261,12 +262,9 @@ package de.monticore.umlsc;
     //the following complex lexer symbol construction is to prevent clash
     //with ident "c"
     complete:[COMPLETE:"(c)"] 
-      | ("(" [incomplete:"..."] ")") //separate brackets to avoid
-                                             //lexer-symbol clash with SD/SC
-      | [incomplete:"(...,...)"] 
-      | [complete:"(c,c)"]
-      | [rightComplete:"(...,c)"] 
-      | [leftComplete:"(c,...)"];
+      | ("(" [incomplete:"..."] ")"); //separate brackets to avoid
+                                      //lexer-symbol clash with SD/SC
+      
  
     /** ASTStereotype represents Stereotypes in a Statechart
    	    @attribute values List of Values of this Stereotype

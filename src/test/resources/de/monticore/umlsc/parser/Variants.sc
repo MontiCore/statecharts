@@ -1,7 +1,7 @@
 package de.monticore.umlsc.parser;
 
 (...) <<default_invariant = "OCL">>
-statechart Variants {
+statechart for Variants {
 
   (c) initial state s1 {
     Java:[a==5];
@@ -12,7 +12,7 @@ statechart Variants {
 
   (c) final state s2;
   
-  (c,...) <<state_specific_stereotypes>> state s3 {
+  (...) <<state_specific_stereotypes>> state s3 {
     Java:[c];
     state sub1;
     final state sub2;

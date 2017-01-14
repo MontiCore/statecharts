@@ -1,7 +1,7 @@
 package de.monticore.umlsc.parser;
 
 <<method>>
-statechart WebBidding_login WebBidding.login {
+statechart for WebBidding_login {
 
   initial state I1;
   state Start;

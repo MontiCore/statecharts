@@ -1,6 +1,6 @@
 package de.monticore.umlsc.parser;
 
-statechart Simple {
+statechart for SimpleClass {
 
 /*
 state A {

@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import de.monticore.umlsc.statechart._ast.ASTSCCompilationUnit;
 import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParser;
+import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.Slf4jLog;
 
@@ -42,7 +43,7 @@ public class StatechartParserTest {
   @Test
   public void testEncryptedDocument() throws RecognitionException, IOException {
     Path model = Paths.get("src/test/resources/de/monticore/umlsc/parser/EncryptedDocument.sc");
-    StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
+    StatechartWithJavaParser parser = new StatechartWithJavaParser();
     Optional<ASTSCCompilationUnit> scDef = parser.parseSCCompilationUnit(model.toString());
     assertFalse(parser.hasErrors());
     assertTrue(scDef.isPresent());
@@ -62,6 +63,7 @@ public class StatechartParserTest {
     Path model = Paths.get("src/test/resources/de/monticore/umlsc/parser/Variants.sc");
     StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
     Optional<ASTSCCompilationUnit> scDef = parser.parseSCCompilationUnit(model.toString());
+    
     assertFalse(parser.hasErrors());
     assertTrue(scDef.isPresent());
   }
@@ -71,6 +73,10 @@ public class StatechartParserTest {
     Path model = Paths.get("src/test/resources/de/monticore/umlsc/parser/WebBidding_login.sc");
     StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
     Optional<ASTSCCompilationUnit> scDef = parser.parseSCCompilationUnit(model.toString());
+    
+    for(Finding f : Log.getFindings()) {
+    	System.out.println(f.toString());
+    }
     assertFalse(parser.hasErrors());
     assertTrue(scDef.isPresent());
   }
