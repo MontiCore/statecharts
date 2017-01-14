@@ -12,7 +12,7 @@
 
     <!-- .. Libraries ..................................................... -->
 
-    <monticore.version>4.4.1-SNAPSHOT</monticore.version>
+    <monticore.version>4.4.1</monticore.version>
     <monticore.java.version>4.3.3</monticore.java.version>
 
     <guava.version>18.0</guava.version>
