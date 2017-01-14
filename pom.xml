@@ -245,10 +245,6 @@
       <id>se-nexus</id>
       <url>http://nexus.se.rwth-aachen.de/content/repositories/monticore-snapshots/</url>
     </snapshotRepository>
-    <site>
-      <id>se-nexus</id>
-      <url>dav:http://nexus.se.rwth-aachen.de/content/sites/se-sites/monticore/${project.version}/</url>
-    </site>
   </distributionManagement>
 
   <scm>
