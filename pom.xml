@@ -115,7 +115,8 @@
         <artifactId>maven-release-plugin</artifactId>
         <version>${release.plugin}</version>
         <configuration>
-          <tagNameFormat>monticore-@{project.version}</tagNameFormat>
+          <tagBase>https://sselab.de/lab2/private/svn/MontiCore/tags/mclang/sc/</tagBase>
+          <tagNameFormat>sc-@{project.version}</tagNameFormat>
         </configuration>
       </plugin>
 
@@ -253,5 +254,6 @@
 
   <scm>
   	<url>https://sselab.de/lab2/private/svn/MontiCore/trunk/mclang/statechart/</url>
+  	<developerConnection>scm:svn:https://sselab.de/lab2/private/svn/MontiCore/trunk/mclang/statechart/</developerConnection>
   </scm>
 </project>
