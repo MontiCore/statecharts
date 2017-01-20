@@ -39,8 +39,4 @@ statechart for Variants {
   s4 -> s2 : return ...;
   s4 -> s2 : return (1+3);
   s4 -> s2 : return (1+4) / {System.out.println("s4->s2");}
-
-  code{
-    System.out.println("This is addional code!");
-  }
 }
