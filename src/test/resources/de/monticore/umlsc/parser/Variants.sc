@@ -6,8 +6,8 @@ statechart for Variants {
   (c) initial state s1 {
     Java:[a==5];
     entry / {System.out.println("EntryAction");} Java:[a.assertEquals(5)];
-    do Java:[d] / {System.out.println("DoAction");}
-    exit / {System.out.println("ExitAction");}
+    do Java:[d] / {System.out.println("DoAction");};
+    exit / {System.out.println("ExitAction");};
   }
 
   (c) final state s2;

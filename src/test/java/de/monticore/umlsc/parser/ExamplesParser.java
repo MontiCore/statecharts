@@ -19,10 +19,12 @@ import org.junit.Test;
 
 import de.monticore.umlsc.statechart._ast.ASTSCCompilationUnit;
 import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParser;
+import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.Slf4jLog;
 
 public class ExamplesParser {
+  
   
   @BeforeClass
   public static void setup() {
@@ -37,6 +39,71 @@ public class ExamplesParser {
     Optional<ASTSCCompilationUnit> scDef = parser.parseSCCompilationUnit(model.toString());
     assertFalse(parser.hasErrors());
     assertTrue(scDef.isPresent());
+  }
+  
+  
+  @Test
+  public void testScWithClassReference() throws RecognitionException, IOException {
+    Path model = Paths.get("src/test/resources/de/monticore/umlsc/examples/ScWithClassReference.sc");
+    StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
+    Optional<ASTSCCompilationUnit> scDef = parser.parseSCCompilationUnit(model.toString());
+    assertFalse(parser.hasErrors());
+    assertTrue(scDef.isPresent());
+    assertTrue(scDef.get().getSCDefinition().classNameIsPresent());
+  }
+  
+  @Test
+  public void testScWithOutClassReference() throws RecognitionException, IOException {
+    Path model = Paths.get("src/test/resources/de/monticore/umlsc/examples/ScWithOutClassReference.sc");
+    StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
+    Optional<ASTSCCompilationUnit> scDef = parser.parseSCCompilationUnit(model.toString());
+    assertFalse(parser.hasErrors());
+    assertTrue(scDef.isPresent());
+    
+  }
+  
+  @Test
+  public void testSimpleState() throws RecognitionException, IOException {
+    Path model = Paths.get("src/test/resources/de/monticore/umlsc/examples/ScSimpleState.sc");
+    StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
+    Optional<ASTSCCompilationUnit> scDef = parser.parseSCCompilationUnit(model.toString());
+    assertFalse(parser.hasErrors());
+    assertTrue(scDef.isPresent());
+    
+  }
+  
+  
+  @Test
+  public void testScSimpleSTransition() throws RecognitionException, IOException {
+    Path model = Paths.get("src/test/resources/de/monticore/umlsc/examples/ScSimpleTransition.sc");
+    StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
+    Optional<ASTSCCompilationUnit> scDef = parser.parseSCCompilationUnit(model.toString());
+    assertFalse(parser.hasErrors());
+    assertTrue(scDef.isPresent());
+    
+  }
+  
+  @Test
+  public void testScTransitionExt() throws RecognitionException, IOException {
+    Path model = Paths.get("src/test/resources/de/monticore/umlsc/examples/ScTransitionExt.sc");
+    StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
+    Optional<ASTSCCompilationUnit> scDef = parser.parseSCCompilationUnit(model.toString());
+    assertFalse(parser.hasErrors());
+    assertTrue(scDef.isPresent());
+    
+  }
+  
+  @Test
+  public void testScTransitionInternal() throws RecognitionException, IOException {
+    Path model = Paths.get("src/test/resources/de/monticore/umlsc/examples/ScSImpleTransitionInternal.sc");
+    StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
+    Optional<ASTSCCompilationUnit> scDef = parser.parseSCCompilationUnit(model.toString());
+    for(Finding f : Log.getFindings()) {
+    	System.out.println(f.buildMsg());
+    }
+    assertFalse(parser.hasErrors());
+    assertTrue(scDef.isPresent());
+    
   }
   
 }

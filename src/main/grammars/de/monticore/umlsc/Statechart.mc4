@@ -53,7 +53,7 @@ package de.monticore.umlsc;
         Completeness?
         Stereotype?
         "statechart" Name?
-        "for" className:ReferenceType
+        ("for" className:ReferenceType)?
         ("refines" superSC:ReferenceType)?
         "{"
           (
@@ -69,36 +69,10 @@ package de.monticore.umlsc;
         @attribute SCStatements  Statements of this Action
         @attribute postCondition Post-Condition for this Action
     */
-    SCAction =
-        (preCondition:Invariant)?
-        (
-          ";"
-          |
-          ("/" SCStatements
-            (postCondition:Invariant ";")?)
-        );
-    
-    
-    /** ASTSCDoAction represents a do-Action of States
-        @attribute sCAction Action for this do-Action
-    */
-    SCDoAction =
-        "do" SCAction;
-    
-    
-    /** ASTSCEntryAction represents an entry-Action of States
-        @attribute sCAction Action for this entry-Action
-    */
-    SCEntryAction =
-        "entry" SCAction;
-    
-    
-    /** ASTSCExitAction represents an exit-Action of States
-        @attribute sCAction Action for this exit-Action
-    */
-    SCExitAction =
-        "exit" SCAction;
-    
+    SCAction = (preCondition:Invariant)?
+               ("/" SCStatements 
+                 (postCondition:Invariant)?
+               )?;
     
     /** ASTSCModifier represents a Modifier for a State
         @attribute stereotype Optional Stereotpye
@@ -133,9 +107,9 @@ package de.monticore.umlsc;
         (
           ("{"
             (Invariant ";")?
-            SCEntryAction?
-            SCDoAction?
-            SCExitAction?
+            ("entry" entryAction:SCAction ";")?
+            ("do" doAction:SCAction ";")?
+            ("exit" exitAction:SCAction ";")?
             (
               sCStates:SCState
               |
@@ -143,7 +117,7 @@ package de.monticore.umlsc;
               |
               SCCode
               |
-              sCInternTransitions:SCInternTransition
+              sCInternTransition:SCInternTransition
             )*
           "}")
           |
