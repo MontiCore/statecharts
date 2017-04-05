@@ -1,20 +1,20 @@
 package de.monticore.umlsc;
 
 /**
- * Grammar Statechart, Version Dec 20th, 2016
+ * Grammar Statechart, Version March 8th, 2017
  *
  */
- component grammar Statechart extends de.monticore.types.Types {
+component grammar Statechart extends de.monticore.types.Types {
    
   /** ASTSCCompilationUnit represents the complete Diagram
     @attribute package          The package declaration of this Statechart
     @attribute importStatements List of imported elements
     @attribute scDefinition   
   */
-  SCCompilationUnit =
-    ("package" Package:(Name& || ".")+ ";")? 
+  SCArtifact =
+    ("package" package:(Name& || ".")+ ";")? 
     (ImportStatement)*
-    SCDefinition;
+    Statechart EOF;
 
 
     /*========================================================================*/
@@ -49,18 +49,14 @@ package de.monticore.umlsc;
         @attribute sCStates      List of States of this Statechart diagram
         @attribute sCTransitions List of Transitions of this Statechart diagram
     */
-    SCDefinition =
+    symbol scope Statechart =
         Completeness?
         Stereotype?
         "statechart" Name?
         ("for" className:ReferenceType)?
         ("refines" superSC:ReferenceType)?
         "{"
-          (
-            sCStates:SCState
-            |
-            sCTransitions:SCTransition
-          )*
+          ( SCState | SCTransition )*
         "}";
     
     
@@ -70,7 +66,7 @@ package de.monticore.umlsc;
         @attribute postCondition Post-Condition for this Action
     */
     SCAction = (preCondition:Invariant)?
-               ("/" SCStatements 
+               ("/" SCStatements? 
                  (postCondition:Invariant)?
                )?;
     
@@ -80,8 +76,6 @@ package de.monticore.umlsc;
         @attribute final      true if State is final
         @attribute local      true if State is local
     */
-    //own modifier needed as common-modifier causes nondeterminism
-    //because of derived "/"
     SCModifier =
         Stereotype?
         (["initial"] | ["final"] | ["local"])*;
@@ -100,29 +94,26 @@ package de.monticore.umlsc;
         @attribute sCCode              List of Code-blocks included in this State
         @attribute sCInternTransitions List of Intern Transitions for this State
     */
-    SCState =
+   symbol SCState =
         Completeness?
         SCModifier
         "state" Name
-        (
-          ("{"
-            (Invariant ";")?
-            ("entry" entryAction:SCAction ";")?
-            ("do" doAction:SCAction ";")?
-            ("exit" exitAction:SCAction ";")?
+        ("{"
+            (Invariant)?
+            ("entry" entryAction:SCAction)?
+            ("do" doAction:SCAction)?
+            ("exit" exitAction:SCAction)?
             (
-              sCStates:SCState
+              SCState
               |
-              sCTransitions:SCTransition
+              SCTransition
               |
               SCCode
               |
-              sCInternTransition:SCInternTransition
+              SCInternTransition
             )*
-          "}")
-          |
-          ";"
-        );
+          "}")?
+    ;
     
     
     /** ASTSCInternTransition represents an Intern Transition of a State in a
@@ -131,7 +122,7 @@ package de.monticore.umlsc;
         @attribute sCTransitionBody Body of this Transition
     */
     SCInternTransition =
-        Stereotype? "->" ":"? SCTransitionBody;
+        Stereotype? "->" SCTransitionBody;
     
     
     /** ASTSCTransition represents a Transition between two States in a
@@ -143,12 +134,9 @@ package de.monticore.umlsc;
     */
     SCTransition =
         Stereotype?
-        sourceName:QualifiedName "->" targetName:QualifiedName
-        (
-          (":" SCTransitionBody)
-          |
-          ";"
-        );
+        sourceName:Name "->" targetName:Name 
+        SCTransitionBody?
+        ;
     
     
     /** ASTSCTransitionBody represents the Body of a Transition in a
@@ -161,12 +149,10 @@ package de.monticore.umlsc;
     SCTransitionBody =
         (preCondition:Invariant)?
         SCEvent?
-        (
           ("/" SCStatements
-              (postCondition:Invariant ";")?)
-          |
-          ";"
-        );
+              (postCondition:Invariant)?
+          )?
+     ;
     
     
     /** ASTSCMethodOrExceptionCall represents a call of a method or exception
@@ -174,33 +160,27 @@ package de.monticore.umlsc;
         @attribute name        Name of this method call
         @attribute sCArguments Optional Arguments of this method call
     */
-    SCMethodOrExceptionCall extends SCEvent =
+    SCMethodCall extends SCEvent =
         name:QualifiedName SCArguments?;
     
     
     /** ASTSCReturnStatement represents a return statement of a Transition
         in a UML Statechart diagram
-        @attribute incomplete True if return statement is
-                              incomplete/underspecified
         @attribute SCExpression Expression of this return statement
     */
     SCReturnStatement extends SCEvent =
         "return"
         (
-          ("(" SCExpression ")") // brackets needed to prevent clash with "/"
-          | [incomplete:"..."]
+          ("(" SCExpression ")")
         )?;
     
     
     /** ASTSCArguments represents Arguments of an Event in a UML Statechart
         diagram
-        @attribute incomplete  True if Arguments are incomplete (underspecified)
         @attribute SCExpressions Specified Arguments as a list of Expressions
     */
     SCArguments =
-        ("(" [incomplete:"..."] ")")
-        | ("(" ")")
-        | ("(" (SCExpression || "," )* ")");
+        ("(" (SCExpression || "," )* ")");
     
     
     /** ASTSCCode represents user added code to the Statechart diagram or to
@@ -209,13 +189,11 @@ package de.monticore.umlsc;
     */
     SCCode extends SCElement =
         "code" SCStatements;
-        
+    
+    /** ASTCompleteness indicates completeness of an element
+    */    
     Completeness =
-    //the following complex lexer symbol construction is to prevent clash
-    //with ident "c"
-    complete:[COMPLETE:"(c)"] 
-      | ("(" [incomplete:"..."] ")"); //separate brackets to avoid
-                                      //lexer-symbol clash with SD/SC
+      complete:["(c)"] | incomplete:["(...)"];
       
  
     /** ASTStereotype represents Stereotypes in a Statechart
@@ -228,15 +206,7 @@ package de.monticore.umlsc;
         @attribute name  Name of the Stereotype-Value
     */
     StereoValue = Name ("=" value:String)?;
-
-    /** ASTValue represents a Value
-        @attribute literal  Value
-    */
-    Value = SignedLiteral;
     
     Invariant = 
-        (kind:Name ":")?
         "[" content:SCInvariantContent "]";
-    
-
 }
