@@ -7,6 +7,7 @@ package de.monticore.umlsc.symboltable;
 
 import java.nio.file.Paths;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.monticore.io.paths.ModelPath;
@@ -15,6 +16,8 @@ import de.monticore.symboltable.ResolvingConfiguration;
 import de.monticore.umlsc.statechart._symboltable.StatechartKind;
 import de.monticore.umlsc.statechart._symboltable.StatechartSymbol;
 import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaLanguage;
+import de.se_rwth.commons.logging.Log;
+import de.se_rwth.commons.logging.Slf4jLog;
 
 /**
  * TODO: Write me!
@@ -26,12 +29,18 @@ import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaLang
  */
 public class SymbolTableCreatorTest {
 
+  @BeforeClass
+  public static void setup() {
+    Slf4jLog.init();
+    Log.enableFailQuick(false);
+  }
+
 	@Test
 	public void testFromFile() {
 		StatechartWithJavaLanguage language = new StatechartWithJavaLanguage();
 		ResolvingConfiguration resolverConf = new ResolvingConfiguration();
 		resolverConf.addDefaultFilters(language.getResolvers());
-		ModelPath modelPath = new ModelPath(Paths.get("src/test/resources"));
+		ModelPath modelPath = new ModelPath(Paths.get("src/test/resources/"));
 		
 		
 		

@@ -12,7 +12,10 @@ import de.monticore.modelloader.ModelingLanguageModelLoader;
 import de.monticore.symboltable.MutableScope;
 import de.monticore.symboltable.ResolvingConfiguration;
 import de.monticore.symboltable.SymbolTableCreator;
+import de.monticore.umlsc.statechart._symboltable.SCStateResolvingFilter;
 import de.monticore.umlsc.statechart._symboltable.StatechartModelNameCalculator;
+import de.monticore.umlsc.statechart._symboltable.StatechartResolvingFilter;
+import de.monticore.umlsc.statechart._symboltable.StatechartSymbolTableCreator;
 
 /**
  * TODO: Write me!
@@ -41,8 +44,7 @@ public class StatechartWithJavaLanguage extends StatechartWithJavaLanguageTOP {
 	@Override
 	public Optional<? extends SymbolTableCreator> getSymbolTableCreator(ResolvingConfiguration resolvingConfiguration,
 			MutableScope enclosingScope) {
-		// TODO Auto-generated method stub
-		return null;
+    return Optional.of(new StatechartSymbolTableCreator(resolvingConfiguration, enclosingScope));
 	}
 
 	/**
@@ -52,5 +54,10 @@ public class StatechartWithJavaLanguage extends StatechartWithJavaLanguageTOP {
 	protected ModelingLanguageModelLoader<? extends ASTNode> provideModelLoader() {
 		return new StatechartWithJavaModelLoader(this);
 	}
+	
+  protected void initResolvingFilters() {
+    addResolvingFilter(new SCStateResolvingFilter());
+    addResolvingFilter(new StatechartResolvingFilter());
+  }
 
 }
