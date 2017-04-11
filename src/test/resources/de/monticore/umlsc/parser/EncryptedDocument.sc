@@ -4,9 +4,9 @@ package de.monticore.umlsc.parser;
 statechart for EncryptedDocument {
 
   initial state WaitForUserEntry {
-    entry / {timer.set(5);} [timer.running()];
-    exit / {timer.stop();};
-    -> : timeout() / {log(timer.getTimeouts() + ". timeout"); timer.set(5);}
+//    entry / {timer.set(5);} [timer.running()];
+//    exit / {timer.stop();};
+//    -> : timeout() / {log(timer.getTimeouts() + ". timeout"); timer.set(5);}
   }
 
   <<encrypted>> state Identification {

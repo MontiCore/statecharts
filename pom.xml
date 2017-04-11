@@ -11,17 +11,17 @@
 
     <!-- .. Libraries ..................................................... -->
 
-    <monticore.version>4.4.1</monticore.version>
-    <monticore.java.version>4.3.3</monticore.java.version>
+    <monticore.version>4.5.3-SNAPSHOT</monticore.version>
+    <monticore.java.version>4.3.8</monticore.java.version>
 
     <guava.version>18.0</guava.version>
     <junit.version>4.11</junit.version>
-    <se-commons.version>1.7.6</se-commons.version>
+    <se-commons.version>1.7.7</se-commons.version>
     <antlr.version>4.5</antlr.version>
 
     <!-- .. Plugins ....................................................... -->
 
-    <mc4.maven.version>4.4.0</mc4.maven.version>
+    <mc4.maven.version>4.5.3-SNAPSHOT</mc4.maven.version>
 
     <compiler.plugin>3.2</compiler.plugin>
     <release.plugin>2.5.1</release.plugin>
@@ -205,13 +205,13 @@
 
     <dependency>
       <groupId>de.monticore</groupId>
-      <artifactId>de.monticore.java</artifactId>
+      <artifactId>javaDSL</artifactId>
       <version>${monticore.java.version}</version>
     </dependency>
 
     <dependency>
       <groupId>de.monticore</groupId>
-      <artifactId>de.monticore.java</artifactId>
+      <artifactId>javaDSL</artifactId>
       <version>${monticore.java.version}</version>
       <classifier>${grammars.classifier}</classifier>
     </dependency>

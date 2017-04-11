@@ -1,5 +1,5 @@
 /*
-SCArtifact * Copyright (c) 2014 RWTH Aachen. All rights reserved.
+ * Copyright (c) 2014 RWTH Aachen. All rights reserved.
  *
  * http://www.se-rwth.de/ 
  */
@@ -15,7 +15,6 @@ import java.util.Optional;
 
 import org.antlr.v4.runtime.RecognitionException;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import de.monticore.umlsc.statechart._ast.ASTSCArtifact;
@@ -24,7 +23,8 @@ import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.Slf4jLog;
 
-public class StatechartParserTest {
+public class SemikolonParserTests {
+  
   
   @BeforeClass
   public static void setup() {
@@ -33,58 +33,42 @@ public class StatechartParserTest {
   }
 
   @Test
-  @Ignore
   public void testSingleState() throws RecognitionException, IOException {
-    Path model = Paths.get("src/test/resources/de/monticore/umlsc/parser/SingleState.sc");
+    Path model = Paths.get("src/test/resources/de/monticore/umlsc/semikolontests/ScSimpleState.sc");
     StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
     Optional<ASTSCArtifact> scDef = parser.parseSCArtifact(model.toString());
-    assertFalse(parser.hasErrors());
-    assertTrue(scDef.isPresent());
-  }
-   
-  @Test
-  @Ignore
-  public void testEncryptedDocument() throws RecognitionException, IOException {
-    Path model = Paths.get("src/test/resources/de/monticore/umlsc/parser/EncryptedDocument.sc");
-    StatechartWithJavaParser parser = new StatechartWithJavaParser();
-    Optional<ASTSCArtifact> scDef = parser.parseSCArtifact(model.toString());
-    for(Finding f : Log.getFindings()) {
-    	System.out.println(f.toString());
-    }
+    System.out.println(Log.getFindings());
     assertFalse(parser.hasErrors());
     assertTrue(scDef.isPresent());
   }
   
   @Test
-  public void testSimple() throws RecognitionException, IOException {
-    Path model = Paths.get("src/test/resources/de/monticore/umlsc/parser/Simple.sc");
+  public void testSingleStateEmptyBody() throws RecognitionException, IOException {
+    Path model = Paths.get("src/test/resources/de/monticore/umlsc/semikolontests/ScSimpleStateEmptyBody.sc");
     StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
     Optional<ASTSCArtifact> scDef = parser.parseSCArtifact(model.toString());
+    System.out.println(Log.getFindings());
     assertFalse(parser.hasErrors());
     assertTrue(scDef.isPresent());
   }
   
   @Test
-  @Ignore
-  public void testVariants() throws RecognitionException, IOException {
-    Path model = Paths.get("src/test/resources/de/monticore/umlsc/parser/Variants.sc");
+  public void testSingleTransition() throws RecognitionException, IOException {
+    Path model = Paths.get("src/test/resources/de/monticore/umlsc/semikolontests/ScSimpleTransition.sc");
     StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
     Optional<ASTSCArtifact> scDef = parser.parseSCArtifact(model.toString());
-    
+    System.out.println(Log.getFindings());
     assertFalse(parser.hasErrors());
     assertTrue(scDef.isPresent());
   }
   
+  
   @Test
-  @Ignore
-  public void testWebBidding_login() throws RecognitionException, IOException {
-    Path model = Paths.get("src/test/resources/de/monticore/umlsc/parser/WebBidding_login.sc");
+  public void testAllTransitions() throws RecognitionException, IOException {
+    Path model = Paths.get("src/test/resources/de/monticore/umlsc/semikolontests/ScAllTransitions.sc");
     StatechartWithJavaParser parser = new StatechartWithJavaParser(); 
     Optional<ASTSCArtifact> scDef = parser.parseSCArtifact(model.toString());
-    
-    for(Finding f : Log.getFindings()) {
-    	System.out.println(f.toString());
-    }
+    System.out.println(Log.getFindings());
     assertFalse(parser.hasErrors());
     assertTrue(scDef.isPresent());
   }

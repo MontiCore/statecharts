@@ -6,7 +6,7 @@ package de.monticore.umlsc;
  */
 component grammar Statechart extends de.monticore.types.Types {
    
-  /** ASTSCCompilationUnit represents the complete Diagram
+  /** ASTSCArtifact represents the complete Diagram
     @attribute package          The package declaration of this Statechart
     @attribute importStatements List of imported elements
     @attribute scDefinition   
@@ -38,7 +38,7 @@ component grammar Statechart extends de.monticore.types.Types {
     /*============================== GRAMMAR =================================*/
     /*========================================================================*/
     
-    /** ASTSCDefinition represents a UML Statechart diagram
+    /** ASTStatechart represents a UML Statechart diagram
         @attribute completeness  Optional Comleteness of this Statechart diagram
         @attribute stereotype    Optional Stereotype
         @attribute name          Optional name of this Statechart diagram
@@ -80,6 +80,7 @@ component grammar Statechart extends de.monticore.types.Types {
         Stereotype?
         (["initial"] | ["final"] | ["local"])*;
     
+    /*enum ModifierEnum = */
     
     /** ASTSCState represents a (hierarchical) State in a UML Statechart diagram
         @attribute completeness        Optional Comleteness of this State
