@@ -6,7 +6,6 @@
 package de.monticore.umlsc.statechart._cocos;
 
 import de.monticore.umlsc.statechart._ast.ASTSCTransition;
-import de.monticore.umlsc.statechart._cocos.StatechartASTSCTransitionCoCo;
 
 /**
  * TODO: Write me!

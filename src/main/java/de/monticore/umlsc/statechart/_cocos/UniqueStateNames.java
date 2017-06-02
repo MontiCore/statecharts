@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import de.monticore.umlsc.statechart._ast.ASTSCState;
-import de.monticore.umlsc.statechart._cocos.StatechartASTSCStateCoCo;
 import de.se_rwth.commons.logging.Log;
 
 /**

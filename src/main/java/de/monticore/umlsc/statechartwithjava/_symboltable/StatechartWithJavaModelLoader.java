@@ -5,10 +5,9 @@
 
 package de.monticore.umlsc.statechartwithjava._symboltable;
 
+import de.monticore.symboltable.ArtifactScope;
 import de.monticore.symboltable.MutableScope;
 import de.monticore.symboltable.ResolvingConfiguration;
-
-import de.monticore.symboltable.ArtifactScope;
 import de.monticore.symboltable.Scope;
 import de.monticore.umlsc.statechart._symboltable.StatechartSymbolTableCreator;
 import de.se_rwth.commons.logging.Log;

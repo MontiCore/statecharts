@@ -26,7 +26,7 @@ public class AtLeastOneInitialStateInFinalStatechartChecker implements Statechar
 	public void check(ASTStatechart node) {
 		if(node.getCompleteness().isPresent() && node.getCompleteness().get().isComplete()) {
 			for(ASTSCState s : node.getSCStates()) {
-				if(s.getSCModifier().isFinal()) {
+				if(s!=null) {
 					return;
 				}
 			}

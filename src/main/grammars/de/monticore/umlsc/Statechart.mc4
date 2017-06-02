@@ -78,9 +78,9 @@ component grammar Statechart extends de.monticore.types.Types {
     */
     SCModifier =
         Stereotype?
-        (["initial"] | ["final"] | ["local"])*;
+        (SCStateModifierEnum)*;
     
-    /*enum ModifierEnum = */
+    SCStateModifierEnum = "initial" | "final" | "local";
     
     /** ASTSCState represents a (hierarchical) State in a UML Statechart diagram
         @attribute completeness        Optional Comleteness of this State
@@ -138,7 +138,6 @@ component grammar Statechart extends de.monticore.types.Types {
         sourceName:Name "->" targetName:Name 
         SCTransitionBody?
         ;
-    
     
     /** ASTSCTransitionBody represents the Body of a Transition in a
         UML Statechart diagram
