@@ -5,7 +5,7 @@
 
   <groupId>de.monticore.lang</groupId>
   <artifactId>statechart</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2-SNAPSHOT</version>
 
   <properties>
 
@@ -248,7 +248,7 @@
   </distributionManagement>
 
   <scm>
-  	<url>https://sselab.de/lab2/private/svn/MontiCore/tags/mclang/sc/sc-1.0.1</url>
-  	<developerConnection>scm:svn:https://sselab.de/lab2/private/svn/MontiCore/tags/mclang/sc/sc-1.0.1</developerConnection>
+  	<url>https://sselab.de/lab2/private/svn/MontiCore/trunk/mclang/statechart/</url>
+  	<developerConnection>scm:svn:https://sselab.de/lab2/private/svn/MontiCore/trunk/mclang/statechart/</developerConnection>
   </scm>
 </project>
