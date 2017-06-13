@@ -80,7 +80,7 @@ component grammar Statechart extends de.monticore.types.Types {
         Stereotype?
         (SCStateModifierEnum)*;
     
-    SCStateModifierEnum = "initial" | "final" | "local";
+    enum SCStateModifierEnum = "initial" | "final" | "local";
     
     /** ASTSCState represents a (hierarchical) State in a UML Statechart diagram
         @attribute completeness        Optional Comleteness of this State
