@@ -47,7 +47,7 @@ public class SymbolTableCreatorTest {
 
 		StatechartWithJavaParser parser = language.getParser();
 
-		Optional<ASTSCArtifact> opAst = parser.parse("src\\test\\resources\\de\\monticore\\umlsc\\examples\\SCSimpleState.sc");
+		Optional<ASTSCArtifact> opAst = parser.parse("src\\test\\resources\\de\\monticore\\umlsc\\examples\\ScSimpleState.sc");
 
     System.out.println("Hallo");
     for(Finding l : Log.getFindings()) {
