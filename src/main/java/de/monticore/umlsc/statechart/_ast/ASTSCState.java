@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import de.monticore.symboltable.Symbol;
+
 public class ASTSCState extends ASTSCStateTOP {
 
 	public ASTSCState() {
@@ -19,8 +21,23 @@ public class ASTSCState extends ASTSCStateTOP {
 	}
 
 	public Set<ASTSCTransition> getOutgoingTransitions() {
-		// TODO
-		return new HashSet<ASTSCTransition>();
+		Set<ASTSCTransition> result = new HashSet<ASTSCTransition>();
+		if (getEnclosingScope().isPresent()) {
+			Symbol spanning = getEnclosingScope().get().getSpanningSymbol().get();
+			if (spanning.getAstNode().get() instanceof ASTStatechart) {
+				ASTStatechart sc = (ASTStatechart) spanning.getAstNode().get();
+				for (ASTSCTransition t : sc.getSCTransitions()) {
+					if (t.getSourceName().equals(getName())) {
+						result.add(t);
+					}
+				}
+				return result;
+			} else {
+				// TODO in case internal / hierarchical transitions need to be
+				// resolved
+			}
+		}
+		return result;
 	}
 
 }
