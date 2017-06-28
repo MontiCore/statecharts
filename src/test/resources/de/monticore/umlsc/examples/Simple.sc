@@ -1,4 +1,4 @@
-package positive_statechart;
+package de.monticore.umlsc.examples;
 
 statechart PersonBehaviour {
 

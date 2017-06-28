@@ -1,3 +1,5 @@
+package de.monticore.umlsc.cocos;
+
 statechart Buchungen for Konto {
   state Eingabe {
     entry [e.entryCond()] / {entryAction();} 

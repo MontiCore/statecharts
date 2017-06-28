@@ -1,4 +1,4 @@
-package de.monticore.umlsc.parser;
+package de.monticore.umlsc.examples;
 
 statechart {
   state A {

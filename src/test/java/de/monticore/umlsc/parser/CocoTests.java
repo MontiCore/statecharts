@@ -5,23 +5,22 @@
  */
 package de.monticore.umlsc.parser;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import de.monticore.umlsc.statechart._ast.ASTSCArtifact;
+import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParser;
+import de.se_rwth.commons.logging.Finding;
+import de.se_rwth.commons.logging.Log;
+import de.se_rwth.commons.logging.Slf4jLog;
+import org.antlr.v4.runtime.RecognitionException;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-import org.antlr.v4.runtime.RecognitionException;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import de.monticore.umlsc.statechart._ast.ASTSCArtifact;
-import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParser;
-import de.se_rwth.commons.logging.Finding;
-import de.se_rwth.commons.logging.Log;
-import de.se_rwth.commons.logging.Slf4jLog;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class CocoTests {
 
@@ -33,7 +32,7 @@ public class CocoTests {
 
 	@Test
 	public void testScUniqueNames() throws RecognitionException, IOException {
-		Path model = Paths.get("src/test/resources/de/monticore/umlsc/cocos/UniqueStateNames.sc");
+		Path model = Paths.get("src/test/resources/de/monticore/umlsc/cocos/Buchungen.sc");
 		StatechartWithJavaParser parser = new StatechartWithJavaParser();
 		Optional<ASTSCArtifact> scDef = parser.parseSCArtifact(model.toString());
 
@@ -67,7 +66,7 @@ public class CocoTests {
 		assertTrue(scDef.isPresent());
 //		assertTrue(Log.getErrorCount() == 1L);
 		// System.out.println();
-//		assertEquals("UniqueStateNames.sc:<5,1>", Log.getFindings().get(0).getSourcePosition().get().toString());
+//		assertEquals("Buchungen.sc:<5,1>", Log.getFindings().get(0).getSourcePosition().get().toString());
 	}
 
 }

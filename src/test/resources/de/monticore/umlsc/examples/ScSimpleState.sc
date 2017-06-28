@@ -1,7 +1,7 @@
-//package de.monticore.umlsc.parser;
+package de.monticore.umlsc.examples;
 
 import g.h;
 
-statechart for SingleStateClass {
+statechart SCSimpleState for SingleStateClass {
 
 }

@@ -5,17 +5,16 @@
  */
 package de.monticore.umlsc.statechart.symboltable;
 
-import java.nio.file.Paths;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import de.monticore.io.paths.ModelPath;
 import de.monticore.symboltable.GlobalScope;
 import de.monticore.symboltable.ResolvingConfiguration;
 import de.monticore.symboltable.Scope;
 import de.monticore.umlsc.statechart._symboltable.StatechartSymbol;
 import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaLanguage;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.nio.file.Paths;
 
 /**
  * TODO: Write me!
@@ -28,7 +27,9 @@ import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaLang
 public class StatechartSymbolTableCreatorTest {
 	
 	private Scope globalScope;
-	
+
+
+
 	@Before
 	public void setup() {
 		final StatechartWithJavaLanguage statechartLanguage = new StatechartWithJavaLanguage();
