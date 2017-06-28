@@ -19,6 +19,7 @@ public class ASTSCState extends ASTSCStateTOP {
 	}
 
 	public Set<ASTSCTransition> getOutgoingTransitions() {
+		// TODO
 		return new HashSet<ASTSCTransition>();
 	}
 

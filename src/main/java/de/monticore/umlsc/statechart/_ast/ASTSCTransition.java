@@ -1,5 +1,11 @@
 package de.monticore.umlsc.statechart._ast;
 
+import java.util.Optional;
+
+import de.monticore.symboltable.Scope;
+import de.monticore.symboltable.Symbol;
+import de.monticore.umlsc.statechart._symboltable.SCStateSymbol;
+
 public class ASTSCTransition extends ASTSCTransitionTOP {
 
 	public ASTSCTransition() {
@@ -12,6 +18,14 @@ public class ASTSCTransition extends ASTSCTransitionTOP {
 	}
 
 	public ASTSCState getTarget() {
+		if (getEnclosingScope().isPresent()) {
+			Scope scope = getEnclosingScope().get();
+			String name = getTargetName();
+			Optional<Symbol> symbol = scope.resolve(name, SCStateSymbol.KIND);
+			if (symbol.isPresent()) {
+				return (ASTSCState) symbol.get().getAstNode().get();
+			}
+		}
 		return null;
 	}
 
