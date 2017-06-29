@@ -12,6 +12,7 @@ import de.monticore.umlsc.statechart._ast.ASTSCReturnStatement;
 import de.monticore.umlsc.statechart._ast.ASTSCStatementsExt;
 import de.monticore.umlsc.statechart._ast.ASTSCTransition;
 import de.monticore.umlsc.statechart._ast.ASTSCTransitionBody;
+import de.monticore.umlsc.statechart._ast.ASTStatechartNode;
 import de.monticore.umlsc.statechart._visitor.StatechartVisitor;
 import de.monticore.umlsc.statechartwithjava._ast.ASTSCExpression;
 import de.monticore.umlsc.statechartwithjava._ast.ASTSCInvariantContent;
@@ -28,6 +29,13 @@ public class StatechartPrettyPrinter implements StatechartVisitor, StatechartWit
 
 	public IndentPrinter getPrinter() {
 		return printer;
+	}
+
+	public String prettyPrint(ASTStatechartNode node) {
+		node.accept(this);
+		String result = getPrinter().getContent();
+		getPrinter().clearBuffer();
+		return result;
 	}
 
 	@Override
