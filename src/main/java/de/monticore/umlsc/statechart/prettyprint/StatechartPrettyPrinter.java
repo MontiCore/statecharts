@@ -3,6 +3,9 @@ package de.monticore.umlsc.statechart.prettyprint;
 import de.monticore.java.javadsl._ast.ASTJavaBlock;
 import de.monticore.java.prettyprint.JavaDSLPrettyPrinter;
 import de.monticore.prettyprint.IndentPrinter;
+import de.monticore.types.prettyprint.TypesPrettyPrinterConcreteVisitor;
+import de.monticore.types.types._ast.ASTReferenceType;
+import de.monticore.types.types._ast.ASTTypesNode;
 import de.monticore.umlsc.statechart._ast.ASTInvariant;
 import de.monticore.umlsc.statechart._ast.ASTSCArguments;
 import de.monticore.umlsc.statechart._ast.ASTSCExpressionExt;
@@ -36,6 +39,16 @@ public class StatechartPrettyPrinter implements StatechartVisitor, StatechartWit
 		String result = getPrinter().getContent();
 		getPrinter().clearBuffer();
 		return result;
+	}
+
+	public String prettyPrint(ASTTypesNode node) {
+		TypesPrettyPrinterConcreteVisitor v = new TypesPrettyPrinterConcreteVisitor(new IndentPrinter());
+		return v.prettyprint(node);
+	}
+
+	@Override
+	public void handle(ASTReferenceType ref) {
+
 	}
 
 	@Override
