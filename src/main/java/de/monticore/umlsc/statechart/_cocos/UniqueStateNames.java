@@ -14,27 +14,26 @@ import de.se_rwth.commons.logging.Log;
 /**
  * TODO: Write me!
  *
- * @author  (last commit) $Author$
+ * @author (last commit) $Author$
  * @version $Revision$, $Date$
- * @since   TODO: add version number
+ * @since TODO: add version number
  *
  */
 public class UniqueStateNames implements StatechartASTSCStateCoCo {
-	
+
 	Collection<String> stateNames = new ArrayList<>();
-	
+
 	/**
 	 * @see de.monticore.umlsc.statechart._cocos.StatechartASTSCStateCoCo#check(de.monticore.umlsc.statechart._ast.ASTSCState)
 	 */
 	@Override
 	public void check(ASTSCState node) {
-		System.out.println("CHecking");
-		if(stateNames.contains(node.getName())) {
+		if (stateNames.contains(node.getName())) {
 			Log.error(String.format("State name %s must be unique", node.getName()), node.get_SourcePositionStart());
 		} else {
 			this.stateNames.add(node.getName());
 		}
-		
+
 	}
 
 }
