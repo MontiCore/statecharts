@@ -20,7 +20,6 @@ import java.nio.file.Paths;
  * TODO: Write me!
  *
  * @author  (last commit) $Author$
- * @version $Revision$, $Date$
  * @since   TODO: add version number
  *
  */

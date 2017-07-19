@@ -1,5 +1,5 @@
 /*
-SCArtifact * Copyright (c) 2014 RWTH Aachen. All rights reserved.
+SCArtifact * Copyright (c) 2017 RWTH Aachen. All rights reserved.
  *
  * http://www.se-rwth.de/ 
  */

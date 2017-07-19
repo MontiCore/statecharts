@@ -11,7 +11,6 @@ import de.monticore.umlsc.statechart._ast.ASTSCTransition;
  * TODO: Write me!
  *
  * @author  (last commit) $Author$
- * @version $Revision$, $Date$
  * @since   TODO: add version number
  *
  */

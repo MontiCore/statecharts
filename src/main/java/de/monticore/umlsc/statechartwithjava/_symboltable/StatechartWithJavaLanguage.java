@@ -21,7 +21,6 @@ import de.monticore.umlsc.statechart._symboltable.StatechartSymbolTableCreator;
  * TODO: Write me!
  *
  * @author  (last commit) $Author$
- * @version $Revision$, $Date$
  * @since   TODO: add version number
  *
  */
