@@ -72,8 +72,24 @@
     <system>Trac</system>
     <url>https://sselab.de/lab2/private/trac/MontiCore/</url>
   </issueManagement>
-  
-  
+
+  <!-- == DISTRIBUTION ==================================================== -->
+
+  <distributionManagement>
+    <repository>
+      <id>se-nexus</id>
+      <url>http://nexus.se.rwth-aachen.de/content/repositories/monticore-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>se-nexus</id>
+      <url>http://nexus.se.rwth-aachen.de/content/repositories/monticore-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <scm>
+    <url>https://sselab.de/lab2/private/svn/MontiCore/trunk/mclang/statechart/</url>
+    <developerConnection>scm:svn:https://sselab.de/lab2/private/svn/MontiCore/trunk/mclang/statechart/</developerConnection>
+  </scm>
   
   
 </project>
