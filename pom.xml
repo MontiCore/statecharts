@@ -4,24 +4,31 @@
   <!-- == PROJECT COORDINATES ============================================= -->
   <groupId>de.monticore.lang</groupId>
   <artifactId>statechart</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <version>1.1.2-SNAPSHOT</version>
+  <modules>
+    <module>scgrammar</module>
+    <module>sctrans</module>
+    <module>scuse</module>
+  </modules>
 
   <properties>
 
     <!-- .. Libraries ..................................................... -->
-
+    <tfengine.version>4.5.3-SNAPSHOT</tfengine.version>
     <monticore.version>4.5.3</monticore.version>
     <monticore.java.version>4.3.9</monticore.java.version>
-
+    <tflanguage.version>0.3.0-SNAPSHOT</tflanguage.version>
+    <cd4analysis.version>1.3.10</cd4analysis.version>
     <guava.version>18.0</guava.version>
     <junit.version>4.11</junit.version>
     <se-commons.version>1.7.7</se-commons.version>
     <antlr.version>4.5</antlr.version>
-
+    <se-groovy.maven.version>1.2.3</se-groovy.maven.version>
     <!-- .. Plugins ....................................................... -->
-
+    <mc.java.version>4.3.9</mc.java.version>
     <mc4.maven.version>4.5.3</mc4.maven.version>
-
+    <se-groovy.maven.version>1.2.3</se-groovy.maven.version>
     <compiler.plugin>3.2</compiler.plugin>
     <release.plugin>2.5.1</release.plugin>
     <source.plugin>2.4</source.plugin>
@@ -65,190 +72,8 @@
     <system>Trac</system>
     <url>https://sselab.de/lab2/private/trac/MontiCore/</url>
   </issueManagement>
-
-  <!-- == DEFAULT BUILD SETTINGS =========================================== -->
-
-  <build>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-webdav-jackrabbit</artifactId>
-        <version>${wagon.provider.version}</version>
-      </extension>
-    </extensions>
-
-    <plugins>
-      <!-- MontiCore Configuration -->
-
-      <!-- MontiCore Generation -->
-      <plugin>
-        <groupId>de.monticore.mojo</groupId>
-        <artifactId>monticore-maven-plugin</artifactId>
-        <version>${mc4.maven.version}</version>
-        <configuration>
-          <skip>false</skip>
-          <script>de/monticore/monticore_noemf.groovy</script>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- Other Configuration -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${compiler.plugin}</version>
-        <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>${release.plugin}</version>
-        <configuration>
-          <tagBase>https://sselab.de/lab2/private/svn/MontiCore/tags/mclang/sc/</tagBase>
-          <tagNameFormat>sc-@{project.version}</tagNameFormat>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>${source.plugin}</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>jar-no-fork</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Create grammars jar -->
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>${assembly.plugin}</version>
-        <dependencies>
-          <dependency>
-            <groupId>de.monticore</groupId>
-            <artifactId>mc-assemblies</artifactId>
-            <version>${mc.grammars.assembly.version}</version>
-          </dependency>
-        </dependencies>
-        <executions>
-          <execution>
-            <id>grammars</id>
-            <configuration>
-              <descriptorRefs>
-                <descriptorRef>grammars-assembly</descriptorRef>
-              </descriptorRefs>
-              <formats>
-                <format>jar</format>
-              </formats>
-            </configuration>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-
-  </build>
-
-  <dependencies>
-    <dependency>
-      <groupId>de.se_rwth.commons</groupId>
-      <artifactId>se-commons-logging</artifactId>
-      <version>${se-commons.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.antlr</groupId>
-      <artifactId>antlr4-runtime</artifactId>
-      <version>${antlr.version}</version>
-    </dependency>
-
-    <!-- MontiCore Dependencies -->
-    <dependency>
-      <groupId>de.monticore</groupId>
-      <artifactId>monticore-runtime</artifactId>
-      <version>${monticore.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>de.monticore</groupId>
-      <artifactId>monticore-grammar</artifactId>
-      <version>${monticore.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>de.monticore</groupId>
-      <artifactId>monticore-grammar</artifactId>
-      <version>${monticore.version}</version>
-      <classifier>${grammars.classifier}</classifier>
-    </dependency>
-	
-    <dependency>
-      <groupId>de.monticore</groupId>
-      <artifactId>javaDSL</artifactId>
-      <version>${monticore.java.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>de.monticore</groupId>
-      <artifactId>javaDSL</artifactId>
-      <version>${monticore.java.version}</version>
-      <classifier>${grammars.classifier}</classifier>
-    </dependency>
-
-    <!-- .. Test Libraries ............................................... -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>de.monticore</groupId>
-      <artifactId>monticore-runtime</artifactId>
-      <version>${monticore.version}</version>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
-
-  </dependencies>
-
-  <!-- == DISTRIBUTION ==================================================== -->
-
-  <distributionManagement>
-    <repository>
-      <id>se-nexus</id>
-      <url>http://nexus.se.rwth-aachen.de/content/repositories/monticore-releases/</url>
-    </repository>
-    <snapshotRepository>
-      <id>se-nexus</id>
-      <url>http://nexus.se.rwth-aachen.de/content/repositories/monticore-snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
-
-  <scm>
-  	<url>https://sselab.de/lab2/private/svn/MontiCore/trunk/mclang/statechart/</url>
-  	<developerConnection>scm:svn:https://sselab.de/lab2/private/svn/MontiCore/trunk/mclang/statechart/</developerConnection>
-  </scm>
+  
+  
+  
+  
 </project>

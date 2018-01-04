@@ -1,0 +1,4 @@
+{
+  statechart [[ Banking :- Auftrag2 ]] {}
+
+}

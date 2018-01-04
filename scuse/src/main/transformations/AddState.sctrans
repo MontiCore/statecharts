@@ -1,0 +1,6 @@
+{
+  statechart $_ {
+    [[:- state Foo ]]
+  }
+
+}
