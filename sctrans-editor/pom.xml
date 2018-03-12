@@ -48,7 +48,7 @@
             <configuration>
               <!-- It is okay to omit the script here as it is defined above  -->
               <arguments>
-                <models>${basedir}\src\main\grammars\de\monticore\umlsc\StatechartWithJava.mc4</models>
+                <models>${basedir}\src\main\grammars\de\monticore\umlsc\StatechartWithJavaWithCD.mc4</models>
                 <out>${outPath}</out>
                 <handcodedPath>${basedir}/src/main/java</handcodedPath>
                 <fileExtension>sctrans</fileExtension>
@@ -87,12 +87,12 @@
             </goals>
             <configuration>
               <outputDirectory>${outPath}editor/src/main/java</outputDirectory>
-              <resources>          
+              <resources>
                 <resource>
                   <directory>src/main/java</directory>
                 </resource>
-              </resources>              
-            </configuration>            
+              </resources>
+            </configuration>
           </execution>
           <execution>
             <id>copy-resources</id>
@@ -102,12 +102,12 @@
             </goals>
             <configuration>
               <outputDirectory>${outPath}editor/src/main/resources</outputDirectory>
-              <resources>          
+              <resources>
                 <resource>
                   <directory>src/main/resources</directory>
                 </resource>
-              </resources>              
-            </configuration>            
+              </resources>
+            </configuration>
           </execution>
         </executions>
       </plugin>
