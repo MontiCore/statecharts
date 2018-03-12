@@ -10,6 +10,7 @@
     <module>scgrammar</module>
     <module>sctrans</module>
     <module>scuse</module>
+    <module>sctrans-editor</module>
   </modules>
 
   <properties>
