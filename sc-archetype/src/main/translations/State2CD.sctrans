@@ -1,0 +1,12 @@
+{
+  statechart [[ Banking :- Auftrag2 ]] {}
+
+  [[:-
+      $CD [[ classdiagram Foo {
+               class Auftrag2;
+             }
+      ]]
+  ]]
+
+
+}

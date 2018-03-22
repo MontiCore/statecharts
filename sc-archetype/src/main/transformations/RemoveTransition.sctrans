@@ -1,0 +1,6 @@
+{
+  statechart $_ {
+    [[ Offer 		-> Cancelled	cancel() :- ]]
+  }
+
+}
