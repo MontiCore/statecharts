@@ -1,6 +1,7 @@
-{
+
   statechart $_ {
     [[:- state Error ]]
     not [[state Error ]]
   }
-}
+
+

@@ -55,6 +55,7 @@
       <plugin>
         <groupId>de.se_rwth.maven</groupId>
         <artifactId>se-groovy-maven-plugin</artifactId>
+        <version>${se-groovy.maven.version}</version>
         <executions>
           <execution>
             <id>dstl2java</id>
