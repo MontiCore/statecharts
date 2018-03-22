@@ -116,23 +116,23 @@
       <groupId>de.monticore.lang</groupId>
       <artifactId>typestrans</artifactId>
       <version>${tflanguage.version}</version>
-      <classifier>${grammars.classifier}</classifier>
-    </dependency>
-    <dependency>
-      <groupId>de.monticore.lang</groupId>
-      <artifactId>cd4atrans</artifactId>
-      <version>${tflanguage.version}</version>
-      <classifier>${grammars.classifier}</classifier>
-    </dependency>
-    <dependency>
-      <groupId>de.monticore.lang</groupId>
-      <artifactId>cd4atrans</artifactId>
-      <version>${tflanguage.version}</version>
     </dependency>
     <dependency>
       <groupId>de.monticore.lang</groupId>
       <artifactId>typestrans</artifactId>
       <version>${tflanguage.version}</version>
+      <classifier>${grammars.classifier}</classifier>
+    </dependency>
+    <dependency>
+      <groupId>de.monticore.lang</groupId>
+      <artifactId>cd4atrans</artifactId>
+      <version>${tflanguage.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>de.monticore.lang</groupId>
+      <artifactId>cd4atrans</artifactId>
+      <version>${tflanguage.version}</version>
+      <classifier>${grammars.classifier}</classifier>
     </dependency>
     <dependency>
       <groupId>de.monticore</groupId>
