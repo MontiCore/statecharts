@@ -1,0 +1,4 @@
+{
+ [[ initial :- ]] state Offer
+  [[  :- initial]] state Production
+}
