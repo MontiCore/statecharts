@@ -1,7 +1,5 @@
-{
-  statechart $_ {
-    state $a
-    [[ :-  $a -> Error ]]
-    not [[ $a -> Error ]]
-  }
+statechart $_ {
+  state $a
+  [[ :-  $a -> Error ]]
+  not [[ $a -> Error ]]
 }

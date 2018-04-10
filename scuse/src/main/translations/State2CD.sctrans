@@ -1,12 +1,7 @@
-{
-  statechart [[ Banking :- Auftrag2 ]] {}
+statechart $scname {}
 
-  [[:-
-      $CD [[ classdiagram Foo {
-               class Auftrag2;
-             }
-      ]]
-  ]]
-
-
-}
+[[:-
+    $CD [[ classdiagram $scname {
+           }
+    ]]
+]]

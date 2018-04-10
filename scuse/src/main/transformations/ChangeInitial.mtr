@@ -1,4 +1,0 @@
-{
- [[ initial :- ]] state $_
-  list[[ [[ not[[ initial ]] :- initial]] state $_]]
-}

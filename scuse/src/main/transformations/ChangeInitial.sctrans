@@ -1,4 +1,3 @@
-{
- [[ initial :- ]] state Offer
-  [[  :- initial]] state Production
-}
+[[ initial :- ]] state Offer
+[[  :- initial]] state Production
+

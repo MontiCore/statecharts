@@ -11,35 +11,55 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Optional;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class Test2 {
-
+public class TransformationTest {
+  
+  String input = "src/test/models/Banking.sc";
+  
   @Test
   public void testRenameSC() throws IOException {
-    String input = "src/main/models/Banking.sc";
+    Optional<ASTSCArtifact> ast = new StatechartWithJavaParser().parse(input);
+    
+    assertTrue(ast.isPresent());
+    
+    RenameSC rename = new RenameSC(ast.get());
+    
+    System.out.println(ast.get().getStatechart().getName());
+    
+    assertTrue(rename.doPatternMatching());
+    
+    rename.doReplacement();
+    
+    assertTrue(ast.get().getStatechart().getName().isPresent());
+    assertEquals("Auftrag2", ast.get().getStatechart().getName().get());
+    System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
+  }
+
+  @Test
+  public void testSCToCD() throws IOException {
     Optional<ASTSCArtifact> ast = new StatechartWithJavaParser().parse(input);
 
     assertTrue(ast.isPresent());
 
-    State2CD rename = new State2CD(ast.get());
+    State2CD state2CD = new State2CD(ast.get());
 
     System.out.println(ast.get().getStatechart().getName());
 
-    assertTrue(rename.doPatternMatching());
+    assertTrue(state2CD.doPatternMatching());
     
-    rename.doReplacement();
+    state2CD.doReplacement();
 
-    System.out.println(ast.get().getStatechart().getName());
-    System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
+    assertEquals("Banking", state2CD.get_$CD().getName());
 
-    System.out.println(new CDPrettyPrinterConcreteVisitor(new IndentPrinter()).prettyprint(rename.get_$CD()));
+    System.out.println(new CDPrettyPrinterConcreteVisitor(new IndentPrinter()).prettyprint(state2CD.get_$CD()));
 
   }
   
   @Test
   public void testAddState() throws IOException {
-    String input = "src/main/models/Banking.sc";
+   
     Optional<ASTSCArtifact> ast = new StatechartWithJavaParser().parse(input);
     
     assertTrue(ast.isPresent());
@@ -59,11 +79,12 @@ public class Test2 {
   
   @Test
   public void testRemoveTransition() throws IOException {
-    String input = "src/main/models/Banking.sc";
+   
     Optional<ASTSCArtifact> ast = new StatechartWithJavaParser().parse(input);
     
     assertTrue(ast.isPresent());
     
+    assertEquals(7, ast.get().getStatechart().getSCTransitions().size());
     System.out.println("#Transitions: " + ast.get().getStatechart().getSCTransitions().size());
     
     RemoveTransition rename = new RemoveTransition(ast.get());
@@ -71,52 +92,53 @@ public class Test2 {
     assertTrue(rename.doPatternMatching());
   
     rename.doReplacement();
-  
+    
+    assertEquals(6, ast.get().getStatechart().getSCTransitions().size());
     System.out.println("#Transitions: " + ast.get().getStatechart().getSCTransitions().size());
     System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
   }
   
   @Test
   public void testChangeInitial() throws IOException {
-    String input = "src/main/models/Banking.sc";
+   
     Optional<ASTSCArtifact> ast = new StatechartWithJavaParser().parse(input);
     
     assertTrue(ast.isPresent());
   
     ChangeInitial tf = new ChangeInitial(ast.get());
     
-    System.out.println(ast.get().getStatechart().getInitialState().getName());
+    assertEquals("Offer", ast.get().getStatechart().getInitialState().getName());
     
     assertTrue(tf.doPatternMatching());
     
     tf.doReplacement();
-    
-    System.out.println(ast.get().getStatechart().getInitialState().getName());
+  
+    assertEquals("Production", ast.get().getStatechart().getInitialState().getName());
     System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
     
   }
   @Test
   public void testChangeTransition() throws IOException {
-    String input = "src/main/models/Banking.sc";
+   
     Optional<ASTSCArtifact> ast = new StatechartWithJavaParser().parse(input);
 
     assertTrue(ast.isPresent());
 
-//    ChangeTransition tf = new ChangeTransition(ast.get());
+    ChangeTransition tf = new ChangeTransition(ast.get());
 
-    System.out.println(ast.get().getStatechart().getInitialState().getName());
 
-//    assertTrue(tf.doPatternMatching());
+    assertTrue(tf.doPatternMatching());
 
-//    tf.doReplacement();
+    tf.doReplacement();
+    
+    assertEquals("Error", tf.get_$T().getTargetName());
 
-    System.out.println(ast.get().getStatechart().getInitialState().getName());
     System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
 
   }
   @Test
   public void testAddTransition() throws IOException {
-    String input = "src/main/models/Banking.sc";
+   
     Optional<ASTSCArtifact> ast = new StatechartWithJavaParser().parse(input);
     
     assertTrue(ast.isPresent());
@@ -134,13 +156,14 @@ public class Test2 {
   }
   @Test
   public void testIntroduceErrorState() throws IOException {
-    String input = "src/main/models/Banking.sc";
+   
     Optional<ASTSCArtifact> ast = new StatechartWithJavaParser().parse(input);
 
     assertTrue(ast.isPresent());
 
     AddErrorState tf = new AddErrorState(ast.get());
 
+    assertEquals(6, ast.get().getStatechart().getSCStates().size());
     System.out.println("#States: " + ast.get().getStatechart().getSCStates().size());
 
     assertTrue(tf.doPatternMatching());
@@ -152,7 +175,8 @@ public class Test2 {
       tf_trans.doReplacement();
       tf_trans = new AddTransition(ast.get());
     }
-
+  
+    assertEquals(7, ast.get().getStatechart().getSCStates().size());
     System.out.println("#States: " + ast.get().getStatechart().getSCStates().size());
     System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
 

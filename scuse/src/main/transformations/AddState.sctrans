@@ -1,6 +1,3 @@
-{
-  statechart $_ {
-    [[:- state Foo ]]
-  }
-
+statechart $_ {
+  [[:- state Foo ]]
 }

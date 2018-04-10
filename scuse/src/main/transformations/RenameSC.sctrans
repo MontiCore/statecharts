@@ -1,4 +1,1 @@
-{
-  statechart [[ Banking :- Auftrag2 ]] {}
-
-}
+statechart [[ Banking :- Auftrag2 ]] {}
