@@ -1,8 +1,10 @@
 # Statechart Language
 
 ## Repository Structure
+* __sc-archetype__ Maven Archetype to create new projects
 * __scgrammar__ SC Language itself
 * __sctrans__ SC Trans; Transformations language to transform SCs
+* __sctrans-editor__ Editor for transformation development
 * __scuse__ Examples for Statecharts, Statechart Transformations, and SC to CD Transformations
 
 ## Contribute
