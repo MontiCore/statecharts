@@ -1,0 +1,12 @@
+import util.Util;
+
+transformation OwnImports {
+  $S [[ statechart $_ {
+  
+  } ]]
+  
+  do {
+    System.out.println(Util.print($S));
+  }
+
+}
