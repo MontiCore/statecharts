@@ -1,7 +1,7 @@
 /*
 SCArtifact * Copyright (c) 2017, MontiCore. All rights reserved.
  *
- * http://www.se-rwth.de/ 
+ * http://www.se-rwth.de/
  */
 package de.monticore.umlsc.parser;
 
@@ -46,10 +46,17 @@ public class ParserTest {
 		Path p = Paths.get("src/test/resources/de/monticore/umlsc/parser/");
 
 		DirectoryStream<Path> directoryStream = Files.newDirectoryStream(p);
-
 		for (Path path : directoryStream) {
 			fileNames.add(new Object[] { path });
 		}
+		
+		p = Paths.get("src/test/resources/de/monticore/umlsc/examples/");
+		directoryStream = Files.newDirectoryStream(p);
+		
+		for (Path path : directoryStream) {
+			fileNames.add(new Object[] { path });
+		}
+		
 		return fileNames;
 
 	}
@@ -78,7 +85,7 @@ public class ParserTest {
 
 	/**
 	 * TODO: Write me!
-	 * 
+	 *
 	 * @param findings
 	 */
 	private void printFindings(List<Finding> findings) {

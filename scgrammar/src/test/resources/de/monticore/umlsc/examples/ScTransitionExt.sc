@@ -21,9 +21,9 @@ package de.monticore.umlsc.examples;
 
 statechart {
 	
-	state A;
-	state B;
+	state A
+	state B
 	
-	A -> B : [JavaExp()] / {somemethod();} [PostCond()];
+	A -> B  [JavaExp()] / {somemethod();} [PostCond()]
 
 }
