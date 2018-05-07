@@ -42,7 +42,7 @@ component grammar Statechart extends de.monticore.types.Types {
     
     /** ASTStatechart represents a UML Statechart diagram
         @attribute completeness  Optional Comleteness of this Statechart diagram
-        @attribute stereotype    Optional Stereotype
+        @attribute stereotype    Optional SCStereotype
         @attribute name          Optional name of this Statechart diagram
         @attribute className     Name of the class modeled with this
                                  Statechart diagram
@@ -53,7 +53,7 @@ component grammar Statechart extends de.monticore.types.Types {
     */
     symbol scope Statechart =
         Completeness?
-        Stereotype?
+        stereotype:SCStereotype?
         "statechart" Name?
         ("for" className:ReferenceType)?
         ("refines" superSC:ReferenceType)?
@@ -73,13 +73,13 @@ component grammar Statechart extends de.monticore.types.Types {
                )?;
     
     /** ASTSCModifier represents a Modifier for a State
-        @attribute stereotype Optional Stereotpye
+        @attribute stereotype Optional SCStereotpye
         @attribute initial    true if State is initial
         @attribute final      true if State is final
         @attribute local      true if State is local
     */
     SCModifier =
-        Stereotype?
+        stereotype:SCStereotype?
         (["initial"] | ["final"] | ["local"])*;
     
     
@@ -120,22 +120,22 @@ component grammar Statechart extends de.monticore.types.Types {
     
     /** ASTSCInternTransition represents an Intern Transition of a State in a
         UML Statechart diagram
-        @attribute stereotype       Optional Stereotype
-        @attribute sCTransitionBody Body of this Transition
+        @attribute SCStereotype       Optional SCStereotype
+        @attribute sCTransitionBody   Body of this Transition
     */
     SCInternTransition =
-        Stereotype? "->" SCTransitionBody;
+        stereotype:SCStereotype? "->" SCTransitionBody;
     
     
     /** ASTSCTransition represents a Transition between two States in a
         UML Statechart diagram
-        @attribute stereotype       Optional Stereotype
+        @attribute SCStereotype     Optional SCStereotype
         @attribute sourceName       Name of the source of this Transition
         @attribute targetName       Name of the target of this Transition
         @attribute sCTransitionBody Body of this Transition
     */
     SCTransition =
-        Stereotype?
+        stereotype:SCStereotype?
         sourceName:Name "->" targetName:Name
         SCTransitionBody?
         ;
@@ -197,16 +197,16 @@ component grammar Statechart extends de.monticore.types.Types {
       complete:["(c)"] | incomplete:["(...)"];
       
  
-    /** ASTStereotype represents Stereotypes in a Statechart
-   	    @attribute values List of Values of this Stereotype
+    /** ASTSCStereotype represents SCStereotypes in a Statechart
+   	    @attribute values List of Values of this SCStereotype
   	*/
-  	Stereotype = "<<" values:(StereoValue || ",")+ ">>";
+  	SCStereotype = "<<" values:(SCStereoValue || ",")+ ">>";
     
 
-    /** ASTStereoValue represents a Value of a Stereotype in a Classdiagram
-        @attribute name  Name of the Stereotype-Value
+    /** ASTSCStereoValue represents a Value of a SCStereotype in a Classdiagram
+        @attribute name  Name of the SCStereotype-Value
     */
-    StereoValue = Name ("=" value:String)?;
+    SCStereoValue = Name ("=" value:String)?;
     
     Invariant =
         "[" content:SCInvariantContent "]";

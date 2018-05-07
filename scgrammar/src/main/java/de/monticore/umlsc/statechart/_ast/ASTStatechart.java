@@ -29,7 +29,7 @@ public class ASTStatechart extends ASTStatechartTOP {
 		super();
 	}
 
-	public ASTStatechart(ASTCompleteness completeness, ASTStereotype stereotype, String name,
+	public ASTStatechart(ASTCompleteness completeness, ASTSCStereotype stereotype, String name,
 			ASTReferenceType className, ASTReferenceType superSC, List<ASTSCState> sCStates,
 			List<ASTSCTransition> sCTransitions) {
 		super(completeness, stereotype, name, className, superSC, sCStates, sCTransitions);

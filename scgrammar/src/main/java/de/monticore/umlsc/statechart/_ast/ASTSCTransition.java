@@ -31,7 +31,7 @@ public class ASTSCTransition extends ASTSCTransitionTOP {
 		super();
 	}
 
-	public ASTSCTransition(ASTStereotype stereotype, String sourceName, String targetName,
+	public ASTSCTransition(ASTSCStereotype stereotype, String sourceName, String targetName,
 			ASTSCTransitionBody sCTransitionBody) {
 		super(stereotype, sourceName, targetName, sCTransitionBody);
 	}

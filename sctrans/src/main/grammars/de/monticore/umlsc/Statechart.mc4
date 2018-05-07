@@ -1,21 +1,4 @@
-/*
- * ******************************************************************************
- * MontiCore Language Workbench, www.monticore.de
- * Copyright (c) 2017, MontiCore, All rights reserved.
- *
- * This project is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3.0 of the License, or (at your option) any later version.
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this project. If not, see <http://www.gnu.org/licenses/>.
- * ******************************************************************************
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 package de.monticore.umlsc;
 
@@ -31,7 +14,7 @@ component grammar Statechart extends de.monticore.types.Types {
     @attribute scDefinition
   */
   scope SCArtifact =
-
+    ("package" package:(Name& || ".")+ ";")?
     (ImportStatement)*
     Statechart EOF;
 
@@ -51,10 +34,7 @@ component grammar Statechart extends de.monticore.types.Types {
     external SCStatements;
     external SCExpression;
     external SCInvariantContent;
-
-    /*A implements SCStatements = BlockStatement;
-    B implements SCExpression = Expression;
-    C implements SCInvariantContent = Expression;*/
+    
     
     /*========================================================================*/
     /*============================== GRAMMAR =================================*/
@@ -62,7 +42,7 @@ component grammar Statechart extends de.monticore.types.Types {
     
     /** ASTStatechart represents a UML Statechart diagram
         @attribute completeness  Optional Comleteness of this Statechart diagram
-        @attribute stereotype    Optional Stereotype
+        @attribute stereotype    Optional SCStereotype
         @attribute name          Optional name of this Statechart diagram
         @attribute className     Name of the class modeled with this
                                  Statechart diagram
@@ -73,7 +53,7 @@ component grammar Statechart extends de.monticore.types.Types {
     */
     symbol scope Statechart =
         Completeness?
-        Stereotype?
+        stereotype:SCStereotype?
         "statechart" Name?
         ("for" className:ReferenceType)?
         ("refines" superSC:ReferenceType)?
@@ -82,6 +62,25 @@ component grammar Statechart extends de.monticore.types.Types {
         "}";
     
     
+    /** ASTSCAction represents the general part of do-, entry-, and exit-Actions
+        @attribute preCondition  Pre-Condition for this Action
+        @attribute SCStatements  Statements of this Action
+        @attribute postCondition Post-Condition for this Action
+    */
+    SCAction = (preCondition:Invariant)?
+               ("/" SCStatements?
+                 (postCondition:Invariant)?
+               )?;
+    
+    /** ASTSCModifier represents a Modifier for a State
+        @attribute stereotype Optional SCStereotpye
+        @attribute initial    true if State is initial
+        @attribute final      true if State is final
+        @attribute local      true if State is local
+    */
+    SCModifier =
+        stereotype:SCStereotype?
+        (["initial"] | ["final"] | ["local"])*;
     
     
     /** ASTSCState represents a (hierarchical) State in a UML Statechart diagram
@@ -121,22 +120,22 @@ component grammar Statechart extends de.monticore.types.Types {
     
     /** ASTSCInternTransition represents an Intern Transition of a State in a
         UML Statechart diagram
-        @attribute stereotype       Optional Stereotype
-        @attribute sCTransitionBody Body of this Transition
+        @attribute SCStereotype       Optional SCStereotype
+        @attribute sCTransitionBody   Body of this Transition
     */
     SCInternTransition =
-        Stereotype? "->" SCTransitionBody;
+        stereotype:SCStereotype? "->" SCTransitionBody;
     
     
     /** ASTSCTransition represents a Transition between two States in a
         UML Statechart diagram
-        @attribute stereotype       Optional Stereotype
+        @attribute SCStereotype     Optional SCStereotype
         @attribute sourceName       Name of the source of this Transition
         @attribute targetName       Name of the target of this Transition
         @attribute sCTransitionBody Body of this Transition
     */
     SCTransition =
-        Stereotype?
+        stereotype:SCStereotype?
         sourceName:Name "->" targetName:Name
         SCTransitionBody?
         ;
@@ -182,7 +181,7 @@ component grammar Statechart extends de.monticore.types.Types {
         @attribute SCExpressions Specified Arguments as a list of Expressions
     */
     SCArguments =
-        ("(" (SCExpression ( "," SCExpression )*)? ")");
+        ("(" (SCExpression || "," )* ")");
     
     
     /** ASTSCCode represents user added code to the Statechart diagram or to
@@ -198,38 +197,17 @@ component grammar Statechart extends de.monticore.types.Types {
       complete:["(c)"] | incomplete:["(...)"];
       
  
-    /** ASTStereotype represents Stereotypes in a Statechart
-   	    @attribute values List of Values of this Stereotype
+    /** ASTSCStereotype represents SCStereotypes in a Statechart
+   	    @attribute values List of Values of this SCStereotype
   	*/
-  	Stereotype = "<<" values:StereoValue( "," values:StereoValue)* ">>";
+  	SCStereotype = "<<" values:(SCStereoValue || ",")+ ">>";
     
 
-    /** ASTStereoValue represents a Value of a Stereotype in a Classdiagram
-        @attribute name  Name of the Stereotype-Value
+    /** ASTSCStereoValue represents a Value of a SCStereotype in a Classdiagram
+        @attribute name  Name of the SCStereotype-Value
     */
-    StereoValue = Name ("=" value:String)?;
+    SCStereoValue = Name ("=" value:String)?;
     
     Invariant =
         "[" content:SCInvariantContent "]";
-        
-        /** ASTSCAction represents the general part of do-, entry-, and exit-Actions
-                @attribute preCondition  Pre-Condition for this Action
-                @attribute SCStatements  Statements of this Action
-                @attribute postCondition Post-Condition for this Action
-            */
-            SCAction = (preCondition:Invariant)?
-                       ("/" SCStatements?
-                         (postCondition:Invariant)?
-                       )?;
-            
-    /** ASTSCModifier represents a Modifier for a State
-        @attribute stereotype Optional Stereotpye
-        @attribute initial    true if State is initial
-        @attribute final      true if State is final
-        @attribute local      true if State is local
-    */
-    SCModifier =
-        Stereotype?
-        (["initial"] | ["final"] | ["local"])*;
-    
 }
