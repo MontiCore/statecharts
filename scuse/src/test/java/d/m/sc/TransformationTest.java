@@ -181,4 +181,26 @@ public class TransformationTest {
     System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
 
   }
+  
+  @Test
+  public void testDo() throws IOException {
+    
+    Optional<ASTSCArtifact> ast = new StatechartWithJavaParser().parse("src/test/models/Action.sc");
+    
+    assertTrue(ast.isPresent());
+    System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
+    
+    DoAction tf = new DoAction(ast.get());
+    
+    assertTrue(ast.get().getStatechart().getSCStates().get(0).doActionIsPresent());
+    
+    assertTrue(tf.doPatternMatching());
+    
+    tf.doReplacement();
+    
+    assertEquals(1, ast.get().getStatechart().getSCTransitions().size());
+  
+    System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
+    
+  }
 }

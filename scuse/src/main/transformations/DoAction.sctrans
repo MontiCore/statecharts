@@ -1,0 +1,8 @@
+statechart $_ {
+  state $a {
+    do / $b [[{}]]
+  }
+
+
+  [[ :-  $a -> $a / SCStatements $b ]]
+}

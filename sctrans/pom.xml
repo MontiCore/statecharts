@@ -21,6 +21,7 @@
           <compilerId>eclipse</compilerId>
           <source>${java.version}</source>
           <target>${java.version}</target>
+          <useIncrementalCompilation>true</useIncrementalCompilation>
         </configuration>
         <dependencies>
           <dependency>
