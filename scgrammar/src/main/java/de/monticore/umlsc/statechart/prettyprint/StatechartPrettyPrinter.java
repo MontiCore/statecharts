@@ -103,6 +103,18 @@ public class StatechartPrettyPrinter implements StatechartVisitor, StatechartWit
 	}
 
 	@Override
+	public void handle(ASTSCInternTransition node){
+		if (node.stereotypeIsPresent()) {
+			node.getStereotype().get().accept(this);
+		}
+		printer.print("-> ");
+		if (node.getSCTransitionBody() != null) {
+			node.getSCTransitionBody().accept(this);
+		}
+		printer.print("\n");
+	}
+
+	@Override
 	public void handle(ASTInvariant node) {
 		printer.print("[");
 		node.getContent().accept(this);
@@ -189,6 +201,26 @@ public class StatechartPrettyPrinter implements StatechartVisitor, StatechartWit
 		node.getSCModifier().accept(this);
 		printer.print("state ");
 		printer.print(node.getName());
+
+		if (!node.getSCStates().isEmpty() || !node.getSCTransitions().isEmpty() || !node.getSCInternTransitions().isEmpty()) {
+			printer.print(" {\n");
+			printer.indent();
+
+			for(ASTSCState s :node.getSCStates()){
+				s.accept(this);
+			}
+
+			for(ASTSCTransition t :node.getSCTransitions()){
+				t.accept(this);
+			}
+
+			for(ASTSCInternTransition t :node.getSCInternTransitions()){
+				t.accept(this);
+			}
+
+			printer.unindent();
+			printer.print("}");
+		}
 		printer.print("\n");
 	}
 	
