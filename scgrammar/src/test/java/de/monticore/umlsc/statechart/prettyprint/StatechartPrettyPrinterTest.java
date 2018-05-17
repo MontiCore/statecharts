@@ -84,8 +84,8 @@ public class StatechartPrettyPrinterTest {
         ASTSCArtifact sc = parse("StatechartTest.sc");
         //Test for indentation, name and order of states and transitions
         assertEquals("Statechart", "statechart StatechartTest {\n" +
-                        "    state A\n" +
-                        "    A -> A\n" +
+                        "  state A\n" +
+                        "  A -> A \n" +
                         "}",
                 accept(sc).trim());
     }
