@@ -226,6 +226,10 @@ public class StatechartPrettyPrinter implements StatechartVisitor, StatechartWit
 	
 	@Override
 	public void handle (ASTSCModifier node) {
+		if (node.stereotypeIsPresent()) {
+			node.getStereotype().get().accept(this);
+		}
+
 		if(node.isInitial()){
 			printer.print("initial ");
 		}
@@ -236,9 +240,38 @@ public class StatechartPrettyPrinter implements StatechartVisitor, StatechartWit
 			printer.print("local ");
 		}
 	}
+
+	@Override
+	public void handle(ASTSCStereotype node) {
+		getPrinter().print("<<");
+
+		for (int i = 0; i < node.getValues().size(); i++) {
+			node.getValues().get(i).accept(this);
+			if (i < node.getValues().size()-1) {
+				getPrinter().print(", ");
+			}
+		}
+
+		getPrinter().print(">> ");
+	}
+
+	@Override
+	public void handle(ASTSCStereoValue node) {
+		getPrinter().print(node.getName());
+
+		if (node.getValue().isPresent()) {
+			getPrinter().print(" = \"");
+			getPrinter().print(node.getValue().get());
+			getPrinter().print("\"");
+		}
+	}
 	
 	@Override
 	public void handle(ASTStatechart node){
+		if (node.stereotypeIsPresent()) {
+			node.getStereotype().get().accept(this);
+		}
+
 		printer.print("statechart ");
 		if(node.getName().isPresent()){
 			printer.print(node.getName().get());
