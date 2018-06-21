@@ -1,4 +1,4 @@
-package de.monticore.umlsc.prettyprinter;
+package de.monticore.umlsc.prettyprint;
 
 import de.monticore.umlsc.statechart._ast.*;
 import de.monticore.umlsc.statechart.prettyprint.StatechartPrettyPrinter;
@@ -17,7 +17,7 @@ import java.util.Optional;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class StatechartPrettyPrinterTest {
+public class StatechartPrettyPrinterTest2 {
 
   @BeforeClass
   public static void init() {

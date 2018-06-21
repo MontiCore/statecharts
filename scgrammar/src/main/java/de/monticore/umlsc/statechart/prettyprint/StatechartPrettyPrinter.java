@@ -111,8 +111,9 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
   public void handle(ASTSCInternTransition node) {
     if (node.stereotypeIsPresent()) {
       node.getStereotype().get().accept(getRealThis());
+      getPrinter().print(" ");
     }
-    getPrinter().print(" -> ");
+    getPrinter().print("-> ");
     node.getSCTransitionBody().accept(getRealThis());
   }
 
@@ -274,9 +275,10 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
       node.getCompleteness().get().accept(getRealThis());
     }
     node.getSCModifier().accept(getRealThis());
-    getPrinter().println("state " + node.getName());
+    getPrinter().print("state " + node.getName());
     if (node.bracketIsPresent()) {
-      getPrinter().println("{ ");
+      getPrinter().println(" {");
+      getPrinter().indent();
       if (node.invariantIsPresent()) {
         node.getInvariant().get().accept(getRealThis());
       }
@@ -295,14 +297,20 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
       for (ASTSCState astscState : node.getSCStates()) {
         astscState.accept(getRealThis());
       }
+      for(ASTSCTransition astscTransition : node.getSCTransitions()){
+        astscTransition.accept(getRealThis());
+      }
       for (ASTSCCode astscCode : node.getSCCodes()) {
         astscCode.accept(getRealThis());
       }
       for (ASTSCInternTransition astscInternTransition : node.getSCInternTransitions()) {
         astscInternTransition.accept(getRealThis());
       }
-      getPrinter().println("} ");
+      getPrinter().println();
+      getPrinter().unindent();
+      getPrinter().print("}");
     }
+    getPrinter().println();
   }
 
   @Override
@@ -349,7 +357,7 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
       TypesPrettyPrinterConcreteVisitor pp = new TypesPrettyPrinterConcreteVisitor(new IndentPrinter());
       getPrinter().print(pp.prettyprint(node.getSuperSC().get()));
     }
-    getPrinter().print(" {");
+    getPrinter().print("{");
     getPrinter().println();
     getPrinter().indent();
 
