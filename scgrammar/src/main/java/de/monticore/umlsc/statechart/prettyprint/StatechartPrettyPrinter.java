@@ -19,8 +19,6 @@
 
 package de.monticore.umlsc.statechart.prettyprint;
 
-import de.monticore.common.common._ast.ASTStereoValue;
-import de.monticore.common.common._ast.ASTStereotype;
 import de.monticore.java.javadsl._ast.ASTJavaBlock;
 import de.monticore.java.javadsl._ast.ASTJavaDSLNode;
 import de.monticore.java.prettyprint.JavaDSLPrettyPrinter;
@@ -30,7 +28,6 @@ import de.monticore.types.types._ast.ASTImportStatement;
 import de.monticore.types.types._ast.ASTReferenceType;
 import de.monticore.types.types._ast.ASTTypesNode;
 import de.monticore.umlsc.statechart._ast.*;
-import de.monticore.umlsc.statechart._visitor.StatechartVisitor;
 import de.monticore.umlsc.statechartwithjava._ast.ASTSCExpression;
 import de.monticore.umlsc.statechartwithjava._ast.ASTSCInvariantContent;
 import de.monticore.umlsc.statechartwithjava._ast.ASTSCStatements;
@@ -373,7 +370,7 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
 
   @Override
   public void handle(ASTSCArtifact node) {
-    if (node.pIsPresent()) {
+    if (!node.getPackage().isEmpty()) {
       getPrinter().print("package ");
       boolean first = true;
       for (String s : node.getPackage()) {

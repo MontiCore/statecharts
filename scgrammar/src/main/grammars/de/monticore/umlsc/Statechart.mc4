@@ -14,7 +14,7 @@ component grammar Statechart extends de.monticore.types.Types {
     @attribute scDefinition
   */
   scope SCArtifact =
-    (p:"package" package:(Name || ".")+ ";")?
+    ("package" package:(Name || ".")+ ";")?
     (ImportStatement)*
     Statechart EOF;
 
