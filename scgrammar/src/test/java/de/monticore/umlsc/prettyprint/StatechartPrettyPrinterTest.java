@@ -1,6 +1,7 @@
-package de.monticore.umlsc.statechart.prettyprint;
+package de.monticore.umlsc.prettyprint;
 
 import de.monticore.umlsc.statechart._ast.*;
+import de.monticore.umlsc.statechart.prettyprint.StatechartPrettyPrinter;
 import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParser;
 import org.junit.Test;
 
@@ -83,7 +84,7 @@ public class StatechartPrettyPrinterTest {
     public void testASTStatechart() throws IOException {
         ASTSCArtifact sc = parse("StatechartTest.sc");
         //Test for indentation, name and order of states and transitions
-        assertEquals("Statechart", "statechart StatechartTest {\n" +
+        assertEquals("Statechart", "package de.monticore.umlsc.prettyprint;\nstatechart StatechartTest {\n" +
                         "  state A\n" +
                         "  A -> A \n" +
                         "}",

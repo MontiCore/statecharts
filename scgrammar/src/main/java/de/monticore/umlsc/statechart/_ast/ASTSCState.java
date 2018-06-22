@@ -34,9 +34,9 @@ public class ASTSCState extends ASTSCStateTOP {
 	public ASTSCState(ASTCompleteness completeness, ASTSCModifier sCModifier, String name, ASTInvariant invariant,
 			ASTSCAction entryAction, ASTSCAction doAction, ASTSCAction exitAction, List<ASTSCState> sCStates,
 			List<ASTSCTransition> sCTransitions, List<ASTSCCode> sCCodes,
-			List<ASTSCInternTransition> sCInternTransitions) {
+			List<ASTSCInternTransition> sCInternTransitions,  String bracket ) {
 		super(completeness, sCModifier, name, invariant, entryAction, doAction, exitAction, sCStates, sCTransitions,
-				sCCodes, sCInternTransitions);
+				sCCodes, sCInternTransitions, bracket );
 	}
 
 	public Set<ASTSCTransition> getOutgoingTransitions() {
