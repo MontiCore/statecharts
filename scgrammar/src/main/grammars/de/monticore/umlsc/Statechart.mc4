@@ -68,7 +68,7 @@ component grammar Statechart extends de.monticore.types.Types {
         @attribute postCondition Post-Condition for this Action
     */
     SCAction = (preCondition:Invariant)?
-               ("/" SCStatements?
+               (slash:"/" SCStatements?
                  (postCondition:Invariant)?
                )?;
     
@@ -100,7 +100,7 @@ component grammar Statechart extends de.monticore.types.Types {
         Completeness?
         SCModifier
         "state" Name
-        ("{"
+        (bracket:"{"
             (Invariant)?
             ("entry" entryAction:SCAction)?
             ("do" doAction:SCAction)?
@@ -171,9 +171,7 @@ component grammar Statechart extends de.monticore.types.Types {
     */
     SCReturnStatement extends SCEvent =
         "return"
-        (
-          ("(" SCExpression ")")
-        )?;
+        ( "(" SCExpression ")" ) ?;
     
     
     /** ASTSCArguments represents Arguments of an Event in a UML Statechart
