@@ -95,5 +95,41 @@
     <developerConnection>scm:svn:https://sselab.de/lab2/private/svn/MontiCore/trunk/mclang/statechart/</developerConnection>
   </scm>
   
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <configuration>
+            <!-- exclude logback.xml -->
+            <excludes>
+              <exclude>**/logback.xml</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
+  
+        <plugin>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${source.plugin}</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>jar-no-fork</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    
+    <plugins>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+  
   
 </project>
