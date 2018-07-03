@@ -32,16 +32,16 @@ statechart for EncryptedDocument {
     [document.isEncrypted()]
     initial final state sub1
     state sub2
-    sub1 -> sub2  [check(passwd)]
+    sub1 -> sub2  [check(passwd)] /
     }
 
   state Failed
 
   final state Done
 
-  <<encrypted>> WaitForUserEntry -> Identification  decrypt(document, passwd)
+  <<encrypted>> WaitForUserEntry -> Identification  decrypt(document, passwd) /
   WaitForUserEntry -> Failed  [timer.timeouts==3] / {log("Identification expired");}
-  Identification -> Failed  [!check(passwd)]
+  Identification -> Failed  [!check(passwd)] /
   Identification -> Done  / {document.open();} [document.isDecrypted()]
   Failed -> Done
 }

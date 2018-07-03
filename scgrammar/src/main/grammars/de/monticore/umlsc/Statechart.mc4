@@ -149,8 +149,8 @@ component grammar Statechart extends de.monticore.types.Types {
     */
     SCTransitionBody =
         (preCondition:Invariant)?
-        SCEvent?
-          ("/" SCStatements
+        SCEvent? "/"
+          ( SCStatements
               (postCondition:Invariant)?
           )?
      ;
