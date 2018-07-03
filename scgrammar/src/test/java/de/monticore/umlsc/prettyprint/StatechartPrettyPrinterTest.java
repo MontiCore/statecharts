@@ -22,13 +22,13 @@ public class StatechartPrettyPrinterTest {
         assertEquals("Transition without body", "From -> Target",
                 accept(sc.getStatechart().getSCTransitions().get(0)).trim());
 
-        assertEquals("Transition with precond", "From -> Target [PreCond]",
+        assertEquals("Transition with precond", "From -> Target [PreCond] /",
                 accept(sc.getStatechart().getSCTransitions().get(1)).trim());
 
-        assertEquals("Transition with event", "From -> Target Event",
+        assertEquals("Transition with event", "From -> Target Event /",
                 accept(sc.getStatechart().getSCTransitions().get(2)).trim());
 
-        assertEquals("Transition with precond and event", "From -> Target [PreCond] Event",
+        assertEquals("Transition with precond and event", "From -> Target [PreCond] Event /",
                 accept(sc.getStatechart().getSCTransitions().get(3)).trim());
 
         //ToDo: Is the double space wanted?
@@ -64,7 +64,7 @@ public class StatechartPrettyPrinterTest {
 
         ASTSCState outerState = sc.getStatechart().getSCStates().get(4);
         //Test for intern transitions - body is tested in TransitionTest
-        assertEquals("sub state inner transition", "-> InnerTrans",
+        assertEquals("sub state inner transition", "-> InnerTrans /",
                 accept(outerState.getSCInternTransitions().get(0)).trim());
 
         //Test entire substate (with indentation)
@@ -72,7 +72,7 @@ public class StatechartPrettyPrinterTest {
                         "  state IA\n" +
                         "  state IB\n" +
                         "  IA -> IB \n" +
-                        "  -> InnerTrans\n" +
+                        "  -> InnerTrans / \n" +
                         "}",
                 accept(outerState).trim());
 
