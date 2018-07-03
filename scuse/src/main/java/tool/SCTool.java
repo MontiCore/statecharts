@@ -73,8 +73,9 @@ public class SCTool {
     StatechartWithJavaCoCoChecker customCoCos = new StatechartWithJavaCoCoChecker();
     customCoCos.addCoCo(new TransitionSourceAndTargetExists());
     customCoCos.checkAll(ast);
-    
-    
+
+
+
     // execute a pretty printer
     StatechartPrettyPrinter pp = new StatechartPrettyPrinter();
     Log.info("Pretty printing the parsed statechart into console:", SCTool.class.getName());
