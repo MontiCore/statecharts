@@ -140,8 +140,8 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
       }
       node.getSCEvent().get().accept(getRealThis());
     }
+    getPrinter().print(" / ");
     if (node.sCStatementsIsPresent()) {
-      getPrinter().print(" / ");
       node.getSCStatements().get().accept(getRealThis());
       if (node.postConditionIsPresent()) {
         node.getPostCondition().get().accept(getRealThis());

@@ -29,6 +29,6 @@ statechart StateTest {
 	    state IA
 	    state IB
 	    IA -> IB
-	    -> InnerTrans
+	    -> InnerTrans /
 	}
 }

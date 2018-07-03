@@ -19,7 +19,7 @@
 
 package de.monticore.umlsc.examples;
 
-statechart Auftrag {
+statechart Banking {
 
 	initial state Offer
 	state Production
