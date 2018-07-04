@@ -289,7 +289,7 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
       }
       if (node.exitActionIsPresent()) {
         getPrinter().print("exit");
-        node.getEntryAction().get().accept(getRealThis());
+        node.getExitAction().get().accept(getRealThis());
       }
       for (ASTSCState astscState : node.getSCStates()) {
         astscState.accept(getRealThis());
