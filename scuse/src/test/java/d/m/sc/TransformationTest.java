@@ -232,6 +232,24 @@ public class TransformationTest {
     System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
 
   }
+  
+  @Test
+  public void testDeleteStereotype() throws IOException {
+    
+    Optional<ASTSCArtifact> ast = new StatechartWithJavaParser().parse("src/test/models/Stereotype.sc");
+    
+    assertTrue(ast.isPresent());
+    System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
+  
+    DeleteStereotype tf = new DeleteStereotype(ast.get());
+    
+    assertTrue(tf.doPatternMatching());
+    
+    tf.doReplacement();
+    
+    System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
+    
+  }
 
 
 }
