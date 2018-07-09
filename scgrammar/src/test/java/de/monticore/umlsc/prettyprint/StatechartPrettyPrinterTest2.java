@@ -109,7 +109,7 @@ public class StatechartPrettyPrinterTest2 {
   @Test
   public void testASTSCInternTransition() throws IOException{
     StatechartWithJavaParser parser = new StatechartWithJavaParser();
-    Optional<ASTSCInternTransition> ast = parser.parseString_SCInternTransition("<< name = \"stereo\" >> -> { block.state; } ");
+    Optional<ASTSCInternTransition> ast = parser.parseString_SCInternTransition("<< name = \"stereo\" >> -> / { block.state; } ");
     assertTrue(ast.isPresent());
     assertFalse(parser.hasErrors());
     ASTSCInternTransition scMethodCall = ast.get();
@@ -139,7 +139,7 @@ public class StatechartPrettyPrinterTest2 {
   @Test
   public void testASTSCTransition() throws IOException{
     StatechartWithJavaParser parser = new StatechartWithJavaParser();
-    Optional<ASTSCTransition> ast = parser.parseString_SCTransition("<< name = \"somestring\"  >>  Start -> End [ inv ]");
+    Optional<ASTSCTransition> ast = parser.parseString_SCTransition("<< name = \"somestring\"  >>  Start -> End [ inv ] /");
     assertTrue(ast.isPresent());
     assertFalse(parser.hasErrors());
     ASTSCTransition scMethodCall = ast.get();

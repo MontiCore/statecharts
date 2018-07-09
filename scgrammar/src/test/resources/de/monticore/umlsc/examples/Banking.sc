@@ -19,7 +19,7 @@
 
 package de.monticore.umlsc.examples;
 
-statechart Auftrag {
+statechart Banking {
 
 	initial state Offer
 	state Production
@@ -30,12 +30,12 @@ statechart Auftrag {
 
 	// Regular flow
 	Offer		-> Production   customer.sendConfirmation() / {orderParts();}
-	Production 	-> Shipping		[allItemsProduced()] shipItems()
+	Production 	-> Shipping		[allItemsProduced()] shipItems() /
     Shipping	-> Payment		[allItemsSent()] / {customer.sendInvoice(sum);}
-	Payment		-> Complete		[paid]
+	Payment		-> Complete		[paid] /
 
 	// Order cancellation
-	Offer 		-> Cancelled	cancel()
+	Offer 		-> Cancelled	cancel() /
 	Production	-> Cancelled	cancel() / {customer.sendInvoice(calculateCompensation());}
 	Shipping	-> Cancelled	cancel() / {customer.sendInvoice(calculateCompensation());}
 }
