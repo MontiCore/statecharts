@@ -16,6 +16,9 @@ import org.junit.Test;
 
 import java.nio.file.Paths;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 /**
  * TODO: Write me!
  *
@@ -48,5 +51,13 @@ public class StatechartSymbolTableCreatorTest {
 	public void testStatechartSymbolTableCreation() {
 		final StatechartSymbol scSymbol = globalScope.<StatechartSymbol>resolve("Test1",StatechartSymbol.KIND).orElse(null);
 		System.out.println(scSymbol);
+	}
+
+	@Test
+	public void testStatechartSymbolTableCreationInPackage() {
+		final String fullName =  "de.monticore.umlsc.symboltable.Test1";
+		final StatechartSymbol scSymbol = globalScope.<StatechartSymbol>resolve(fullName ,StatechartSymbol.KIND).orElse(null);
+		assertNotNull(scSymbol);
+		assertEquals(fullName, scSymbol.getFullName());
 	}
 }
