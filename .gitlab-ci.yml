@@ -36,7 +36,7 @@ build:
   script:
     - mvn $MAVEN_CLI_OPTS clean install | tee out.log
     - grep "INFO] BUILD SUCCESS" out.log
-#  artifacts:
-#    reports:
-#      junit:
-#      - target/surefire-reports/TEST-*.xml
+  artifacts:
+    reports:
+      junit:
+      - target/surefire-reports/TEST-*.xml
