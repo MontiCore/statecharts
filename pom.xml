@@ -91,8 +91,8 @@
   </distributionManagement>
 
   <scm>
-    <url>https://sselab.de/lab2/private/svn/MontiCore/trunk/mclang/statechart/</url>
-    <developerConnection>scm:svn:https://sselab.de/lab2/private/svn/MontiCore/trunk/mclang/statechart/</developerConnection>
+    <url>https://git.rwth-aachen.de/monticore/statechart/sc-language</url>
+    <developerConnection>https://git.rwth-aachen.de/monticore/statechart/sc-language</developerConnection>
   </scm>
   
   <build>
