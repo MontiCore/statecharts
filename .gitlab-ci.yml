@@ -39,4 +39,4 @@ build:
   artifacts:
     reports:
       junit:
-      - target/surefire-reports/TEST-*.xml
+      - ./*/target/surefire-reports/TEST-*.xml
