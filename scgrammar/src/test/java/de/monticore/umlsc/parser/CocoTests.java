@@ -78,6 +78,7 @@ public class CocoTests {
 
 	@Test
 	public void transitionSourceAndTargetExistsTest() throws RecognitionException, IOException {
+		Log.enableFailQuick(false);
 		Path model = Paths.get("src/test/resources/de/monticore/umlsc/cocos/Buchungen.sc");
 		StatechartWithJavaParser parser = new StatechartWithJavaParser();
 		Optional<ASTSCArtifact> scDef = parser.parseSCArtifact(model.toString());
