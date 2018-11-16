@@ -5,8 +5,14 @@
  */
 package de.monticore.umlsc.parser;
 
+import de.monticore.symboltable.CommonScope;
+import de.monticore.symboltable.ResolvingConfiguration;
 import de.monticore.umlsc.statechart._ast.ASTSCArtifact;
+import de.monticore.umlsc.statechart._cocos.TransitionSourceAndTargetExists;
+import de.monticore.umlsc.statechartwithjava._cocos.StatechartWithJavaCoCoChecker;
 import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParser;
+import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaLanguage;
+import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaSymbolTableCreator;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.Slf4jLog;
@@ -69,4 +75,24 @@ public class CocoTests {
 //		assertEquals("Buchungen.sc:<5,1>", Log.getFindings().get(0).getSourcePosition().get().toString());
 	}
 
+
+	@Test
+	public void transitionSourceAndTargetExistsTest() throws RecognitionException, IOException {
+		Path model = Paths.get("src/test/resources/de/monticore/umlsc/cocos/Buchungen.sc");
+		StatechartWithJavaParser parser = new StatechartWithJavaParser();
+		Optional<ASTSCArtifact> scDef = parser.parseSCArtifact(model.toString());
+		StatechartWithJavaLanguage language = new StatechartWithJavaLanguage();
+		ResolvingConfiguration resolvingConfig = new ResolvingConfiguration();
+		resolvingConfig.addTopScopeResolvers(language.getResolvingFilters());
+		StatechartWithJavaSymbolTableCreator c = new StatechartWithJavaSymbolTableCreator(resolvingConfig, new CommonScope());
+		c.createFromAST(scDef.get());
+		StatechartWithJavaCoCoChecker checker = new StatechartWithJavaCoCoChecker();
+		checker.addCoCo(new TransitionSourceAndTargetExists());
+		checker.handle(scDef.get());
+		for (Finding f : Log.getFindings()) {
+			System.out.println(f);
+		}
+		assertFalse(parser.hasErrors());
+		assertTrue(scDef.isPresent());
+	}
 }
