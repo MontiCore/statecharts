@@ -47,5 +47,16 @@ public class ASTSCTransition extends ASTSCTransitionTOP {
 		}
 		return null;
 	}
+	public ASTSCState getSource() {
+		if (getEnclosingScope().isPresent()) {
+			Scope scope = getEnclosingScope().get();
+			String name = getSourceName();
+			Optional<Symbol> symbol = scope.resolve(name, SCStateSymbol.KIND);
+			if (symbol.isPresent()) {
+				return (ASTSCState) symbol.get().getAstNode().get();
+			}
+		}
+		return null;
+	}
 
 }

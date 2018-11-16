@@ -5,7 +5,9 @@
  */
 package de.monticore.umlsc.statechart._cocos;
 
+import de.monticore.umlsc.statechart._ast.ASTSCState;
 import de.monticore.umlsc.statechart._ast.ASTSCTransition;
+import de.se_rwth.commons.logging.Log;
 
 /**
  * TODO: Write me!
@@ -21,8 +23,8 @@ public class TransitionSourceAndTargetExists implements StatechartASTSCTransitio
 	 */
 	@Override
 	public void check(ASTSCTransition node) {
-		// TODO Auto-generated method stub
-		
+		if(node.getTarget().equals(null) || node.getSource().equals(null)){
+			Log.error("Source or Target not a State");
+		}
 	}
-
 }
