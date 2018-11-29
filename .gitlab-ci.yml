@@ -31,7 +31,7 @@ variables:
 
 
 build:
-  image: maven
+  image: maven:3-jdk-11
   stage: build
   script:
     - mvn $MAVEN_CLI_OPTS clean install | tee out.log
