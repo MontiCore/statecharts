@@ -28,8 +28,6 @@ public class StatechartWithJavaLanguage extends StatechartWithJavaLanguageTOP {
 
 	/**
 	 * Constructor for de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaLanguage.
-	 * @param langName
-	 * @param fileEnding
 	 */
 	public StatechartWithJavaLanguage() {
 		super("Statechart Language", "sc");

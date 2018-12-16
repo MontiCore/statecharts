@@ -5,7 +5,9 @@ import de.monticore.umlsc.statechart.prettyprint.CountAST;
 import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParserTOP;
 import de.se_rwth.commons.logging.Log;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
+import sun.awt.image.ImageWatched;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -36,19 +38,19 @@ public class SCToolTest {
     assertTrue(!false);
   }
 
-  @Ignore
+ 
   @Test
-  public void perf() throws IOException {
+  public void perf() throws IOException, InterruptedException {
 
     List<Optional<ASTSCArtifact>> scList = new LinkedList<>();
 
 
     Double start = Double.valueOf(Long.valueOf(System.currentTimeMillis()).toString());
 
-    int rounds = 50;
+    int rounds = 350;
     for(int i = 0; i<rounds;i++) {
       StatechartWithJavaParserTOP parser = new StatechartWithJavaParserTOP();
-      scList.add(parser.parse("src/test/models/Generated.sc"));
+      Optional<ASTSCArtifact> sc = parser.parse("src/test/models/Generated.sc");
     }
     Double ende = Double.valueOf(Long.valueOf(System.currentTimeMillis()).toString());
     System.out.println("Total Time");
@@ -56,6 +58,13 @@ public class SCToolTest {
 
     System.out.println("Time per Round");
     System.out.println(((ende-start)/1000D)/Double.valueOf(new Double(rounds)));
+
+
+    scList = new LinkedList<>();
+
+    System.out.println("Sleep");
+    Thread.sleep(5000);
+    System.out.println("Sleep Ende");
 
     CountAST counter = new CountAST();
     for(Optional<ASTSCArtifact> a : scList) {
