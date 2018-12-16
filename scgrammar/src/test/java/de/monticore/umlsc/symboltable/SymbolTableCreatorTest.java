@@ -6,10 +6,13 @@
 package de.monticore.umlsc.symboltable;
 
 import de.monticore.io.paths.ModelPath;
-import de.monticore.symboltable.GlobalScope;
-import de.monticore.symboltable.ResolvingConfiguration;
-import de.monticore.symboltable.Symbol;
+import de.monticore.symboltable.*;
+import de.monticore.symboltable.mocks.languages.statechart.StateKind;
 import de.monticore.umlsc.statechart._ast.ASTSCArtifact;
+import de.monticore.umlsc.statechart._symboltable.SCStateKind;
+import de.monticore.umlsc.statechart._symboltable.SCStateSymbol;
+import de.monticore.umlsc.statechart._symboltable.StatechartKind;
+import de.monticore.umlsc.statechart.prettyprint.StatechartPrettyPrinter;
 import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParser;
 import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaLanguage;
 import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaSymbolTableCreator;
@@ -22,6 +25,8 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Optional;
+
+import static junit.framework.TestCase.assertTrue;
 
 /**
  * TODO: Write me!
@@ -47,7 +52,7 @@ public class SymbolTableCreatorTest {
 
 		StatechartWithJavaParser parser = language.getParser();
 
-		Optional<ASTSCArtifact> opAst = parser.parse("src/test/resources/de/monticore/umlsc/examples/ScSimpleState.sc");
+		Optional<ASTSCArtifact> opAst = parser.parse("src/test/resources/de/monticore/umlsc/examples/Banking.sc");
 
     System.out.println("Hallo");
     for(Finding l : Log.getFindings()) {
@@ -61,12 +66,25 @@ public class SymbolTableCreatorTest {
 		
 		GlobalScope globalScope = new GlobalScope(modelPath, language, resolverConf);
 		StatechartWithJavaSymbolTableCreator st = new StatechartWithJavaSymbolTableCreator(resolverConf,globalScope);
-		st.createFromAST(ast);
+		Scope symTab = st.createFromAST(ast);
 		//	  StatechartSymbol sc = globalScope.<StatechartSymbol>resolve("Test1",StatechartKind.KIND).orElse(null);
 //	  System.out.println(sc);
 
-		Symbol sym = ast.getStatechart().getSymbol().get();
+		Optional<? extends Symbol> sym = ast.getStatechart().getSCStates().get(0).getSymbol();
+		assertTrue(sym.isPresent());
+		System.out.println(sym.get().getName());
+		//String o =new StatechartPrettyPrinter().prettyPrint(ast);
+		//System.out.println(o);
 
+
+
+		Optional<Symbol> scResolved = symTab.resolve("Banking", StatechartKind.KIND);
+		assertTrue(scResolved.isPresent());
+
+		System.out.println(symTab.getSymbolsSize());
+
+		Optional<SCStateSymbol> stateResolv = symTab.resolve("Offer", SCStateKind.KIND);
+		//assertTrue(stateResolv.isPresent()); //TODO: State loading fails
 
 	}
 	
