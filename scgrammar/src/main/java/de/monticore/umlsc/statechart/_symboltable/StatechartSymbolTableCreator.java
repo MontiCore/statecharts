@@ -31,15 +31,15 @@ public class StatechartSymbolTableCreator extends StatechartSymbolTableCreatorTO
   @Override
   protected MutableScope create_SCArtifact(ASTSCArtifact node) {
     final Optional<MutableScope> enclosingScope = Optional.ofNullable(getFirstCreatedScope());
-    final String packageName = Names.getQualifiedName(node.getPackage());
+    final String packageName = Names.getQualifiedName(node.getPackageList());
     final List<ImportStatement> imports = getImportStatements(node);
     return new ArtifactScope(enclosingScope, packageName, imports);
   }
 
   private List<ImportStatement> getImportStatements(ASTSCArtifact node) {
     List<ImportStatement> imports = new ArrayList<>();
-    if (node.getImportStatements() != null) {
-      for (ASTImportStatement imp : node.getImportStatements()) {
+    if (node.getImportStatementList() != null) {
+      for (ASTImportStatement imp : node.getImportStatementList()) {
         String qualifiedImport = Names.getQualifiedName(imp.getImportList());
         imports.add(new ImportStatement(qualifiedImport, imp.isStar()));
       }
