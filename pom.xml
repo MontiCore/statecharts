@@ -23,11 +23,11 @@
     <monticore.version>5.0.1</monticore.version>
     <mc4.maven.version>5.0.1</mc4.maven.version>
     <monticore.java.version>4.3.13</monticore.java.version>
-    <cd4analysis.version>1.3.13</cd4analysis.version>
+    <cd4analysis.version>1.3.16</cd4analysis.version>
     <guava.version>18.0</guava.version>
     <junit.version>4.11</junit.version>
     <se-commons.version>1.7.8</se-commons.version>
-    <antlr.version>4.5</antlr.version>
+    <antlr.version>4.7.1</antlr.version>
     <se-groovy.maven.version>1.2.3</se-groovy.maven.version>
     <!-- .. Plugins ....................................................... -->
     <mc.java.version>4.3.13</mc.java.version>

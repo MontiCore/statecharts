@@ -20,27 +20,27 @@ public class StatechartPrettyPrinterTest {
         //Also tests ASTSCTransitionBody, ASTInvariant, ASTSCEvent
         ASTSCArtifact sc = parse("TransitionTest.sc");
         assertEquals("Transition without body", "From -> Target",
-                accept(sc.getStatechart().getSCTransitions().get(0)).trim());
+                accept(sc.getStatechart().getSCTransitionList().get(0)).trim());
 
         assertEquals("Transition with precond", "From -> Target [PreCond] /",
-                accept(sc.getStatechart().getSCTransitions().get(1)).trim());
+                accept(sc.getStatechart().getSCTransitionList().get(1)).trim());
 
         assertEquals("Transition with event", "From -> Target Event /",
-                accept(sc.getStatechart().getSCTransitions().get(2)).trim());
+                accept(sc.getStatechart().getSCTransitionList().get(2)).trim());
 
         assertEquals("Transition with precond and event", "From -> Target [PreCond] Event /",
-                accept(sc.getStatechart().getSCTransitions().get(3)).trim());
+                accept(sc.getStatechart().getSCTransitionList().get(3)).trim());
 
         //ToDo: Is the double space wanted?
         assertEquals("Transition with statements", "From -> Target  / {Statements;}",
-                accept(sc.getStatechart().getSCTransitions().get(4)).trim());
+                accept(sc.getStatechart().getSCTransitionList().get(4)).trim());
 
         //ToDo: Is the missing space between statements and PostCond wanted?
         assertEquals("Transition with statements and postcond", "From -> Target  / {Statements;}[PostCond]",
-                accept(sc.getStatechart().getSCTransitions().get(5)).trim());
+                accept(sc.getStatechart().getSCTransitionList().get(5)).trim());
 
         assertEquals("Transition with precond, event, statements and postcond", "From -> Target [PreCond] Event / {Statements;}[PostCond]",
-                accept(sc.getStatechart().getSCTransitions().get(6)).trim());
+                accept(sc.getStatechart().getSCTransitionList().get(6)).trim());
     }
 
     @Test
@@ -49,23 +49,23 @@ public class StatechartPrettyPrinterTest {
 
         //Test for simple state
         assertEquals("state", "state A",
-                accept(sc.getStatechart().getSCStates().get(0)).trim());
+                accept(sc.getStatechart().getSCStateList().get(0)).trim());
 
         //Test for state with modifier(ASTSCModifier)
         assertEquals("state with initial modifier", "initial state SI",
-                accept(sc.getStatechart().getSCStates().get(1)).trim());
+                accept(sc.getStatechart().getSCStateList().get(1)).trim());
 
         assertEquals("state with final modifier", "final state SF",
-                accept(sc.getStatechart().getSCStates().get(2)).trim());
+                accept(sc.getStatechart().getSCStateList().get(2)).trim());
 
         assertEquals("state with local modifier", "local state SL",
-                accept(sc.getStatechart().getSCStates().get(3)).trim());
+                accept(sc.getStatechart().getSCStateList().get(3)).trim());
 
 
-        ASTSCState outerState = sc.getStatechart().getSCStates().get(4);
+        ASTSCState outerState = sc.getStatechart().getSCStateList().get(4);
         //Test for intern transitions - body is tested in TransitionTest
         assertEquals("sub state inner transition", "-> InnerTrans /",
-                accept(outerState.getSCInternTransitions().get(0)).trim());
+                accept(outerState.getSCInternTransitionList().get(0)).trim());
 
         //Test entire substate (with indentation)
         assertEquals("sub state", "state Outer {\n" +

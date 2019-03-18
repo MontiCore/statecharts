@@ -84,7 +84,7 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
   public void handle(ASTSCStereotype node) {
     getPrinter().print(" << ");
     boolean first = true;
-    for (ASTSCStereoValue astStereoValue : node.getValuesList()) {
+    for (ASTSCStereoValue astStereoValue : node.getValueList()) {
       if (first) {
         astStereoValue.accept(getRealThis());
         first = false;
@@ -245,14 +245,14 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
   @Override
   public void handle(ASTSCExpression node) {
     JavaDSLPrettyPrinter pp = new JavaDSLPrettyPrinter(new IndentPrinter());
-    pp.handle(node.getExpression());
+    node.getExpression().accept(pp);
     getPrinter().print(pp.getPrinter().getContent());
   }
 
   @Override
   public void handle(ASTSCInvariantContent node) {
     JavaDSLPrettyPrinter pp = new JavaDSLPrettyPrinter(new IndentPrinter());
-    pp.handle(node.getExpression());
+    node.getExpression().accept(pp);
     getPrinter().print(pp.getPrinter().getContent());
   }
 
