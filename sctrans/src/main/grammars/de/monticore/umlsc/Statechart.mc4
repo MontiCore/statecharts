@@ -200,7 +200,7 @@ component grammar Statechart extends de.monticore.types.Types {
     /** ASTSCStereotype represents SCStereotypes in a Statechart
    	    @attribute values List of Values of this SCStereotype
   	*/
-  	SCStereotype = "<<" values:(SCStereoValue || ",")+ ">>";
+  	SCStereotype = "<<" value:(SCStereoValue || ",")+ ">>";
     
 
     /** ASTSCStereoValue represents a Value of a SCStereotype in a Classdiagram

@@ -122,7 +122,8 @@ public class SCTool {
     glex.setGlobalValue("classname", "Example");
     
     
-    GeneratorSetup setup = new GeneratorSetup(out);
+    GeneratorSetup setup = new GeneratorSetup();
+    setup.setOutputDirectory(out);
     setup.setGlex(glex);
     
     // start generator

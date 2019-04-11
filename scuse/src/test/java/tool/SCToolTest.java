@@ -30,7 +30,7 @@ public class SCToolTest {
   public static void disaBleFailQuick(){
     Log.enableFailQuick(false);
   }
-  
+
   @Test
   public void executeMain() {
     SCTool.main(new String[] { "src/test/models/Banking.sc" });

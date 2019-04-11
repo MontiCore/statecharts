@@ -84,7 +84,7 @@ public class CocoTests {
 		Optional<ASTSCArtifact> scDef = parser.parseSCArtifact(model.toString());
 		StatechartWithJavaLanguage language = new StatechartWithJavaLanguage();
 		ResolvingConfiguration resolvingConfig = new ResolvingConfiguration();
-		resolvingConfig.addTopScopeResolvers(language.getResolvingFilters());
+		resolvingConfig.addDefaultFilters(language.getResolvingFilters());
 		StatechartWithJavaSymbolTableCreator c = new StatechartWithJavaSymbolTableCreator(resolvingConfig, new CommonScope());
 		c.createFromAST(scDef.get());
 		StatechartWithJavaCoCoChecker checker = new StatechartWithJavaCoCoChecker();

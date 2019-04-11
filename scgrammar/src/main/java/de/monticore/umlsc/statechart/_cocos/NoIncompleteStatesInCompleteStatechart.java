@@ -22,7 +22,7 @@ public class NoIncompleteStatesInCompleteStatechart implements StatechartASTStat
 	 */
 	@Override
 	public void check(ASTStatechart node) {
-		if(node.completenessIsPresent() && node.getCompleteness().get().isComplete()) {
+		if(node.isPresentCompleteness() && node.getCompleteness().isComplete()) {
 			StatechartCoCoChecker c = new StatechartCoCoChecker();
 			c.addCoCo(new NoIncompleteStates());
 			c.handle(node);

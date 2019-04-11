@@ -31,14 +31,18 @@ public class ASTSCTransition extends ASTSCTransitionTOP {
 		super();
 	}
 
-	public ASTSCTransition(ASTSCStereotype stereotype, String sourceName, String targetName,
-			ASTSCTransitionBody sCTransitionBody) {
+	public ASTSCTransition(
+			Optional<de.monticore.umlsc.statechart._ast.ASTSCStereotype> stereotype,
+			String sourceName,
+			String targetName,
+			Optional<de.monticore.umlsc.statechart._ast.ASTSCTransitionBody> sCTransitionBody
+	) {
 		super(stereotype, sourceName, targetName, sCTransitionBody);
 	}
 
 	public ASTSCState getTarget() {
-		if (getEnclosingScope().isPresent()) {
-			Scope scope = getEnclosingScope().get();
+		if (isPresentEnclosingScope()) {
+			Scope scope = getEnclosingScope();
 			String name = getTargetName();
 			Optional<Symbol> symbol = scope.resolve(name, SCStateSymbol.KIND);
 			if (symbol.isPresent()) {
@@ -48,8 +52,8 @@ public class ASTSCTransition extends ASTSCTransitionTOP {
 		return null;
 	}
 	public ASTSCState getSource() {
-		if (getEnclosingScope().isPresent()) {
-			Scope scope = getEnclosingScope().get();
+		if (isPresentEnclosingScope()) {
+			Scope scope = getEnclosingScope();
 			String name = getSourceName();
 			Optional<Symbol> symbol = scope.resolve(name, SCStateSymbol.KIND);
 			if (symbol.isPresent()) {

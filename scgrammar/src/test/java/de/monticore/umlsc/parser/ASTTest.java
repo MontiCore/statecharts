@@ -20,8 +20,8 @@ public class ASTTest {
     try {
       Optional<ASTSCArtifact> scDef = parser.parse("src/test/resources/de/monticore/umlsc/examples/TestInnerTransitions.sc");
 
-      assertEquals(2,scDef.get().getStatechart().getSCStates().get(0).getSCTransitions().size());
-      assertEquals(2,scDef.get().getStatechart().getSCStates().get(0).getSCInternTransitions().size());
+      assertEquals(2,scDef.get().getStatechart().getSCStateList().get(0).getSCTransitionList().size());
+      assertEquals(2,scDef.get().getStatechart().getSCStateList().get(0).getSCInternTransitionList().size());
 
     } catch (IOException e) {
       e.printStackTrace();

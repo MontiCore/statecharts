@@ -84,7 +84,7 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
   public void handle(ASTSCStereotype node) {
     getPrinter().print(" << ");
     boolean first = true;
-    for (ASTSCStereoValue astStereoValue : node.getValues()) {
+    for (ASTSCStereoValue astStereoValue : node.getValueList()) {
       if (first) {
         astStereoValue.accept(getRealThis());
         first = false;
@@ -99,15 +99,15 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
   @Override
   public void handle(ASTSCStereoValue node) {
     getPrinter().print(node.getName());
-    if (node.getValue().isPresent()) {
-      getPrinter().print(" = \"" + node.getValue().get() + "\"");
+    if (node.isPresentValue()) {
+      getPrinter().print(" = \"" + node.getValue() + "\"");
     }
   }
 
   @Override
   public void handle(ASTSCInternTransition node) {
-    if (node.stereotypeIsPresent()) {
-      node.getStereotype().get().accept(getRealThis());
+    if (node.isPresentStereotype()) {
+      node.getStereotype().accept(getRealThis());
       getPrinter().print(" ");
     }
     getPrinter().print("-> ");
@@ -116,35 +116,35 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
 
   @Override
   public void handle(ASTSCTransition node) {
-    if (node.stereotypeIsPresent()) {
-      node.getStereotype().get().accept(getRealThis());
+    if (node.isPresentStereotype()) {
+      node.getStereotype().accept(getRealThis());
     }
     getPrinter().print(node.getSourceName());
     getPrinter().print(" -> ");
     getPrinter().print(node.getTargetName());
     getPrinter().print(" ");
-    if (node.sCTransitionBodyIsPresent()) {
-      node.getSCTransitionBody().get().accept(getRealThis());
+    if (node.isPresentSCTransitionBody()) {
+      node.getSCTransitionBody().accept(getRealThis());
     }
     getPrinter().println();
   }
 
   @Override
   public void handle(ASTSCTransitionBody node) {
-    if (node.preConditionIsPresent()) {
-      node.getPreCondition().get().accept(getRealThis());
+    if (node.isPresentPreCondition()) {
+      node.getPreCondition().accept(getRealThis());
     }
-    if (node.sCEventIsPresent()) {
-      if (node.preConditionIsPresent()) {
+    if (node.isPresentSCEvent()) {
+      if (node.isPresentPreCondition()) {
         getPrinter().print(" ");
       }
-      node.getSCEvent().get().accept(getRealThis());
+      node.getSCEvent().accept(getRealThis());
     }
     getPrinter().print(" / ");
-    if (node.sCStatementsIsPresent()) {
-      node.getSCStatements().get().accept(getRealThis());
-      if (node.postConditionIsPresent()) {
-        node.getPostCondition().get().accept(getRealThis());
+    if (node.isPresentSCStatements()) {
+      node.getSCStatements().accept(getRealThis());
+      if (node.isPresentPostCondition()) {
+        node.getPostCondition().accept(getRealThis());
       }
     }
   }
@@ -159,17 +159,17 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
   @Override
   public void handle(ASTSCMethodCall node) {
     getPrinter().print(node.getName());
-    if (node.sCArgumentsIsPresent()) {
-      node.getSCArguments().get().accept(getRealThis());
+    if (node.isPresentSCArguments()) {
+      node.getSCArguments().accept(getRealThis());
     }
   }
 
   @Override
   public void handle(ASTSCReturnStatement node) {
     getPrinter().print("return");
-    if (node.getSCExpression().isPresent()) {
+    if (node.isPresentSCExpression()) {
       getPrinter().print("( ");
-      node.getSCExpression().get().accept(getRealThis());
+      node.getSCExpression().accept(getRealThis());
       getPrinter().print(" )");
     }
   }
@@ -178,7 +178,7 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
   public void handle(ASTSCArguments node) {
     getPrinter().print("(");
     boolean first = true;
-    for (ASTSCExpressionExt exp : node.getSCExpressions()) {
+    for (ASTSCExpressionExt exp : node.getSCExpressionList()) {
       if (first) {
         exp.accept(getRealThis());
         first = false;
@@ -192,16 +192,16 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
 
   @Override
   public void handle(ASTSCAction node) {
-    if (node.preConditionIsPresent()) {
-      node.getPreCondition().get().accept(getRealThis());
+    if (node.isPresentPreCondition()) {
+      node.getPreCondition().accept(getRealThis());
     }
-    if (node.slashIsPresent()) {
+    if (node.isPresentSlash()) {
       getPrinter().print(" / ");
-      if (node.sCStatementsIsPresent()) {
-        node.getSCStatements().get().accept(getRealThis());
+      if (node.isPresentSCStatements()) {
+        node.getSCStatements().accept(getRealThis());
       }
-      if (node.postConditionIsPresent()) {
-        node.getPostCondition().get().accept(getRealThis());
+      if (node.isPresentPostCondition()) {
+        node.getPostCondition().accept(getRealThis());
       }
     }
   }
@@ -245,14 +245,14 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
   @Override
   public void handle(ASTSCExpression node) {
     JavaDSLPrettyPrinter pp = new JavaDSLPrettyPrinter(new IndentPrinter());
-    pp.handle(node.getExpression());
+    node.getExpression().accept(pp);
     getPrinter().print(pp.getPrinter().getContent());
   }
 
   @Override
   public void handle(ASTSCInvariantContent node) {
     JavaDSLPrettyPrinter pp = new JavaDSLPrettyPrinter(new IndentPrinter());
-    pp.handle(node.getExpression());
+    node.getExpression().accept(pp);
     getPrinter().print(pp.getPrinter().getContent());
   }
 
@@ -268,39 +268,39 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
 
   @Override
   public void handle(ASTSCState node) {
-    if (node.completenessIsPresent()) {
-      node.getCompleteness().get().accept(getRealThis());
+    if (node.isPresentCompleteness()) {
+      node.getCompleteness().accept(getRealThis());
     }
     node.getSCModifier().accept(getRealThis());
     getPrinter().print("state " + node.getName());
-    if (node.bracketIsPresent()) {
+    if (node.isPresentBracket()) {
       getPrinter().println(" {");
       getPrinter().indent();
-      if (node.invariantIsPresent()) {
-        node.getInvariant().get().accept(getRealThis());
+      if (node.isPresentInvariant()) {
+        node.getInvariant().accept(getRealThis());
       }
-      if (node.entryActionIsPresent()) {
+      if (node.isPresentEntryAction()) {
         getPrinter().print("entry ");
-        node.getEntryAction().get().accept(getRealThis());
+        node.getEntryAction().accept(getRealThis());
       }
-      if (node.doActionIsPresent()) {
+      if (node.isPresentDoAction()) {
         getPrinter().print("do ");
-        node.getDoAction().get().accept(getRealThis());
+        node.getDoAction().accept(getRealThis());
       }
-      if (node.exitActionIsPresent()) {
+      if (node.isPresentExitAction()) {
         getPrinter().print("exit");
-        node.getExitAction().get().accept(getRealThis());
+        node.getExitAction().accept(getRealThis());
       }
-      for (ASTSCState astscState : node.getSCStates()) {
+      for (ASTSCState astscState : node.getSCStateList()) {
         astscState.accept(getRealThis());
       }
-      for(ASTSCTransition astscTransition : node.getSCTransitions()){
+      for(ASTSCTransition astscTransition : node.getSCTransitionList()){
         astscTransition.accept(getRealThis());
       }
-      for (ASTSCCode astscCode : node.getSCCodes()) {
+      for (ASTSCCode astscCode : node.getSCCodeList()) {
         astscCode.accept(getRealThis());
       }
-      for (ASTSCInternTransition astscInternTransition : node.getSCInternTransitions()) {
+      for (ASTSCInternTransition astscInternTransition : node.getSCInternTransitionList()) {
         astscInternTransition.accept(getRealThis());
       }
       getPrinter().println();
@@ -318,8 +318,8 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
 
   @Override
   public void handle(ASTSCModifier node) {
-    if (node.stereotypeIsPresent()) {
-      node.getStereotype().get().accept(getRealThis());
+    if (node.isPresentStereotype()) {
+      node.getStereotype().accept(getRealThis());
     }
     if (node.isInitial()) {
       getPrinter().print("initial ");
@@ -334,34 +334,34 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
 
   @Override
   public void handle(ASTStatechart node) {
-    if(node.completenessIsPresent()){
-      node.getCompleteness().get().accept(getRealThis());
+    if(node.isPresentCompleteness()){
+      node.getCompleteness().accept(getRealThis());
     }
-    if(node.stereotypeIsPresent()){
-      node.getStereotype().get().accept(getRealThis());
+    if(node.isPresentStereotype()){
+      node.getStereotype().accept(getRealThis());
     }
     getPrinter().print("statechart ");
-    if (node.getName().isPresent()) {
-      getPrinter().print(node.getName().get()+ " ");
+    if (node.isPresentName()) {
+      getPrinter().print(node.getName()+ " ");
     }
-    if(node.classNameIsPresent()){
+    if(node.isPresentClassName()){
       getPrinter().print("for ");
       TypesPrettyPrinterConcreteVisitor pp = new TypesPrettyPrinterConcreteVisitor(new IndentPrinter());
-      getPrinter().print(pp.prettyprint(node.getClassName().get()));
+      getPrinter().print(pp.prettyprint(node.getClassName()));
     }
-    if(node.superSCIsPresent()){
+    if(node.isPresentSuperSC()){
       getPrinter().print("refines ");
       TypesPrettyPrinterConcreteVisitor pp = new TypesPrettyPrinterConcreteVisitor(new IndentPrinter());
-      getPrinter().print(pp.prettyprint(node.getSuperSC().get()));
+      getPrinter().print(pp.prettyprint(node.getSuperSC()));
     }
     getPrinter().print("{");
     getPrinter().println();
     getPrinter().indent();
 
-    for (ASTSCState s : node.getSCStates()) {
+    for (ASTSCState s : node.getSCStateList()) {
       s.accept(getRealThis());
     }
-    for (ASTSCTransition t : node.getSCTransitions()) {
+    for (ASTSCTransition t : node.getSCTransitionList()) {
       t.accept(getRealThis());
     }
     getPrinter().unindent();
@@ -370,10 +370,10 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
 
   @Override
   public void handle(ASTSCArtifact node) {
-    if (!node.getPackage().isEmpty()) {
+    if (!node.getPackageList().isEmpty()) {
       getPrinter().print("package ");
       boolean first = true;
-      for (String s : node.getPackage()) {
+      for (String s : node.getPackageList()) {
         if (first) {
           getPrinter().print(s);
           first = false;
@@ -383,8 +383,8 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
       }
       getPrinter().println(";");
     }
-    if (!node.getImportStatements().isEmpty()) {
-      for (ASTImportStatement importStatement : node.getImportStatements()) {
+    if (!node.getImportStatementList().isEmpty()) {
+      for (ASTImportStatement importStatement : node.getImportStatementList()) {
         getPrinter().print("import ");
         boolean first = true;
         for(String name: importStatement.getImportList()){

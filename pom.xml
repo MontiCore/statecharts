@@ -6,7 +6,7 @@
   <groupId>de.monticore.lang</groupId>
   <artifactId>statechart</artifactId>
   <packaging>pom</packaging>
-  <version>1.1.3-SNAPSHOT</version>
+  <version>1.1.4-SNAPSHOT</version>
   <modules>
     <module>scgrammar</module>
     <module>sctrans</module>
@@ -18,19 +18,19 @@
   <properties>
 
     <!-- .. Libraries ..................................................... -->
-    <tflanguage.version>0.3.2-SNAPSHOT</tflanguage.version>
-    <tfengine.version>4.5.3.2-SNAPSHOT</tfengine.version>
-    <monticore.version>4.5.3.2</monticore.version>
-    <mc4.maven.version>4.5.3.2</mc4.maven.version>
-    <monticore.java.version>4.3.9</monticore.java.version>
-    <cd4analysis.version>1.3.10</cd4analysis.version>
+    <tflanguage.version>0.3.3-SNAPSHOT</tflanguage.version>
+    <tfengine.version>5.0.1-SNAPSHOT</tfengine.version>
+    <monticore.version>5.0.1.1</monticore.version>
+    <mc4.maven.version>5.0.1</mc4.maven.version>
+    <monticore.java.version>4.3.13</monticore.java.version>
+    <cd4analysis.version>1.3.16</cd4analysis.version>
     <guava.version>18.0</guava.version>
     <junit.version>4.11</junit.version>
-    <se-commons.version>1.7.7</se-commons.version>
-    <antlr.version>4.5</antlr.version>
+    <se-commons.version>1.7.8</se-commons.version>
+    <antlr.version>4.7.1</antlr.version>
     <se-groovy.maven.version>1.2.3</se-groovy.maven.version>
     <!-- .. Plugins ....................................................... -->
-    <mc.java.version>4.3.9</mc.java.version>
+    <mc.java.version>4.3.13</mc.java.version>
     <se-groovy.maven.version>1.2.3</se-groovy.maven.version>
     <compiler.plugin>3.7.0</compiler.plugin>
     <release.plugin>2.5.1</release.plugin>

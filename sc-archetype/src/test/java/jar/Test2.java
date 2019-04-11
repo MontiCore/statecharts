@@ -46,13 +46,13 @@ public class Test2 {
   
     AddState tf = new AddState(ast.get());
   
-    System.out.println("#States: " + ast.get().getStatechart().getSCStates().size());
+    System.out.println("#States: " + ast.get().getStatechart().getSCStateList().size());
     
     assertTrue(tf.doPatternMatching());
     
     tf.doReplacement();
   
-    System.out.println("#States: " + ast.get().getStatechart().getSCStates().size());
+    System.out.println("#States: " + ast.get().getStatechart().getSCStateList().size());
     System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
     
   }
@@ -64,7 +64,7 @@ public class Test2 {
     
     assertTrue(ast.isPresent());
     
-    System.out.println("#Transitions: " + ast.get().getStatechart().getSCTransitions().size());
+    System.out.println("#Transitions: " + ast.get().getStatechart().getSCTransitionList().size());
     
     RemoveTransition rename = new RemoveTransition(ast.get());
   
@@ -72,7 +72,7 @@ public class Test2 {
   
     rename.doReplacement();
   
-    System.out.println("#Transitions: " + ast.get().getStatechart().getSCTransitions().size());
+    System.out.println("#Transitions: " + ast.get().getStatechart().getSCTransitionList().size());
     System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
   }
   
@@ -141,7 +141,7 @@ public class Test2 {
 
     AddErrorState tf = new AddErrorState(ast.get());
 
-    System.out.println("#States: " + ast.get().getStatechart().getSCStates().size());
+    System.out.println("#States: " + ast.get().getStatechart().getSCStateList().size());
 
     assertTrue(tf.doPatternMatching());
 
@@ -153,7 +153,7 @@ public class Test2 {
       tf_trans = new AddTransition(ast.get());
     }
 
-    System.out.println("#States: " + ast.get().getStatechart().getSCStates().size());
+    System.out.println("#States: " + ast.get().getStatechart().getSCStateList().size());
     System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
 
   }

@@ -37,7 +37,7 @@ public class StatechartSymbolTableCreatorTest {
 		final StatechartWithJavaLanguage statechartLanguage = new StatechartWithJavaLanguage();
 		
 		final ResolvingConfiguration resolverConfiguration = new ResolvingConfiguration();
-		resolverConfiguration.addTopScopeResolvers(statechartLanguage.getResolvers());
+		resolverConfiguration.addDefaultFilters(statechartLanguage.getResolvingFilters());
 		
 		final ModelPath modelPath = new ModelPath(Paths.get("src/test/resources"));
 		

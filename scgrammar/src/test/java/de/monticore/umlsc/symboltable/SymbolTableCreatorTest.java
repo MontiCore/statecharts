@@ -47,7 +47,7 @@ public class SymbolTableCreatorTest {
 	public void testFromFile() throws IOException {
 		StatechartWithJavaLanguage language = new StatechartWithJavaLanguage();
 		ResolvingConfiguration resolverConf = new ResolvingConfiguration();
-		resolverConf.addDefaultFilters(language.getResolvers());
+		resolverConf.addDefaultFilters(language.getResolvingFilters());
 		ModelPath modelPath = new ModelPath(Paths.get("src/test/resources/"));
 
 		StatechartWithJavaParser parser = language.getParser();
@@ -70,7 +70,7 @@ public class SymbolTableCreatorTest {
 		//	  StatechartSymbol sc = globalScope.<StatechartSymbol>resolve("Test1",StatechartKind.KIND).orElse(null);
 //	  System.out.println(sc);
 
-		Optional<? extends Symbol> sym = ast.getStatechart().getSCStates().get(0).getSymbol();
+		Optional<? extends Symbol> sym = ast.getStatechart().getSCStateList().get(0).getSymbolOpt();
 		assertTrue(sym.isPresent());
 		System.out.println(sym.get().getName());
 		//String o =new StatechartPrettyPrinter().prettyPrint(ast);

@@ -33,8 +33,8 @@ public class TransformationTest {
 
     rename.doReplacement();
 
-    assertTrue(ast.get().getStatechart().getName().isPresent());
-    assertEquals("Auftrag2", ast.get().getStatechart().getName().get());
+    assertTrue(ast.get().getStatechart().isPresentName());
+    assertEquals("Auftrag2", ast.get().getStatechart().getName());
     System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
   }
 
@@ -67,13 +67,13 @@ public class TransformationTest {
 
     AddState tf = new AddState(ast.get());
 
-    System.out.println("#States: " + ast.get().getStatechart().getSCStates().size());
+    System.out.println("#States: " + ast.get().getStatechart().getSCStateList().size());
 
     assertTrue(tf.doPatternMatching());
 
     tf.doReplacement();
 
-    System.out.println("#States: " + ast.get().getStatechart().getSCStates().size());
+    System.out.println("#States: " + ast.get().getStatechart().getSCStateList().size());
     System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
 
   }
@@ -85,8 +85,8 @@ public class TransformationTest {
 
     assertTrue(ast.isPresent());
 
-    assertEquals(7, ast.get().getStatechart().getSCTransitions().size());
-    System.out.println("#Transitions: " + ast.get().getStatechart().getSCTransitions().size());
+    assertEquals(7, ast.get().getStatechart().getSCTransitionList().size());
+    System.out.println("#Transitions: " + ast.get().getStatechart().getSCTransitionList().size());
 
     RemoveTransition rename = new RemoveTransition(ast.get());
 
@@ -94,8 +94,8 @@ public class TransformationTest {
 
     rename.doReplacement();
 
-    assertEquals(6, ast.get().getStatechart().getSCTransitions().size());
-    System.out.println("#Transitions: " + ast.get().getStatechart().getSCTransitions().size());
+    assertEquals(6, ast.get().getStatechart().getSCTransitionList().size());
+    System.out.println("#Transitions: " + ast.get().getStatechart().getSCTransitionList().size());
     System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
   }
 
@@ -164,8 +164,8 @@ public class TransformationTest {
 
     AddErrorState tf = new AddErrorState(ast.get());
 
-    assertEquals(6, ast.get().getStatechart().getSCStates().size());
-    System.out.println("#States: " + ast.get().getStatechart().getSCStates().size());
+    assertEquals(6, ast.get().getStatechart().getSCStateList().size());
+    System.out.println("#States: " + ast.get().getStatechart().getSCStateList().size());
 
     assertTrue(tf.doPatternMatching());
 
@@ -177,8 +177,8 @@ public class TransformationTest {
       tf_trans = new AddTransition(ast.get());
     }
 
-    assertEquals(7, ast.get().getStatechart().getSCStates().size());
-    System.out.println("#States: " + ast.get().getStatechart().getSCStates().size());
+    assertEquals(7, ast.get().getStatechart().getSCStateList().size());
+    System.out.println("#States: " + ast.get().getStatechart().getSCStateList().size());
     System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
 
   }
@@ -193,13 +193,13 @@ public class TransformationTest {
 
     DoAction tf = new DoAction(ast.get());
 
-//    assertTrue(ast.get().getStatechart().getSCStates().get(0).doActionIsPresent());
+//    assertTrue(ast.get().getStatechart().getSCStateList().get(0).doActionIsPresent());
 
     assertTrue(tf.doPatternMatching());
 
     tf.doReplacement();
 
-    assertEquals(1, ast.get().getStatechart().getSCTransitions().size());
+    assertEquals(1, ast.get().getStatechart().getSCTransitionList().size());
 
     System.out.println(new StatechartPrettyPrinter().prettyPrint(ast.get()));
 

@@ -38,7 +38,7 @@ public class PrettyPrintTest {
         String printedResult = prettyPrinter.prettyPrint(scDef.get());
 
         // parse the pretty print statechart again
-        Optional<ASTSCArtifact> printedScDef = parser.parseString_SCArtifact(printedResult);
+        Optional<ASTSCArtifact> printedScDef = parser.parse_StringSCArtifact(printedResult);
         assertFalse(parser.hasErrors());
         assertTrue(printedScDef.isPresent());
 
