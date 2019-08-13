@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 statechart Stereotype {
   <<moved>> state A {}
   <<moved, ignored>> state B

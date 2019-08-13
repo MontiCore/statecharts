@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package jar;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.umlcd4a.prettyprint.CDPrettyPrinterConcreteVisitor;

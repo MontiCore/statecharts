@@ -1,8 +1,4 @@
-/*
-SCArtifact * Copyright (c) 2017, MontiCore. All rights reserved.
- *
- * http://www.se-rwth.de/
- */
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.umlsc.parser;
 
 import de.monticore.umlsc.statechart._ast.ASTSCArtifact;
