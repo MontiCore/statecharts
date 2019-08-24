@@ -1,4 +1,4 @@
-# (c) https://github.com/MontiCore/monticore
+# (c) https://github.com/MontiCore/monticore  
 # These are the default stages. You don't need to explicitly define them. But you could define any stages you need.
 stages:
   - build
