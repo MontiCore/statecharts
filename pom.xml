@@ -13,14 +13,14 @@
     <module>sctrans</module>
     <module>scuse</module>
     <module>sc-archetype</module>
-    <module>sctrans-editor</module>
+<!--    <module>sctrans-editor</module>TODO: Readd this once updated to 5.2.0-->
   </modules>
 
   <properties>
 
     <!-- .. Libraries ..................................................... -->
     <tflanguage.version>0.3.3-SNAPSHOT</tflanguage.version>
-    <tfengine.version>5.0.1-SNAPSHOT</tfengine.version>
+    <tfengine.version>5.2.0-SNAPSHOT</tfengine.version>
     <monticore.version>5.0.1.1</monticore.version>
     <mc4.maven.version>5.0.1</mc4.maven.version>
     <monticore.java.version>4.3.13</monticore.java.version>
