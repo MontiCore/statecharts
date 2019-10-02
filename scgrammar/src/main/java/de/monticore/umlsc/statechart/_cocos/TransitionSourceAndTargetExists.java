@@ -19,7 +19,7 @@ public class TransitionSourceAndTargetExists implements StatechartASTSCTransitio
 	 */
 	@Override
 	public void check(ASTSCTransition node) {
-		if(node.getTarget().equals(null) || node.getSource().equals(null)){
+		if(node.getTarget() == null || node.getSource() == null){
 			Log.error("Source or Target not a State");
 		}
 	}
