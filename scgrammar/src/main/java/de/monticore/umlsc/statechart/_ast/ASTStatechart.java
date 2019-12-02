@@ -5,7 +5,7 @@ package de.monticore.umlsc.statechart._ast;
 import java.util.List;
 import java.util.Optional;
 
-import de.monticore.types.types._ast.ASTReferenceType;
+import de.monticore.types.mcbasictypes._ast.ASTMCObjectType;
 
 public class ASTStatechart extends ASTStatechartTOP {
 
@@ -17,12 +17,12 @@ public class ASTStatechart extends ASTStatechartTOP {
 			Optional<ASTCompleteness> completeness,
 			Optional<de.monticore.umlsc.statechart._ast.ASTSCStereotype> stereotype,
 			Optional<String> name,
-			Optional<de.monticore.types.types._ast.ASTReferenceType> className,
-			Optional<de.monticore.types.types._ast.ASTReferenceType> superSC,
+			Optional<de.monticore.types.mcbasictypes._ast.ASTMCObjectType> className,
+			Optional<de.monticore.types.mcbasictypes._ast.ASTMCObjectType> superSC,
 			java.util.List<de.monticore.umlsc.statechart._ast.ASTSCState> sCStates,
 			java.util.List<de.monticore.umlsc.statechart._ast.ASTSCTransition> sCTransitions
 	) {
-		super(completeness, stereotype, name, className, superSC, sCStates, sCTransitions);
+		super();
 	}
 
 	public ASTSCState getInitialState() {

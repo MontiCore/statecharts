@@ -7,8 +7,11 @@ import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.symboltable.*;
-import de.monticore.umlcd4a.cd4analysis._ast.ASTCDDefinition;
-import de.monticore.umlcd4a.prettyprint.CDPrettyPrinterConcreteVisitor;
+//import de.monticore.umlcd4a.cd4analysis._ast.ASTCDDefinition;
+//import de.monticore.umlcd4a.prettyprint.CDPrettyPrinterConcreteVisitor;
+import de.monticore.cd.cd4analysis._ast.ASTCDDefinition;
+import de.monticore.cd.prettyprint.CDPrettyPrinterDelegator;
+//ToDo
 import de.monticore.umlsc.statechart._ast.ASTSCArtifact;
 import de.monticore.umlsc.statechart._cocos.AtLeastOneInitialStateInFinalStatechartChecker;
 import de.monticore.umlsc.statechart._cocos.StatechartCoCoChecker;
@@ -21,8 +24,8 @@ import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParser;
 import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaLanguage;
 import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaSymbolTableCreator;
 import de.se_rwth.commons.logging.Log;
-import mc.tf.AddState;
-import mc.tf.State2CD;
+//import mc.tf.AddState;
+//import mc.tf.State2CD;
 import org.antlr.v4.runtime.RecognitionException;
 
 import java.io.File;
@@ -59,9 +62,9 @@ public class SCTool {
     Log.info(model + " parsed successfully!", SCTool.class.getName());
     
     // setup the symbol table
-    Scope modelTopScope = createSymbolTable(lang, ast);
+    IScope modelTopScope = createSymbolTable(lang, ast);
     // can be used for resolving things in the model
-    Optional<Symbol> aSymbol = modelTopScope.resolve("Ping", SCStateSymbol.KIND);
+    Optional<ISymbol> aSymbol = modelTopScope.resolve("Ping", SCStateSymbol.KIND);
     if (aSymbol.isPresent()) {
       Log.info("Resolved state symbol \"Ping\"; FQN = " + aSymbol.get().toString(),
           SCTool.class.getName());

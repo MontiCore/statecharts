@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import de.monticore.symboltable.Symbol;
+import de.monticore.symboltable.ISymbol;
 
 public class ASTSCState extends ASTSCStateTOP {
 
@@ -29,14 +29,12 @@ public class ASTSCState extends ASTSCStateTOP {
 			java.util.List<de.monticore.umlsc.statechart._ast.ASTSCInternTransition> sCInternTransitions,
 			Optional<String> bracket
 	)  {
-		super(completeness, sCModifier, name, invariant, entryAction, doAction, exitAction, sCStates, sCTransitions,
-				sCCodes, sCInternTransitions, bracket );
+		super();
 	}
 
 	public Set<ASTSCTransition> getOutgoingTransitions() {
 		Set<ASTSCTransition> result = new HashSet<ASTSCTransition>();
-		if (isPresentEnclosingScope()) {
-			Symbol spanning = getEnclosingScope().getSpanningSymbol().get();
+			ISymbol spanning = getEnclosingScope().getSpanningSymbol().get();
 			if (spanning.getAstNode().get() instanceof ASTStatechart) {
 				ASTStatechart sc = (ASTStatechart) spanning.getAstNode().get();
 				for (ASTSCTransition t : sc.getSCTransitionList()) {
@@ -49,7 +47,6 @@ public class ASTSCState extends ASTSCStateTOP {
 				// TODO in case internal / hierarchical transitions need to be
 				// resolved
 			}
-		}
 		return result;
 	}
 

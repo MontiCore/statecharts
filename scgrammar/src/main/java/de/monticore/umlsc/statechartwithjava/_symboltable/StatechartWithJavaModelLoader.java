@@ -7,31 +7,32 @@
 
 package de.monticore.umlsc.statechartwithjava._symboltable;
 
-import de.monticore.symboltable.ArtifactScope;
-import de.monticore.symboltable.MutableScope;
-import de.monticore.symboltable.ResolvingConfiguration;
-import de.monticore.symboltable.Scope;
+import de.monticore.symboltable.IScope;
+//import de.monticore.symboltable.IScope;
+//import de.monticore.symboltable.ResolvingConfiguration;
+//import de.monticore.symboltable.IScope;
+import de.monticore.umlsc.statechart._symboltable.IStatechartScope;
 import de.monticore.umlsc.statechart._symboltable.StatechartSymbolTableCreator;
 import de.se_rwth.commons.logging.Log;
 
-public class StatechartWithJavaModelLoader extends de.monticore.modelloader.ModelingLanguageModelLoader<de.monticore.umlsc.statechart._ast.ASTSCArtifact> {
+public class StatechartWithJavaModelLoader { //extends  de.monticore.modelloader.ModelingLanguageModelLoader<de.monticore.umlsc.statechart._ast.ASTSCArtifact> {
 
   public StatechartWithJavaModelLoader(StatechartWithJavaLanguage language) {
-    super(language);
+    super();
   }
 
-  @Override
+  //@Override
   protected void createSymbolTableFromAST(final de.monticore.umlsc.statechart._ast.ASTSCArtifact ast, final String modelName,
-    final MutableScope enclosingScope, final ResolvingConfiguration resolvingConfiguration) {
+    final IStatechartScope enclosingScope) {
     final StatechartSymbolTableCreator symbolTableCreator =
-            (StatechartSymbolTableCreator) getModelingLanguage().getSymbolTableCreator(resolvingConfiguration, enclosingScope).orElse(null);
+            (StatechartSymbolTableCreator) getModelingLanguage().getSymbolTableCreator(enclosingScope).orElse(null);
 
     if (symbolTableCreator != null) {
       Log.debug("Start creation of symbol table for model \"" + modelName + "\".",
           StatechartWithJavaModelLoader.class.getSimpleName());
-      final Scope scope = symbolTableCreator.createFromAST(ast);
+      final IScope scope = symbolTableCreator.createFromAST(ast);
 
-      if (!(scope instanceof ArtifactScope)) {
+      if (!(scope instanceof IScope)) {
         Log.warn("0xA7001_681 Top scope of model " + modelName + " is expected to be an artifact scope, but"
           + " is scope \"" + scope.getName() + "\"");
       }
@@ -44,8 +45,10 @@ public class StatechartWithJavaModelLoader extends de.monticore.modelloader.Mode
     }
   }
 
-  @Override
+  //@Override
   public StatechartWithJavaLanguage getModelingLanguage() {
-    return (StatechartWithJavaLanguage) super.getModelingLanguage();
+    //StatechartWithJavaLanguage l = new StatechartWithJavaLanguage();
+    //return (StatechartWithJavaLanguage) super.getModelingLanguage();
+    return new StatechartWithJavaLanguage();
   }
 }

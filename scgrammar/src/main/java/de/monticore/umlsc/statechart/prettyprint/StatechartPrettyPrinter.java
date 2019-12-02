@@ -2,14 +2,21 @@
 
 package de.monticore.umlsc.statechart.prettyprint;
 
+import de.monticore.cd.cd4analysis._ast.ASTCD4AnalysisNode;
 import de.monticore.java.javadsl._ast.ASTJavaBlock;
 import de.monticore.java.javadsl._ast.ASTJavaDSLNode;
 import de.monticore.java.prettyprint.JavaDSLPrettyPrinter;
+import de.monticore.javalight._ast.ASTJavaLightNode;
+import de.monticore.prettyprint.JavaLightPrettyPrinter;
+
 import de.monticore.prettyprint.IndentPrinter;
-import de.monticore.types.prettyprint.TypesPrettyPrinterConcreteVisitor;
-import de.monticore.types.types._ast.ASTImportStatement;
-import de.monticore.types.types._ast.ASTReferenceType;
-import de.monticore.types.types._ast.ASTTypesNode;
+import de.monticore.cd.prettyprint.CDPrettyPrinter;
+import de.monticore.statements.mccommonstatements._ast.ASTBlockStatement;
+import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
+//import de.monticore.types.mcbasictypes._ast.ASTReferenceType;
+//import de.monticore.types.mcbasictypes._ast.ASTMCTypesNode;
+import de.monticore.types.mcbasictypes._ast.ASTMCBasicTypesNode;
+import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.monticore.umlsc.statechart._ast.*;
 import de.monticore.umlsc.statechartwithjava._ast.ASTSCExpression;
 import de.monticore.umlsc.statechartwithjava._ast.ASTSCInvariantContent;
@@ -48,8 +55,8 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
     return result;
   }
 
-  public String prettyPrint(ASTTypesNode node) {
-    TypesPrettyPrinterConcreteVisitor v = new TypesPrettyPrinterConcreteVisitor(new IndentPrinter());
+  public String prettyPrint(ASTCD4AnalysisNode node) {
+    CDPrettyPrinter v = new CDPrettyPrinter(new IndentPrinter());
     return v.prettyprint(node);
   }
 
@@ -58,9 +65,9 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
     return pp.prettyprint(node);
   }
 
-  @Override
-  public void handle(ASTReferenceType ref) {
-
+  public String prettyprint(ASTJavaLightNode node) {
+    JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
+    return pp.prettyprint(node);
   }
 
   @Override
@@ -212,13 +219,13 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
 
   @Override
   public void handle(ASTSCStatements node) {
-    JavaDSLPrettyPrinter pp = new JavaDSLPrettyPrinter(new IndentPrinter());
-    if (node.getBlockStatement() instanceof ASTJavaBlock) {
-      ASTJavaBlock b = (ASTJavaBlock) node.getBlockStatement();
-      pp.handle(b);
-    } else {
+    JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
+    //if (node.getBlockStatement() instanceof ASTJavaBlock) {
+      //ASTBlockStatement b =  node.getBlockStatement();
+      //pp.handle(b);
+    //} else {
       pp.handle(node.getBlockStatement());
-    }
+    //}
     String block = pp.getPrinter().getContent();
     block = block.replaceAll("\\n", "");
     block = block.replaceAll(" ", "");
@@ -227,14 +234,14 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
 
   @Override
   public void handle(ASTSCExpression node) {
-    JavaDSLPrettyPrinter pp = new JavaDSLPrettyPrinter(new IndentPrinter());
+    JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
     node.getExpression().accept(pp);
     getPrinter().print(pp.getPrinter().getContent());
   }
 
   @Override
   public void handle(ASTSCInvariantContent node) {
-    JavaDSLPrettyPrinter pp = new JavaDSLPrettyPrinter(new IndentPrinter());
+    JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
     node.getExpression().accept(pp);
     getPrinter().print(pp.getPrinter().getContent());
   }
@@ -329,12 +336,12 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
     }
     if(node.isPresentClassName()){
       getPrinter().print("for ");
-      TypesPrettyPrinterConcreteVisitor pp = new TypesPrettyPrinterConcreteVisitor(new IndentPrinter());
+      MCBasicTypesPrettyPrinter pp = new MCBasicTypesPrettyPrinter(new IndentPrinter());
       getPrinter().print(pp.prettyprint(node.getClassName()));
     }
     if(node.isPresentSuperSC()){
       getPrinter().print("refines ");
-      TypesPrettyPrinterConcreteVisitor pp = new TypesPrettyPrinterConcreteVisitor(new IndentPrinter());
+      MCBasicTypesPrettyPrinter pp = new MCBasicTypesPrettyPrinter(new IndentPrinter());
       getPrinter().print(pp.prettyprint(node.getSuperSC()));
     }
     getPrinter().print("{");
@@ -366,18 +373,10 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
       }
       getPrinter().println(";");
     }
-    if (!node.getImportStatementList().isEmpty()) {
-      for (ASTImportStatement importStatement : node.getImportStatementList()) {
+    if (!node.getMCImportStatementList().isEmpty()) {
+      for (ASTMCImportStatement importStatement : node.getMCImportStatementList()) {
         getPrinter().print("import ");
-        boolean first = true;
-        for(String name: importStatement.getImportList()){
-          if(first){
-            getPrinter().print(name);
-            first =false;
-          }else{
-            getPrinter().print("."+name);
-          }
-        }
+        getPrinter().print(importStatement.getQName());
         if(importStatement.isStar()){
           getPrinter().print(".*");
         }

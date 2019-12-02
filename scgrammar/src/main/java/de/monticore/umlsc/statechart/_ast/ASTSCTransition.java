@@ -4,8 +4,9 @@ package de.monticore.umlsc.statechart._ast;
 
 import java.util.Optional;
 
-import de.monticore.symboltable.Scope;
-import de.monticore.symboltable.Symbol;
+import de.monticore.symboltable.IScope;
+import de.monticore.symboltable.ISymbol;
+import de.monticore.umlsc.statechart._symboltable.IStatechartScope;
 import de.monticore.umlsc.statechart._symboltable.SCStateSymbol;
 
 public class ASTSCTransition extends ASTSCTransitionTOP {
@@ -20,29 +21,25 @@ public class ASTSCTransition extends ASTSCTransitionTOP {
 			String targetName,
 			Optional<de.monticore.umlsc.statechart._ast.ASTSCTransitionBody> sCTransitionBody
 	) {
-		super(stereotype, sourceName, targetName, sCTransitionBody);
+		super();
 	}
 
 	public ASTSCState getTarget() {
-		if (isPresentEnclosingScope()) {
-			Scope scope = getEnclosingScope();
+			IStatechartScope scope = getEnclosingScope();
 			String name = getTargetName();
-			Optional<Symbol> symbol = scope.resolve(name, SCStateSymbol.KIND);
+			Optional<SCStateSymbol> symbol = scope.resolveSCState(name);
 			if (symbol.isPresent()) {
-				return (ASTSCState) symbol.get().getAstNode().get();
+				return symbol.get().getAstNode().get();
 			}
-		}
 		return null;
 	}
 	public ASTSCState getSource() {
-		if (isPresentEnclosingScope()) {
-			Scope scope = getEnclosingScope();
+			IStatechartScope scope = getEnclosingScope();
 			String name = getSourceName();
-			Optional<Symbol> symbol = scope.resolve(name, SCStateSymbol.KIND);
+			Optional<SCStateSymbol> symbol = scope.resolveSCState(name);
 			if (symbol.isPresent()) {
-				return (ASTSCState) symbol.get().getAstNode().get();
+				return symbol.get().getAstNode().get();
 			}
-		}
 		return null;
 	}
 

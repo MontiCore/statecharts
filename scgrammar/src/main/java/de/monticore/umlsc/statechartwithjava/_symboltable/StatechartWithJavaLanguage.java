@@ -4,13 +4,10 @@ package de.monticore.umlsc.statechartwithjava._symboltable;
 import java.util.Optional;
 
 import de.monticore.ast.ASTNode;
-import de.monticore.modelloader.ModelingLanguageModelLoader;
-import de.monticore.symboltable.MutableScope;
-import de.monticore.symboltable.ResolvingConfiguration;
-import de.monticore.symboltable.SymbolTableCreator;
-import de.monticore.umlsc.statechart._symboltable.SCStateResolvingFilter;
-import de.monticore.umlsc.statechart._symboltable.StatechartModelNameCalculator;
-import de.monticore.umlsc.statechart._symboltable.StatechartResolvingFilter;
+//import de.monticore.modelloader.ModelingLanguageModelLoader;
+//import de.monticore.symboltable.ResolvingConfiguration;
+import de.monticore.umlsc.statechart._symboltable.StatechartSymbolTableCreator;
+import de.monticore.umlsc.statechart._symboltable.IStatechartScope;
 import de.monticore.umlsc.statechart._symboltable.StatechartSymbolTableCreator;
 
 /**
@@ -28,29 +25,22 @@ public class StatechartWithJavaLanguage extends StatechartWithJavaLanguageTOP {
 	public StatechartWithJavaLanguage() {
 		super("Statechart Language", "sc");
 
-		setModelNameCalculator(new StatechartModelNameCalculator());
+
 	}
 
 	/**
-	 * @see de.monticore.ModelingLanguage#getSymbolTableCreator(de.monticore.symboltable.ResolvingConfiguration, de.monticore.symboltable.MutableScope)
+	 *  de.monticore.IModelingLanguage#getSymbolTableCreator(de.monticore.symboltable.IScope)
 	 */
-	@Override
-	public Optional<? extends SymbolTableCreator> getSymbolTableCreator(ResolvingConfiguration resolvingConfiguration,
-			MutableScope enclosingScope) {
-    return Optional.of(new StatechartSymbolTableCreator(resolvingConfiguration, enclosingScope));
+	public Optional<? extends StatechartSymbolTableCreator> getSymbolTableCreator(IStatechartScope enclosingScope) {
+    return Optional.of(new StatechartSymbolTableCreator(enclosingScope));
 	}
 
 	/**
-	 * @see de.monticore.CommonModelingLanguage#provideModelLoader()
+	 *  de.monticore.CommonModelingLanguage#provideModelLoader()
 	 */
 	@Override
-	protected ModelingLanguageModelLoader<? extends ASTNode> provideModelLoader() {
+	protected StatechartWithJavaModelLoader provideModelLoader() {
 		return new StatechartWithJavaModelLoader(this);
 	}
-	
-  protected void initResolvingFilters() {
-    addResolvingFilter(new SCStateResolvingFilter());
-    addResolvingFilter(new StatechartResolvingFilter());
-  }
 
 }

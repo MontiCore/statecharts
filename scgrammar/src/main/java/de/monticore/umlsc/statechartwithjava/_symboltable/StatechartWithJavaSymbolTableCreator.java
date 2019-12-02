@@ -2,8 +2,9 @@
 
 package de.monticore.umlsc.statechartwithjava._symboltable;
 
-import de.monticore.symboltable.MutableScope;
-import de.monticore.symboltable.ResolvingConfiguration;
+//import de.monticore.symboltable.IScope;
+//import de.monticore.symboltable.ResolvingConfiguration;
+import de.monticore.umlsc.statechart._symboltable.IStatechartScope;
 import de.monticore.umlsc.statechart._symboltable.StatechartSymbolTableCreator;
 import de.monticore.umlsc.statechartwithjava._visitor.StatechartWithJavaVisitor;
 
@@ -15,13 +16,13 @@ import java.util.Deque;
 public class StatechartWithJavaSymbolTableCreator extends StatechartSymbolTableCreator implements StatechartWithJavaVisitor {
   private StatechartWithJavaSymbolTableCreator realThis = this;
 
-  public StatechartWithJavaSymbolTableCreator(ResolvingConfiguration resolvingConfig, MutableScope enclosingScope) {
-    super(resolvingConfig, enclosingScope);
+  public StatechartWithJavaSymbolTableCreator(IStatechartScope enclosingScope) {
+    super(enclosingScope);
   }
 
 
-  public StatechartWithJavaSymbolTableCreator(final ResolvingConfiguration resolvingConfig, final Deque<MutableScope> scopeStack) {
-    super(resolvingConfig, scopeStack);
+  public StatechartWithJavaSymbolTableCreator(final Deque<IStatechartScope> scopeStack) {
+    super(scopeStack);
   }
 
   @Override
