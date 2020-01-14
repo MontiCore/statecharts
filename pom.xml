@@ -24,7 +24,7 @@
     <monticore.version>5.3.0</monticore.version>
     <mc4.maven.version>5.3.0</mc4.maven.version>
     <monticore.java.version>4.3.13</monticore.java.version>
-    <cd4analysis.version>1.5.0-SNAPSHOT</cd4analysis.version>
+    <cd4analysis.version>1.4.0</cd4analysis.version>
     <guava.version>18.0</guava.version>
     <junit.version>4.11</junit.version>
     <se-commons.version>1.7.8</se-commons.version>

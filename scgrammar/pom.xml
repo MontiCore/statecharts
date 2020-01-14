@@ -154,18 +154,7 @@
       <classifier>${grammars.classifier}</classifier>
     </dependency>
 	
-    <dependency>
-      <groupId>de.monticore</groupId>
-      <artifactId>javaDSL</artifactId>
-      <version>${monticore.java.version}</version>
-    </dependency>
 
-    <dependency>
-      <groupId>de.monticore</groupId>
-      <artifactId>javaDSL</artifactId>
-      <version>${monticore.java.version}</version>
-      <classifier>${grammars.classifier}</classifier>
-    </dependency>
     <dependency>
       <groupId>de.monticore.lang</groupId>
       <artifactId>cd4analysis</artifactId>

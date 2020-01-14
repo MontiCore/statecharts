@@ -3,9 +3,9 @@
 package de.monticore.umlsc.statechart.prettyprint;
 
 import de.monticore.cd.cd4analysis._ast.ASTCD4AnalysisNode;
-import de.monticore.java.javadsl._ast.ASTJavaBlock;
-import de.monticore.java.javadsl._ast.ASTJavaDSLNode;
-import de.monticore.java.prettyprint.JavaDSLPrettyPrinter;
+//import de.monticore.java.javadsl._ast.ASTJavaBlock;
+//import de.monticore.java.javadsl._ast.ASTJavaDSLNode;
+//import de.monticore.java.prettyprint.JavaDSLPrettyPrinter;
 import de.monticore.javalight._ast.ASTJavaLightNode;
 import de.monticore.prettyprint.JavaLightPrettyPrinter;
 
@@ -60,10 +60,10 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
     return v.prettyprint(node);
   }
 
-  public String prettyprint(ASTJavaDSLNode node) {
-    JavaDSLPrettyPrinter pp = new JavaDSLPrettyPrinter(new IndentPrinter());
-    return pp.prettyprint(node);
-  }
+  //public String prettyprint(ASTJavaDSLNode node) {
+    //JavaDSLPrettyPrinter pp = new JavaDSLPrettyPrinter(new IndentPrinter());
+    //return pp.prettyprint(node);
+  //}
 
   public String prettyprint(ASTJavaLightNode node) {
     JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
