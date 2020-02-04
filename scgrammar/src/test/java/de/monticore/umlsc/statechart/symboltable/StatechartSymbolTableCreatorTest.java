@@ -4,14 +4,21 @@ package de.monticore.umlsc.statechart.symboltable;
 import de.monticore.io.paths.ModelPath;
 //import de.monticore.symboltable.GlobalScope;
 import de.monticore.symboltable.IScopeSpanningSymbol;
+import de.monticore.umlsc.statechart._ast.ASTSCArtifact;
+import de.monticore.umlsc.statechart._ast.ASTStatechart;
+import de.monticore.umlsc.statechart._symboltable.StatechartSymbolTableCreatorDelegator;
+import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParser;
+import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaArtifactScope;
 import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaGlobalScope;
 //import de.monticore.symboltable.ResolvingConfiguration;
 import de.monticore.symboltable.IScope;
 import de.monticore.umlsc.statechart._symboltable.StatechartSymbol;
 import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaLanguage;
+import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaSymbolTableCreatorDelegator;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Optional;
 
@@ -63,6 +70,30 @@ public class StatechartSymbolTableCreatorTest {
 		System.out.println(scSymbol);
 		assertNotNull(scSymbol);
 	}
+
+	@Test
+	public void testFromAST() throws IOException {
+		Optional<ASTSCArtifact> ast = new StatechartWithJavaParser().parse("src/test/resources/de/monticore/umlsc/symboltable/Test1.sc");
+
+		StatechartWithJavaGlobalScope globalScope2;
+
+		final StatechartWithJavaLanguage statechartLanguage2 = new StatechartWithJavaLanguage();
+
+
+		final ModelPath modelPath2 = new ModelPath(Paths.get("src/test/resources/"));
+
+		globalScope2 = new StatechartWithJavaGlobalScope(modelPath2, statechartLanguage2);
+
+		StatechartWithJavaSymbolTableCreatorDelegator stCreater = new StatechartWithJavaSymbolTableCreatorDelegator(globalScope2);
+
+		StatechartWithJavaArtifactScope r = stCreater.createFromAST(ast.get());
+
+		assertNotNull(r);
+
+	}
+
+
+
 
 	@Test
 	public void testStatechartSymbolTableCreationInPackage() {
