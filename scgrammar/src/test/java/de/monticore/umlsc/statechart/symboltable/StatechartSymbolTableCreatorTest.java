@@ -2,18 +2,21 @@
 package de.monticore.umlsc.statechart.symboltable;
 
 import de.monticore.io.paths.ModelPath;
-import de.monticore.symboltable.GlobalScope;
-import de.monticore.symboltable.ResolvingConfiguration;
-import de.monticore.symboltable.Scope;
+//import de.monticore.symboltable.GlobalScope;
+import de.monticore.symboltable.IScopeSpanningSymbol;
+import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaGlobalScope;
+//import de.monticore.symboltable.ResolvingConfiguration;
+import de.monticore.symboltable.IScope;
 import de.monticore.umlsc.statechart._symboltable.StatechartSymbol;
 import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaLanguage;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.nio.file.Paths;
+import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * TODO: Write me!
@@ -24,7 +27,7 @@ import static org.junit.Assert.assertNotNull;
  */
 public class StatechartSymbolTableCreatorTest {
 	
-	private Scope globalScope;
+	private StatechartWithJavaGlobalScope globalScope;
 
 
 
@@ -32,12 +35,11 @@ public class StatechartSymbolTableCreatorTest {
 	public void setup() {
 		final StatechartWithJavaLanguage statechartLanguage = new StatechartWithJavaLanguage();
 		
-		final ResolvingConfiguration resolverConfiguration = new ResolvingConfiguration();
-		resolverConfiguration.addDefaultFilters(statechartLanguage.getResolvingFilters());
+
 		
 		final ModelPath modelPath = new ModelPath(Paths.get("src/test/resources"));
 		
-		globalScope = new GlobalScope(modelPath, statechartLanguage, resolverConfiguration);
+		globalScope = new StatechartWithJavaGlobalScope(modelPath, statechartLanguage);
 		
 		
 	}
@@ -45,15 +47,40 @@ public class StatechartSymbolTableCreatorTest {
 	
 	@Test
 	public void testStatechartSymbolTableCreation() {
-		final StatechartSymbol scSymbol = globalScope.<StatechartSymbol>resolve("Test1",StatechartSymbol.KIND).orElse(null);
+
+		StatechartWithJavaGlobalScope globalScope2;
+
+		final StatechartWithJavaLanguage statechartLanguage2 = new StatechartWithJavaLanguage();
+
+
+		final ModelPath modelPath2 = new ModelPath(Paths.get("src/test/resources/"));
+
+		globalScope2 = new StatechartWithJavaGlobalScope(modelPath2, statechartLanguage2);
+
+
+		//final StatechartSymbol scSymbol = globalScope.<StatechartSymbol>resolve("Test1",StatechartSymbol.KIND).orElse(null);
+		final StatechartSymbol scSymbol = globalScope2.resolveStatechart("Test1").orElse(null);
 		System.out.println(scSymbol);
+		assertNotNull(scSymbol);
 	}
 
 	@Test
 	public void testStatechartSymbolTableCreationInPackage() {
 		final String fullName =  "de.monticore.umlsc.symboltable.Test1";
-		final StatechartSymbol scSymbol = globalScope.<StatechartSymbol>resolve(fullName ,StatechartSymbol.KIND).orElse(null);
+		//final ModelPath modelPath = new ModelPath(Paths.get("src/test/resources/de/monticore/umlsc/symboltable/Test1.sc"));
+		//final StatechartSymbol scSymbol = globalScope.<StatechartSymbol>resolve(fullName ,StatechartSymbol.KIND).orElse(null);
+		final StatechartSymbol scSymbol = globalScope.resolveStatechart(fullName).orElse(null);
 		assertNotNull(scSymbol);
 		assertEquals(fullName, scSymbol.getFullName());
 	}
+
+
+
+
+
+
+
+
+
+
 }

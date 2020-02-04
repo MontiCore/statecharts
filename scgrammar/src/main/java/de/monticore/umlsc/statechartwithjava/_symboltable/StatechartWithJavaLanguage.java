@@ -1,14 +1,18 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.umlsc.statechartwithjava._symboltable;
 
+import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
 import de.monticore.ast.ASTNode;
 //import de.monticore.modelloader.ModelingLanguageModelLoader;
 //import de.monticore.symboltable.ResolvingConfiguration;
 import de.monticore.umlsc.statechart._symboltable.StatechartSymbolTableCreator;
 import de.monticore.umlsc.statechart._symboltable.IStatechartScope;
 import de.monticore.umlsc.statechart._symboltable.StatechartSymbolTableCreator;
+import de.monticore.utils.Names;
 
 /**
  * TODO: Write me!
@@ -27,6 +31,20 @@ public class StatechartWithJavaLanguage extends StatechartWithJavaLanguageTOP {
 
 
 	}
+
+
+
+	@Override
+	protected Set<String> calculateModelNamesForSCState(String name) {
+		// e.g., if p.Automaton.State, return p.Automaton
+		if (!Names.getQualifier(name).isEmpty()) {
+			return ImmutableSet.of(Names.getQualifier(name));
+		}
+
+		return Collections.emptySet();
+	}
+
+
 
 	/**
 	 *  de.monticore.IModelingLanguage#getSymbolTableCreator(de.monticore.symboltable.IScope)
