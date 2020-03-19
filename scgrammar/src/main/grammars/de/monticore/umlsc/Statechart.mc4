@@ -6,7 +6,7 @@ package de.monticore.umlsc;
  * Grammar Statechart, Version March 8th, 2017
  *
  */
-component grammar Statechart extends de.monticore.types.MCBasicTypes {
+component grammar Statechart extends de.monticore.types.MCBasicTypes, de.monticore.literals.MCCommonLiterals {
   
   /** ASTSCArtifact represents the complete Diagram
     @attribute package          The package declaration of this Statechart
@@ -204,7 +204,7 @@ component grammar Statechart extends de.monticore.types.MCBasicTypes {
     /** ASTSCStereoValue represents a Value of a SCStereotype in a Classdiagram
         @attribute name  Name of the SCStereotype-Value
     */
-    SCStereoValue = Name ("=" value:Name)?;
+    SCStereoValue = Name ("=" value:String)?;
     
     Invariant =
         "[" content:SCInvariantContent "]";

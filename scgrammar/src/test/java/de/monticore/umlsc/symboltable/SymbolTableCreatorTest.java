@@ -11,10 +11,7 @@ import de.monticore.umlsc.statechart._symboltable.SCStateSymbol;
 import de.monticore.umlsc.statechart._symboltable.StatechartSymbol;
 import de.monticore.umlsc.statechart.prettyprint.StatechartPrettyPrinter;
 import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParser;
-import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaArtifactScope;
-import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaGlobalScope;
-import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaLanguage;
-import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaSymbolTableCreator;
+import de.monticore.umlsc.statechartwithjava._symboltable.*;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.Slf4jLog;
@@ -53,7 +50,7 @@ public class SymbolTableCreatorTest {
 
 		Optional<ASTSCArtifact> opAst = parser.parse("src/test/resources/de/monticore/umlsc/examples/Banking.sc");
 
-    System.out.println("Hallo");
+    System.out.println(opAst.get().getStatechart());
     for(Finding l : Log.getFindings()) {
       System.out.println(l);
     }
@@ -61,15 +58,19 @@ public class SymbolTableCreatorTest {
 
 
 		ASTSCArtifact ast =(ASTSCArtifact) opAst.get();
-
+    	System.out.println(ast);
+		System.out.println("Hallo2");
 
 		StatechartWithJavaGlobalScope globalScope = new StatechartWithJavaGlobalScope(modelPath, language);
-		StatechartWithJavaSymbolTableCreator st = new StatechartWithJavaSymbolTableCreator(globalScope);
+		StatechartWithJavaSymbolTableCreatorDelegator st = new StatechartWithJavaSymbolTableCreatorDelegator(globalScope);
 		StatechartWithJavaArtifactScope symTab = st.createFromAST(ast);
 		//	  StatechartSymbol sc = globalScope.<StatechartSymbol>resolve("Test1",StatechartKind.KIND).orElse(null);
 //	  System.out.println(sc);
 
 		Optional<? extends ISymbol> sym = ast.getStatechart().getSCStateList().get(0).getSymbolOpt();
+		System.out.println(ast.getStatechart().getSCStateList().get(0));
+		System.out.println(ast.getStatechart().getSCStateList().get(2).getName());
+		System.out.println(ast.getStatechart().getSCStateList().get(2).getSymbolOpt());
 		assertTrue(sym.isPresent());
 		System.out.println(sym.get().getName());
 		//String o =new StatechartPrettyPrinter().prettyPrint(ast);

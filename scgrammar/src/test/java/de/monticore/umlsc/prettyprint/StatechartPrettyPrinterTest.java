@@ -20,8 +20,11 @@ public class StatechartPrettyPrinterTest {
     public void testASTSCTransition() throws IOException {
         //Also tests ASTSCTransitionBody, ASTInvariant, ASTSCEvent
         ASTSCArtifact sc = parse("TransitionTest.sc");
+
         assertEquals("Transition without body", "From -> Target",
                 accept(sc.getStatechart().getSCTransitionList().get(0)).trim());
+
+        System.out.println(accept(sc.getStatechart().getSCTransitionList().get(1)).trim());
 
         assertEquals("Transition with precond", "From -> Target [PreCond] /",
                 accept(sc.getStatechart().getSCTransitionList().get(1)).trim());
@@ -38,7 +41,7 @@ public class StatechartPrettyPrinterTest {
 
         //ToDo: Is the missing space between statements and PostCond wanted?
         assertEquals("Transition with statements and postcond", "From -> Target  / {Statements;}[PostCond]",
-                accept(sc.getStatechart().getSCTransitionList().get(5)).trim());
+               accept(sc.getStatechart().getSCTransitionList().get(5)).trim());
 
         assertEquals("Transition with precond, event, statements and postcond", "From -> Target [PreCond] Event / {Statements;}[PostCond]",
                 accept(sc.getStatechart().getSCTransitionList().get(6)).trim());
