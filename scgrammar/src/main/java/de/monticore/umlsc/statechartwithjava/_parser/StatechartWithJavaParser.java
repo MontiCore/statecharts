@@ -29,7 +29,7 @@ public class StatechartWithJavaParser extends StatechartWithJavaParserTOP {
     Optional<ASTSCArtifact> ast = super.parseSCArtifact(file.toString());
     if(ast.isPresent()) {
       String simpleFilename = Files.getNameWithoutExtension(file.toString());
-      Optional<String> modelName = ast.get().getStatechart().getNameOpt();
+      String modelName = ast.get().getStatechart().getName();
 
       String packageName = Names.getPackageFromPath(Names.getPathFromFilename(file.toString()));
       String packageDeclaration = Names.getQualifiedName(ast.get().getPackageList());
@@ -38,8 +38,8 @@ public class StatechartWithJavaParser extends StatechartWithJavaParserTOP {
         Log.error(String.format(ErrorCodesSC.PackageName.toString(),packageDeclaration));
       }
 
-      if(modelName.isPresent() && !modelName.get().equals(simpleFilename)) {
-        Log.error(String.format(ErrorCodesSC.FileName.toString(), modelName.get(), simpleFilename));
+      if(!modelName.equals(simpleFilename)) {
+        Log.error(String.format(ErrorCodesSC.FileName.toString(), modelName, simpleFilename));
       }
     }
     return ast;

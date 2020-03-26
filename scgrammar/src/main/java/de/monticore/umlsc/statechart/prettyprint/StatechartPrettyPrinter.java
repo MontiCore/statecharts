@@ -29,8 +29,9 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
 
   protected IndentPrinter printer;
 
-  public StatechartPrettyPrinter() {
-    this.printer = new IndentPrinter();
+  public StatechartPrettyPrinter(IndentPrinter printer) {
+    //this.printer = new IndentPrinter();
+    this.printer = printer;
     this.realThis = this;
   }
 
@@ -55,19 +56,24 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
     return result;
   }
 
-  public String prettyPrint(ASTCD4AnalysisNode node) {
-    CDPrettyPrinter v = new CDPrettyPrinter(new IndentPrinter());
-    return v.prettyprint(node);
-  }
+  //ToDo needed?
+  //@Deprecated
+  //public String prettyPrint(ASTCD4AnalysisNode node) {
+    //CDPrettyPrinter v = new CDPrettyPrinter(new IndentPrinter());
+    //return v.prettyprint(node);
+    //return new StatechartPrettyPrinterDelegator().prettyprint(node);
+  //}
 
   //public String prettyprint(ASTJavaDSLNode node) {
     //JavaDSLPrettyPrinter pp = new JavaDSLPrettyPrinter(new IndentPrinter());
     //return pp.prettyprint(node);
   //}
 
+  @Deprecated
   public String prettyprint(ASTJavaLightNode node) {
-    JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
-    return pp.prettyprint(node);
+    //JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
+    //return pp.prettyprint(node);
+    return new StatechartPrettyPrinterDelegator().prettyprint(node);
   }
 
   @Override
@@ -218,32 +224,41 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
   }
 
   @Override
+  @Deprecated
   public void handle(ASTSCStatements node) {
-    JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
-    //if (node.getBlockStatement() instanceof ASTJavaBlock) {
-      //ASTBlockStatement b =  node.getBlockStatement();
-      //pp.handle(b);
-    //} else {
-      pp.handle(node.getBlockStatement());
-    //}
-    String block = pp.getPrinter().getContent();
+    //JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
+
+      //pp.handle(node.getBlockStatement());
+
+
+    node.getBlockStatement().accept(getRealThis());
+
+    //String block = pp.getPrinter().getContent();
+
+    String block = new StatechartPrettyPrinterDelegator().prettyprint(node);
     block = block.replaceAll("\\n", "");
     block = block.replaceAll(" ", "");
     getPrinter().print(block);
   }
 
   @Override
+  @Deprecated
   public void handle(ASTSCExpression node) {
-    JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
-    node.getExpression().accept(pp);
-    getPrinter().print(pp.getPrinter().getContent());
+    //JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
+    //node.getExpression().accept(pp);
+    node.getExpression().accept(getRealThis());
+    //getPrinter().print(pp.getPrinter().getContent());
+    getPrinter().print(new StatechartPrettyPrinterDelegator().prettyprint(node));
   }
 
   @Override
+  @Deprecated
   public void handle(ASTSCInvariantContent node) {
-    JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
-    node.getExpression().accept(pp);
-    getPrinter().print(pp.getPrinter().getContent());
+    //JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
+    //node.getExpression().accept(pp);
+    //getPrinter().print(pp.getPrinter().getContent());
+    node.getExpression().accept(getRealThis());
+    getPrinter().print(new StatechartPrettyPrinterDelegator().prettyprint(node));
   }
 
   @Override
@@ -336,13 +351,15 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
     }
     if(node.isPresentClassName()){
       getPrinter().print("for ");
-      MCBasicTypesPrettyPrinter pp = new MCBasicTypesPrettyPrinter(new IndentPrinter());
-      getPrinter().print(pp.prettyprint(node.getClassName()));
+      //MCBasicTypesPrettyPrinter pp = new MCBasicTypesPrettyPrinter(new IndentPrinter());
+      node.getClassName().accept(getRealThis());
+      //getPrinter().print(pp.prettyprint(node.getClassName()));
     }
     if(node.isPresentSuperSC()){
       getPrinter().print("refines ");
-      MCBasicTypesPrettyPrinter pp = new MCBasicTypesPrettyPrinter(new IndentPrinter());
-      getPrinter().print(pp.prettyprint(node.getSuperSC()));
+      //MCBasicTypesPrettyPrinter pp = new MCBasicTypesPrettyPrinter(new IndentPrinter());
+      //getPrinter().print(pp.prettyprint(node.getSuperSC()));
+      node.getSuperSC().accept(getRealThis());
     }
     getPrinter().print("{");
     getPrinter().println();

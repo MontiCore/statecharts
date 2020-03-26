@@ -34,9 +34,9 @@ public class ASTSCState extends ASTSCStateTOP {
 
 	public Set<ASTSCTransition> getOutgoingTransitions() {
 		Set<ASTSCTransition> result = new HashSet<ASTSCTransition>();
-			ISymbol spanning = getEnclosingScope().getSpanningSymbol().get();
-			if (spanning.getAstNode().get() instanceof ASTStatechart) {
-				ASTStatechart sc = (ASTStatechart) spanning.getAstNode().get();
+			ISymbol spanning = getEnclosingScope().getSpanningSymbol();
+			if (spanning.getAstNode() instanceof ASTStatechart) {
+				ASTStatechart sc = (ASTStatechart) spanning.getAstNode();
 				for (ASTSCTransition t : sc.getSCTransitionList()) {
 					if (t.getSourceName().equals(getName())) {
 						result.add(t);

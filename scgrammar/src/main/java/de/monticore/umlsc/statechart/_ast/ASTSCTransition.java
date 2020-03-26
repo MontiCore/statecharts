@@ -29,7 +29,7 @@ public class ASTSCTransition extends ASTSCTransitionTOP {
 			String name = getTargetName();
 			Optional<SCStateSymbol> symbol = scope.resolveSCState(name);
 			if (symbol.isPresent()) {
-				return symbol.get().getAstNode().get();
+				return symbol.get().getAstNode();
 			}
 		return null;
 	}
@@ -38,7 +38,7 @@ public class ASTSCTransition extends ASTSCTransitionTOP {
 			String name = getSourceName();
 			Optional<SCStateSymbol> symbol = scope.resolveSCState(name);
 			if (symbol.isPresent()) {
-				return symbol.get().getAstNode().get();
+				return symbol.get().getAstNode();
 			}
 		return null;
 	}
