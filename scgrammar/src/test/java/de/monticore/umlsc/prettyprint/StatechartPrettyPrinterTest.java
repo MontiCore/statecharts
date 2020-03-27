@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.umlsc.prettyprint;
 
+import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.umlsc.statechart._ast.*;
 import de.monticore.umlsc.statechart.prettyprint.StatechartPrettyPrinter;
 import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParser;
@@ -14,7 +15,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class StatechartPrettyPrinterTest {
-    private StatechartPrettyPrinter prettyPrinter = new StatechartPrettyPrinter();
+    private StatechartPrettyPrinter prettyPrinter = new StatechartPrettyPrinter(new IndentPrinter());
 
     @Test
     public void testASTSCTransition() throws IOException {

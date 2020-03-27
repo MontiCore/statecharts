@@ -19,11 +19,12 @@ public class StatechartWithJavaSymbolTableCreatorDelegator extends StatechartWit
   }
 
   public StatechartWithJavaArtifactScope createFromAST(de.monticore.umlsc.statechart._ast.ASTSCArtifact rootNode) {
-    StatechartWithJavaArtifactScope as =  statechartWithJavaSTC.createFromAST(rootNode);
+    // todo: ask if this is correct
+    StatechartWithJavaArtifactScope as = super.createFromAST(rootNode);
     as.setImportList(getImportStatements(rootNode));
     as.setPackageName(Names.constructQualifiedName(rootNode.getPackageList()));
-    if (as.isPresentName()){
-      if (!as.getPackageName().isEmpty()){
+    if (as.isPresentName()) {
+      if (!as.getPackageName().isEmpty()) {
         globalScope.cache(as.getPackageName() + "." + as.getName());
       } else {
         globalScope.cache(as.getName());

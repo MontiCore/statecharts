@@ -27,9 +27,8 @@ import static junit.framework.TestCase.assertTrue;
 /**
  * TODO: Write me!
  *
- * @author  (last commit) $Author$
- * @since   TODO: add version number
- *
+ * @author (last commit) $Author$
+ * @since TODO: add version number
  */
 public class SymbolTableCreatorTest {
 
@@ -39,60 +38,58 @@ public class SymbolTableCreatorTest {
     Log.enableFailQuick(false);
   }
 
-	@Test
-	public void testFromFile() throws IOException {
-		StatechartWithJavaLanguage language = new StatechartWithJavaLanguage();
-		//ResolvingConfiguration resolverConf = new ResolvingConfiguration();
-		//resolverConf.addDefaultFilters(language.getResolvingFilters());
-		ModelPath modelPath = new ModelPath(Paths.get("src/test/resources/"));
+  @Test
+  public void testFromFile() throws IOException {
+    StatechartWithJavaLanguage language = new StatechartWithJavaLanguage();
+    //ResolvingConfiguration resolverConf = new ResolvingConfiguration();
+    //resolverConf.addDefaultFilters(language.getResolvingFilters());
+    ModelPath modelPath = new ModelPath(Paths.get("src/test/resources/"));
 
-		StatechartWithJavaParser parser = language.getParser();
+    StatechartWithJavaParser parser = language.getParser();
 
-		Optional<ASTSCArtifact> opAst = parser.parse("src/test/resources/de/monticore/umlsc/examples/Banking.sc");
+    Optional<ASTSCArtifact> opAst = parser.parse("src/test/resources/de/monticore/umlsc/examples/Banking.sc");
 
     System.out.println(opAst.get().getStatechart());
-    for(Finding l : Log.getFindings()) {
+    for (Finding l : Log.getFindings()) {
       System.out.println(l);
     }
 
 
+    ASTSCArtifact ast = (ASTSCArtifact) opAst.get();
+    System.out.println(ast);
+    System.out.println("Hallo2");
 
-		ASTSCArtifact ast =(ASTSCArtifact) opAst.get();
-    	System.out.println(ast);
-		System.out.println("Hallo2");
-
-		StatechartWithJavaGlobalScope globalScope = new StatechartWithJavaGlobalScope(modelPath, language);
-		StatechartWithJavaSymbolTableCreatorDelegator st = new StatechartWithJavaSymbolTableCreatorDelegator(globalScope);
-		StatechartWithJavaArtifactScope symTab = st.createFromAST(ast);
-		//	  StatechartSymbol sc = globalScope.<StatechartSymbol>resolve("Test1",StatechartKind.KIND).orElse(null);
+    StatechartWithJavaGlobalScope globalScope = new StatechartWithJavaGlobalScope(modelPath, language);
+    StatechartWithJavaSymbolTableCreatorDelegator st = new StatechartWithJavaSymbolTableCreatorDelegator(globalScope);
+    StatechartWithJavaArtifactScope symTab = st.createFromAST(ast);
+    //	  StatechartSymbol sc = globalScope.<StatechartSymbol>resolve("Test1",StatechartKind.KIND).orElse(null);
 //	  System.out.println(sc);
 
-		Optional<? extends ISymbol> sym = ast.getStatechart().getSCStateList().get(0).getSymbolOpt();
-		System.out.println(ast.getStatechart().getSCStateList().get(0));
-		System.out.println(ast.getStatechart().getSCStateList().get(2).getName());
-		System.out.println(ast.getStatechart().getSCStateList().get(2).getSymbolOpt());
-		assertTrue(sym.isPresent());
-		System.out.println(sym.get().getName());
-		//String o =new StatechartPrettyPrinter().prettyPrint(ast);
-		//System.out.println(o);
+    assertTrue(ast.getStatechart().getSCStateList().get(0).isPresentSymbol());
+    SCStateSymbol sym = ast.getStatechart().getSCStateList().get(0).getSymbol();
+    System.out.println(ast.getStatechart().getSCStateList().get(0));
+    System.out.println(ast.getStatechart().getSCStateList().get(2).getName());
+		assertTrue(ast.getStatechart().getSCStateList().get(2).isPresentSymbol());
+		System.out.println(ast.getStatechart().getSCStateList().get(2).getSymbol());
+    System.out.println(sym.getName());
+    //String o =new StatechartPrettyPrinter().prettyPrint(ast);
+    //System.out.println(o);
 
 
+    Optional<StatechartSymbol> scResolved = symTab.resolveStatechart("Banking");
+    assertTrue(scResolved.isPresent());
 
-		Optional<StatechartSymbol> scResolved = symTab.resolveStatechart("Banking");
-		assertTrue(scResolved.isPresent());
+    System.out.println(symTab.getSymbolsSize());
 
-		System.out.println(symTab.getSymbolsSize());
+    Optional<StatechartSymbol> stateResolv = symTab.resolveStatechart("Offer");
+    //assertTrue(stateResolv.isPresent()); //TODO: State loading fails
 
-		Optional<StatechartSymbol> stateResolv = symTab.resolveStatechart("Offer");
-		//assertTrue(stateResolv.isPresent()); //TODO: State loading fails
+  }
 
-	}
-	
-	
-	
-	@Test
-	public void testFromAST() {
-		
-	}
+
+  @Test
+  public void testFromAST() {
+
+  }
 
 }
