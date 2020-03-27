@@ -18,6 +18,7 @@ import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCBasicTypesNode;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.monticore.umlsc.statechart._ast.*;
+import de.monticore.umlsc.statechart._visitor.StatechartVisitor;
 import de.monticore.umlsc.statechartwithjava._ast.ASTSCExpression;
 import de.monticore.umlsc.statechartwithjava._ast.ASTSCInvariantContent;
 import de.monticore.umlsc.statechartwithjava._ast.ASTSCStatements;
@@ -33,6 +34,11 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
     //this.printer = new IndentPrinter();
     this.printer = printer;
     this.realThis = this;
+  }
+
+  @Override
+  public void setRealThis(StatechartVisitor realThis) {
+    this.realThis = (StatechartWithJavaVisitor) realThis;
   }
 
   @Override
