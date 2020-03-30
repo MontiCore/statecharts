@@ -2,6 +2,7 @@ package de.monticore.umlsc.statechart.prettyprint;
 
 import de.monticore.MCCommonLiteralsPrettyPrinter;
 import de.monticore.cd.cd4analysis._ast.ASTCD4AnalysisNode;
+import de.monticore.expressions.expressionsbasis._ast.ASTNameExpression;
 import de.monticore.expressions.prettyprint.AssignmentExpressionsPrettyPrinter;
 import de.monticore.expressions.prettyprint.CommonExpressionsPrettyPrinter;
 import de.monticore.expressions.prettyprint.ExpressionsBasisPrettyPrinter;
@@ -15,6 +16,7 @@ import de.monticore.statements.prettyprint.MCCommonStatementsPrettyPrinter;
 import de.monticore.types.typesymbols._visitor.TypeSymbolsVisitor;
 import de.monticore.umlsc.statechart._ast.ASTStatechartNode;
 import de.monticore.umlsc.statechartwithjava._visitor.StatechartWithJavaDelegatorVisitor;
+import de.monticore.umlsc.statechartwithjava._visitor.StatechartWithJavaVisitor;
 
 public class StatechartPrettyPrinterDelegator extends StatechartWithJavaDelegatorVisitor{
 
@@ -43,15 +45,16 @@ public class StatechartPrettyPrinterDelegator extends StatechartWithJavaDelegato
         setExpressionsBasisVisitor(new ExpressionsBasisPrettyPrinter(printer));
 
 
-        setStatechartVisitor(new StatechartPrettyPrinter(printer));
+        // ToDO: Braucht man beide oder reicht einer?
+        setStatechartWithJavaVisitor(new StatechartPrettyPrinter(printer));
+        setStatechartVisitor(getStatechartWithJavaVisitor().get());
 
 
 
     }
 
 
-    //ToDo noch mehr als aststatechartnode?
-    public String prettyprint(ASTStatechartNode node){
+    public String prettyPrint(ASTStatechartNode node){
         getPrinter().clearBuffer();
         node.accept(getRealThis());
         return getPrinter().getContent();
@@ -63,11 +66,11 @@ public class StatechartPrettyPrinterDelegator extends StatechartWithJavaDelegato
         //return getPrinter().getContent();
     //}
 
-    public String prettyprint(ASTJavaLightNode node){
+    /*public String prettyprint(ASTJavaLightNode node){
         getPrinter().clearBuffer();
         node.accept(getRealThis());
         return getPrinter().getContent();
-    }
+    }*/
 
     public IndentPrinter getPrinter(){
         return printer;

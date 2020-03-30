@@ -6,11 +6,13 @@ import de.monticore.cd.cd4analysis._ast.ASTCD4AnalysisNode;
 //import de.monticore.java.javadsl._ast.ASTJavaBlock;
 //import de.monticore.java.javadsl._ast.ASTJavaDSLNode;
 //import de.monticore.java.prettyprint.JavaDSLPrettyPrinter;
+import de.monticore.expressions.expressionsbasis._ast.ASTExpression;
 import de.monticore.javalight._ast.ASTJavaLightNode;
 import de.monticore.prettyprint.JavaLightPrettyPrinter;
 
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.cd.prettyprint.CDPrettyPrinter;
+import de.monticore.prettyprint.MCBasicsPrettyPrinter;
 import de.monticore.statements.mccommonstatements._ast.ASTBlockStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 //import de.monticore.types.mcbasictypes._ast.ASTReferenceType;
@@ -24,62 +26,36 @@ import de.monticore.umlsc.statechartwithjava._ast.ASTSCInvariantContent;
 import de.monticore.umlsc.statechartwithjava._ast.ASTSCStatements;
 import de.monticore.umlsc.statechartwithjava._visitor.StatechartWithJavaVisitor;
 
-public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
+public class StatechartPrettyPrinter extends MCBasicsPrettyPrinter implements StatechartWithJavaVisitor {
 
-  protected StatechartWithJavaVisitor realThis;
-
-  protected IndentPrinter printer;
-
-  public StatechartPrettyPrinter(IndentPrinter printer) {
-    //this.printer = new IndentPrinter();
-    this.printer = printer;
-    this.realThis = this;
+  StatechartPrettyPrinter(IndentPrinter printer) {
+    super(printer);
   }
 
   @Override
   public void setRealThis(StatechartVisitor realThis) {
-    this.realThis = (StatechartWithJavaVisitor) realThis;
+    super.setRealThis( (StatechartWithJavaVisitor) realThis);
   }
 
   @Override
   public void setRealThis(StatechartWithJavaVisitor realThis) {
-    this.realThis = realThis;
+    super.setRealThis(realThis);
   }
 
   @Override
   public StatechartWithJavaVisitor getRealThis() {
-    return realThis;
+    return (StatechartWithJavaVisitor)super.getRealThis();
   }
 
-  public IndentPrinter getPrinter() {
-    return this.printer;
-  }
 
-  public String prettyPrint(ASTStatechartNode node) {
-    node.accept(this);
-    String result = getPrinter().getContent();
-    getPrinter().clearBuffer();
-    return result;
-  }
-
-  //ToDo needed?
-  //@Deprecated
-  //public String prettyPrint(ASTCD4AnalysisNode node) {
-    //CDPrettyPrinter v = new CDPrettyPrinter(new IndentPrinter());
-    //return v.prettyprint(node);
-    //return new StatechartPrettyPrinterDelegator().prettyprint(node);
-  //}
-
-  //public String prettyprint(ASTJavaDSLNode node) {
-    //JavaDSLPrettyPrinter pp = new JavaDSLPrettyPrinter(new IndentPrinter());
-    //return pp.prettyprint(node);
-  //}
-
+  /**
+   * @deprecated de.monticore.umlsc.statechart.prettyprint.StatechartPrettyPrinterDelegator#prettyPrint(ASTStatechartNode)
+   * */
   @Deprecated
-  public String prettyprint(ASTJavaLightNode node) {
-    //JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
-    //return pp.prettyprint(node);
-    return new StatechartPrettyPrinterDelegator().prettyprint(node);
+  public static String prettyPrint(ASTStatechartNode node) {
+
+     //Todo hinweis: nicht new PrettyPrinter sondern PPDelegator nutzen :)
+    return new StatechartPrettyPrinterDelegator(new IndentPrinter()).prettyPrint(node);
   }
 
   @Override
@@ -230,41 +206,37 @@ public class StatechartPrettyPrinter implements StatechartWithJavaVisitor {
   }
 
   @Override
-  @Deprecated
+  //Todo Für Zeilenumbrüche löschen Rest wieder reinnehmen
   public void handle(ASTSCStatements node) {
-    //JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
+      node.getBlockStatement().accept(getRealThis());
 
-      //pp.handle(node.getBlockStatement());
+/*
+    StatechartPrettyPrinterDelegator d = new StatechartPrettyPrinterDelegator(new IndentPrinter());
+    node.accept(d);
 
+    String block = d.getPrinter().getContent();
 
-    node.getBlockStatement().accept(getRealThis());
-
-    //String block = pp.getPrinter().getContent();
-
-    String block = new StatechartPrettyPrinterDelegator().prettyprint(node);
     block = block.replaceAll("\\n", "");
     block = block.replaceAll(" ", "");
-    getPrinter().print(block);
+    getPrinter().print(block);*/
   }
 
   @Override
-  @Deprecated
   public void handle(ASTSCExpression node) {
     //JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
     //node.getExpression().accept(pp);
     node.getExpression().accept(getRealThis());
     //getPrinter().print(pp.getPrinter().getContent());
-    getPrinter().print(new StatechartPrettyPrinterDelegator().prettyprint(node));
+    //getPrinter().print(new StatechartPrettyPrinterDelegator().prettyprint(node));
   }
 
   @Override
-  @Deprecated
   public void handle(ASTSCInvariantContent node) {
     //JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
     //node.getExpression().accept(pp);
     //getPrinter().print(pp.getPrinter().getContent());
     node.getExpression().accept(getRealThis());
-    getPrinter().print(new StatechartPrettyPrinterDelegator().prettyprint(node));
+    //getPrinter().print(new StatechartPrettyPrinterDelegator().prettyprint(node));
   }
 
   @Override

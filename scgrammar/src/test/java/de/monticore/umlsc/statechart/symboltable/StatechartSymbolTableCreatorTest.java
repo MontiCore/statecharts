@@ -77,6 +77,7 @@ public class StatechartSymbolTableCreatorTest {
     //final StatechartSymbol scSymbol = globalScope.<StatechartSymbol>resolve(fullName ,StatechartSymbol.KIND).orElse(null);
     final StatechartSymbol scSymbol = globalScope.resolveStatechart(fullName).orElse(null);
     assertNotNull(scSymbol);
+    System.out.println(scSymbol.getFullName());
     assertEquals(fullName, scSymbol.getFullName());
   }
 
