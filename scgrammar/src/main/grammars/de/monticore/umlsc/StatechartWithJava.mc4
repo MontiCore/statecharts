@@ -10,7 +10,7 @@ grammar StatechartWithJava extends de.monticore.umlsc.Statechart, de.monticore.J
 
 
      ExtTypeParameters = ;
-     SCStatements = BlockStatement;
+     SCStatements = MCBlockStatement;
      SCExpression = Expression;
      SCInvariantContent = Expression;
      start SCArtifact;

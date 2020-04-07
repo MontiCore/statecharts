@@ -13,7 +13,7 @@ import de.monticore.prettyprint.JavaLightPrettyPrinter;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.cd.prettyprint.CDPrettyPrinter;
 import de.monticore.prettyprint.MCBasicsPrettyPrinter;
-import de.monticore.statements.mccommonstatements._ast.ASTBlockStatement;
+//import de.monticore.statements.mccommonstatements._ast.ASTBlockStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 //import de.monticore.types.mcbasictypes._ast.ASTReferenceType;
 //import de.monticore.types.mcbasictypes._ast.ASTMCTypesNode;
@@ -208,7 +208,7 @@ public class StatechartPrettyPrinter extends MCBasicsPrettyPrinter implements St
   @Override
   //Todo Für Zeilenumbrüche löschen Rest wieder reinnehmen
   public void handle(ASTSCStatements node) {
-      node.getBlockStatement().accept(getRealThis());
+      node.getMCBlockStatement().accept(getRealThis());
 
 /*
     StatechartPrettyPrinterDelegator d = new StatechartPrettyPrinterDelegator(new IndentPrinter());

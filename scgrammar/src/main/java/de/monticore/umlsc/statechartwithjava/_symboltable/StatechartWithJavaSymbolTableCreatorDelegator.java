@@ -14,7 +14,7 @@ import java.util.List;
 
 public class StatechartWithJavaSymbolTableCreatorDelegator extends StatechartWithJavaSymbolTableCreatorDelegatorTOP {
 
-  public StatechartWithJavaSymbolTableCreatorDelegator(IStatechartWithJavaGlobalScope globalScope) {
+  public StatechartWithJavaSymbolTableCreatorDelegator(StatechartWithJavaGlobalScope globalScope) {
     super(globalScope);
   }
 
