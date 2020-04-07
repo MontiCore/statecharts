@@ -19,11 +19,10 @@
   <properties>
 
     <!-- .. Libraries ..................................................... -->
-    <tflanguage.version>0.3.3-SNAPSHOT</tflanguage.version>
-    <tfengine.version>5.3.0-SNAPSHOT</tfengine.version>
+    <tflanguage.version>0.3.5-SNAPSHOT</tflanguage.version>
+    <tfengine.version>6.1.0-SNAPSHOT</tfengine.version>
     <monticore.version>6.1.0-SNAPSHOT</monticore.version>
     <mc4.maven.version>6.0.0</mc4.maven.version>
-    <monticore.java.version>4.3.13</monticore.java.version>
     <cd4analysis.version>1.6.0</cd4analysis.version>
     <guava.version>18.0</guava.version>
     <junit.version>4.11</junit.version>
