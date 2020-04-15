@@ -16,7 +16,7 @@ component grammar Statechart extends de.monticore.types.MCBasicTypes, de.montico
   scope SCArtifact =
     ("package" package:(Name& || ".")+ ";")?
     (MCImportStatement)*
-    Statechart EOF;
+    Statechart;
 
 
     /*========================================================================*/
@@ -172,40 +172,40 @@ component grammar Statechart extends de.monticore.types.MCBasicTypes, de.montico
     SCReturnStatement extends SCEvent =
         "return"
         ( "(" SCExpression ")" ) ?;
-    
-    
+
+
     /** ASTSCArguments represents Arguments of an Event in a UML Statechart
         diagram
         @attribute SCExpressions Specified Arguments as a list of Expressions
     */
     SCArguments =
         ("(" (SCExpression || "," )* ")");
-    
-    
+
+
     /** ASTSCCode represents user added code to the Statechart diagram or to
         States
         @attribute SCStatements The code added by the user
     */
     SCCode extends SCElement =
         "code" SCStatements;
-    
+
     /** ASTCompleteness indicates completeness of an element
     */
     Completeness =
       complete:["(c)"] | incomplete:["(...)"];
-      
- 
+
+
     /** ASTSCStereotype represents SCStereotypes in a Statechart
    	    @attribute values List of Values of this SCStereotype
   	*/
   	SCStereotype = "<<" value:(SCStereoValue || ",")+ ">>";
-    
+
 
     /** ASTSCStereoValue represents a Value of a SCStereotype in a Classdiagram
         @attribute name  Name of the SCStereotype-Value
     */
     SCStereoValue = Name ("=" value:String)?;
-    
+
     Invariant =
         "[" content:SCInvariantContent "]";
 }

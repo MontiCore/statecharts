@@ -34,7 +34,6 @@ public class StatechartPrettyPrinterDelegator extends StatechartWithJavaDelegato
 
 
 
-        setJavaLightVisitor(new JavaLightPrettyPrinter(printer));
         setMCCommonLiteralsVisitor(new MCCommonLiteralsPrettyPrinter(printer));
         setMCBasicTypesVisitor(new MCBasicTypesPrettyPrinter(printer));
         setMCBasicsVisitor(new MCBasicsPrettyPrinter(printer));

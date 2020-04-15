@@ -12,17 +12,16 @@
     <module>scgrammar</module>
     <module>sctrans</module>
     <module>scuse</module>
-    <module>sc-archetype</module>
-<!--    <module>sctrans-editor</module>TODO: Readd this once updated to 5.2.0-->
   </modules>
 
   <properties>
 
     <!-- .. Libraries ..................................................... -->
-    <tflanguage.version>0.3.5-SNAPSHOT</tflanguage.version>
+    <tflanguage.version>0.3.6-SNAPSHOT</tflanguage.version>
+    <cdtrans.version>0.3.6-SNAPSHOT</cdtrans.version>
     <tfengine.version>6.1.0-SNAPSHOT</tfengine.version>
     <monticore.version>6.1.0-SNAPSHOT</monticore.version>
-    <mc4.maven.version>6.0.0</mc4.maven.version>
+    <mc4.maven.version>6.1.0-SNAPSHOT</mc4.maven.version>
     <cd4analysis.version>1.6.0</cd4analysis.version>
     <guava.version>18.0</guava.version>
     <junit.version>4.11</junit.version>
