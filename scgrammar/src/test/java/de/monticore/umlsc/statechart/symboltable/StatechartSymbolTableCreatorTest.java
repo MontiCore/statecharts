@@ -26,12 +26,7 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 
-/**
- * TODO: Write me!
- *
- * @author (last commit) $Author$
- * @since TODO: add version number
- */
+
 public class StatechartSymbolTableCreatorTest {
 
   private StatechartWithJavaGlobalScope globalScope;

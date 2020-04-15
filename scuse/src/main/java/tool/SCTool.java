@@ -163,7 +163,7 @@ public class SCTool {
    * @return
    */
   public static IStatechartWithJavaScope createSymbolTable(StatechartWithJavaLanguage lang, ASTSCArtifact ast) {
-  
+
     StatechartWithJavaGlobalScope globalScope = new StatechartWithJavaGlobalScope(new ModelPath(), lang);
     
     StatechartWithJavaSymbolTableCreator symbolTable = new StatechartWithJavaSymbolTableCreator(globalScope);
