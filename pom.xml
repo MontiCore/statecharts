@@ -22,7 +22,7 @@
     <tfengine.version>6.1.0-SNAPSHOT</tfengine.version>
     <monticore.version>6.1.0-SNAPSHOT</monticore.version>
     <mc4.maven.version>6.1.0-SNAPSHOT</mc4.maven.version>
-    <cd4analysis.version>1.6.0</cd4analysis.version>
+    <cd4analysis.version>1.7.0-SNAPSHOT</cd4analysis.version>
     <guava.version>18.0</guava.version>
     <junit.version>4.11</junit.version>
     <se-commons.version>1.7.8</se-commons.version>
