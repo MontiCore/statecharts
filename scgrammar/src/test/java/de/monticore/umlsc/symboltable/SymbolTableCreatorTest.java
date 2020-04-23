@@ -24,12 +24,7 @@ import java.util.Optional;
 
 import static junit.framework.TestCase.assertTrue;
 
-/**
- * TODO: Write me!
- *
- * @author (last commit) $Author$
- * @since TODO: add version number
- */
+
 public class SymbolTableCreatorTest {
 
   @BeforeClass
