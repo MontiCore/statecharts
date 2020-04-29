@@ -2,23 +2,9 @@
 
 package de.monticore.umlsc.statechart.prettyprint;
 
-import de.monticore.cd.cd4analysis._ast.ASTCD4AnalysisNode;
-//import de.monticore.java.javadsl._ast.ASTJavaBlock;
-//import de.monticore.java.javadsl._ast.ASTJavaDSLNode;
-//import de.monticore.java.prettyprint.JavaDSLPrettyPrinter;
-import de.monticore.expressions.expressionsbasis._ast.ASTExpression;
-import de.monticore.javalight._ast.ASTJavaLightNode;
-import de.monticore.prettyprint.JavaLightPrettyPrinter;
-
 import de.monticore.prettyprint.IndentPrinter;
-import de.monticore.cd.prettyprint.CDPrettyPrinter;
 import de.monticore.prettyprint.MCBasicsPrettyPrinter;
-//import de.monticore.statements.mccommonstatements._ast.ASTBlockStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
-//import de.monticore.types.mcbasictypes._ast.ASTReferenceType;
-//import de.monticore.types.mcbasictypes._ast.ASTMCTypesNode;
-import de.monticore.types.mcbasictypes._ast.ASTMCBasicTypesNode;
-import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.monticore.umlsc.statechart._ast.*;
 import de.monticore.umlsc.statechart._visitor.StatechartVisitor;
 import de.monticore.umlsc.statechartwithjava._ast.ASTSCExpression;
@@ -206,37 +192,18 @@ public class StatechartPrettyPrinter extends MCBasicsPrettyPrinter implements St
   }
 
   @Override
-  //Todo Für Zeilenumbrüche löschen Rest wieder reinnehmen
   public void handle(ASTSCStatements node) {
       node.getMCBlockStatement().accept(getRealThis());
-
-/*
-    StatechartPrettyPrinterDelegator d = new StatechartPrettyPrinterDelegator(new IndentPrinter());
-    node.accept(d);
-
-    String block = d.getPrinter().getContent();
-
-    block = block.replaceAll("\\n", "");
-    block = block.replaceAll(" ", "");
-    getPrinter().print(block);*/
   }
 
   @Override
   public void handle(ASTSCExpression node) {
-    //JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
-    //node.getExpression().accept(pp);
     node.getExpression().accept(getRealThis());
-    //getPrinter().print(pp.getPrinter().getContent());
-    //getPrinter().print(new StatechartPrettyPrinterDelegator().prettyprint(node));
   }
 
   @Override
   public void handle(ASTSCInvariantContent node) {
-    //JavaLightPrettyPrinter pp = new JavaLightPrettyPrinter(new IndentPrinter());
-    //node.getExpression().accept(pp);
-    //getPrinter().print(pp.getPrinter().getContent());
     node.getExpression().accept(getRealThis());
-    //getPrinter().print(new StatechartPrettyPrinterDelegator().prettyprint(node));
   }
 
   @Override
@@ -329,14 +296,10 @@ public class StatechartPrettyPrinter extends MCBasicsPrettyPrinter implements St
     }
     if(node.isPresentClassName()){
       getPrinter().print("for ");
-      //MCBasicTypesPrettyPrinter pp = new MCBasicTypesPrettyPrinter(new IndentPrinter());
       node.getClassName().accept(getRealThis());
-      //getPrinter().print(pp.prettyprint(node.getClassName()));
     }
     if(node.isPresentSuperSC()){
       getPrinter().print("refines ");
-      //MCBasicTypesPrettyPrinter pp = new MCBasicTypesPrettyPrinter(new IndentPrinter());
-      //getPrinter().print(pp.prettyprint(node.getSuperSC()));
       node.getSuperSC().accept(getRealThis());
     }
     getPrinter().print("{");

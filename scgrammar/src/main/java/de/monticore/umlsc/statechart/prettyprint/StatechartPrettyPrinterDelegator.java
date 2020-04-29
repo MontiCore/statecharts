@@ -19,65 +19,47 @@ import de.monticore.umlsc.statechartwithjava._visitor.StatechartWithJavaDelegato
 import de.monticore.umlsc.statechartwithjava._visitor.StatechartWithJavaVisitor;
 
 public class StatechartPrettyPrinterDelegator extends StatechartWithJavaDelegatorVisitor{
-
-    protected StatechartWithJavaDelegatorVisitor realThis = this;
-
-    protected de.monticore.prettyprint.IndentPrinter printer;
-
-    public StatechartPrettyPrinterDelegator() {
-        this(new IndentPrinter());
-    }
-
-    public StatechartPrettyPrinterDelegator(IndentPrinter printer){
-        this.printer = printer;
-
-
-
-
-        setMCCommonLiteralsVisitor(new MCCommonLiteralsPrettyPrinter(printer));
-        setMCBasicTypesVisitor(new MCBasicTypesPrettyPrinter(printer));
-        setMCBasicsVisitor(new MCBasicsPrettyPrinter(printer));
-
-        setCommonExpressionsVisitor(new CommonExpressionsPrettyPrinter(printer));
-        setAssignmentExpressionsVisitor(new AssignmentExpressionsPrettyPrinter(printer));
-        setMCCommonStatementsVisitor(new MCCommonStatementsPrettyPrinter(printer));
-        setExpressionsBasisVisitor(new ExpressionsBasisPrettyPrinter(printer));
-
-
-        // ToDO: Braucht man beide oder reicht einer?
-        setStatechartWithJavaVisitor(new StatechartPrettyPrinter(printer));
-        setStatechartVisitor(getStatechartWithJavaVisitor().get());
-
-
-
-    }
-
-
-    public String prettyPrint(ASTStatechartNode node){
-        getPrinter().clearBuffer();
-        node.accept(getRealThis());
-        return getPrinter().getContent();
-    }
-
-    //public String prettyprint(ASTCD4AnalysisNode node){
-      //  getPrinter().clearBuffer();
-        //node.accept(getRealThis());
-        //return getPrinter().getContent();
-    //}
-
-    /*public String prettyprint(ASTJavaLightNode node){
-        getPrinter().clearBuffer();
-        node.accept(getRealThis());
-        return getPrinter().getContent();
-    }*/
-
-    public IndentPrinter getPrinter(){
-        return printer;
-    }
-
-    @Override
-    public StatechartWithJavaDelegatorVisitor getRealThis(){
-        return realThis;
-    }
-
+  
+  protected StatechartWithJavaDelegatorVisitor realThis = this;
+  
+  protected de.monticore.prettyprint.IndentPrinter printer;
+  
+  public StatechartPrettyPrinterDelegator() {
+    this(new IndentPrinter());
+  }
+  
+  public StatechartPrettyPrinterDelegator(IndentPrinter printer){
+    this.printer = printer;
+    
+    setMCCommonLiteralsVisitor(new MCCommonLiteralsPrettyPrinter(printer));
+    setMCBasicTypesVisitor(new MCBasicTypesPrettyPrinter(printer));
+    setMCBasicsVisitor(new MCBasicsPrettyPrinter(printer));
+    
+    setCommonExpressionsVisitor(new CommonExpressionsPrettyPrinter(printer));
+    setAssignmentExpressionsVisitor(new AssignmentExpressionsPrettyPrinter(printer));
+    setMCCommonStatementsVisitor(new MCCommonStatementsPrettyPrinter(printer));
+    setExpressionsBasisVisitor(new ExpressionsBasisPrettyPrinter(printer));
+    
+    setStatechartWithJavaVisitor(new StatechartPrettyPrinter(printer));
+    setStatechartVisitor(getStatechartWithJavaVisitor().get());
+    
+  }
+  
+  
+  public String prettyPrint(ASTStatechartNode node){
+    getPrinter().clearBuffer();
+    node.accept(getRealThis());
+    return getPrinter().getContent();
+  }
+  
+  
+  public IndentPrinter getPrinter(){
+    return printer;
+  }
+  
+  @Override
+  public StatechartWithJavaDelegatorVisitor getRealThis(){
+    return realThis;
+  }
+  
 }
