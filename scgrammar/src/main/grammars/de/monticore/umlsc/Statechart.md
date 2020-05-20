@@ -1,6 +1,9 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
 
 # Statecharts
+
+[[_TOC_]]
+
 The language for UML Statecharts is split up into 3 language components:
 - **Statechart**: basic Statechart language component with states and transitions. 
 - **StatechartWithJava**: A Statechart language that uses 
