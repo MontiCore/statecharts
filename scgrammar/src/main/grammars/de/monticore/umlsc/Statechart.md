@@ -2,8 +2,6 @@
 
 # Statecharts
 
-[[_TOC_]]
-
 The language for UML Statecharts is split up into 3 language components:
 - **Statechart**: basic Statechart language component with states and transitions. 
 - **StatechartWithJava**: A Statechart language that uses 
@@ -14,7 +12,9 @@ The language for UML Statecharts is split up into 3 language components:
    modeling but for deriving its corresponding transformation languages that enables to transform 
    statecharts and class diagrams. 
 
-## Statechart
+[[_TOC_]]
+
+## The Statechart Language Component
 The Statechart language component provides the concrete and abstract syntax to model Statecharts.
 It is based on the language components `MCBasicTypes` and `MCCommonLiterals` provided by MontiCore.
 
@@ -40,8 +40,10 @@ The CoCos can be found in
  [`de.monticore.umlsc.statechart.CoCoChecker`][cocochecker].
 
 
-## StatechartsWithJava
-The grammar [StatechartWithJava] extends the language component [Statechart] and fills its extension points with Java-like Syntax taken from the language components `CommonExpressions`, `AssignmentExpressions`, and  `MCCommonStatements` provided by MontiCore. 
+## The StatechartsWithJava Language Component 
+The grammar [StatechartWithJava] extends the language component [Statechart] and fills its extension 
+points with Java-like Syntax taken from the language components `CommonExpressions`,
+`AssignmentExpressions`, and  `MCCommonStatements` provided by MontiCore. 
 
 ### Syntax
 The extension points of [Statechart] are filled as follows:
@@ -74,20 +76,23 @@ it can be unlocked by using `unlock()` if the pre-condition `isAuthorized` is fu
 
 #### Handwritten Extensions
 
- The parser [`StatechartWithJavaParser`][SCWJParser] is extended to have additional checks like the statechart's name has to match the file name.
+The parser [`StatechartWithJavaParser`][SCWJParser] is extended to have additional checks like the 
+statechart's name has to match the file name.
 
 
 
 <!-- ### Symboltable -->
 
 
-## StatehartWithJavaWithCD
-This language component is only created to derive its corresponding transformation language. This transformation language is used in the code generation for Statechart to translate Statecharts to class diagrams as an intermediate representation before generating Java code for it.
+## StatechartWithJavaWithCD
+This language component is only created to derive its corresponding transformation language. 
+This transformation language is used in the code generation for Statechart to translate Statecharts
+to class diagrams as an intermediate representation before generating Java code for it.
 
 <!-- List with all references used within this markdown file: -->
 [Statechart]: Statechart.mc4
 [StatechartWithJava]: StatechartWithJava.mc4
-[SCWithJWithCDGrammar]: StatehartWithJavaWithCD.mc4
+[SCWithJWithCDGrammar]: StatechartWithJavaWithCD.mc4
 [cocos]: ../../../../java/de/monticore/umlsc/statechart/_cocos
 [cocochecker]: ../../../../java/de/monticore/umlsc/statechart/CoCoChecker.java
 [ASTSCState]: ../../../../java/de/monticore/umlsc/statechart/_ast/ASTSCState.java
