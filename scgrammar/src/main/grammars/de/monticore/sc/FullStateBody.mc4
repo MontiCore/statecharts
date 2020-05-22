@@ -1,0 +1,11 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore.sc;
+
+component grammar FullStateBody extends de.monticore.sc.SCBasis, de.monticore.sc.SCActions {
+   StateBody implements SCSBody <20> = "{"
+      SCInvariant?
+      SCAction*
+      SCStateElement*
+      "}";
+
+}

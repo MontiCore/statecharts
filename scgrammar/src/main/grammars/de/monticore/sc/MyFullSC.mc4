@@ -1,0 +1,9 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore.sc;
+grammar MyFullSC extends de.monticore.sc.FullStatechart,
+                     de.monticore.expressions.AssignmentExpressions,
+                     de.monticore.expressions.CommonExpressions,
+                     de.monticore.literals.MCCommonLiterals,
+                     de.monticore.statements.MCCommonStatements {
+  start SCArtifact;
+}

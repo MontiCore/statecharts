@@ -1,0 +1,7 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore.sc;
+
+component grammar SCEntryExit extends de.monticore.sc.SCBasis, de.monticore.sc.SCActions {
+  SCEntryAction implements SCAction = "entry" entryAction:SCABody;
+  SCExitAction implements SCAction = "exit" exitAction:SCABody;
+}

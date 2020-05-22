@@ -1,0 +1,18 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore.sc;
+
+component grammar SCBasis extends de.monticore.MCBasics, de.monticore.expressions.ExpressionsBasis,
+                        de.monticore.statements.MCStatementsBasis {
+
+interface SCStatechartElement;
+interface SCStateElement;
+
+
+interface SCSBody = SCStateElement* ;
+interface SCTBody = SCEvent? MCBlockStatement?;
+
+interface SCEvent;
+
+SCInvariant  = "[" Expression "]";
+
+}
