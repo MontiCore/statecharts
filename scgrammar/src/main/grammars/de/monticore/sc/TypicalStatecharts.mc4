@@ -1,8 +1,0 @@
-/* (c) https://github.com/MontiCore/monticore */
-package de.monticore.sc;
-
-component grammar TypicalStatecharts extends de.monticore.sc.SimpleStatecharts,
-                                   de.monticore.sc.SCFullBodys,
-                                   de.monticore.sc.SCEntryExit {
-
-}

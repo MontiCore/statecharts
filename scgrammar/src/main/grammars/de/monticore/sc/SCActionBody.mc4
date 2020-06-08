@@ -6,7 +6,5 @@ component grammar SCActionBody extends de.monticore.sc.SCBasis, de.monticore.sc.
 
  SCActionBody implements SCABody =
    (preCondition:SCInvariant)?
-   (slash:"/" MCBlockStatement?
-     (postCondition:SCInvariant)?
-   )?;
+   "/" MCBlockStatement? postCondition:SCInvariant? ;
 }

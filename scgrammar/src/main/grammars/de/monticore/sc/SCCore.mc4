@@ -3,8 +3,7 @@ package de.monticore.sc;
 
 component grammar SCCore extends de.monticore.sc.SCBasis,
                                         de.monticore.types.MCBasicTypes,
-                                        de.monticore.UMLStereotype,
-                                        de.monticore.expressions.ExpressionsBasis {
+                                        de.monticore.UMLStereotype {
 
   scope SCArtifact =
     ("package" package:(Name& || ".")+ ";")?

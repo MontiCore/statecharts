@@ -1,8 +1,0 @@
-/* (c) https://github.com/MontiCore/monticore */
-package de.monticore.sc;
-
-component grammar FullStatechart extends de.monticore.sc.TypicalStatecharts,
-                                         de.monticore.sc.SCInternActions,
-                                         de.monticore.sc.SCCode {
-
-}

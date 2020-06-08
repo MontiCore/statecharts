@@ -2,9 +2,9 @@
 package de.monticore.umlsc.parser;
 
 import de.monticore.sc.mysc._parser.MySCParser;
+import de.monticore.sc.mytypicalsc._parser.MyTypicalSCParser;
 import de.monticore.sc.sccore._ast.ASTSCArtifact;
 import de.monticore.sc.sccore._ast.ASTSCTransition;
-import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParser;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
@@ -16,9 +16,9 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertFalse;
 
-public class MySCParserTest {
+public class TypicalSCParserTest {
   
-  MySCParser parser = new MySCParser();
+  MyTypicalSCParser parser = new MyTypicalSCParser();
   
   @Before
   public void init(){
@@ -27,7 +27,7 @@ public class MySCParserTest {
   
   @Test
   public void testStatechart() throws IOException {
-   parser.parse_StringSCArtifact("statechart Foo {"
+    parser.parse_StringSCArtifact("statechart Foo {"
         + "  state Bla {"
         + "    state S"
         + "  }"
@@ -49,7 +49,30 @@ public class MySCParserTest {
     check(parser);
   }
   
-  protected void check(MySCParser parser) {
+  @Test
+  public void testTransition2() throws IOException {
+    parser.parse_StringSCTransition(" Closed -> Locked timeOut() / "
+        + "          { lockDoor(); }"
+        + "          [doorIsLocked]");
+    check(parser);
+  }
+  
+  @Test
+  public void testState() throws IOException {
+    parser.parse_StringSCState("state Opened {"
+        + "  [!Locked]"
+        + "}");
+    check(parser);
+  }
+  @Test
+  public void testState2() throws IOException {
+    parser.parse_StringSCState("state Opened {"
+        + "  entry / { ringTheDoorBell(); }"
+        + "}");
+    check(parser);
+  }
+  
+  protected void check(MyTypicalSCParser parser) {
     if (parser.hasErrors()) {
       for(Finding f : LogStub.getFindings()){
         System.out.println(f.buildMsg());

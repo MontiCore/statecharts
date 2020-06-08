@@ -1,6 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.sc;
-grammar MySC extends de.monticore.sc.SimpleStatecharts,
+grammar MySC extends de.monticore.sc.SimpleSC,
                      de.monticore.expressions.AssignmentExpressions,
                      de.monticore.expressions.CommonExpressions,
                      de.monticore.literals.MCCommonLiterals,

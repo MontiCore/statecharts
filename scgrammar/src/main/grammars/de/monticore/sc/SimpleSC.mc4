@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.sc;
 
-component grammar SimpleStatecharts extends de.monticore.sc.SCCore {
+component grammar SimpleSC extends de.monticore.sc.SCCore {
 
   SimpleStateBody implements SCSBody <10> = "{" SCStateElement* "}";
   SimpleTransitionBody implements SCTBody <10> =  SCEvent? "/" MCBlockStatement? ;
