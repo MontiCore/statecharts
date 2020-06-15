@@ -1,7 +1,0 @@
-/* (c) https://github.com/MontiCore/monticore */
-package de.monticore.sc;
-
-component grammar SCActions extends de.monticore.statements.MCStatementsBasis {
-  interface SCAction;
-  interface SCABody = MCBlockStatement?;
-}

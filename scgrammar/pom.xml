@@ -31,6 +31,10 @@
         <configuration>
           <skip>false</skip>
           <script>de/monticore/monticore_noemf.groovy</script>
+          <grammars>
+            <grammar>src/main/grammars</grammar>
+            <grammar>src/test/grammars</grammar>
+          </grammars>
         </configuration>
         <executions>
           <execution>

@@ -1,9 +1,0 @@
-/* (c) https://github.com/MontiCore/monticore */
-package de.monticore.sc;
-
-component grammar FullTransitionBody extends de.monticore.sc.SCBasis,
-                                   de.monticore.statements.MCStatementsBasis {
-  SCTransitionBody implements SCTBody =
-      (preCondition:SCInvariant)? SCEvent? "/" ( MCBlockStatement (postCondition:SCInvariant)? )?
-     ;
-}

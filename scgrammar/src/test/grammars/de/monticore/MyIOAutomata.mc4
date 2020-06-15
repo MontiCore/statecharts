@@ -1,0 +1,11 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore;
+
+grammar MyIOAutomata extends de.monticore.IOAutomata,
+                     de.monticore.literals.MCCommonLiterals,
+                     de.monticore.statements.MCCommonStatements,
+                     de.monticore.expressions.CommonExpressions {
+
+  start SCArtifact;
+
+}

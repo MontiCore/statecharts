@@ -1,0 +1,36 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore;
+
+component grammar IOAutomata extends de.monticore.FlatSC,
+                                     de.monticore.expressions.AssignmentExpressions {
+
+
+  /**
+   * IOStateBody provides an Actionblock to set initialvalues
+   */
+  IOStateBody implements SCSBody =
+    ActionBlock ";"
+  ;
+
+ /**
+   * IOTransitionBody provides an IOAutomata transition body
+   * @attribute Guard The transition is only active when the guard holds
+   * @attribute actionBlock What is done when the transition is taken
+   */
+  IOTransitionBody implements SCTBody =
+    guard:SCInvariant? ActionBlock? ";"
+  ;
+
+  /**
+   * ASTActionBlock contains a row of assignments.
+
+   * @attribute assignmentExpression A list of assignments
+   */
+  ActionBlock = "/" "{" assignmentExpression:(/*Assignment*/Expression || ",")+ "}";
+
+  /**
+   * The Value for empty data
+   */
+  NoData implements Expression = "--";
+
+}

@@ -1,0 +1,34 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore.umlsc.parser;
+
+import de.monticore.myioautomata._parser.MyIOAutomataParser;
+import org.junit.Test;
+
+import java.io.IOException;
+
+import static org.junit.Assert.assertFalse;
+
+public class IOAutomataTest {
+  
+  @Test
+  public void testBumpControl() throws IOException {
+    MyIOAutomataParser p = new MyIOAutomataParser();
+    p.parse("src/test/resources/ioautomata/BumpControl.aut");
+    assertFalse(p.hasErrors());
+  }
+  
+  @Test
+  public void testAnotherAutomatonImpl() throws IOException {
+    MyIOAutomataParser p = new MyIOAutomataParser();
+    p.parse("src/test/resources/ioautomata/AnotherAutomatonImpl.aut");
+    assertFalse(p.hasErrors());
+  }
+  
+  @Test
+  public void testInvalidAutomatonBehaviorImpl() throws IOException {
+    MyIOAutomataParser p = new MyIOAutomataParser();
+    p.parse("src/test/resources/ioautomata/InvalidAutomatonBehaviorImpl.aut");
+    assertFalse(p.hasErrors());
+  }
+  
+}

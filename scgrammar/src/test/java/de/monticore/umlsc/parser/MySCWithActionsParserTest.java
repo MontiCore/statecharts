@@ -1,10 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.umlsc.parser;
 
-import de.monticore.sc.mysc._parser.MySCParser;
-import de.monticore.sc.mytypicalsc._parser.MyTypicalSCParser;
-import de.monticore.sc.sccore._ast.ASTSCArtifact;
-import de.monticore.sc.sccore._ast.ASTSCTransition;
+import de.monticore.myscwithactions._parser.MySCWithActionsParser;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
@@ -16,9 +13,9 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertFalse;
 
-public class TypicalSCParserTest {
+public class MySCWithActionsParserTest {
   
-  MyTypicalSCParser parser = new MyTypicalSCParser();
+  MySCWithActionsParser parser = new MySCWithActionsParser();
   
   @Before
   public void init(){
@@ -72,7 +69,7 @@ public class TypicalSCParserTest {
     check(parser);
   }
   
-  protected void check(MyTypicalSCParser parser) {
+  protected void check(MySCWithActionsParser parser) {
     if (parser.hasErrors()) {
       for(Finding f : LogStub.getFindings()){
         System.out.println(f.buildMsg());

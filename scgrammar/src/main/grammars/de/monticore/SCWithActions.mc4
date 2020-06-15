@@ -1,0 +1,7 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore;
+
+component grammar SCWithActions extends de.monticore.HierarchicalSC,
+                                        de.monticore.SCFullBodys {
+
+}

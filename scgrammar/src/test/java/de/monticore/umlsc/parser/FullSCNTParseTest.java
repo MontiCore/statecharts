@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.umlsc.parser;
 
-import de.monticore.sc.myfullsc._parser.MyFullSCParser;
+import de.monticore.myfullsc._parser.MyFullSCParser;
 import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParser;
 import de.se_rwth.commons.logging.Log;
 import org.junit.BeforeClass;
@@ -36,21 +36,6 @@ public class FullSCNTParseTest {
     assertFalse(parser.hasErrors());
   }
   
-  @Test
-  public void testStatechart3() throws IOException {
-    parser.parse_StringStatechart("statechart Door for DoorDiagram {\n"
-        + "  // …\n"
-        + "}");
-    assertFalse(parser.hasErrors());
-  }
-  
-  @Test
-  public void testStatechart4() throws IOException {
-    parser.parse_StringStatechart("statechart RoomDoor refines Door {\n"
-        + "  // …\n"
-        + "}\n");
-    assertFalse(parser.hasErrors());
-  }
   
   @Test
   public void testState() throws IOException {

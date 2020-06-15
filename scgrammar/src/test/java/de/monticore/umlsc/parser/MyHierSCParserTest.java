@@ -1,10 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.umlsc.parser;
 
-import de.monticore.sc.mysc._parser.MySCParser;
-import de.monticore.sc.sccore._ast.ASTSCArtifact;
-import de.monticore.sc.sccore._ast.ASTSCTransition;
-import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParser;
+import de.monticore.myhiersc._parser.MyHierSCParser;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
@@ -16,9 +13,9 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertFalse;
 
-public class MySCParserTest {
+public class MyHierSCParserTest {
   
-  MySCParser parser = new MySCParser();
+  MyHierSCParser parser = new MyHierSCParser();
   
   @Before
   public void init(){
@@ -49,7 +46,7 @@ public class MySCParserTest {
     check(parser);
   }
   
-  protected void check(MySCParser parser) {
+  protected void check(MyHierSCParser parser) {
     if (parser.hasErrors()) {
       for(Finding f : LogStub.getFindings()){
         System.out.println(f.buildMsg());

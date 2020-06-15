@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore.sc;
-grammar MyTypicalSC extends de.monticore.sc.TypicalSC,
+package de.monticore;
+
+grammar MyHierSC extends de.monticore.HierarchicalSC,
                      de.monticore.expressions.AssignmentExpressions,
                      de.monticore.expressions.CommonExpressions,
                      de.monticore.literals.MCCommonLiterals,
