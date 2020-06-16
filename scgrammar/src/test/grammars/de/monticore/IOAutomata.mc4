@@ -2,15 +2,14 @@
 package de.monticore;
 
 component grammar IOAutomata extends de.monticore.FlatSC,
-                                     de.monticore.expressions.AssignmentExpressions {
+                                     de.monticore.SCCondition,
+                                     de.monticore.statements.MCStatementsBasis {
 
 
   /**
-   * IOStateBody provides an Actionblock to set initialvalues
+   * IOStateBody provides an Actionblock to set initial values
    */
-  IOStateBody implements SCSBody =
-    ActionBlock ";"
-  ;
+  IOStateBody implements SCSBody = "/" MCBlockStatement ;
 
  /**
    * IOTransitionBody provides an IOAutomata transition body
@@ -18,15 +17,8 @@ component grammar IOAutomata extends de.monticore.FlatSC,
    * @attribute actionBlock What is done when the transition is taken
    */
   IOTransitionBody implements SCTBody =
-    guard:SCInvariant? ActionBlock? ";"
+    guard:SCCondition? ("/" MCBlockStatement)?
   ;
-
-  /**
-   * ASTActionBlock contains a row of assignments.
-
-   * @attribute assignmentExpression A list of assignments
-   */
-  ActionBlock = "/" "{" assignmentExpression:(/*Assignment*/Expression || ",")+ "}";
 
   /**
    * The Value for empty data

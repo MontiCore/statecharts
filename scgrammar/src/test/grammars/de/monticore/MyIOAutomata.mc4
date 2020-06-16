@@ -3,9 +3,16 @@ package de.monticore;
 
 grammar MyIOAutomata extends de.monticore.IOAutomata,
                      de.monticore.literals.MCCommonLiterals,
-                     de.monticore.statements.MCCommonStatements,
-                     de.monticore.expressions.CommonExpressions {
+                     de.monticore.statements.MCFullJavaStatements,
+                     de.monticore.expressions.JavaClassExpressions,
+                     de.monticore.expressions.AssignmentExpressions {
 
   start SCArtifact;
+
+   ExtType = MCType;
+
+   ExtReturnType = MCReturnType;
+
+   ExtTypeArgument = "NOT_USED_HERE";
 
 }

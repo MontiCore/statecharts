@@ -4,7 +4,6 @@ package de.monticore;
 grammar MyHierSC extends de.monticore.HierarchicalSC,
                      de.monticore.expressions.AssignmentExpressions,
                      de.monticore.expressions.CommonExpressions,
-                     de.monticore.literals.MCCommonLiterals,
                      de.monticore.statements.MCCommonStatements {
   start SCArtifact;
 }

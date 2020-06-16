@@ -1,7 +1,31 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-component grammar SCWithActions extends de.monticore.HierarchicalSC,
-                                        de.monticore.SCFullBodys {
+component grammar SCWithActions extends de.monticore.HierarchicalSC, de.monticore.SCCondition {
+
+  interface SCAction;
+
+  SCEntryAction implements SCAction = "entry" SCActionBody;
+
+  SCExitAction implements SCAction = "exit" SCActionBody;
+
+  SCDoAction implements SCAction= "do" SCActionBody;
+
+  SCActionBody =
+   (pre:SCCondition)? "/" MCBlockStatement? post:SCCondition? ;
+
+  SCInternTransition implements SCStateElement =
+    Stereotype? "->" SCTBody;
+
+  SCTransitionBody implements SCTBody =
+    (preCondition:SCCondition)? SCEvent? "/" ( MCBlockStatement (postCondition:SCCondition)? )?
+  ;
+
+  SCStateBody implements SCSBody <20> =
+    "{"
+      invariant:SCCondition?
+      SCAction*
+      SCStateElement*
+    "}";
 
 }

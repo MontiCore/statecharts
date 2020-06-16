@@ -4,5 +4,5 @@ statechart AnotherAutomatonImpl {
   	state Anfang
     initial state Anfang
 
-    Anfang -> Anfang [a > 2];
+    Anfang -> Anfang [a > 2]
   }

@@ -7,7 +7,7 @@ package de.monticore.umlsc;
  *
  */
 component grammar Statechart extends de.monticore.types.MCBasicTypes, de.monticore.literals.MCCommonLiterals {
-  
+
   /** ASTSCArtifact represents the complete Diagram
     @attribute package          The package declaration of this Statechart
     @attribute importStatements List of imported elements
@@ -16,30 +16,30 @@ component grammar Statechart extends de.monticore.types.MCBasicTypes, de.montico
   scope SCArtifact =
     ("package" package:(Name& || ".")+ ";")?
     (MCImportStatement)*
-    Statechart EOF;
+    Statechart;
 
 
     /*========================================================================*/
     /*================== INTERFACES AND EXTERNAL SYMBOLS =====================*/
     /*========================================================================*/
-    
+
     /** ASTSCElement represents all Elements of a UML Statechart diagram
     */
     abstract SCElement;
-    
+
     /** ASTSCEvent represents Events of Transitions in a UML Statechart diagram
     */
     abstract SCEvent;
-    
+
     external SCStatements;
     external SCExpression;
     external SCInvariantContent;
-    
-    
+
+
     /*========================================================================*/
     /*============================== GRAMMAR =================================*/
     /*========================================================================*/
-    
+
     /** ASTStatechart represents a UML Statechart diagram
         @attribute completeness  Optional Comleteness of this Statechart diagram
         @attribute stereotype    Optional SCStereotype
@@ -60,8 +60,8 @@ component grammar Statechart extends de.monticore.types.MCBasicTypes, de.montico
         "{"
           ( SCState | SCTransition )*
         "}";
-    
-    
+
+
     /** ASTSCAction represents the general part of do-, entry-, and exit-Actions
         @attribute preCondition  Pre-Condition for this Action
         @attribute SCStatements  Statements of this Action
@@ -71,7 +71,7 @@ component grammar Statechart extends de.monticore.types.MCBasicTypes, de.montico
                (slash:"/" SCStatements?
                  (postCondition:Invariant)?
                )?;
-    
+
     /** ASTSCModifier represents a Modifier for a State
         @attribute stereotype Optional SCStereotpye
         @attribute initial    true if State is initial
@@ -81,8 +81,8 @@ component grammar Statechart extends de.monticore.types.MCBasicTypes, de.montico
     SCModifier =
         stereotype:SCStereotype?
         (["initial"] | ["final"] | ["local"])*;
-    
-    
+
+
     /** ASTSCState represents a (hierarchical) State in a UML Statechart diagram
         @attribute completeness        Optional Comleteness of this State
         @attribute sCModifier          Modifier of this State
@@ -116,8 +116,8 @@ component grammar Statechart extends de.monticore.types.MCBasicTypes, de.montico
             )*
           "}")?
     ;
-    
-    
+
+
     /** ASTSCInternTransition represents an Intern Transition of a State in a
         UML Statechart diagram
         @attribute SCStereotype       Optional SCStereotype
@@ -125,8 +125,8 @@ component grammar Statechart extends de.monticore.types.MCBasicTypes, de.montico
     */
     SCInternTransition =
         stereotype:SCStereotype? "->" SCTransitionBody;
-    
-    
+
+
     /** ASTSCTransition represents a Transition between two States in a
         UML Statechart diagram
         @attribute SCStereotype     Optional SCStereotype
@@ -139,7 +139,7 @@ component grammar Statechart extends de.monticore.types.MCBasicTypes, de.montico
         sourceName:Name "->" targetName:Name
         SCTransitionBody?
         ;
-    
+
     /** ASTSCTransitionBody represents the Body of a Transition in a
         UML Statechart diagram
         @attribute preCondition  Pre-Condition of this Transition Body
@@ -154,8 +154,8 @@ component grammar Statechart extends de.monticore.types.MCBasicTypes, de.montico
               (postCondition:Invariant)?
           )?
      ;
-    
-    
+
+
     /** ASTSCMethodOrExceptionCall represents a call of a method or exception
         of a Transition in a UML Statechart diagram
         @attribute name        Name of this method call
@@ -163,8 +163,8 @@ component grammar Statechart extends de.monticore.types.MCBasicTypes, de.montico
     */
     SCMethodCall extends SCEvent =
         name:MCQualifiedName SCArguments?;
-    
-    
+
+
     /** ASTSCReturnStatement represents a return statement of a Transition
         in a UML Statechart diagram
         @attribute SCExpression Expression of this return statement
@@ -172,40 +172,40 @@ component grammar Statechart extends de.monticore.types.MCBasicTypes, de.montico
     SCReturnStatement extends SCEvent =
         "return"
         ( "(" SCExpression ")" ) ?;
-    
-    
+
+
     /** ASTSCArguments represents Arguments of an Event in a UML Statechart
         diagram
         @attribute SCExpressions Specified Arguments as a list of Expressions
     */
     SCArguments =
         ("(" (SCExpression || "," )* ")");
-    
-    
+
+
     /** ASTSCCode represents user added code to the Statechart diagram or to
         States
         @attribute SCStatements The code added by the user
     */
     SCCode extends SCElement =
         "code" SCStatements;
-    
+
     /** ASTCompleteness indicates completeness of an element
     */
     Completeness =
       complete:["(c)"] | incomplete:["(...)"];
-      
- 
+
+
     /** ASTSCStereotype represents SCStereotypes in a Statechart
    	    @attribute values List of Values of this SCStereotype
   	*/
   	SCStereotype = "<<" value:(SCStereoValue || ",")+ ">>";
-    
+
 
     /** ASTSCStereoValue represents a Value of a SCStereotype in a Classdiagram
         @attribute name  Name of the SCStereotype-Value
     */
     SCStereoValue = Name ("=" value:String)?;
-    
+
     Invariant =
         "[" content:SCInvariantContent "]";
 }

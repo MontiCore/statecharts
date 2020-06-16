@@ -1,23 +1,16 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-component grammar SCBasis extends de.monticore.MCBasics, de.monticore.expressions.ExpressionsBasis,
-                        de.monticore.statements.MCStatementsBasis {
+component grammar SCBasis extends de.monticore.MCBasics {
 
   interface SCStatechartElement;
   interface SCStateElement;
-
 
   interface SCSBody;
   interface SCTBody;
 
   SCEmptyBody implements SCTBody, SCSBody = ;
 
-  interface SCEvent;
-
-  SCInvariant  = "[" Expression "]";
-
-  // TODO replace this by Arguments from ExpressionBasis when using MC 6.2.0 or higher
-  SCArguments =  "(" (Expression || ",")* ")";
+   interface SCEvent;
 
 }

@@ -75,6 +75,13 @@ public class FullSCNTParseTest {
     assertFalse(parser.hasErrors());
   }
   
+  @Test
+  public void testState6() throws IOException {
+    parser.parse_StringSCState("state Opened {"
+        + "  code { doSomething(); andSomethingElse(); }"
+        + "}");
+    assertFalse(parser.hasErrors());
+  }
   
   @Test
   public void testTransition() throws IOException {

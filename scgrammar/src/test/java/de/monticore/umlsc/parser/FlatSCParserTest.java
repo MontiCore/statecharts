@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.umlsc.parser;
 
+import de.monticore.flatsc._parser.FlatSCParser;
 import de.monticore.myhiersc._parser.MyHierSCParser;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
@@ -9,13 +10,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import static org.junit.Assert.assertFalse;
 
-public class MyHierSCParserTest {
+public class FlatSCParserTest {
   
-  MyHierSCParser parser = new MyHierSCParser();
+  FlatSCParser parser = new FlatSCParser();
   
   @Before
   public void init(){
@@ -25,28 +25,32 @@ public class MyHierSCParserTest {
   @Test
   public void testStatechart() throws IOException {
    parser.parse_StringSCArtifact("statechart Foo {"
-        + "  state Bla {"
-        + "    state S"
-        + "  }"
+        + "  state Bla "
         + "}");
     check(parser);
   }
+  
   @Test
   public void testStatechart2() throws IOException {
-    parser.parse_StringSCArtifact("statechart Door {"
-        + "  state Opened "
-        + "  Opened -> Closed close() /"
+    parser.parse_StringSCArtifact("statechart Door2 {"
+        + "  initial state Opened "
+        + "  state Closed"
+        + "  Opened -> Closed"
         + "}");
     check(parser);
   }
   
   @Test
-  public void testTransition() throws IOException {
-    parser.parse_StringSCTransition(" Closed -> Opened open() / {ringTheDoorBell();}\n");
+  public void testStatechart3() throws IOException {
+    parser.parse_StringSCArtifact("(c) <<test>> statechart Door2 {"
+        + "  state Opened "
+        + "  state Closed"
+        + "  Opened -> Closed"
+        + "}");
     check(parser);
   }
   
-  protected void check(MyHierSCParser parser) {
+  protected void check(FlatSCParser parser) {
     if (parser.hasErrors()) {
       for(Finding f : LogStub.getFindings()){
         System.out.println(f.buildMsg());

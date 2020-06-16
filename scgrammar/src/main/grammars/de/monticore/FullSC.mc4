@@ -1,7 +1,10 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-component grammar FullSC extends de.monticore.SCWithActions,
-                                 de.monticore.SCCode {
+component grammar FullSC extends de.monticore.SCWithActions {
+
+  SCCode implements SCStateElement = "code" MCBlockStatement;
+
+  SCReturn implements SCEvent = "return" ( "(" Expression ")" )?;
 
 }

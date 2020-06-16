@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.umlsc.parser;
 
-import de.monticore.myscwithactions._parser.MySCWithActionsParser;
+import de.monticore.myhiersc._parser.MyHierSCParser;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
@@ -13,9 +13,9 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertFalse;
 
-public class MySCWithActionsParserTest {
+public class HierSCParserTest {
   
-  MySCWithActionsParser parser = new MySCWithActionsParser();
+  MyHierSCParser parser = new MyHierSCParser();
   
   @Before
   public void init(){
@@ -24,7 +24,7 @@ public class MySCWithActionsParserTest {
   
   @Test
   public void testStatechart() throws IOException {
-    parser.parse_StringSCArtifact("statechart Foo {"
+   parser.parse_StringSCArtifact("statechart Foo {"
         + "  state Bla {"
         + "    state S"
         + "  }"
@@ -46,38 +46,7 @@ public class MySCWithActionsParserTest {
     check(parser);
   }
   
-  @Test
-  public void testTransition2() throws IOException {
-    parser.parse_StringSCTransition(" Closed -> Locked timeOut() / "
-        + "          { lockDoor(); }"
-        + "          [doorIsLocked]");
-    check(parser);
-  }
-  
-  @Test
-  public void testState() throws IOException {
-    parser.parse_StringSCState("state Opened {"
-        + "  [!Locked]"
-        + "}");
-    check(parser);
-  }
-  @Test
-  public void testState2() throws IOException {
-    parser.parse_StringSCState("state Opened {"
-        + "  entry / { ringTheDoorBell(); }"
-        + "}");
-    check(parser);
-  }
-  
-  @Test
-  public void testState3() throws IOException {
-    parser.parse_StringSCState("state Closed {"
-        + "  -> timeOut() / { lockDoor(); } [doorIsLocked]"
-        + "}");
-    check(parser);
-  }
-  
-  protected void check(MySCWithActionsParser parser) {
+  protected void check(MyHierSCParser parser) {
     if (parser.hasErrors()) {
       for(Finding f : LogStub.getFindings()){
         System.out.println(f.buildMsg());

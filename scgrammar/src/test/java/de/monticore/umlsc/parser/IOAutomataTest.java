@@ -31,4 +31,18 @@ public class IOAutomataTest {
     assertFalse(p.hasErrors());
   }
   
+  @Test
+  public void testValidAutomaton2() throws IOException {
+    MyIOAutomataParser p = new MyIOAutomataParser();
+    p.parse("src/test/resources/ioautomata/ValidAutomaton2.aut");
+    assertFalse(p.hasErrors());
+  }
+  
+  @Test
+  public void testBumpSpeed() throws IOException {
+    MyIOAutomataParser p = new MyIOAutomataParser();
+    p.parse("src/test/resources/ioautomata/BumpSpeed.aut");
+    assertFalse(p.hasErrors());
+  }
+  
 }

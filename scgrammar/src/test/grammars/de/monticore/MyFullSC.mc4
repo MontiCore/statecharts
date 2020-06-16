@@ -4,7 +4,6 @@ package de.monticore;
 grammar MyFullSC extends de.monticore.FullSC,
                      de.monticore.expressions.AssignmentExpressions,
                      de.monticore.expressions.CommonExpressions,
-                     de.monticore.literals.MCCommonLiterals,
                      de.monticore.statements.MCCommonStatements {
   start SCArtifact;
 }
