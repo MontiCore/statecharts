@@ -5,5 +5,5 @@ grammar MyFullSC extends de.monticore.FullSC,
                      de.monticore.expressions.AssignmentExpressions,
                      de.monticore.expressions.CommonExpressions,
                      de.monticore.statements.MCCommonStatements {
-  start SCArtifact;
+  start Statechart;
 }

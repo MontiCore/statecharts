@@ -1,8 +1,8 @@
 /* (c) https://github.com/MontiCore/monticore */
 
 statechart InvalidAutomatonBehaviorImpl {
-  	state Start
-    initial state Start / {c = 5;}
+  	state Start;
+    initial state Start / {c = 5;};
 
-    Start -> Start [c < 2]
+    Start -> Start [c < 2];
   }

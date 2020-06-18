@@ -7,7 +7,7 @@ grammar MyIOAutomata extends de.monticore.IOAutomata,
                      de.monticore.expressions.JavaClassExpressions,
                      de.monticore.expressions.AssignmentExpressions {
 
-  start SCArtifact;
+  start Statechart;
 
    ExtType = MCType;
 

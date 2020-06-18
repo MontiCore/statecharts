@@ -1,16 +1,16 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-component grammar HierarchicalSC extends de.monticore.FlatSC,
-                                         de.monticore.statements.MCStatementsBasis,
-                                         de.monticore.expressions.ExpressionsBasis {
+import de.monticore.statements.*;
+import de.monticore.expressions.*;
+import de.monticore.types.*;
+
+
+component grammar HierarchicalSC extends SCBasis, MCStatementsBasis, ExpressionsBasis, MCBasicTypes {
 
   SCHierStateBody implements SCSBody <10> = "{" SCStateElement* "}";
   SimpleTransitionBody implements SCTBody <10> =  SCEvent? "/" MCBlockStatement? ;
 
-  SCMessage implements SCEvent = name:MCQualifiedName SCArguments?;
-
-  // TODO replace this by Arguments from ExpressionBasis when using MC 6.2.0 or higher
-  SCArguments =  "(" (Expression || ",")* ")";
+  SCMessage implements SCEvent = name:MCQualifiedName Arguments?;
 
 }

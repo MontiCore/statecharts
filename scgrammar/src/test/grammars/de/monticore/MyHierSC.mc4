@@ -5,5 +5,5 @@ grammar MyHierSC extends de.monticore.HierarchicalSC,
                      de.monticore.expressions.AssignmentExpressions,
                      de.monticore.expressions.CommonExpressions,
                      de.monticore.statements.MCCommonStatements {
-  start SCArtifact;
+  start Statechart;
 }

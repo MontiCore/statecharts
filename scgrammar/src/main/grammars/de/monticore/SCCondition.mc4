@@ -1,5 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
+
 component grammar SCCondition extends de.monticore.expressions.ExpressionsBasis {
 
    SCCondition  = "[" Expression "]";

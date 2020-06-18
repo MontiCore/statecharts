@@ -24,25 +24,25 @@ public class HierSCParserTest {
   
   @Test
   public void testStatechart() throws IOException {
-   parser.parse_StringSCArtifact("statechart Foo {"
+   parser.parse_StringStatechart("statechart Foo {"
         + "  state Bla {"
-        + "    state S"
-        + "  }"
+        + "    state S;"
+        + "  };"
         + "}");
     check(parser);
   }
   @Test
   public void testStatechart2() throws IOException {
-    parser.parse_StringSCArtifact("statechart Door {"
-        + "  state Opened "
-        + "  Opened -> Closed close() /"
+    parser.parse_StringStatechart("statechart Door {"
+        + "  state Opened; "
+        + "  Opened -> Closed close() /;"
         + "}");
     check(parser);
   }
   
   @Test
   public void testTransition() throws IOException {
-    parser.parse_StringSCTransition(" Closed -> Opened open() / {ringTheDoorBell();}\n");
+    parser.parse_StringSCTransition(" Closed -> Opened open() / {ringTheDoorBell();};");
     check(parser);
   }
   

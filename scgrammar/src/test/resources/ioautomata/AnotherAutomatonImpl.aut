@@ -1,8 +1,8 @@
 /* (c) https://github.com/MontiCore/monticore */
 
 statechart AnotherAutomatonImpl {
-  	state Anfang
-    initial state Anfang
+  	state Anfang;
+    initial state Anfang;
 
-    Anfang -> Anfang [a > 2]
+    Anfang -> Anfang [a > 2];
   }

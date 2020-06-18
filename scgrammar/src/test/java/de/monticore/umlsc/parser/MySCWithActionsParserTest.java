@@ -24,56 +24,48 @@ public class MySCWithActionsParserTest {
   
   @Test
   public void testStatechart() throws IOException {
-    parser.parse_StringSCArtifact("statechart Foo {"
+    parser.parse_StringStatechart("statechart Foo {"
         + "  state Bla {"
-        + "    state S"
-        + "  }"
+        + "    state S;"
+        + "  };"
         + "}");
     check(parser);
   }
   @Test
   public void testStatechart2() throws IOException {
-    parser.parse_StringSCArtifact("statechart Door {"
-        + "  state Opened "
-        + "  Opened -> Closed close() /"
+    parser.parse_StringStatechart("statechart Door {"
+        + "  state Opened; "
         + "}");
     check(parser);
   }
   
   @Test
   public void testTransition() throws IOException {
-    parser.parse_StringSCTransition(" Closed -> Opened open() / {ringTheDoorBell();}\n");
+    parser.parse_StringSCTransition(" Closed -> Opened open() / {ringTheDoorBell();};");
     check(parser);
   }
   
-  @Test
-  public void testTransition2() throws IOException {
-    parser.parse_StringSCTransition(" Closed -> Locked timeOut() / "
-        + "          { lockDoor(); }"
-        + "          [doorIsLocked]");
-    check(parser);
-  }
   
   @Test
   public void testState() throws IOException {
     parser.parse_StringSCState("state Opened {"
         + "  [!Locked]"
-        + "}");
+        + "};");
     check(parser);
   }
   @Test
   public void testState2() throws IOException {
     parser.parse_StringSCState("state Opened {"
         + "  entry / { ringTheDoorBell(); }"
-        + "}");
+        + "};");
     check(parser);
   }
   
   @Test
   public void testState3() throws IOException {
     parser.parse_StringSCState("state Closed {"
-        + "  -> timeOut() / { lockDoor(); } [doorIsLocked]"
-        + "}");
+        + "  -> timeOut() / { lockDoor(); };"
+        + "};");
     check(parser);
   }
   

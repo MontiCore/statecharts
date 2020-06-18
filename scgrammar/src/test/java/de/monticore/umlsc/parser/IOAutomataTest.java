@@ -2,6 +2,8 @@
 package de.monticore.umlsc.parser;
 
 import de.monticore.myioautomata._parser.MyIOAutomataParser;
+import de.se_rwth.commons.logging.Log;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -9,6 +11,11 @@ import java.io.IOException;
 import static org.junit.Assert.assertFalse;
 
 public class IOAutomataTest {
+  
+  @Before
+  public void init(){
+    Log.enableFailQuick(false);
+  }
   
   @Test
   public void testBumpControl() throws IOException {

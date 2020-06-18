@@ -1,8 +1,8 @@
 /* (c) https://github.com/MontiCore/monticore */
 
 statechart ValidAutomaton2 {
-    initial state S1
-    state S1
-    state S2
-    S1 -> S2 [integer != null]
+    initial state S1;
+    state S1;
+    state S2;
+    S1 -> S2 [integer != null];
   }

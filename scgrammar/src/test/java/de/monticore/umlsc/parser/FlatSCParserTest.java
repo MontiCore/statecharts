@@ -25,7 +25,7 @@ public class FlatSCParserTest {
   @Test
   public void testStatechart() throws IOException {
    parser.parse_StringSCArtifact("statechart Foo {"
-        + "  state Bla "
+        + "  state Bla; "
         + "}");
     check(parser);
   }
@@ -33,19 +33,19 @@ public class FlatSCParserTest {
   @Test
   public void testStatechart2() throws IOException {
     parser.parse_StringSCArtifact("statechart Door2 {"
-        + "  initial state Opened "
-        + "  state Closed"
-        + "  Opened -> Closed"
+        + "  initial state Opened; "
+        + "  state Closed;"
+        + "  Opened -> Closed;"
         + "}");
     check(parser);
   }
   
   @Test
   public void testStatechart3() throws IOException {
-    parser.parse_StringSCArtifact("(c) <<test>> statechart Door2 {"
-        + "  state Opened "
-        + "  state Closed"
-        + "  Opened -> Closed"
+    parser.parse_StringSCArtifact("<<test>> statechart Door2 {"
+        + "  state Opened; "
+        + "  state Closed;"
+        + "  Opened -> Closed;"
         + "}");
     check(parser);
   }

@@ -9,8 +9,15 @@
         <version>1.1.5-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+  
+  <version>6.2.0-SNAPSHOT</version>
 
     <artifactId>scgrammar</artifactId>
+  
+  <properties>
+    <monticore.version>6.2.0-SNAPSHOT</monticore.version>
+<!--    <cd4analysis.version>4.0.0-SNAPSHOT</cd4analysis.version>-->
+  </properties>
 	<build>
     <extensions>
       <extension>
@@ -19,7 +26,8 @@
         <version>${wagon.provider.version}</version>
       </extension>
     </extensions>
-
+    
+    
     <plugins>
       <!-- MontiCore Configuration -->
 

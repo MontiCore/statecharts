@@ -1,9 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-grammar FlatSC extends de.monticore.SCBasis,
-                       de.monticore.types.MCBasicTypes,
-                       de.monticore.UMLStereotype {
+grammar FlatSC extends SCBasis, de.monticore.types.MCBasicTypes {
 
   scope SCArtifact =
     ("package" package:MCQualifiedName& ";")?
@@ -11,20 +9,5 @@ grammar FlatSC extends de.monticore.SCBasis,
     Statechart
   ;
 
-  symbol scope Statechart =
-    SCCompleteness?
-    Stereotype?
-    "statechart" Name?
-    "{" SCStatechartElement* "}"
-  ;
 
-  symbol SCState implements SCStateElement, SCStatechartElement =
-     SCCompleteness? SCModifier key("state") Name SCSBody;
-
-  SCTransition implements SCStateElement, SCStatechartElement =
-    Stereotype? sourceName:Name "->" targetName:Name SCTBody ;
-
-  SCCompleteness = complete:["(c)"] | incomplete:["(...)"];
-
-  SCModifier = Stereotype? (["initial"] | ["final"] | ["local"])*;
 }

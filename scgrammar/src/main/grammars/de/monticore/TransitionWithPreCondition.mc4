@@ -1,0 +1,13 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package de.monticore;
+
+import de.monticore.statements.*;
+
+component grammar TransitionWithPreCondition extends SCBasis, SCCondition, MCStatementsBasis {
+
+  SCTBodyWithPre implements SCTBody =
+    preCondition:SCCondition? SCEvent? "/"  MCBlockStatement?
+  ;
+
+}

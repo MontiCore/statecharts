@@ -1,9 +1,9 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-grammar MySCWithActions extends de.monticore.SCWithActions,
+grammar MySCWithActions extends SCWithActions, HierarchicalSC,
                      de.monticore.expressions.AssignmentExpressions,
                      de.monticore.expressions.CommonExpressions,
                      de.monticore.statements.MCCommonStatements {
-  start SCArtifact;
+  start Statechart;
 }

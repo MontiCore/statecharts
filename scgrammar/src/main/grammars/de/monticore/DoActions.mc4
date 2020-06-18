@@ -1,0 +1,9 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package de.monticore;
+
+component grammar DoActions extends SCBasis {
+
+  SCDoAction implements SCAction= "do" SCABody;
+
+}
