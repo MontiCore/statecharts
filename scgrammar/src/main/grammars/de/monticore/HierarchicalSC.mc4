@@ -6,7 +6,10 @@ import de.monticore.expressions.*;
 import de.monticore.types.*;
 
 
-component grammar HierarchicalSC extends SCBasis, MCStatementsBasis, ExpressionsBasis, MCBasicTypes {
+component grammar HierarchicalSC extends SCBasis,
+                                         MCStatementsBasis,
+                                         ExpressionsBasis,
+                                         MCBasicTypes {
 
   SCHierStateBody implements SCSBody <10> = "{" SCStateElement* "}";
   SimpleTransitionBody implements SCTBody <10> =  SCEvent? "/" MCBlockStatement? ;

@@ -4,7 +4,9 @@ package de.monticore;
 
 import de.monticore.statements.*;
 
-component grammar TransitionWithPreAndPostCondition extends SCBasis, SCConditions, MCStatementsBasis {
+component grammar TransitionWithPreAndPostCondition extends SCBasis,
+                                                            SCConditions,
+                                                            MCStatementsBasis {
 
   SCTransitionBody implements SCTBody <30> =
     pre:SCCondition? SCEvent? "/"  MCBlockStatement? post:SCCondition?

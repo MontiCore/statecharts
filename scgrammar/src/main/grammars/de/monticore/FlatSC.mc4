@@ -1,7 +1,9 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-grammar FlatSC extends SCBasis, de.monticore.types.MCBasicTypes {
+import de.monticore.types.*;
+
+grammar FlatSC extends SCBasis, MCBasicTypes {
 
   scope SCArtifact =
     ("package" package:MCQualifiedName& ";")?
