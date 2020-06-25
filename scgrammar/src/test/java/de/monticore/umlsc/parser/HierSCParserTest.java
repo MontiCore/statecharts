@@ -31,11 +31,36 @@ public class HierSCParserTest {
         + "}");
     check(parser);
   }
+  
   @Test
   public void testStatechart2() throws IOException {
     parser.parse_StringStatechart("statechart Door {"
         + "  state Opened; "
         + "  Opened -> Closed close() /;"
+        + "}");
+    check(parser);
+  }
+  
+  @Test
+  public void testStatechart3() throws IOException {
+    parser.parse_StringStatechart("statechart Door1 { state Opened; }");
+    check(parser);
+  }
+  
+  @Test
+  public void testStatechart4() throws IOException {
+    parser.parse_StringStatechart("statechart Door3 {"
+        + "  Closed -> Opened open() / {ringTheDoorBell();};"
+        + "}");
+    check(parser);
+  }
+  
+  @Test
+  public void testStatechart5() throws IOException {
+    parser.parse_StringStatechart("statechart Door1 {"
+        + "  state Opened {"
+        + "    state Ajar;"
+        + "  };"
         + "}");
     check(parser);
   }

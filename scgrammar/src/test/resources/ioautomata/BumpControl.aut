@@ -1,9 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 
 statechart BumpControl {
-    state Driving;
-    state Backing;
-    state Turning;
+    state Driving, Backing, Turning;
 
     initial state Idle / {right = MotorCommand.STOP; left = MotorCommand.STOP;};
 

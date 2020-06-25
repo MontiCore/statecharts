@@ -1,0 +1,8 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore;
+
+component grammar SCStateLists extends SCBasis{
+  symbol StateList implements SCStateElement, SCStatechartElement =
+    SCModifier key("state") Name SCSBody ("," SCModifier Name SCSBody)* ";";
+
+}

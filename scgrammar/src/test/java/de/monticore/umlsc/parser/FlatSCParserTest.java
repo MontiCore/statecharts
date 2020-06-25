@@ -50,6 +50,29 @@ public class FlatSCParserTest {
     check(parser);
   }
   
+  @Test
+  public void testStatechart4() throws IOException {
+    parser.parse_StringSCArtifact("package sc;"
+        + ""
+        + "statechart Door1 { "
+        + "  state Opened;"
+        + "  state Closed; "
+        + "}");
+    check(parser);
+  }
+  
+  @Test
+  public void testStatechart5() throws IOException {
+    parser.parse_StringSCArtifact("import java.util.List;"
+        + ""
+        + "statechart Door2 {"
+        + "  initial state Opened; "
+        + "  state Closed;"
+        + "  Opened -> Closed;"
+        + "}");
+    check(parser);
+  }
+  
   protected void check(FlatSCParser parser) {
     if (parser.hasErrors()) {
       for(Finding f : LogStub.getFindings()){

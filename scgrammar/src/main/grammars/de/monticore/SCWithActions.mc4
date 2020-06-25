@@ -3,7 +3,7 @@ package de.monticore;
 
 import de.monticore.statements.*;
 
-component grammar SCWithActions extends SCBasis, SCCondition, MCStatementsBasis {
+component grammar SCWithActions extends SCBasis, SCConditions, MCStatementsBasis {
 
   SCEntryAction implements SCAction = "entry" SCABody;
 

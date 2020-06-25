@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-component grammar SCCompleteness extends MCBasics {
+component grammar SCCompleteness extends SCBasis {
 
   SCCompleteness = complete:["(c)"] | incomplete:["(...)"];
 

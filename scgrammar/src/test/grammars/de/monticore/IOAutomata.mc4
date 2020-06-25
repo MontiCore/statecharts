@@ -1,9 +1,10 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-component grammar IOAutomata extends de.monticore.FlatSC,
-                                     de.monticore.SCCondition,
-                                     de.monticore.statements.MCStatementsBasis {
+import de.monticore.statements.*;
+
+component grammar IOAutomata extends FlatSC, SCConditions, SCStateLists,
+                                     MCStatementsBasis {
 
 
   /**

@@ -2,7 +2,7 @@
 
 package de.monticore;
 
-component grammar DoActions extends SCBasis {
+component grammar SCDoActions extends SCBasis {
 
   SCDoAction implements SCAction= "do" SCABody;
 
