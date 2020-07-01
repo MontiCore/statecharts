@@ -3,6 +3,6 @@ package de.monticore;
 
 component grammar SCStateLists extends SCBasis{
   symbol StateList implements SCStateElement, SCStatechartElement =
-    SCModifier key("state") Name SCSBody ("," SCModifier Name SCSBody)* ";";
+    SCModifier "state" (Name || ",")+ SCSBody ";";
 
 }

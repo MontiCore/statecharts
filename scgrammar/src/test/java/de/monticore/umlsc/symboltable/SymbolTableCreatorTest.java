@@ -35,12 +35,11 @@ public class SymbolTableCreatorTest {
 
   @Test
   public void testFromFile() throws IOException {
-    StatechartWithJavaLanguage language = new StatechartWithJavaLanguage();
     //ResolvingConfiguration resolverConf = new ResolvingConfiguration();
     //resolverConf.addDefaultFilters(language.getResolvingFilters());
     ModelPath modelPath = new ModelPath(Paths.get("src/test/resources/"));
 
-    StatechartWithJavaParser parser = language.getParser();
+    StatechartWithJavaParser parser = new StatechartWithJavaParser();
 
     Optional<ASTSCArtifact> opAst = parser.parse("src/test/resources/de/monticore/umlsc/examples/Banking.sc");
 
@@ -54,7 +53,7 @@ public class SymbolTableCreatorTest {
     System.out.println(ast);
     System.out.println("Hallo2");
 
-    StatechartWithJavaGlobalScope globalScope = new StatechartWithJavaGlobalScope(modelPath, language);
+    StatechartWithJavaGlobalScope globalScope = new StatechartWithJavaGlobalScope(modelPath, "sc");
     StatechartWithJavaSymbolTableCreatorDelegator st = new StatechartWithJavaSymbolTableCreatorDelegator(globalScope);
     StatechartWithJavaArtifactScope symTab = st.createFromAST(ast);
     //	  StatechartSymbol sc = globalScope.<StatechartSymbol>resolve("Test1",StatechartKind.KIND).orElse(null);

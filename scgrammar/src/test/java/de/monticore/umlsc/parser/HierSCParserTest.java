@@ -36,7 +36,7 @@ public class HierSCParserTest {
   public void testStatechart2() throws IOException {
     parser.parse_StringStatechart("statechart Door {"
         + "  state Opened; "
-        + "  Opened -> Closed close() /;"
+        + "  Opened -> Closed close() ;"
         + "}");
     check(parser);
   }
@@ -50,7 +50,7 @@ public class HierSCParserTest {
   @Test
   public void testStatechart4() throws IOException {
     parser.parse_StringStatechart("statechart Door3 {"
-        + "  Closed -> Opened open() / {ringTheDoorBell();};"
+        + "  Closed -> Opened open() ;"
         + "}");
     check(parser);
   }
@@ -67,7 +67,7 @@ public class HierSCParserTest {
   
   @Test
   public void testTransition() throws IOException {
-    parser.parse_StringSCTransition(" Closed -> Opened open() / {ringTheDoorBell();};");
+    parser.parse_StringSCTransition(" Closed -> Opened open() ;");
     check(parser);
   }
   

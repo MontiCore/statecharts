@@ -7,7 +7,6 @@ import de.monticore.umlsc.statechart._ast.ASTSCArtifact;
 import de.monticore.umlsc.statechart._cocos.TransitionSourceAndTargetExists;
 import de.monticore.umlsc.statechartwithjava._cocos.StatechartWithJavaCoCoChecker;
 import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParser;
-import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaLanguage;
 import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaSymbolTableCreator;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
@@ -47,7 +46,7 @@ public class CocoTests {
 //		// EnclosingScopeOfNodesInitializer();
 //
 ////		StatechartSymbolTableCreator c = new StatechartSymbolTableCreator(resolvingConfig, new CommonScope());
-////		
+////
 //		StatechartSymbolTableCreator c = (StatechartSymbolTableCreator) language.getSymbolTableCreator(resolvingConfig, new CommonScope()).get();
 //		c.createFromAST(scDef.get());
 ////		c.create
@@ -78,11 +77,6 @@ public class CocoTests {
 		Path model = Paths.get("src/test/resources/de/monticore/umlsc/cocos/Buchungen.sc");
 		StatechartWithJavaParser parser = new StatechartWithJavaParser();
 		Optional<ASTSCArtifact> scDef = parser.parseSCArtifact(model.toString());
-		StatechartWithJavaLanguage language = new StatechartWithJavaLanguage();
-		//ResolvingConfiguration resolvingConfig = new ResolvingConfiguration();
-		//resolvingConfig.addDefaultFilters(language.getResolvingFilters());
-		//StatechartWithJavaSymbolTableCreator c = new StatechartWithJavaSymbolTableCreator(new CommonScope());
-		//c.createFromAST(scDef.get());
 		StatechartWithJavaCoCoChecker checker = new StatechartWithJavaCoCoChecker();
 		checker.addCoCo(new TransitionSourceAndTargetExists());
 		checker.handle(scDef.get());

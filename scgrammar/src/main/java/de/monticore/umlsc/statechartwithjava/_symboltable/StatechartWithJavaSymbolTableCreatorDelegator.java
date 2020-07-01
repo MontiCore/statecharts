@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class StatechartWithJavaSymbolTableCreatorDelegator extends StatechartWithJavaSymbolTableCreatorDelegatorTOP {
 
-  public StatechartWithJavaSymbolTableCreatorDelegator(StatechartWithJavaGlobalScope globalScope) {
+  public StatechartWithJavaSymbolTableCreatorDelegator(IStatechartWithJavaGlobalScope globalScope) {
     super(globalScope);
   }
 

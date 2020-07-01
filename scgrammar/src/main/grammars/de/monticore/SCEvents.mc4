@@ -1,0 +1,11 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore;
+
+import de.monticore.expressions.*;
+import de.monticore.types.*;
+
+component grammar SCEvents extends  ExpressionsBasis, MCBasicTypes {
+  interface SCEvent;
+
+  SCMessage implements SCEvent = name:MCQualifiedName Arguments?;
+}

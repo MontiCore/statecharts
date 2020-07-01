@@ -11,10 +11,8 @@ component grammar SCBasis extends MCBasics,
   interface SCTBody;
   interface SCABody;
 
-  SCEmptyBody implements SCTBody, SCSBody = ;
 
-  interface SCEvent;
-  interface SCAction;
+  SCEmptyBody implements SCSBody = ;
 
   symbol scope Statechart =
     Stereotype?
@@ -23,11 +21,18 @@ component grammar SCBasis extends MCBasics,
   ;
 
    symbol SCState implements SCStateElement, SCStatechartElement =
-     SCModifier key("state") Name SCSBody ";";
+     SCModifier "state" Name SCSBody ";";
 
    SCTransition implements SCStateElement, SCStatechartElement =
      Stereotype? sourceName:Name "->" targetName:Name SCTBody ";" ;
 
+   SCInternTransition implements SCStateElement =
+      Stereotype? "->" SCTBody ";";
+
+
+
    SCModifier = Stereotype? (["initial"] | ["final"])*;
+
+   nokeyword "initial", "final", "state";
 
 }

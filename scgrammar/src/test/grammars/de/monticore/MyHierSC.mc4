@@ -1,9 +1,11 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-grammar MyHierSC extends de.monticore.HierarchicalSC,
-                     de.monticore.expressions.AssignmentExpressions,
-                     de.monticore.expressions.CommonExpressions,
-                     de.monticore.statements.MCCommonStatements {
+import de.monticore.expressions.*;
+import de.monticore.statements.*;
+
+grammar MyHierSC extends SCHStates, SCAcceptorTBodies,
+                         AssignmentExpressions, CommonExpressions, MCCommonStatements {
   start Statechart;
+
 }

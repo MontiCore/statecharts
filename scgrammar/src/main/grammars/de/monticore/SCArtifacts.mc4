@@ -3,7 +3,7 @@ package de.monticore;
 
 import de.monticore.types.*;
 
-grammar FlatSC extends SCBasis, MCBasicTypes {
+component grammar SCArtifacts extends SCBasis, MCBasicTypes {
 
   scope SCArtifact =
     ("package" package:MCQualifiedName& ";")?

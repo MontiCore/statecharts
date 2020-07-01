@@ -1,8 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.umlsc.parser;
 
-import de.monticore.flatsc._parser.FlatSCParser;
-import de.monticore.myhiersc._parser.MyHierSCParser;
+import de.monticore.myflatsc._parser.MyFlatSCParser;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
@@ -15,7 +14,7 @@ import static org.junit.Assert.assertFalse;
 
 public class FlatSCParserTest {
   
-  FlatSCParser parser = new FlatSCParser();
+  MyFlatSCParser parser = new MyFlatSCParser();
   
   @Before
   public void init(){
@@ -35,7 +34,7 @@ public class FlatSCParserTest {
     parser.parse_StringSCArtifact("statechart Door2 {"
         + "  initial state Opened; "
         + "  state Closed;"
-        + "  Opened -> Closed;"
+        + "  Opened -> Closed close;"
         + "}");
     check(parser);
   }
@@ -45,7 +44,7 @@ public class FlatSCParserTest {
     parser.parse_StringSCArtifact("<<test>> statechart Door2 {"
         + "  state Opened; "
         + "  state Closed;"
-        + "  Opened -> Closed;"
+        + "  Opened -> Closed close;"
         + "}");
     check(parser);
   }
@@ -68,12 +67,12 @@ public class FlatSCParserTest {
         + "statechart Door2 {"
         + "  initial state Opened; "
         + "  state Closed;"
-        + "  Opened -> Closed;"
+        + "  Opened -> Closed close;"
         + "}");
     check(parser);
   }
   
-  protected void check(FlatSCParser parser) {
+  protected void check(MyFlatSCParser parser) {
     if (parser.hasErrors()) {
       for(Finding f : LogStub.getFindings()){
         System.out.println(f.buildMsg());

@@ -45,10 +45,10 @@ public class FullSCNTParseTest {
         + "  };"
         + "  state Locked;"
         + ""
-        + "  Opened -> Closed close() / ;"
+        + "  Opened -> Closed close()  ;"
         + "  Closed -> Opened open()  / {ringTheDoorBell();};"
-        + "  Closed -> Locked timeOut() / { lockDoor(); } [doorIsLocked];   "
-        + "  Locked -> Closed [isAuthorized] unlock() /;"
+        + "  Closed -> Locked [!doorIsLocked] timeOut() / { lockDoor(); } ;   "
+        + "  Locked -> Closed [isAuthorized] unlock() ;"
         + "}");
     assertFalse(parser.hasErrors());
   }
@@ -94,13 +94,13 @@ public class FullSCNTParseTest {
   
   @Test
   public void testTransition() throws IOException {
-    parser.parse_StringSCTransition("Open -> Close;");
+    parser.parse_StringSCTransition("Open -> Close close;");
     assertFalse(parser.hasErrors());
   }
   
   @Test
   public void testTransition2() throws IOException {
-    parser.parse_StringSCTransition("Opened -> Closed close() /;");
+    parser.parse_StringSCTransition("Opened -> Closed close() ;");
     assertFalse(parser.hasErrors());
   }
   
@@ -112,27 +112,27 @@ public class FullSCNTParseTest {
   
   @Test
   public void testTransition4() throws IOException {
-    parser.parse_StringSCTransition("Closed -> Locked timeOut() / "
+    parser.parse_StringSCTransition("Closed -> Locked [!doorIsLocked] timeOut() / "
         + "          { lockDoor(); }"
-        + "          [doorIsLocked];");
+        + "          ;");
     assertFalse(parser.hasErrors());
   }
   
   @Test
   public void testTransition5() throws IOException {
-    parser.parse_StringSCTransition("Locked -> Closed [isAuthorized] unlock() /;");
+    parser.parse_StringSCTransition("Locked -> Closed [isAuthorized] unlock() ;");
     assertFalse(parser.hasErrors());
   }
   
   @Test
   public void testInternTransition() throws IOException {
-    parser.parse_StringSCInternTransition("-> timeOut() / { lockDoor(); } [doorIsLocked];");
+    parser.parse_StringSCInternTransition("-> [!doorIsLocked] timeOut() / { lockDoor(); } ;");
     assertFalse(parser.hasErrors());
   }
   
   @Test
   public void testTransition6() throws IOException {
-    parser.parse_StringSCTransition("Opened -> Closed return /;");
+    parser.parse_StringSCTransition("Opened -> Closed return ;");
     assertFalse(parser.hasErrors());
   }
 }

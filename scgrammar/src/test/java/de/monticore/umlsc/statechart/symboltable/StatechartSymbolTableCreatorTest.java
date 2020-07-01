@@ -13,7 +13,6 @@ import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaGlob
 //import de.monticore.symboltable.ResolvingConfiguration;
 import de.monticore.symboltable.IScope;
 import de.monticore.umlsc.statechart._symboltable.StatechartSymbol;
-import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaLanguage;
 import de.monticore.umlsc.statechartwithjava._symboltable.StatechartWithJavaSymbolTableCreatorDelegator;
 import de.se_rwth.commons.logging.Log;
 import org.junit.Before;
@@ -35,17 +34,15 @@ public class StatechartSymbolTableCreatorTest {
   public void setup() {
     Log.init();
     Log.enableFailQuick(false);
-    final StatechartWithJavaLanguage statechartLanguage = new StatechartWithJavaLanguage();
     final ModelPath modelPath = new ModelPath(Paths.get("src/test/resources"));
-    globalScope = new StatechartWithJavaGlobalScope(modelPath, statechartLanguage);
+    globalScope = new StatechartWithJavaGlobalScope(modelPath, "sc");
   }
 
   @Test
   public void testStatechartSymbolTableCreation() {
     StatechartWithJavaGlobalScope globalScope2;
-    final StatechartWithJavaLanguage statechartLanguage2 = new StatechartWithJavaLanguage();
     final ModelPath modelPath2 = new ModelPath(Paths.get("src/test/resources/"));
-    globalScope2 = new StatechartWithJavaGlobalScope(modelPath2, statechartLanguage2);
+    globalScope2 = new StatechartWithJavaGlobalScope(modelPath2, "sc");
     //final StatechartSymbol scSymbol = globalScope.<StatechartSymbol>resolve("Test1",StatechartSymbol.KIND).orElse(null);
     final StatechartSymbol scSymbol = globalScope2.resolveStatechart("Test1").orElse(null);
     System.out.println(scSymbol);
@@ -56,9 +53,8 @@ public class StatechartSymbolTableCreatorTest {
   public void testFromAST() throws IOException {
     Optional<ASTSCArtifact> ast = new StatechartWithJavaParser().parse("src/test/resources/de/monticore/umlsc/symboltable/Test1.sc");
     StatechartWithJavaGlobalScope globalScope2;
-    final StatechartWithJavaLanguage statechartLanguage2 = new StatechartWithJavaLanguage();
     final ModelPath modelPath2 = new ModelPath(Paths.get("src/test/resources/"));
-    globalScope2 = new StatechartWithJavaGlobalScope(modelPath2, statechartLanguage2);
+    globalScope2 = new StatechartWithJavaGlobalScope(modelPath2, "sc");
     StatechartWithJavaSymbolTableCreatorDelegator stCreater = new StatechartWithJavaSymbolTableCreatorDelegator(globalScope2);
     StatechartWithJavaArtifactScope r = stCreater.createFromAST(ast.get());
     assertNotNull(r);
