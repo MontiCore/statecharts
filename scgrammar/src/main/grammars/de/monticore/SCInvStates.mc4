@@ -3,7 +3,7 @@ package de.monticore;
 
 import de.monticore.statements.*;
 
-component grammar SCInvStates extends SCBasis, SCConditions, SCActions {
+component grammar SCInvStates extends SCBasis, SCConditions {
 
   SCInvBody implements SCSBody <20> =
     "{"

@@ -1,0 +1,11 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore;
+
+import de.monticore.statements.*;
+
+component grammar MTTBodies extends SCBasis, SCConditions, MCStatementsBasis {
+
+    MTTBody implements SCTBody = // MontiThings
+      pre:SCCondition? ("/" MCBlockStatement)?;
+
+}

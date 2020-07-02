@@ -1,0 +1,11 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore;
+
+import de.monticore.statements.*;
+
+component grammar MATimeTBodies extends SCBasis, SCConditions, MCStatementsBasis {
+
+    MATimeTBody implements SCTBody = // MA with time slices
+      pre:SCCondition? ("/" post:SCCondition)?;
+
+}

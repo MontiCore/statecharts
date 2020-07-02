@@ -1,0 +1,10 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore;
+
+import de.monticore.statements.*;
+
+component grammar MAEventTBodies extends SCBasis, SCEvents, SCConditions, MCStatementsBasis {
+
+    MAEventTBody implements SCTBody = // MA with events
+      pre:SCCondition SCEvent ("/" MCBlockStatement? post:SCCondition?)?;
+}

@@ -4,7 +4,7 @@ package de.monticore;
 import de.monticore.expressions.*;
 import de.monticore.statements.*;
 
-grammar MySCWithActions extends SCInvStates, SCHStates, SCUMLTBodies, SCABodies,
+grammar MySCWithActions extends SCInvStates, SCDoActions, SCHStates, SCUMLTBodies, SCABodies,
                      AssignmentExpressions, CommonExpressions, MCCommonStatements {
   start Statechart;
 

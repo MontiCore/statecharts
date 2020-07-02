@@ -5,6 +5,6 @@ import de.monticore.statements.*;
 
 component grammar SCUMLTBodies extends SCBasis, SCEvents, SCConditions, MCStatementsBasis{
   UMLTBody implements SCTBody =
-      pre:SCCondition? SCEvent ("/" MCBlockStatement)? ;
+      pre:SCCondition? SCEvent? ("/" MCBlockStatement)? ;
 
 }
