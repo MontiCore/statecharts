@@ -20,6 +20,12 @@ public class FullSCNTParseTest {
   }
   
   @Test
+  public void testTeaser() throws IOException {
+    parser.parse("src/test/resources/examples/Door.sc");
+    assertFalse(parser.hasErrors());
+  }
+  
+  @Test
   public void testStatechart() throws IOException {
     parser.parse_StringStatechart("statechart {"
         + "  // …\n"
