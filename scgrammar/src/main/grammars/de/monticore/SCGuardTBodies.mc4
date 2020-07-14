@@ -1,6 +1,0 @@
-/* (c) https://github.com/MontiCore/monticore */
-package de.monticore;
-component grammar SCGuardTBodies extends SCBasis, SCConditions {
-  GuardTBody implements SCTBody= //- I/O automaten
-        SCCondition;
-}

@@ -1,18 +1,25 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-component grammar SCBasis extends MCBasics,
-                                  UMLStereotype {
+import de.monticore.types.*;
+import de.monticore.expressions.*;
+
+component grammar SCBasis extends MCBasics, UMLStereotype, MCBasicTypes, ExpressionsBasis {
 
   interface SCStatechartElement;
   interface SCStateElement;
 
   interface SCSBody;
   interface SCTBody;
-  interface SCABody;
 
 
   SCEmptyBody implements SCSBody = ;
+
+  SCArtifact =
+      ("package" package:MCQualifiedName& ";")?
+      MCImportStatement*
+      Statechart
+    ;
 
   symbol scope Statechart =
     Stereotype?
@@ -23,16 +30,18 @@ component grammar SCBasis extends MCBasics,
    symbol SCState implements SCStateElement, SCStatechartElement =
      SCModifier "state" Name SCSBody ";";
 
+   symbol StateList implements SCStateElement, SCStatechartElement = // merge with SCState?
+       SCModifier "state" (Name || ",")+ SCSBody ";";
+
    SCTransition implements SCStateElement, SCStatechartElement =
      Stereotype? sourceName:Name "->" targetName:Name SCTBody ";" ;
 
    SCInternTransition implements SCStateElement =
       Stereotype? "->" SCTBody ";";
 
-
+   SCCondition  = "[" Expression "]";
 
    SCModifier = Stereotype? (["initial"] | ["final"])*;
 
-   nokeyword "initial", "final", "state";
 
 }

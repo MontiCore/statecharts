@@ -4,9 +4,14 @@ package de.monticore;
 import de.monticore.expressions.*;
 import de.monticore.statements.*;
 
-grammar MySCWithActions extends SCInvStates, SCDoActions, SCHStates, SCUMLTBodies, SCABodies,
-                     AssignmentExpressions, CommonExpressions, MCCommonStatements {
+grammar MySCWithActions extends SCBodies, SCDoActions, AssignmentExpressions, CommonExpressions, MCCommonStatements {
   start Statechart;
+
+  UMLTBody implements SCTBody;
+  SCActionBody implements SCABody;
+  SCHSBody implements SCSBody;
+
+
 
 
 }

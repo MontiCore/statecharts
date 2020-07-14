@@ -1,0 +1,46 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore;
+
+import de.monticore.statements.*;
+
+component grammar SCBodies extends SCBasis, MCStatementsBasis {
+
+  interface SCEvent;
+
+
+  SCMessage implements SCEvent = name:MCQualifiedName Arguments?;
+
+
+  // Transition body variants for different purposes
+  // integrate by overriding:  AcceptorTBody implements SCTBody;
+  // integrate by delegation:  MyBody implements SCTbody = AcceptorTBody | GuardBody;
+
+  /**
+      * Acceptor statecharts (+ CoCo if no pre is allowed)
+    */
+  AcceptorTBody =
+    pre:SCCondition? SCEvent;
+
+
+  UMLTBody =
+    pre:SCCondition? SCEvent? ("/" MCBlockStatement)? ;
+
+  GuardTBody = //- I/O automaten
+    SCCondition;
+
+  MAEventTBody = // MA with events
+    pre:SCCondition SCEvent ("/" MCBlockStatement? post:SCCondition?)?;
+
+  MATimeTBody = // MA with time slices
+    pre:SCCondition? ("/" post:SCCondition)?;
+
+  MTTBody = // MontiThings
+    pre:SCCondition? ("/" MCBlockStatement)?;
+
+  /* Special body variant for Actions */
+  SCActionBody =  // special form for actions
+    (pre:SCCondition)? ("/" MCBlockStatement? post:SCCondition?)? ;
+
+  /* State body variant for hierarchical states */
+  SCHSBody = "{" SCStateElement* "}";
+}

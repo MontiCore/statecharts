@@ -3,6 +3,8 @@ package de.monticore;
 
 import de.monticore.statements.*;
 
-grammar MyFlatSC extends SCArtifacts, SCAcceptorTBodies, SCABodies, MCCommonStatements {
+grammar MyFlatSC extends SCBodies,  MCCommonStatements {
   start SCArtifact;
+
+  AcceptorTBody implements SCTBody;
 }

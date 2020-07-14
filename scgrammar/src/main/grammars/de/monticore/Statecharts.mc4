@@ -2,12 +2,21 @@
 package de.monticore;
 
 
-component grammar Statecharts extends SCArtifacts, SCInvStates, SCDoActions, SCUMLTBodies, SCABodies, SCCompleteness {
+component grammar Statecharts extends  SCBodies, SCDoActions,  SCCompleteness {
 
-  StatechartWComp extends Statechart =
+  StatechartWComp extends Statechart =  // Additionally Completeness
     SCCompleteness? Stereotype?
     "statechart" Name?
     "{" SCStatechartElement* "}"
   ;
+
+  UMLTBody implements SCTBody;      // use the UMLTbody for Transitions
+  SCActionBody implements SCABody;  // use the SCActionBody for Actions
+  SCHSBody implements SCSBody;      // use hierarchical state bodies
+
+  SCInvariant implements SCStateElement = SCCondition; // Plus CoCo just one per state
+
+
+   nokeyword "initial", "final", "state";
 
 }

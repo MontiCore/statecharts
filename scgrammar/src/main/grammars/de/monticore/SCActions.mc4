@@ -5,6 +5,8 @@ component grammar SCActions extends SCBasis {
 
    interface SCAction extends SCStateElement;
 
+   interface SCABody;
+
    SCEntryAction implements SCAction = "entry" SCABody;
 
    SCExitAction implements SCAction = "exit" SCABody;

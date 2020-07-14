@@ -46,14 +46,7 @@ public class MySCWithActionsParserTest {
   }
   
   
-  @Test
-  public void testState() throws IOException {
-    parser.parse_StringSCState("state Opened {"
-        + "  [!Locked]"
-        + "};");
-    check(parser);
-  }
-  @Test
+    @Test
   public void testState2() throws IOException {
     parser.parse_StringSCState("state Opened {"
         + "  entry / { ringTheDoorBell(); }"

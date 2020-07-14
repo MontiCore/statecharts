@@ -3,8 +3,7 @@ package de.monticore;
 
 import de.monticore.statements.*;
 
-component grammar IOAutomata extends SCArtifacts, SCConditions, SCStateLists, SCGuardTBodies,
-                                     MCStatementsBasis {
+component grammar IOAutomata extends SCBasis, MCStatementsBasis {
 
 
   /**
