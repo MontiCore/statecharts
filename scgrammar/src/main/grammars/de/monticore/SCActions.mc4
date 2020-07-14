@@ -1,6 +1,12 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
+/**
+   This component grammar defines actions for states.
+
+   This includes entry-, and exit-actions along with extension points
+   for further action types such as do-actions and action bodies.
+*/
 component grammar SCActions extends SCBasis {
 
    interface SCAction extends SCStateElement;

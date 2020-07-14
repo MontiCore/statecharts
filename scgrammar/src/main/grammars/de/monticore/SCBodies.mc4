@@ -3,26 +3,32 @@ package de.monticore;
 
 import de.monticore.statements.*;
 
+/**
+  This grammar comprises all provided variants of bodies for transitions,
+  actions and states (except for the empty state body provided by SCBasis)
+  for different purposes.
+
+  Furthermore, this grammar provides the Event interface and its default
+  implementation used for transitions triggered by events.
+
+  Integration of these variants can be done by overriding or delegation.
+  Example:
+    by overriding:  AcceptorTBody implements SCTBody;
+    by delegation:  MyBody implements SCTBody = AcceptorTBody | GuardTBody;
+*/
 component grammar SCBodies extends SCBasis, MCStatementsBasis {
 
   interface SCEvent;
 
-
   SCMessage implements SCEvent = name:MCQualifiedName Arguments?;
 
 
-  // Transition body variants for different purposes
-  // integrate by overriding:  AcceptorTBody implements SCTBody;
-  // integrate by delegation:  MyBody implements SCTbody = AcceptorTBody | GuardBody;
+  /* Bodies intended to be used for transitions */
 
-  /**
-      * Acceptor statecharts (+ CoCo if no pre is allowed)
-    */
-  AcceptorTBody =
+  AcceptorTBody = // Acceptor statecharts (+ CoCo if no pre is allowed)
     pre:SCCondition? SCEvent;
 
-
-  UMLTBody =
+  UMLTBody =  // UML-like transition body
     pre:SCCondition? SCEvent? ("/" MCBlockStatement)? ;
 
   GuardTBody = //- I/O automaten

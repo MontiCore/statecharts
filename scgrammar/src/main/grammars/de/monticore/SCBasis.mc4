@@ -4,7 +4,37 @@ package de.monticore;
 import de.monticore.types.*;
 import de.monticore.expressions.*;
 
-component grammar SCBasis extends MCBasics, UMLStereotype, MCBasicTypes, ExpressionsBasis {
+/**
+   This is the basis language component for Statecharts.
+
+   It provides states and (intern) transitions along with extension points
+   for state and statechart elements, state and transition bodies.
+
+   Furthermore, it provides but not directly uses the SCCondition
+   meant to be used for pre-/post-conditions and invariants.
+
+   It uses
+      * ExpressionsBasis for conditions
+      * MCBasicTypes for the import statement and
+      * UMLStereotype for the stereotype
+      Expression and Literal are imported extension points
+      that shall be filled in concrete, complete languages
+      by a variety of available grammars.
+
+*/
+component grammar SCBasis extends UMLStereotype, MCBasicTypes, ExpressionsBasis {
+
+  SCArtifact =
+    ("package" package:MCQualifiedName& ";")?
+    MCImportStatement*
+    Statechart
+  ;
+
+  symbol scope Statechart =
+    Stereotype?
+    "statechart" Name? "{"
+      SCStatechartElement*
+    "}";
 
   interface SCStatechartElement;
   interface SCStateElement;
@@ -12,36 +42,21 @@ component grammar SCBasis extends MCBasics, UMLStereotype, MCBasicTypes, Express
   interface SCSBody;
   interface SCTBody;
 
-
   SCEmptyBody implements SCSBody = ;
 
-  SCArtifact =
-      ("package" package:MCQualifiedName& ";")?
-      MCImportStatement*
-      Statechart
-    ;
+  symbol SCState implements SCStateElement, SCStatechartElement =
+   SCModifier "state" Name SCSBody ";";
 
-  symbol scope Statechart =
-    Stereotype?
-    "statechart" Name?
-    "{" SCStatechartElement* "}"
-  ;
+  symbol StateList implements SCStateElement, SCStatechartElement = // merge with SCState?
+     SCModifier "state" (Name || ",")+ SCSBody ";";
 
-   symbol SCState implements SCStateElement, SCStatechartElement =
-     SCModifier "state" Name SCSBody ";";
+  SCTransition implements SCStateElement, SCStatechartElement =
+   Stereotype? sourceName:Name "->" targetName:Name SCTBody ";" ;
 
-   symbol StateList implements SCStateElement, SCStatechartElement = // merge with SCState?
-       SCModifier "state" (Name || ",")+ SCSBody ";";
+  SCInternTransition implements SCStateElement =
+    Stereotype? "->" SCTBody ";";
 
-   SCTransition implements SCStateElement, SCStatechartElement =
-     Stereotype? sourceName:Name "->" targetName:Name SCTBody ";" ;
+  SCCondition  = "[" Expression "]";
 
-   SCInternTransition implements SCStateElement =
-      Stereotype? "->" SCTBody ";";
-
-   SCCondition  = "[" Expression "]";
-
-   SCModifier = Stereotype? (["initial"] | ["final"])*;
-
-
+  SCModifier = Stereotype? (["initial"] | ["final"])*;
 }

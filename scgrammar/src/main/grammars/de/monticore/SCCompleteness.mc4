@@ -1,6 +1,9 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
+/**
+   This component grammar defines completeness for Statecharts.
+ */
 component grammar SCCompleteness extends SCBasis {
 
   SCCompleteness = complete:["(c)"] | incomplete:["(...)"];

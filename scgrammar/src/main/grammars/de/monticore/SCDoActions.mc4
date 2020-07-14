@@ -2,6 +2,9 @@
 
 package de.monticore;
 
+/**
+   This component grammar defines do actions for Statecharts.
+ */
 component grammar SCDoActions extends SCBasis, SCActions {
 
   SCDoAction implements SCAction= "do" SCABody;
