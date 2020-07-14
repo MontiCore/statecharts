@@ -10,8 +10,6 @@
   <version>1.1.5-SNAPSHOT</version>
   <modules>
     <module>scgrammar</module>
-    <module>sctrans</module>
-    <module>scuse</module>
   </modules>
 
   <properties>

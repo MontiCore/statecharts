@@ -1,9 +1,0 @@
-/* (c) https://github.com/MontiCore/monticore */
-statechart $_ {
-  state $a {
-    do / SCStatements $b [[{}]]
-  }
-
-
-  [[ :-  $a -> $a / SCStatements $b ]]
-}

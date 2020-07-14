@@ -2,7 +2,6 @@
 package de.monticore.umlsc.parser;
 
 import de.monticore.myfullsc._parser.MyFullSCParser;
-import de.monticore.umlsc.statechartwithjava._parser.StatechartWithJavaParser;
 import de.se_rwth.commons.logging.Log;
 import org.junit.BeforeClass;
 import org.junit.Test;
