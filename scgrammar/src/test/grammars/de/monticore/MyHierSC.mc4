@@ -4,7 +4,8 @@ package de.monticore;
 import de.monticore.expressions.*;
 import de.monticore.statements.*;
 
-grammar MyHierSC extends SCBodies, SCBasis,
+grammar MyHierSC extends SCBodies, /* needed due to a bug, must be first grammar*/
+                         SCBasis,
                          AssignmentExpressions, CommonExpressions, MCCommonStatements {
   start Statechart;
 

@@ -4,7 +4,8 @@ package de.monticore;
 import de.monticore.expressions.*;
 import de.monticore.statements.*;
 
-grammar MySCWithActions extends SCBodies, SCDoActions, AssignmentExpressions, CommonExpressions, MCCommonStatements {
+grammar MySCWithActions extends SCBodies, /* needed due to a bug, must be first grammar*/
+ SCDoActions, AssignmentExpressions, CommonExpressions, MCCommonStatements {
   start Statechart;
 
   UMLTBody implements SCTBody;

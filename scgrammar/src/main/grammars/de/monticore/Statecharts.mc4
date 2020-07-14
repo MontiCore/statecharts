@@ -7,7 +7,7 @@ package de.monticore;
    It covers hierarchical states with optional invariants, entry-, exit- and do-actions,
    (internal) transitions with optional precondition, event and action statements.
 */
-component grammar Statecharts extends  SCBodies, SCDoActions,  SCCompleteness {
+component grammar Statecharts extends  SCBodies, SCDoActions, SCCompleteness {
 
   StatechartWComp extends Statechart =  // Additionally Completeness
     SCCompleteness? Stereotype?
