@@ -3,8 +3,6 @@
 
 ## Repository Structure
 * __scgrammar__ SC Language itself
-* __sctrans__ SC Trans; Transformations language to transform SCs
-* __scuse__ Examples for Statecharts, Statechart Transformations, and SC to CD Transformations
 
 ## Contribute
 
