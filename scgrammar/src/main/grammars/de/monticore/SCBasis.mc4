@@ -47,7 +47,7 @@ component grammar SCBasis extends UMLStereotype, MCBasicTypes, ExpressionsBasis 
   symbol SCState implements SCStateElement, SCStatechartElement =
    SCModifier "state" Name SCSBody ";";
 
-  symbol StateList implements SCStateElement, SCStatechartElement = // merge with SCState?
+  SCStateList extends SCState =
      SCModifier "state" (Name || ",")+ SCSBody ";";
 
   SCTransition implements SCStateElement, SCStatechartElement =
