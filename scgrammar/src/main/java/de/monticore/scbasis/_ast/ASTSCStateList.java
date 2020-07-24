@@ -3,6 +3,6 @@ package de.monticore.scbasis._ast;
 
 public class ASTSCStateList extends ASTSCStateListTOP {
   @Override public String getName() {
-    return getName(0);
+    return getNames(0);
   }
 }

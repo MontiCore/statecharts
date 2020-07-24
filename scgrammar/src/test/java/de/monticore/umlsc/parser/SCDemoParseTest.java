@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.umlsc.parser;
 
-import de.monticore.myfullsc._parser.MyFullSCParser;
+import de.monticore.scdemo._parser.SCDemoParser;
 import de.se_rwth.commons.logging.Log;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -10,9 +10,9 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertFalse;
 
-public class FullSCNTParseTest {
+public class SCDemoParseTest {
   
-  MyFullSCParser parser = new MyFullSCParser();
+  SCDemoParser parser = new SCDemoParser();
   
   @BeforeClass
   public static void init(){
