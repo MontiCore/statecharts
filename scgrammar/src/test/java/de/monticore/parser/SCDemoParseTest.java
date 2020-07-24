@@ -1,5 +1,5 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore.umlsc.parser;
+package de.monticore.parser;
 
 import de.monticore.scdemo._parser.SCDemoParser;
 import de.se_rwth.commons.logging.Log;

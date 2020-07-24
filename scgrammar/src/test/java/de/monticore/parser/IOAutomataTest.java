@@ -1,5 +1,5 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore.umlsc.parser;
+package de.monticore.parser;
 
 import de.monticore.myioautomata._parser.MyIOAutomataParser;
 import de.se_rwth.commons.logging.Log;
