@@ -6,7 +6,7 @@ import de.monticore.statements.*;
 
 grammar SCDemo extends SCBodies, /* needed due to a bug, must be first grammar*/
 Statecharts, AssignmentExpressions, CommonExpressions, MCCommonStatements {
-  start Statechart;
+  start SCArtifact;
 
 
   // repeated due to a bug in overriding productions:

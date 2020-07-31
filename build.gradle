@@ -1,0 +1,215 @@
+/* (c) https://github.com/MontiCore/monticore */
+plugins {
+  id "java"
+  id "monticore" version "6.2.0-SNAPSHOT" // MontiCore Plugin
+  id "maven-publish"
+  id "com.github.johnrengelman.shadow" version "6.0.0"
+  id "de.set.ecj" version "1.4.1" // Eclipse compiler as it's much faster than javac
+}
+
+group = "de.monticore.lang"
+version = "2.0.0-SNAPSHOT"
+description = "Statecharts"
+sourceCompatibility = JavaVersion.VERSION_1_8
+buildDir = file("$projectDir/target")
+
+def grammar_classifier = "grammars"
+def grammarDir = "src/main/grammars"
+def grammarOutDir = "$buildDir/generated-sources/mc"
+def testGrammarDir = "src/test/grammars"
+def testGrammarOutDir = "$buildDir/generated-test-sources/mc"
+
+def mc_version = "6.2.0"
+def commons_version = "1.7.10-SNAPSHOT"
+def antlr_version = "4.7-1"
+def logback_version = "1.2.3"
+def junit_version = "4.13"
+
+// configure non-standard source sets
+sourceSets {
+  main {
+    java.srcDirs += ["$grammarOutDir"]
+  }
+  test {
+    java.srcDirs += ["$testGrammarOutDir"]
+  }
+  grammars {
+    resources {
+      srcDirs(grammarDir)
+      include "**/*.mc4"
+    }
+  }
+}
+
+configurations { grammar }
+
+dependencies {
+  grammar "de.monticore:monticore-grammar:$mc_version:$grammar_classifier"
+  implementation "de.monticore:monticore-grammar:$mc_version"
+  implementation "de.se_rwth.commons:se-commons-logging:$commons_version"
+  implementation "de.se_rwth.commons:se-commons-utilities:$commons_version"
+  implementation "ch.qos.logback:logback-classic:$logback_version"
+//  testImplementation "org.antlr:antlr4-runtime:$antlr_version"
+  testImplementation "junit:junit:$junit_version"
+  testImplementation "de.monticore:monticore-runtime:$mc_version:tests"
+  testImplementation "de.monticore:monticore-runtime:$mc_version"
+}
+
+repositories {
+  maven {
+    credentials.username mavenUser
+    credentials.password mavenPassword
+    url repo
+  }
+}
+
+// list of all grammars, needed to have a fix order
+def scGrammars = [
+        SCBasis           : [],
+        SCBodies          : ["SCBasis"],
+        SCCompleteness    : ["SCBasis"],
+        SCActions         : ["SCBasis"],
+        SCDoActions       : ["SCActions"],
+        Statecharts       : ["SCBodies", "SCDoActions", "SCCompleteness"],
+]
+
+// list of all grammars, needed to have a fix order
+def testGrammars = [
+        IOAutomata      : ["SCBasis"],
+        MyFlatSC        : ["SCBodies"],
+        MyHierSC        : ["SCBodies", "SCBasis"],
+        MyIOAutomata    : [],
+        MySCWithActions : ["SCBodies","SCDoActions"],
+        SCDemo          : ["SCBodies", "Statecharts"]
+]
+
+String createGrammarName(String grammarDir, String name) {
+  "${grammarDir}/de/monticore/${name}.mc4"
+}
+
+
+
+task generate {}
+
+// one task per grammar file
+scGrammars.each {
+  def g = createGrammarName(grammarDir,it.key)
+  def grammarName = it.key
+  def superGrammarNames = it.value
+  
+  task "generateGrammar${grammarName}"(type: MCTask) {
+    def dependsOnGrammars = scGrammars[grammarName].collect { name -> tasks["generateGrammar${name}"] }
+    dependsOn dependsOnGrammars
+    
+    def File grammarFile = file g
+    grammar = grammarFile
+    outputDir = file grammarOutDir
+    handcodedPath file("$projectDir/src/main/java")
+    
+    def uptoDate = incCheck(getGrammarInclPackage(grammarDir, grammarFile))
+    superGrammars.from(getSuperGrammars(grammarDir, superGrammarNames))
+    outputs.upToDateWhen { uptoDate }
+  }
+  generate.dependsOn ("generateGrammar${grammarName}")
+}
+
+
+
+
+task generateTest {}
+
+// one task per test grammar file
+testGrammars.each {
+  def g = createGrammarName(testGrammarDir, it.key)
+  def grammarName = it.key
+  def superGrammarNames = it.value
+  
+  task "generateTestGrammar${grammarName}"(type: MCTask) {
+    def dependsOnGrammars = testGrammars[grammarName].collect { name -> tasks["generateGrammar${name}"] }
+    dependsOn dependsOnGrammars
+    
+    def grammarFile = file g
+    grammar = grammarFile
+    outputDir = file testGrammarOutDir
+    handcodedPath file("$projectDir/src/test/java")
+    superGrammars.from(getSuperGrammars(grammarDir, superGrammarNames))
+    def uptoDate = incCheck(getGrammarInclPackage(testGrammarDir, grammarFile))
+    outputs.upToDateWhen { uptoDate }
+  }
+  generateTest.dependsOn "generateTestGrammar${grammarName}"
+}
+
+generateTestGrammarMyIOAutomata {
+  superGrammars.from(file (createGrammarName(testGrammarDir, "IOAtomata")))
+  modelPath file(testGrammarDir), file(grammarDir)
+}
+
+compileJava.dependsOn generate
+compileTestJava.dependsOn generateTest
+
+// Fixes issue with java plugin in projects without resources
+compileTestJava.doFirst { mkdir sourceSets.main.output.resourcesDir }
+
+tasks.withType(Test) {
+  maxParallelForks = Runtime.runtime.availableProcessors() ?: 1
+}
+
+tasks.withType(JavaCompile) {
+  options.fork = true
+  options.encoding = "UTF-8"
+  options.deprecation false
+  options.warnings = false
+}
+
+//shadowJar { // all in one jar
+//    manifest {
+//        attributes "Main-Class": "de.monticore.SCDemoTool"
+//    }
+//    archiveClassifier = "cli"
+//    minimize()
+//}
+
+
+task testReport(type: TestReport) {
+  destinationDir = file("$buildDir/reports/allTests")
+  // Include the results from the 'test' task
+  reportOn tasks.withType(Test)
+}
+java {
+//  withJavadocJar()
+  withSourcesJar()
+  registerFeature('grammars') {
+    usingSourceSet(sourceSets.grammars)
+  }
+}
+
+jar.dependsOn grammarsJar
+
+// configure deployment
+publishing {
+  // configure what artifacts to publish
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+    }
+  }
+  repositories.maven {
+    credentials.username mavenUser
+    credentials.password mavenPassword
+    def releasesRepoUrl = "https://nexus.se.rwth-aachen.de/content/repositories/monticore-releases/"
+    def snapshotsRepoUrl = "https://nexus.se.rwth-aachen.de/content/repositories/monticore-snapshots/"
+    url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
+  }
+}
+
+
+List<URI> getSuperGrammars(String grammarDir, List<String> grammarNames) {
+  return grammarNames.collect {
+    def grammar = file createGrammarName(grammarDir, it)
+    return grammar.toURI()
+  }
+}
+
+String getGrammarInclPackage(String grammarDir, File grammarFile ){
+  return file(grammarDir).toURI().relativize(grammarFile.toURI()).toString()
+}

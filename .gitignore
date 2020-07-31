@@ -1,7 +1,3 @@
-scuse/target/
-sctrans-editor/target/
-sctrans/target/
-scgrammar/target/
+target/
 *.iml
 .idea/
-sc-archetype/target/

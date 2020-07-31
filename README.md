@@ -1,8 +1,9 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
 # Statechart Language
 
-## Repository Structure
-* __scgrammar__ SC Language itself
+* detailed [language description](src/main/grammars/de/monticore/Statecharts.md) 
+* language components provided for statecharts: [src/main/grammars](src/main/grammars)
+* grammars combining language components used for testing and demonstration: [scr/test/grammars](src/test/grammars)
 
 ## Contribute
 
