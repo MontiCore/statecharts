@@ -1,11 +1,12 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-/* Beta-version: This is intended to become a MontiCore stable grammar. */
+/* Alpha-version: This is intended to become a MontiCore stable grammar. */
+
+import de.monticore.statements.*;
 
 /**
- *  This component grammar extends the action possibilities with 
- *  do-Actions for hierarchicly decomposed states.
+ * This grammar adds invariants to states with bodies
  *
  *  This grammar is part of a hierarchy of Statechart components, namely
  *  * SCBasis.mc4
@@ -19,13 +20,13 @@ package de.monticore;
  *  and two alternative grammars composing most of it:
  *  * UMLStatecharts.mc4 (based on Events)
  *  * TriggeredStatecharts.mc4 (based on regular triggers and Port-Values)
- *
- * if needed add in your own extending grammar:
- *   nokeyword "do";
  */
- 
-component grammar SCDoActions extends SCActions {
 
-  SCDoAction implements SCAction= "do" SCABody;
+component grammar SCStateInvariants extends SCStateHierarchy {
+
+  /**
+    States with a body allow to add State Invariants
+  */ 
+  SCStateInvariant implements SCStateElement = "[" Expression "]";
 
 }

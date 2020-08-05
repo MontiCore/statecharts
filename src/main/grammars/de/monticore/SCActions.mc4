@@ -1,20 +1,60 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-/**
-   This component grammar defines actions for states.
+/* Beta-version: This is intended to become a MontiCore stable grammar. */
 
-   This includes entry-, and exit-actions along with extension points
-   for further action types such as do-actions and action bodies.
-*/
+/**
+ *  This component grammar defines entry and exit actions for 
+ *  hierarchically decomposed states.
+ *
+ *  The actualy entry-, and exit-actions must be defined implementing the
+ *  interface SCABody.
+ *  For example MontiCores Statements can be used here, but potentially
+ *  also other statements such as sending / receiving of messages 
+ *  along a channel.
+ *
+ *  This grammar is part of a hierarchy of Statechart components, namely
+ *  * SCBasis.mc4
+ *  * ^- SCActions.mc4
+ *  *    ^- SCDoActions.mc4
+ *  * ^- SCCompleteness.mc4
+ *  * ^- SCStateHierarchy.mc4
+ *  *    ^- SCStateInvariants.mc4
+ *  * ^- SCTransitions4Code.mc4
+ *  * ^- SCTransitions4Modelling.mc4
+ *  and two alternative grammars composing most of it:
+ *  * UMLStatecharts.mc4 (based on Events)
+ *  * TriggeredStatecharts.mc4 (based on regular triggers and Port-Values)
+ *
+ * Relevant extension points:
+ *    SCABody:  
+ *           e.g. for concrete imperative statements 
+ *                potentially augmented with a 
+ *                specification postcondition
+ *
+ * if needed add in your own extending grammar:
+ *   nokeyword "entry", "exit";
+ */
+ 
 component grammar SCActions extends SCBasis {
 
-   interface SCAction extends SCStateElement;
+  //***********************************************************
+  // Actions 
+  //***********************************************************
 
-   interface SCABody;
+   /** 
+     Actions (especially entry / exit / do)
+    */
+   interface SCAction extends SCStateElement;
 
    SCEntryAction implements SCAction = "entry" SCABody;
 
-   SCExitAction implements SCAction = "exit" SCABody;
+   SCExitAction  implements SCAction = "exit"  SCABody;
+
+   /**
+     Body of an action, e.g. Statements.
+     This is an empty extension point
+    */
+   interface SCABody;
 
 }

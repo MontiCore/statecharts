@@ -1,0 +1,47 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore;
+
+/* Alpha-version: This is intended to become a MontiCore stable grammar. */
+
+import de.monticore.statements.*;
+
+/**
+ * This grammar comprises a number of variants of transition bodies 
+ * with varying actions, preconditions, etc. 
+ * especially dedicated to event processing.
+ *
+ * Events are either single names, such as "foo"
+ * or events with arguments, such as "foo(1,3)"
+ * The events can be preceeded by restricting conditions.
+ *
+ *  This grammar is part of a hierarchy of Statechart components, namely
+ *  * SCBasis.mc4
+ *  * ^- SCActions.mc4
+ *  *    ^- SCDoActions.mc4
+ *  * ^- SCCompleteness.mc4
+ *  * ^- SCStateHierarchy.mc4
+ *  *    ^- SCStateInvariants.mc4
+ *  * ^- SCTransitions4Code.mc4
+ *  * ^- SCTransitions4Modelling.mc4
+ *  and two alternative grammars composing most of it:
+ *  * UMLStatecharts.mc4 (based on Events)
+ *  * TriggeredStatecharts.mc4 (based on regular triggers and Port-Values)
+ * 
+ */
+ 
+component grammar SCTransitions4Modelling 
+          extends SCTransitions4Code {
+
+  //***********************************************************
+  // Transitions 
+  //***********************************************************
+
+  /**
+   * Extend the Action with an explicit postcondition
+   * so that it can be used as alternative or an extension
+   * to an imperative approach:
+   */
+  EventTransitionAction implements SCABody =  
+    MCBlockStatement? ("[" post:Expression "]")? ;
+
+}

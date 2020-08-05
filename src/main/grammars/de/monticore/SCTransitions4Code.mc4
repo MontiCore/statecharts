@@ -1,0 +1,69 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore;
+
+/* Alpha-version: This is intended to become a MontiCore stable grammar. */
+
+import de.monticore.statements.*;
+
+/**
+ * This grammar comprises a number of variants of transition bodies 
+ * with varying actions, preconditions, etc. 
+ * especially dedicated to event processing.
+ *
+ * Events are either single names, such as "foo"
+ * or events with arguments, such as "foo(1,3)"
+ * The events can be preceeded by restricting conditions.
+ *
+ *  This grammar is part of a hierarchy of Statechart components, namely
+ *  * SCBasis.mc4
+ *  * ^- SCActions.mc4
+ *  *    ^- SCDoActions.mc4
+ *  * ^- SCCompleteness.mc4
+ *  * ^- SCStateHierarchy.mc4
+ *  *    ^- SCStateInvariants.mc4
+ *  * ^- SCTransitions4Code.mc4
+ *  * ^- SCTransitions4Modelling.mc4
+ *  and two alternative grammars composing most of it:
+ *  * UMLStatecharts.mc4 (based on Events)
+ *  * TriggeredStatecharts.mc4 (based on regular triggers and Port-Values)
+ * 
+ */
+ 
+component grammar SCTransitions4Code 
+          extends SCBasis, 
+                  MCStatementsBasis {
+
+  //***********************************************************
+  // Events 
+  //***********************************************************
+
+  /**
+   * Describes forms of input events 
+   * (i.e. stimuli to trigger a transition)
+   * some options that can be used:
+   *    SCEvent = name:MCQualifiedName;
+   *    SCEvent = name:MCQualifiedName Arguments?;
+   *    SCEvent = (name:MCQualifiedName Arguments?)?;
+   *    SCEvent = ;
+   */
+  interface SCEvent;
+
+  //***********************************************************
+  // Transitions 
+  //***********************************************************
+
+  /**
+   * Statecharts allows specification conditions,
+   * optional events and an action part.
+   * The event may be omitted (describing an epsilon-transition)
+   */
+  TransitionBody implements SCTBody =  
+    ("[" pre:Expression "]")? SCEvent? ("/" TransitionAction)? ;
+
+  /**
+   * All actions are imperative 
+   */
+  TransitionAction implements SCABody =  
+    MCBlockStatement? ;
+
+}

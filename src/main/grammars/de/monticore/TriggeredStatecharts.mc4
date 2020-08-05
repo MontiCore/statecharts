@@ -1,0 +1,51 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore;
+
+/* Alpha-version: This is intended to become a MontiCore stable grammar. */
+
+/**
+ *  TriggeredStatecharts is the textual representation to 
+ * describe automata with hierarchical states.
+ *  It covers hierarchical states with optional invariants, 
+ *  entry-, and exit-actions, (internal) transitions with 
+ *  optional precondition and action statements.
+ *  
+ *  The trigger is defined by a condition (e.g. checking values
+ *  on input ports in a scheduled, regular form).
+ *  TriggeredStateCharts uses the code-oriented variant
+ *  of Statecharts, i.e. no postconditions in actions. 
+ *  
+ *  The Expressions are from MontiCore's common expressions.
+ *
+ *  This grammar is part of a hierarchy of Statechart components, namely
+ *  * SCBasis.mc4
+ *  * ^- SCActions.mc4
+ *  *    ^- SCDoActions.mc4
+ *  * ^- SCCompleteness.mc4
+ *  * ^- SCStateHierarchy.mc4
+ *  *    ^- SCStateInvariants.mc4
+ *  * ^- SCTransitions4Code.mc4
+ *  * ^- SCTransitions4Modelling.mc4
+ *  and two alternative grammars composing most of it:
+ *  * UMLStatecharts.mc4 (based on Events)
+ *  * TriggeredStatecharts.mc4 (based on regular triggers and Port-Values)
+ */
+ 
+grammar TriggeredStatecharts 
+          extends SCActions,  
+                  SCStateHierarchy,  
+                  SCTransitions4Code,
+                  de.monticore.expressions.CommonExpressions {
+
+  /**
+    No explicit events.
+  */
+  SCEvent = ;
+
+  // allow to uses these for other purposes as well:
+  nokeyword "initial", "final", "state";
+  nokeyword "entry", "exit";
+  nokeyword "do";
+  splittoken "(...)";
+
+}
