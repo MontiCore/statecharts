@@ -6,8 +6,8 @@ package de.monticore;
 import de.monticore.statements.*;
 
 /**
- * This grammar comprises a number of variants of transition bodies 
- * with varying actions, preconditions, etc. 
+ * This grammar comprises a number of variants of transition bodies
+ * with varying actions, preconditions, etc.
  * especially dedicated to event processing.
  *
  * Events are either single names, such as "foo"
@@ -18,27 +18,27 @@ import de.monticore.statements.*;
  *  * SCBasis.mc4
  *  * ^- SCActions.mc4
  *  *    ^- SCDoActions.mc4
+ *  *    ^- SCTransitions4Code.mc4
+ *  *    ^- SCTransitions4Modelling.mc4
  *  * ^- SCCompleteness.mc4
  *  * ^- SCStateHierarchy.mc4
  *  *    ^- SCStateInvariants.mc4
- *  * ^- SCTransitions4Code.mc4
- *  * ^- SCTransitions4Modelling.mc4
  *  and two alternative grammars composing most of it:
  *  * UMLStatecharts.mc4 (based on Events)
  *  * TriggeredStatecharts.mc4 (based on regular triggers and Port-Values)
- * 
+ *
  */
- 
-component grammar SCTransitions4Code 
-          extends SCBasis, 
+
+component grammar SCTransitions4Code
+          extends SCActions,
                   MCStatementsBasis {
 
   //***********************************************************
-  // Events 
+  // Events
   //***********************************************************
 
   /**
-   * Describes forms of input events 
+   * Describes forms of input events
    * (i.e. stimuli to trigger a transition)
    * some options that can be used:
    *    SCEvent = name:MCQualifiedName;
@@ -49,7 +49,7 @@ component grammar SCTransitions4Code
   interface SCEvent;
 
   //***********************************************************
-  // Transitions 
+  // Transitions
   //***********************************************************
 
   /**
@@ -57,13 +57,13 @@ component grammar SCTransitions4Code
    * optional events and an action part.
    * The event may be omitted (describing an epsilon-transition)
    */
-  TransitionBody implements SCTBody =  
+  TransitionBody implements SCTBody =
     ("[" pre:Expression "]")? SCEvent? ("/" TransitionAction)? ;
 
   /**
-   * All actions are imperative 
+   * All actions are imperative
    */
-  TransitionAction implements SCABody =  
+  TransitionAction implements SCABody =
     MCBlockStatement? ;
 
 }

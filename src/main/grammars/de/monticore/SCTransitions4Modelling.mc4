@@ -6,8 +6,8 @@ package de.monticore;
 import de.monticore.statements.*;
 
 /**
- * This grammar comprises a number of variants of transition bodies 
- * with varying actions, preconditions, etc. 
+ * This grammar comprises a number of variants of transition bodies
+ * with varying actions, preconditions, etc.
  * especially dedicated to event processing.
  *
  * Events are either single names, such as "foo"
@@ -18,22 +18,22 @@ import de.monticore.statements.*;
  *  * SCBasis.mc4
  *  * ^- SCActions.mc4
  *  *    ^- SCDoActions.mc4
+ *  *    ^- SCTransitions4Code.mc4
+ *  *    ^- SCTransitions4Modelling.mc4
  *  * ^- SCCompleteness.mc4
  *  * ^- SCStateHierarchy.mc4
  *  *    ^- SCStateInvariants.mc4
- *  * ^- SCTransitions4Code.mc4
- *  * ^- SCTransitions4Modelling.mc4
  *  and two alternative grammars composing most of it:
  *  * UMLStatecharts.mc4 (based on Events)
  *  * TriggeredStatecharts.mc4 (based on regular triggers and Port-Values)
- * 
+ *
  */
- 
-component grammar SCTransitions4Modelling 
+
+component grammar SCTransitions4Modelling
           extends SCTransitions4Code {
 
   //***********************************************************
-  // Transitions 
+  // Transitions
   //***********************************************************
 
   /**
@@ -41,7 +41,7 @@ component grammar SCTransitions4Modelling
    * so that it can be used as alternative or an extension
    * to an imperative approach:
    */
-  EventTransitionAction implements SCABody =  
+  EventTransitionAction implements SCABody =
     MCBlockStatement? ("[" post:Expression "]")? ;
 
 }

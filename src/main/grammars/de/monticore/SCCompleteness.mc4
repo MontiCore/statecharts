@@ -4,7 +4,7 @@ package de.monticore;
 /* Alpha-version: This is intended to become a MontiCore stable grammar. */
 
 /**
- *  This component grammar extends Statecharts with the 
+ *  This component grammar extends Statecharts with the
  *  completeness and incompletess keywords that are used to
  *  define, whether a list for example of states is complete
  *  or complete.
@@ -13,19 +13,19 @@ package de.monticore;
  *  * SCBasis.mc4
  *  * ^- SCActions.mc4
  *  *    ^- SCDoActions.mc4
+ *  *    ^- SCTransitions4Code.mc4
+ *  *    ^- SCTransitions4Modelling.mc4
  *  * ^- SCCompleteness.mc4
  *  * ^- SCStateHierarchy.mc4
  *  *    ^- SCStateInvariants.mc4
- *  * ^- SCTransitions4Code.mc4
- *  * ^- SCTransitions4Modelling.mc4
  *  and two alternative grammars composing most of it:
  *  * UMLStatecharts.mc4 (based on Events)
  *  * TriggeredStatecharts.mc4 (based on regular triggers and Port-Values)
- *  
+ *
  *  This changes the semantics of a Statechart
  *  (e.g. with respects to completion, refactoring and refinement)
  *  as discussed in [Rum16, Rum17], where Statecharts
- *  are defined as a specification language and part of the UML/P.   
+ *  are defined as a specification language and part of the UML/P.
  *
  * if needed add in your own extending grammar:
  *   splittoken "(...)";
@@ -33,19 +33,7 @@ package de.monticore;
 
 component grammar SCCompleteness extends SCBasis {
 
-// TODO: das macht hier so keinen wirklichen Sinn
-  SCCompleteness = complete:["(c)"] | incomplete:["(...)"];
-
-/** ich empfehle die Anpassung wie folgt:
-   denn das ist nicht nur fürs gesamte statechart, sondern jeden einzelnen 
-   hierarchischen State relevant --
-   und sollte ausserdem durch zumischen oder weglassen einfach 
-   einbaubar sein.
-   
-  SCCompleteness implements SCStateElement, SCStatechartElement = 
+  SCCompleteness implements SCStateElement, SCStatechartElement =
     complete:["(c)"] | incomplete:["(...)"];
-
-  (und wird bei der anderen Nutzungsstelle entfernt)
-*/
 
 }

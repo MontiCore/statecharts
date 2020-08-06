@@ -27,20 +27,20 @@ import de.monticore.expressions.*;
  *  * SCBasis.mc4
  *  * ^- SCActions.mc4
  *  *    ^- SCDoActions.mc4
+ *  *    ^- SCTransitions4Code.mc4
+ *  *    ^- SCTransitions4Modelling.mc4
  *  * ^- SCCompleteness.mc4
  *  * ^- SCStateHierarchy.mc4
  *  *    ^- SCStateInvariants.mc4
- *  * ^- SCTransitions4Code.mc4
- *  * ^- SCTransitions4Modelling.mc4
  *  and two alternative grammars composing most of it:
  *  * UMLStatecharts.mc4 (based on Events)
  *  * TriggeredStatecharts.mc4 (based on regular triggers and Port-Values)
  *
  * Relevant extension points:
- *    SCSBody:  
+ *    SCSBody:
  *           e.g. for hierachical states
  *    SCStateElement
- *           e.g. for entry/exit/do actions 
+ *           e.g. for entry/exit/do actions
  *    SCTBody
  *           e.g. for the desired form of transition body
  *           (is currently empty and must be filled)
@@ -49,14 +49,14 @@ import de.monticore.expressions.*;
  *   nokeyword "initial", "final", "state";
  */
 
-component grammar SCBasis extends 
+component grammar SCBasis extends
                     UMLStereotype, MCBasicTypes, ExpressionsBasis {
 
   //***********************************************************
-  // Statechart structure 
+  // Statechart structure
   //***********************************************************
-  
-  /** 
+
+  /**
     Artifact structure: package, imports and the Statechart
   */
   SCArtifact =
@@ -67,7 +67,7 @@ component grammar SCBasis extends
 
   /**
     Statechart has a Name and a set of states and transitions.
-    Statechart can have a stereotype attached to it. 
+    Statechart can have a stereotype attached to it.
   */
   symbol scope Statechart =
     Stereotype?
@@ -75,15 +75,15 @@ component grammar SCBasis extends
       SCStatechartElement*
     "}";
 
-  /** 
+  /**
     Interface subsuming states and transitions on the top level
     of the statechart
   */
   interface SCStatechartElement;
-    
+
 
   //***********************************************************
-  // States 
+  // States
   //***********************************************************
 
   /** State:
@@ -96,36 +96,36 @@ component grammar SCBasis extends
 
   SCModifier = Stereotype? (["initial"] | ["final"])*;
 
-  /** 
+  /**
     The Body of a state may be empty (or contain { states ... }).
     SCBasis provides the empty body only and thus only flat statemachines.
   */
   interface SCSBody;
   SCEmptyBody implements SCSBody = ;
 
-  /** 
-    Interface subsuming states and transitions 
-    within a hierarchically decomposed state 
+  /**
+    Interface subsuming states and transitions
+    within a hierarchically decomposed state
   */
   interface SCStateElement;
 
 
   //***********************************************************
-  // Transitions 
+  // Transitions
   //***********************************************************
 
   /**
-    A Transition has a source and a target state and a 
+    A Transition has a source and a target state and a
     body describing stimulus as well as potential actions, postconditions, etc.
   */
   SCTransition implements SCStateElement, SCStatechartElement =
    Stereotype? sourceName:Name "->" targetName:Name SCTBody ";" ;
 
-  /** 
-    The body of a transition is for extansion:
-    describing stimulus as well as potential actions, 
+  /**
+    The body of a transition is for extension
+    describing stimulus as well as potential actions,
     postconditions, etc. in subsequent grammars;
-    
+
     The body is deliberately left empty in this grammar component,
     because there are many different forms of transitions possible.
   */

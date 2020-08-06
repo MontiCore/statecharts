@@ -65,23 +65,27 @@ repositories {
 
 // list of all grammars, needed to have a fix order
 def scGrammars = [
-        SCBasis           : [],
-        SCBodies          : ["SCBasis"],
-        SCCompleteness    : ["SCBasis"],
-        SCActions         : ["SCBasis"],
-        SCDoActions       : ["SCActions"],
-        Statecharts       : ["SCBodies", "SCDoActions", "SCCompleteness"],
+        SCBasis                 : [],
+        SCActions               : ["SCBasis"],
+        SCDoActions             : ["SCActions"],
+        SCCompleteness          : ["SCBasis"],
+        SCStateHierarchy        : ["SCBasis"],
+        SCStateInvariants       : ["SCStateHierarchy"],
+        SCTransitions4Code      : ["SCBasis"],
+        SCTransitions4Modelling : ["SCTransitions4Code"],
+        TriggeredStatecharts    : ["SCActions", "SCStateHierarchy", "SCTransitions4Code" ],
+        UMLStatecharts          : ["SCDoActions", "SCStateInvariants", "SCCompleteness", "SCTransitions4Modelling"],
 ]
 
 // list of all grammars, needed to have a fix order
-def testGrammars = [
-        IOAutomata      : ["SCBasis"],
-        MyFlatSC        : ["SCBodies"],
-        MyHierSC        : ["SCBodies", "SCBasis"],
-        MyIOAutomata    : [],
-        MySCWithActions : ["SCBodies","SCDoActions"],
-        SCDemo          : ["SCBodies", "Statecharts"]
-]
+//def testGrammars = [
+//        IOAutomata      : ["SCBasis"],
+//        MyFlatSC        : ["SCBodies"],
+//        MyHierSC        : ["SCBodies", "SCBasis"],
+//        MyIOAutomata    : [],
+//        MySCWithActions : ["SCBodies","SCDoActions"],
+//        SCDemo          : ["SCBodies", "Statecharts"]
+//]
 
 String createGrammarName(String grammarDir, String name) {
   "${grammarDir}/de/monticore/${name}.mc4"
@@ -116,36 +120,32 @@ scGrammars.each {
 
 
 
-task generateTest {}
+//task generateTest {}
+//
+//// one task per test grammar file
+//testGrammars.each {
+//  def g = createGrammarName(testGrammarDir, it.key)
+//  def grammarName = it.key
+//  def superGrammarNames = it.value
+//
+//  task "generateTestGrammar${grammarName}"(type: MCTask) {
+//    def dependsOnGrammars = testGrammars[grammarName].collect { name -> tasks["generateGrammar${name}"] }
+//    dependsOn dependsOnGrammars
+//
+//    def grammarFile = file g
+//    grammar = grammarFile
+//    outputDir = file testGrammarOutDir
+//    handcodedPath file("$projectDir/src/test/java")
+//    superGrammars.from(getSuperGrammars(grammarDir, superGrammarNames))
+//    def uptoDate = incCheck(getGrammarInclPackage(testGrammarDir, grammarFile))
+//    outputs.upToDateWhen { uptoDate }
+//  }
+//  generateTest.dependsOn "generateTestGrammar${grammarName}"
+//}
 
-// one task per test grammar file
-testGrammars.each {
-  def g = createGrammarName(testGrammarDir, it.key)
-  def grammarName = it.key
-  def superGrammarNames = it.value
-  
-  task "generateTestGrammar${grammarName}"(type: MCTask) {
-    def dependsOnGrammars = testGrammars[grammarName].collect { name -> tasks["generateGrammar${name}"] }
-    dependsOn dependsOnGrammars
-    
-    def grammarFile = file g
-    grammar = grammarFile
-    outputDir = file testGrammarOutDir
-    handcodedPath file("$projectDir/src/test/java")
-    superGrammars.from(getSuperGrammars(grammarDir, superGrammarNames))
-    def uptoDate = incCheck(getGrammarInclPackage(testGrammarDir, grammarFile))
-    outputs.upToDateWhen { uptoDate }
-  }
-  generateTest.dependsOn "generateTestGrammar${grammarName}"
-}
-
-generateTestGrammarMyIOAutomata {
-  superGrammars.from(file (createGrammarName(testGrammarDir, "IOAtomata")))
-  modelPath file(testGrammarDir), file(grammarDir)
-}
 
 compileJava.dependsOn generate
-compileTestJava.dependsOn generateTest
+//compileTestJava.dependsOn generateTest
 
 // Fixes issue with java plugin in projects without resources
 compileTestJava.doFirst { mkdir sourceSets.main.output.resourcesDir }

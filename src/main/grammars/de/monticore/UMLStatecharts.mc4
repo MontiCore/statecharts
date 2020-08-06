@@ -3,44 +3,48 @@ package de.monticore;
 
 /* Alpha-version: This is intended to become a MontiCore stable grammar. */
 
+import de.monticore.expressions.*;
+import de.monticore.statements.*;
+
 /**
  *  Statecharts is the textual representation to describe UML statecharts
  *  (it uses the UML/P variant defined in [Rum16,Rum17]).
- *  It covers hierarchical states with optional invariants, 
- *  entry-, exit- and do-actions, (internal) transitions with 
+ *  It covers hierarchical states with optional invariants,
+ *  entry-, exit- and do-actions, (internal) transitions with
  *  optional precondition, event and action statements.
- *  
+ *
  *  UMLStateCharts uses the specification and event based variant
  *  of Statecharts, i.e. postconditions in actions are allowed
  *  and events are defined using event-names with possible arguments.
- *  
+ *
  *  The Expressions are from MontiCore's common expressions.
  *
  *  This grammar is part of a hierarchy of Statechart components, namely
  *  * SCBasis.mc4
  *  * ^- SCActions.mc4
  *  *    ^- SCDoActions.mc4
+ *  *    ^- SCTransitions4Code.mc4
+ *  *    ^- SCTransitions4Modelling.mc4
  *  * ^- SCCompleteness.mc4
  *  * ^- SCStateHierarchy.mc4
  *  *    ^- SCStateInvariants.mc4
- *  * ^- SCTransitions4Code.mc4
- *  * ^- SCTransitions4Modelling.mc4
  *  and two alternative grammars composing most of it:
  *  * UMLStatecharts.mc4 (based on Events)
  *  * TriggeredStatecharts.mc4 (based on regular triggers and Port-Values)
  */
- 
-grammar UMLStatecharts 
-          extends SCActions, SCDoActions, 
-                  SCStateHierarchy, SCStateInvariants, 
+
+grammar UMLStatecharts
+          extends SCActions, SCDoActions,
+                  SCStateHierarchy, SCStateInvariants,
                   SCCompleteness,
                   SCTransitions4Modelling,
-                  de.monticore.expressions.CommonExpressions {
+                  CommonExpressions,
+                  MCCommonStatements {
 
   /**
     An event is named and has optional arguments.
     Epsilon (spontaneous) transitions are possible.
   */
-  SCEvent = (name:MCQualifiedName Arguments?)?;
+  SCUMLEvent implements SCEvent = (name:MCQualifiedName Arguments?)?;
 
 }

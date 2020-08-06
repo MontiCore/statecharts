@@ -3,18 +3,21 @@ package de.monticore;
 
 /* Alpha-version: This is intended to become a MontiCore stable grammar. */
 
+import de.monticore.expressions.*;
+import de.monticore.statements.*;
+
 /**
- *  TriggeredStatecharts is the textual representation to 
+ *  TriggeredStatecharts is the textual representation to
  * describe automata with hierarchical states.
- *  It covers hierarchical states with optional invariants, 
- *  entry-, and exit-actions, (internal) transitions with 
+ *  It covers hierarchical states with optional invariants,
+ *  entry-, and exit-actions, (internal) transitions with
  *  optional precondition and action statements.
- *  
+ *
  *  The trigger is defined by a condition (e.g. checking values
  *  on input ports in a scheduled, regular form).
  *  TriggeredStateCharts uses the code-oriented variant
- *  of Statecharts, i.e. no postconditions in actions. 
- *  
+ *  of Statecharts, i.e. no postconditions in actions.
+ *
  *  The Expressions are from MontiCore's common expressions.
  *
  *  This grammar is part of a hierarchy of Statechart components, namely
@@ -30,17 +33,21 @@ package de.monticore;
  *  * UMLStatecharts.mc4 (based on Events)
  *  * TriggeredStatecharts.mc4 (based on regular triggers and Port-Values)
  */
- 
-grammar TriggeredStatecharts 
-          extends SCActions,  
-                  SCStateHierarchy,  
+
+grammar TriggeredStatecharts
+          extends SCActions,
+                  SCStateHierarchy,
                   SCTransitions4Code,
-                  de.monticore.expressions.CommonExpressions {
+                  CommonExpressions,
+                  MCCommonStatements
+
+                   {
+start SCArtifact;
 
   /**
     No explicit events.
   */
-  SCEvent = ;
+  SCEmptyEvent implements SCEvent = ;
 
   // allow to uses these for other purposes as well:
   nokeyword "initial", "final", "state";
