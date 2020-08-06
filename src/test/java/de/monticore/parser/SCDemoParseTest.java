@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.parser;
 
-import de.monticore.scdemo._parser.SCDemoParser;
+import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.se_rwth.commons.logging.Log;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,7 +12,7 @@ import static org.junit.Assert.assertFalse;
 
 public class SCDemoParseTest {
   
-  SCDemoParser parser = new SCDemoParser();
+  UMLStatechartsParser parser = new UMLStatechartsParser();
   
   @BeforeClass
   public static void init(){

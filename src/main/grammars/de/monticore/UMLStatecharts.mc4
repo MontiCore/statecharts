@@ -41,6 +41,8 @@ grammar UMLStatecharts
                   CommonExpressions,
                   MCCommonStatements {
 
+  start SCArtifact;
+
   /**
     An event is named and has optional arguments.
     Epsilon (spontaneous) transitions are possible.

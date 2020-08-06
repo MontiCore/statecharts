@@ -39,10 +39,10 @@ grammar TriggeredStatecharts
                   SCStateHierarchy,
                   SCTransitions4Code,
                   CommonExpressions,
-                  MCCommonStatements
+                  MCCommonStatements {
 
-                   {
-start SCArtifact;
+
+  start SCArtifact;
 
   /**
     No explicit events.

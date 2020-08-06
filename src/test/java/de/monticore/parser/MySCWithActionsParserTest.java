@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.parser;
 
-import de.monticore.myscwithactions._parser.MySCWithActionsParser;
+import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
@@ -15,7 +15,7 @@ import static org.junit.Assert.assertFalse;
 
 public class MySCWithActionsParserTest {
   
-  MySCWithActionsParser parser = new MySCWithActionsParser();
+  UMLStatechartsParser parser = new UMLStatechartsParser();
   
   @Before
   public void init(){
@@ -69,7 +69,7 @@ public class MySCWithActionsParserTest {
     check(parser);
   }
   
-  protected void check(MySCWithActionsParser parser) {
+  protected void check(UMLStatechartsParser parser) {
     if (parser.hasErrors()) {
       for(Finding f : LogStub.getFindings()){
         System.out.println(f.buildMsg());
