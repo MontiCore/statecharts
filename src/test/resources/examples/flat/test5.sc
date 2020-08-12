@@ -1,4 +1,4 @@
-;
+import java.util.List;
 statechart Door1 {
   initial state Opened;
   state Closed;
