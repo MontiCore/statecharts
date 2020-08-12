@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.prettyprint;
 
 import de.monticore.MCCommonLiteralsPrettyPrinter;
@@ -5,7 +6,6 @@ import de.monticore.expressions.prettyprint.CommonExpressionsPrettyPrinter;
 import de.monticore.expressions.prettyprint.ExpressionsBasisPrettyPrinter;
 import de.monticore.scbasis._ast.ASTSCBasisNode;
 import de.monticore.statements.prettyprint.MCCommonStatementsPrettyPrinter;
-import de.monticore.statements.prettyprint.MCCommonStatementsPrettyPrinterDelegator;
 import de.monticore.statements.prettyprint.MCVarDeclarationStatementsPrettyPrinter;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.monticore.umlstatecharts._ast.ASTUMLStatechartsNode;
@@ -25,6 +25,7 @@ public class UMLStatechartsPrettyPrinterDelegator
 
     // UMLStereotype, MCBasicTypes, ExpressionsBasis
     setUMLStereotypeVisitor(new UMLStereotypePrettyPrinter(printer));
+    setUMLStatechartsVisitor(new UMLStatechartsPrettyPrinter(printer));
     setMCCommonLiteralsVisitor(new MCCommonLiteralsPrettyPrinter(printer));
     setMCBasicsVisitor(new MCBasicsPrettyPrinter(printer));
     setMCBasicTypesVisitor(new MCBasicTypesPrettyPrinter(printer));
@@ -42,8 +43,6 @@ public class UMLStatechartsPrettyPrinterDelegator
 
     setCommonExpressionsVisitor(new CommonExpressionsPrettyPrinter(printer));
     setMCCommonStatementsVisitor(new MCCommonStatementsPrettyPrinter(printer));
-    setMCCommonStatementsVisitor(new MCCommonStatementsPrettyPrinterDelegator(printer));
-    getMCCommonStatementsVisitor().get().setRealThis(getRealThis());
 
     setMCVarDeclarationStatementsVisitor(new MCVarDeclarationStatementsPrettyPrinter(printer));
   }

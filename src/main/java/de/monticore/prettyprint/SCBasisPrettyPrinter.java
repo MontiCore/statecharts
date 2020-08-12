@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.prettyprint;
 
 import de.monticore.scbasis._ast.*;
@@ -78,6 +79,7 @@ public class SCBasisPrettyPrinter implements SCBasisVisitor {
     getPrinter().print(node.getSourceName());
     getPrinter().print(" -> ");
     getPrinter().print(node.getTargetName());
+    getPrinter().print(" ");
     node.getSCTBody().accept(getRealThis());
     getPrinter().println(";");
   }
