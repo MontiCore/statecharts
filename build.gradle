@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "de.monticore.lang"
-version = "2.0.0-SNAPSHOT"
+version = "2.0-SNAPSHOT"
 description = "Statecharts"
 sourceCompatibility = JavaVersion.VERSION_1_8
 buildDir = file("$projectDir/target")
@@ -21,9 +21,9 @@ def testGrammarOutDir = "$buildDir/generated-test-sources/mc"
 
 def mc_version = "6.2.0"
 def commons_version = "1.7.10-SNAPSHOT"
-def antlr_version = "4.7-1"
 def logback_version = "1.2.3"
 def junit_version = "4.13"
+def commons_cli_version = "1.4"
 
 // configure non-standard source sets
 sourceSets {
@@ -48,8 +48,9 @@ dependencies {
   implementation "de.monticore:monticore-grammar:$mc_version"
   implementation "de.se_rwth.commons:se-commons-logging:$commons_version"
   implementation "de.se_rwth.commons:se-commons-utilities:$commons_version"
+  implementation "commons-cli:commons-cli:$commons_cli_version"
+  implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
   implementation "ch.qos.logback:logback-classic:$logback_version"
-//  testImplementation "org.antlr:antlr4-runtime:$antlr_version"
   testImplementation "junit:junit:$junit_version"
   testImplementation "de.monticore:monticore-runtime:$mc_version:tests"
   testImplementation "de.monticore:monticore-runtime:$mc_version"
@@ -161,13 +162,15 @@ tasks.withType(JavaCompile) {
   options.warnings = false
 }
 
-//shadowJar { // all in one jar
-//    manifest {
-//        attributes "Main-Class": "de.monticore.SCDemoTool"
-//    }
-//    archiveClassifier = "cli"
-//    minimize()
-//}
+// all in one cli-jar
+shadowJar {
+  manifest {
+    attributes "Main-Class": "de.monticore.${archiveBaseName.get().capitalize()}CLI"
+  }
+  archiveClassifier = "cli"
+  archiveFileName = "${archiveBaseName.get()}-${archiveClassifier.get()}.${archiveExtension.get()}"
+  minimize()
+}
 
 
 task testReport(type: TestReport) {
@@ -183,7 +186,7 @@ java {
   }
 }
 
-jar.dependsOn grammarsJar
+jar.dependsOn grammarsJar, shadowJar
 
 // configure deployment
 publishing {

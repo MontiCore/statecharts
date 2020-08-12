@@ -49,15 +49,21 @@ public class MySCWithActionsParserTest {
     @Test
   public void testState2() throws IOException {
     parser.parse_StringSCState("state Opened {"
-        + "  entry / { ringTheDoorBell(); }"
+        + "  entry { ringTheDoorBell(); }"
         + "};");
+    check(parser);
+  }
+  
+  @Test
+  public void testEntry() throws IOException {
+    parser.parse_StringSCEntryAction("entry  { ringTheDoorBell(); }");
     check(parser);
   }
   @Test
   public void testState3() throws IOException {
     parser.parse_StringSCState("state Opened {\n"
-        + "  exit [!muted] / { ringTheDoorBell(); }\n"
-        + "};\n");
+        + "  exit { ringTheDoorBell();} [!doorOpened]}\n"
+        + ";\n");
     check(parser);
   }
   
