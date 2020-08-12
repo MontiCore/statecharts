@@ -162,13 +162,15 @@ tasks.withType(JavaCompile) {
   options.warnings = false
 }
 
-//shadowJar { // all in one jar
-//    manifest {
-//        attributes "Main-Class": "de.monticore.SCDemoTool"
-//    }
-//    archiveClassifier = "cli"
-//    minimize()
-//}
+// all in one cli-jar
+shadowJar {
+  manifest {
+    attributes "Main-Class": "de.monticore.${archiveBaseName.get().capitalize()}CLI"
+  }
+  archiveClassifier = "cli"
+  archiveFileName = "${archiveBaseName.get()}-${archiveClassifier.get()}.${archiveExtension.get()}"
+  minimize()
+}
 
 
 task testReport(type: TestReport) {
@@ -184,7 +186,7 @@ java {
   }
 }
 
-jar.dependsOn grammarsJar
+jar.dependsOn grammarsJar, shadowJar
 
 // configure deployment
 publishing {
