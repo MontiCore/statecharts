@@ -1,0 +1,3 @@
+statechart Foo {
+  state Bla;
+}
