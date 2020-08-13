@@ -46,7 +46,7 @@ public class SCDemoParseTest {
     parser.parse_StringStatechart("statechart Door {  "
         + "  initial state Closed;"
         + "  state Opened {"
-        + "    do { ringTheDoorBell(); }"
+        + "    do / { ringTheDoorBell(); }"
         + "  };"
         + "  state Locked;"
         + ""
@@ -82,7 +82,7 @@ public class SCDemoParseTest {
   @Test
   public void testState4() throws IOException {
     parser.parse_StringSCState("state Opened {"
-        + "  entry { ringTheDoorBell(); }"
+        + "  entry / { ringTheDoorBell(); }"
         + "};");
     assertFalse(parser.hasErrors());
   }
