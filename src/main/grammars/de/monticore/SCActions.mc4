@@ -47,9 +47,9 @@ component grammar SCActions extends SCBasis {
     */
    interface SCAction extends SCStateElement;
 
-   SCEntryAction implements SCAction = "entry" SCABody;
+   SCEntryAction implements SCAction = "entry" "/" SCABody;
 
-   SCExitAction  implements SCAction = "exit"  SCABody;
+   SCExitAction  implements SCAction = "exit" "/" SCABody;
 
    /**
      Body of an action, e.g. Statements.

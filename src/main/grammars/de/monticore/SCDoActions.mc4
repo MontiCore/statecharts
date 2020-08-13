@@ -26,6 +26,6 @@ package de.monticore;
 
 component grammar SCDoActions extends SCActions {
 
-  SCDoAction implements SCAction= "do" SCABody;
+  SCDoAction implements SCAction= "do" "/" SCABody;
 
 }
