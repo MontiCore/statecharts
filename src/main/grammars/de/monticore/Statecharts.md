@@ -1,14 +1,22 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
 [[_TOC_]]
 # Statecharts
-
-The Statechart language component provides the concrete and abstract syntax to model Statecharts.
-It is based on the language components `MCBasicTypes` and `MCCommonLiterals` provided by MontiCore.
+This project offers two variants of Statechart Languages [UMLStatecharts](UMLStatecharts.mc4) and 
+[TriggeredStatecharts](TriggeredStatecharts.mc4) both of which are based on several provided 
+language components that offer the different features for Statecharts. These components are:
+[SCBasis](SCBasis.mc4)
+[SCStateHierarchy](SCStateHierarchy.mc4)
+[SCStateInvariants](SCStateInvariants.mc4)
+[SCActions](SCActions.mc4)
+[SCDoActions](SCDoActions.mc4)
+[SCTransitions4Code](SCTransitions4Code.mc4)
+[SCTransitions4Modelling](SCTransitions4Modelling.mc4)
+[SCCompleteness](SCCompleteness.mc4)
 
 ## Syntax
 
 
-A compact teaser for the Statecharts language component:
+A compact teaser for the UML Statecharts language:
 
 ```
 statechart Door {
@@ -30,6 +38,38 @@ When the door is `Closed` it is automatically locked after some time due to a
 `timeout()` event that triggers the `lockDoor()` action.
 In case the door is locked, it can be unlocked by using `unlock()` if the pre-condition
  `isAuthorized` is fulfilled.
+ 
+ ## UMLStatecharts
+ This language combines the language components SCActions, SCDoActions, SCStateHierarchy, 
+ SCStateInvariants, SCCompleteness, SCTransitions4Modelling, CommonExpressions and
+ MCCommonStatements. Thus, it allows modeling UML-like Statechart with hierarchical states that 
+ may have entry, do and exit actions as well as invariants. Furthermore, transitions with pre- 
+ and postconditions, events and actions are possible. The  statechart itself as well as states 
+ can be marked as complete. The teaser above conforms to this language.
+ 
+ ## TriggeredStatecharts
+ The second variant of statecharts offered are TriggeredStatecharts. This language combines the 
+ language components SCActions, SCStateHierarchy, SCTransitions4Code, CommonExpressions and 
+ MCCommonStatements. Thus, it allows modeling statechart with hierarchical states that may 
+ have entry and exit actions but neither do actions nor invariants. Furthermore, transitions
+ can only consist of  a precondition, an event and an action.
+ 
+ ## SCBasis
+SCBasis is the most basic grammar component provided. It offers the SCArtifact including package 
+and imports as well as the Statechart nonterminal itself. Furthermore, states and transitions 
+with extension points for their bodies (SCSBody and SCTBody) are provided. In addition, the 
+interfaces StateElement and StatechartElement can be used as extension points to add further 
+features for statecharts or states.
+ 
+ <!-- TODO
+ ## SCStateHierarchy
+ ## SCStateInvariants
+ ## SCActions
+ ## SCDoActions
+ ## SCTransitions4Code
+ ## SCTransitions4Modelling
+ ## SCCompleteness
+ -->
 
 <!-- #### Handwritten Extensions -->
 
