@@ -27,7 +27,7 @@ statechart Door {
 
   Opened -> Closed  close() ;
   Closed -> Opened  open() / { count++; ringTheDoorBell(); };
-  Closed -> Locked  timeOut() / lockDoor() ;
+  Closed -> Locked  timeOut() / lockDoor(); ;
   Locked -> Closed  [isAuthorized() && keyFits()] unlock() ;
 }
 
@@ -42,12 +42,23 @@ and four transitions (each terminated by `;`).
   for the actions.
 
 Further extensions are shown in the following, where 
-`XXX` has two substates as well as entry, exit actions and and invariant:
+`EngineRunning` has two substates as well as entry, exit actions and an invariant:
 ```
- XXX TODO 
+statechart Car {
+  initial state EngineOff;
+  state EngineRunning {
+    [!fuelIsEmpty]
+    entry / {lightsOn();}
+    initial state Parking;
+    state Driving;
+    exit / {lightsOff();}
+  };
+}
+
+
 ```
 
-Expressions and statements can be taken from MontiCores basic grammar libary 
+Expressions and statements can be taken from MontiCores basic grammar library 
 and extended by any own interesting language constructs (such as sending/receiving 
 messages `!m` or `?m`)
 
@@ -64,29 +75,32 @@ messages `!m` or `?m`)
  
  `TriggeredStatecharts` is a second combination of the basic language components. 
  It combines the 
- language components `SCActions`, `SCStateHierarchy`, `SCTransitions4Code`, `CommonExpressions and 
+ language components `SCActions`, `SCStateHierarchy`, `SCTransitions4Code`, `CommonExpressions` and 
  `MCCommonStatements`. Thus, it allows modeling Statecharts with hierarchical states that may 
  have entry and exit actions.
  
- On the oone hand, `TriggeredStatecharts` show how flexible the language component library
+ On the one hand, `TriggeredStatecharts` show how flexible the language component library
  is and how easy individual languages can be designed.
  
  On the other hand, `TriggeredStatecharts` have their own dedicated use for descriptions
- in the embedded area, where a softwar ecomponent is often *triggered* 
+ in the embedded area, where a software component is often *triggered* 
  on a regular basis (i.e. with a certain periodic repetition and signals do not
- arrive as events, but as avaliable values). We also designed `TriggeredStatecharts`
- as implementation oriented language, and therfore do not add specification oriented constructs:
+ arrive as events, but as available values). We also designed `TriggeredStatecharts`
+ as implementation oriented language, and therefore do not add specification oriented constructs:
  - no do actions 
  - no state invariants
- - transitions consist of a precondition an event and an action.
- TODO: ist das so, dass die für MA sinnvollen transitionen ein "event" haben?
+ - transitions consist of a precondition, an event and an action, each of which is optional.
+<! -- TODO: ist das so, dass die für MA sinnvollen transitionen ein "event" haben? 
+Entsprechend der Grammatik wäre es: ein "event" haben können
+
+-->
 
  
  ## SCBasis
-SCBasis is the basic grammar component for automata. It defines
+`SCBasis` is the basic grammar component for automata. It defines
 a Statechart structure including package 
 and imports as well as the Statechart nonterminal itself. 
-Inside a Statechart the `SCArtifact` extension point allows to add various forms
+Inside a Statechart the `SCArtifact` extension point allows adding various forms
 of states and transitions (or other constructs).
 Furthermore, states and transitions 
 with extension points for their bodies (`SCSBody` and `SCTBody`) are provided. 
