@@ -90,7 +90,7 @@ messages `!m` or `?m`)
  - no do actions 
  - no state invariants
  - transitions consist of a precondition, an event and an action, each of which is optional.
-<! -- TODO: ist das so, dass die für MA sinnvollen transitionen ein "event" haben? 
+<!-- TODO: ist das so, dass die für MA sinnvollen transitionen ein "event" haben? 
 Entsprechend der Grammatik wäre es: ein "event" haben können
 
 -->
