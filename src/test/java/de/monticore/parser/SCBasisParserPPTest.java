@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.parser;
 
+import de.monticore.prettyprint.UMLStatechartsPrettyPrinterDelegator;
 import de.monticore.scbasis._ast.*;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.se_rwth.commons.logging.Log;
@@ -8,19 +9,21 @@ import de.se_rwth.commons.logging.LogStub;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 /**
- * This test parses every non terminal,
+ * This test parses every non terminal of SCBasis,
  * checks it against expected values,
  * and validates that the PrettyPrinter returns an equivalent model
  */
-public class FlatSCParserTest {
+public class SCBasisParserPPTest {
 
   UMLStatechartsParser parser = new UMLStatechartsParser();
+  UMLStatechartsPrettyPrinterDelegator prettyPrinter = new UMLStatechartsPrettyPrinterDelegator();
 
   @Before
   public void init() {
@@ -36,6 +39,8 @@ public class FlatSCParserTest {
 
     assertEquals(1, ast.get().sizeMCImportStatements());
     assertEquals("de.monticore.cd", ast.get().getMCImportStatements(0).getQName());
+
+    checkPP(ast.get(), parser::parse_StringSCArtifact);
   }
 
   @Test
@@ -47,6 +52,8 @@ public class FlatSCParserTest {
 
     assertEquals(1, ast.get().getSCStatechartElementsList().size());
     assertEquals("S1", ((ASTSCState) ast.get().getSCStatechartElementsList().get(0)).getName());
+
+    checkPP(ast.get(), parser::parse_StringStatechart);
   }
 
   @Test
@@ -57,24 +64,57 @@ public class FlatSCParserTest {
 
     assertTrue(ast.get().getSCModifier().isInitial());
     assertEquals("S1", ast.get().getName());
+
+    checkPP(ast.get(), parser::parse_StringSCState);
   }
 
   @Test
   public void testSCTransition() throws IOException {
-    Optional<ASTSCTransition> ast = parser.parse_StringSCTransition("<<stereo>> S1 -> S2;");
+    Optional<ASTSCTransition> ast = parser.parse_StringSCTransition("<<stereotype, stereo=\"mexico\">>S1 -> S2 ;");
     check();
     assertTrue("No ast present", ast.isPresent());
 
-    assertEquals(1, ast.get().getStereotype().getValuesList().size());
-    assertEquals("stereo", ast.get().getStereotype().getValues(0).getName());
+    assertEquals(2, ast.get().getStereotype().getValuesList().size());
+    assertEquals("stereotype", ast.get().getStereotype().getValues(0).getName());
     assertNull(ast.get().getStereotype().getValues(0).getContent());
+
+    assertEquals("stereo", ast.get().getStereotype().getValues(1).getName());
+    assertEquals("mexico", ast.get().getStereotype().getValues(1).getValue());
+
     assertEquals("S1", ast.get().getSourceName());
     assertEquals("S2", ast.get().getTargetName());
+
+    // TODO: This is currently an issue with ASTStereoValue#getValue()
+    Optional<ASTSCTransition> ast2 = parser.parse_StringSCTransition("<<stereotype, stereo=\"mexico\">>S1 -> S2 ;");
+    assertTrue("getValue still breaks getEqual", ast2.get().deepEquals(ast.get()));
+
+    checkPP(ast.get(), parser::parse_StringSCTransition);
   }
 
   private void check() {
     LogStub.getFindings().forEach(System.err::println);
     assertFalse(parser.hasErrors());
+  }
+
+  /**
+   * Test the pretty printer
+   *
+   * @param ast the ast node
+   * @param fkt the parse function
+   * @param <T> the ast nodes type
+   * @throws IOException the parser has these declared
+   */
+  protected <T extends ASTSCBasisNode> void checkPP(T ast, @Nonnull CheckedFunction<String, Optional<T>> fkt)
+      throws IOException {
+    String pp = prettyPrinter.prettyprint(ast);
+    Optional<T> astPP = fkt.apply(pp);
+    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
+    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast));
+  }
+
+  @FunctionalInterface
+  public interface CheckedFunction<T, R> {
+    R apply(T t) throws IOException;
   }
 
 }

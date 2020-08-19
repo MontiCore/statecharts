@@ -19,8 +19,7 @@ import static org.junit.Assert.*;
 
 /**
  * This test parses example files (without cocos),
- * checks against expected values,
- * and finally tests the PrettyPrinter
+ * and checks against expected values
  */
 public class FlatSCFilesParserTest {
 
