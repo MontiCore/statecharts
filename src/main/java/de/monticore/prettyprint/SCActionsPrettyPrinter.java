@@ -16,13 +16,13 @@ public class SCActionsPrettyPrinter
 
   @Override
   public void handle(ASTSCEntryAction node) {
-    getPrinter().print("entry ");
+    getPrinter().print("entry / ");
     node.getSCABody().accept(getRealThis());
   }
 
   @Override
   public void handle(ASTSCExitAction node) {
-    getPrinter().print("accept ");
+    getPrinter().print("exit / ");
     node.getSCABody().accept(getRealThis());
   }
 

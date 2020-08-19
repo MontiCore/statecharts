@@ -15,7 +15,7 @@ public class SCDoActionsPrettyPrinter
 
   @Override
   public void handle(ASTSCDoAction node) {
-    getPrinter().print("do ");
+    getPrinter().print("do / ");
     node.getSCABody().accept(getRealThis());
   }
 
