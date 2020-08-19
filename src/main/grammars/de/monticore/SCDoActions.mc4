@@ -1,7 +1,8 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-/* Beta-version: This is intended to become a MontiCore stable grammar. */
+/* This is a MontiCore stable grammar.
+ * Adaptations -- if any -- are conservative. */
 
 /**
  *  This component grammar extends the action possibilities with
@@ -26,6 +27,6 @@ package de.monticore;
 
 component grammar SCDoActions extends SCActions {
 
-  SCDoAction implements SCAction= "do" SCABody;
+  SCDoAction implements SCAction= "do" "/" SCABody;
 
 }

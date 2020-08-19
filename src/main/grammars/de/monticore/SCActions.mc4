@@ -1,7 +1,8 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-/* Beta-version: This is intended to become a MontiCore stable grammar. */
+/* This is a MontiCore stable grammar.
+ * Adaptations -- if any -- are conservative. */
 
 /**
  *  This component grammar defines entry and exit actions for
@@ -47,9 +48,9 @@ component grammar SCActions extends SCBasis {
     */
    interface SCAction extends SCStateElement;
 
-   SCEntryAction implements SCAction = "entry" SCABody;
+   SCEntryAction implements SCAction = "entry" "/" SCABody;
 
-   SCExitAction  implements SCAction = "exit"  SCABody;
+   SCExitAction  implements SCAction = "exit" "/" SCABody;
 
    /**
      Body of an action, e.g. Statements.
