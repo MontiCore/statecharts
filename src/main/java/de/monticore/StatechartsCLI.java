@@ -2,17 +2,21 @@
 package de.monticore;
 
 import de.monticore.io.paths.ModelPath;
+import de.monticore.prettyprint.UMLStatechartsPrettyPrinterDelegator;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsGlobalScope;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsSymbolTableCreatorDelegator;
+import de.se_rwth.commons.Files;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.cli.*;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -150,7 +154,23 @@ public class StatechartsCLI {
    */
   public void prettyPrint(ASTSCArtifact scartifact, String file) {
     // pretty print AST
-    // TODO implement
+    UMLStatechartsPrettyPrinterDelegator prettyPrinterDelegator
+        = new UMLStatechartsPrettyPrinterDelegator();
+    scartifact.accept(prettyPrinterDelegator);
+
+    String output = prettyPrinterDelegator.getPrinter().getContent();
+
+    if (file.isEmpty()){
+      System.out.println(output);
+    }else{
+      try {
+        Files.writeToTextFile(new StringReader(output), new File(file));
+      }
+      catch (IOException e) {
+        e.printStackTrace();
+        System.err.println("Failed to write prettyprint output");
+      }
+    }
   }
   
   /**

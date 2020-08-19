@@ -3,6 +3,7 @@ package de.monticore.parser;
 
 import com.google.common.base.Joiner;
 import de.monticore.scbasis._ast.ASTSCArtifact;
+import de.monticore.scbasis._ast.ASTSCState;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.se_rwth.commons.logging.Log;
 import org.junit.Before;
@@ -21,7 +22,7 @@ import static org.junit.Assert.*;
  * checks against expected values,
  * and finally tests the PrettyPrinter
  */
-public class FlatSCFilesParserTest extends ParserTest {
+public class FlatSCFilesParserTest {
 
   UMLStatechartsParser parser = new UMLStatechartsParser();
 
@@ -34,38 +35,29 @@ public class FlatSCFilesParserTest extends ParserTest {
   public void testStatechartFoo() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/examples/flat/foo.sc");
     assertEquals("Foo", ast.getStatechart().getName());
-    assertEquals(1, ast.getStatechart().getSCStateList().size());
-    assertEquals("Bla", ast.getStatechart().getSCStateList().get(0).getName());
-    assertEquals(0, ast.getStatechart().getSCTransitionList().size());
+    assertEquals(1, ast.getStatechart().getSCStatechartElementsList().size());
+    assertEquals("Bla", ((ASTSCState) ast.getStatechart().getSCStatechartElementsList().get(0)).getName());
 
-    checkPP(ast, parser::parse_StringSCArtifact);
   }
 
   @Test
   public void testStatechart2() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/examples/flat/test2.sc");
     assertEquals("Door2", ast.getStatechart().getName());
-    assertEquals(2, ast.getStatechart().getSCStateList().size());
-    assertEquals(1, ast.getStatechart().getSCTransitionList().size());
-
-    checkPP(ast, parser::parse_StringSCArtifact);
+    assertEquals(3, ast.getStatechart().getSCStatechartElementsList().size());
   }
 
   @Test
   public void testStatechart3() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/examples/flat/test3.sc");
     assertEquals("Door2", ast.getStatechart().getName());
-    assertEquals(2, ast.getStatechart().getSCStateList().size());
-    assertEquals(1, ast.getStatechart().getSCTransitionList().size());
-
-    checkPP(ast, parser::parse_StringSCArtifact);
+    assertEquals(3, ast.getStatechart().getSCStatechartElementsList().size());
   }
 
   @Test
   public void testStatechart4() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/examples/flat/test4.sc");
     assertEquals("Door1", ast.getStatechart().getName());
-    checkPP(ast, parser::parse_StringSCArtifact);
   }
 
   @Test
@@ -74,7 +66,6 @@ public class FlatSCFilesParserTest extends ParserTest {
     assertEquals("Door1", ast.getStatechart().getName());
     assertEquals(1, ast.getMCImportStatementsList().size());
     assertEquals("java.util.List", ast.getMCImportStatements(0).getQName());
-    checkPP(ast, parser::parse_StringSCArtifact);
   }
 
   protected ASTSCArtifact parse(String file)
@@ -82,8 +73,8 @@ public class FlatSCFilesParserTest extends ParserTest {
     List<String> files = Files.readAllLines(new File(file).toPath());
     Optional<ASTSCArtifact> opt = parser.parse_StringSCArtifact(Joiner.on(System.lineSeparator()).join(files));
     Log.getFindings().forEach(System.out::println);
-    assertFalse(parser.hasErrors());
-    assertTrue(opt.isPresent());
+    assertFalse("Parsed with errors", parser.hasErrors());
+    assertTrue("No AST present", opt.isPresent());
     return opt.get();
   }
 
