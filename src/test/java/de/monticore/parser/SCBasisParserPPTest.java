@@ -79,16 +79,16 @@ public class SCBasisParserPPTest {
     assertNull(ast.get().getStereotype().getValues(0).getContent());
 
     assertEquals("stereo", ast.get().getStereotype().getValues(1).getName());
-    assertEquals("mexico", ast.get().getStereotype().getValues(1).getValue());
 
     assertEquals("S1", ast.get().getSourceName());
     assertEquals("S2", ast.get().getTargetName());
 
-    // TODO: This is currently an issue with ASTStereoValue#getValue()
-    Optional<ASTSCTransition> ast2 = parser.parse_StringSCTransition("<<stereotype, stereo=\"mexico\">>S1 -> S2 ;");
-    assertTrue("getValue still breaks getEqual", ast2.get().deepEquals(ast.get()));
+
 
     checkPP(ast.get(), parser::parse_StringSCTransition);
+
+    // Test this AFTER deepEquals, as de.monticore.umlstereotype._ast.ASTStereoValue#getValue() is not side effect free
+    assertEquals("mexico", ast.get().getStereotype().getValues(1).getValue());
   }
 
   private void check() {

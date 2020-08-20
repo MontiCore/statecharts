@@ -15,8 +15,8 @@ import org.apache.commons.cli.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -157,22 +157,40 @@ public class StatechartsCLI {
     UMLStatechartsPrettyPrinterDelegator prettyPrinterDelegator
         = new UMLStatechartsPrettyPrinterDelegator();
     scartifact.accept(prettyPrinterDelegator);
+    String prettyOutput = prettyPrinterDelegator.getPrinter().getContent();
+    print(prettyOutput, file);
+  }
 
-    String output = prettyPrinterDelegator.getPrinter().getContent();
+  /**
+   * Prints the given content to a target file (if specified) or to stdout (if
+   * the file is Optional.empty()).
+   *
+   * @param content The String to be printed
+   * @param path The target path to the file for printing the content. If empty,
+   *          the content is printed to stdout instead
+   */
+  public void print(String content, String path) {
+    // print to stdout or file
+    if (path.isEmpty()) {
+      System.out.println(content);
+    } else {
+      File f = new File(path);
+      // create directories (logs error otherwise)
+      f.getAbsoluteFile().getParentFile().mkdirs();
 
-    if (file.isEmpty()){
-      System.out.println(output);
-    }else{
+      FileWriter writer;
       try {
-        Files.writeToTextFile(new StringReader(output), new File(file));
-      }
-      catch (IOException e) {
-        e.printStackTrace();
-        System.err.println("Failed to write prettyprint output");
+        writer = new FileWriter(f);
+        writer.write(content);
+        writer.close();
+      } catch (IOException e) {
+        Log.error("0xA7105 Could not write to file " + f.getAbsolutePath());
       }
     }
   }
-  
+
+
+
   /**
    * Initializes the available CLI options for the Statechart tool.
    *

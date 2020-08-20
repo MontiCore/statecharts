@@ -23,7 +23,6 @@ import static org.junit.Assert.assertTrue;
 public class SCTransitions4CodeParserTest {
 
   UMLStatechartsParser parser = new UMLStatechartsParser();
-  UMLStatechartsPrettyPrinterDelegator prettyPrinter = new UMLStatechartsPrettyPrinterDelegator();
 
   @Before
   public void init() {

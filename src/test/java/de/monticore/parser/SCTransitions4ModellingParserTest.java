@@ -4,6 +4,7 @@ package de.monticore.parser;
 import de.monticore.parser.util.TestUtils;
 import de.monticore.prettyprint.UMLStatechartsPrettyPrinterDelegator;
 import de.monticore.scactions._ast.ASTSCABody;
+import de.monticore.scactions._ast.ASTSCEntryAction;
 import de.monticore.sctransitions4code._ast.ASTTransitionBody;
 import de.monticore.sctransitions4modelling._ast.ASTEventTransitionAction;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
@@ -48,16 +49,13 @@ public class SCTransitions4ModellingParserTest {
     assertTrue("No ast present", ast.isPresent());
   }
 
-//  @Test //TODO: ONLY FOR ENTRY/EXIT?
-  public void testTransitionBody() throws IOException {
-    Optional<ASTTransitionBody> ast = parser.parse_StringTransitionBody(" [ true ] a.b.c / {doStuff(); } [ false ]");
+  @Test
+  public void testEventTransitionActionSCEntryAction() throws IOException {
+    Optional<ASTSCEntryAction> ast = parser.parse_StringSCEntryAction(" entry / {doStuff(); } [ false ]");
     TestUtils.check(parser);
     assertTrue("No ast present", ast.isPresent());
-    assertTrue("Pre", ast.get().isPresentPre());
-    assertTrue("event", ast.get().isPresentSCEvent());
-    assertTrue("action", ast.get().isPresentTransitionAction());
 
-    TestUtils.checkPP(ast.get(), parser::parse_StringTransitionBody);
+    TestUtils.checkPP(ast.get(), parser::parse_StringSCEntryAction);
   }
 
 }

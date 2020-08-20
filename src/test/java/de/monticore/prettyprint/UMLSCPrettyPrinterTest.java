@@ -14,7 +14,8 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * Aim of this test is to verify the pretty printer output
+ * Aim of this test is to verify the pretty printer output.
+ * It does so by comparing the PP output of every .sc example file
  */
 public class UMLSCPrettyPrinterTest {
   UMLStatechartsParser parser = new UMLStatechartsParser();
