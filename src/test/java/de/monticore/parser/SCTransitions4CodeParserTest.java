@@ -35,7 +35,6 @@ public class SCTransitions4CodeParserTest {
     TestUtils.check(parser);
     assertTrue("No ast present", ast.isPresent());
     assertTrue("Pre", ast.get().isPresentPre());
-    assertFalse("event", ast.get().isPresentSCEvent());
     assertFalse("action", ast.get().isPresentTransitionAction());
 
     TestUtils.checkPP(ast.get(), parser::parse_StringTransitionBody);
