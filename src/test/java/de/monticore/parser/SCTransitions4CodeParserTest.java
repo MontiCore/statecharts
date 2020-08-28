@@ -22,9 +22,10 @@ import static org.junit.Assert.assertTrue;
  * and validates that the PrettyPrinter returns an equivalent model
  */
 public class SCTransitions4CodeParserTest {
-
+  
+  UMLStatechartsPrettyPrinterDelegator printer = new UMLStatechartsPrettyPrinterDelegator();
   UMLStatechartsParser parser = new UMLStatechartsParser();
-
+  
   @Before
   public void init() {
     Log.enableFailQuick(false);
@@ -38,7 +39,7 @@ public class SCTransitions4CodeParserTest {
     assertTrue("Pre", ast.get().isPresentPre());
     assertFalse("action", ast.get().isPresentTransitionAction());
 
-    String pp = new UMLStatechartsPrettyPrinterDelegator().prettyprint(ast.get());
+    String pp = printer.prettyprint(ast.get());
     Optional<ASTTransitionBody> astPP = parser.parse_StringTransitionBody(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
@@ -54,7 +55,7 @@ public class SCTransitions4CodeParserTest {
     assertTrue("event", ast.get().isPresentSCEvent());
     assertFalse("action", ast.get().isPresentTransitionAction());
 
-    String pp = new UMLStatechartsPrettyPrinterDelegator().prettyprint(ast.get());
+    String pp = printer.prettyprint(ast.get());
     Optional<ASTTransitionBody> astPP = parser.parse_StringTransitionBody(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
@@ -69,7 +70,7 @@ public class SCTransitions4CodeParserTest {
     assertTrue("event", ast.get().isPresentSCEvent());
     assertTrue("action", ast.get().isPresentTransitionAction());
 
-    String pp = new UMLStatechartsPrettyPrinterDelegator().prettyprint(ast.get());
+    String pp = printer.prettyprint(ast.get());
     Optional<ASTTransitionBody> astPP = parser.parse_StringTransitionBody(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));

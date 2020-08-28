@@ -39,7 +39,7 @@ public class SCBasisParserPPTest {
     assertEquals(1, ast.get().sizeMCImportStatements());
     assertEquals("de.monticore.cd", ast.get().getMCImportStatements(0).getQName());
 
-    String pp = new UMLStatechartsPrettyPrinterDelegator().prettyprint(ast.get());
+    String pp = prettyPrinter.prettyprint(ast.get());
     Optional<ASTSCArtifact> astPP = parser.parse_StringSCArtifact(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
@@ -55,7 +55,7 @@ public class SCBasisParserPPTest {
     assertEquals(1, ast.get().getSCStatechartElementsList().size());
     assertEquals("S1", ((ASTSCState) ast.get().getSCStatechartElementsList().get(0)).getName());
 
-    String pp = new UMLStatechartsPrettyPrinterDelegator().prettyprint(ast.get());
+    String pp = prettyPrinter.prettyprint(ast.get());
     Optional<ASTStatechart> astPP = parser.parse_StringStatechart(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
@@ -70,7 +70,7 @@ public class SCBasisParserPPTest {
     assertTrue(ast.get().getSCModifier().isInitial());
     assertEquals("S1", ast.get().getName());
 
-    String pp = new UMLStatechartsPrettyPrinterDelegator().prettyprint(ast.get());
+    String pp = prettyPrinter.prettyprint(ast.get());
     Optional<ASTSCState> astPP = parser.parse_StringSCState(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
@@ -91,7 +91,7 @@ public class SCBasisParserPPTest {
     assertEquals("S1", ast.get().getSourceName());
     assertEquals("S2", ast.get().getTargetName());
 
-    String pp = new UMLStatechartsPrettyPrinterDelegator().prettyprint(ast.get());
+    String pp = prettyPrinter.prettyprint(ast.get());
     Optional<ASTSCTransition> astPP = parser.parse_StringSCTransition(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));

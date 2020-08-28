@@ -22,9 +22,11 @@ import static org.junit.Assert.assertTrue;
  * and validates that the PrettyPrinter returns an equivalent model
  */
 public class SCCompletenessParserPPTest {
-
+  
+  UMLStatechartsPrettyPrinterDelegator printer = new UMLStatechartsPrettyPrinterDelegator();
+  
   UMLStatechartsParser parser = new UMLStatechartsParser();
-
+  
   @Before
   public void init() {
     Log.enableFailQuick(false);
@@ -38,7 +40,7 @@ public class SCCompletenessParserPPTest {
     assertTrue("Expected complete", ast.get().isComplete());
     assertFalse("Expected not incomplete", ast.get().isIncomplete());
 
-    String pp = new UMLStatechartsPrettyPrinterDelegator().prettyprint(ast.get());
+    String pp = printer.prettyprint(ast.get());
     Optional<ASTSCCompleteness> astPP = parser.parse_StringSCCompleteness(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
@@ -53,7 +55,7 @@ public class SCCompletenessParserPPTest {
     assertFalse("Expected not complete", ast.get().isComplete());
     assertTrue("Expected incomplete", ast.get().isIncomplete());
 
-    String pp = new UMLStatechartsPrettyPrinterDelegator().prettyprint(ast.get());
+    String pp = printer.prettyprint(ast.get());
     Optional<ASTSCCompleteness> astPP = parser.parse_StringSCCompleteness(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));

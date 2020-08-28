@@ -22,9 +22,10 @@ import static org.junit.Assert.assertTrue;
  * and validates that the PrettyPrinter returns an equivalent model
  */
 public class SCActionsParserPPTest {
-
+  
+  UMLStatechartsPrettyPrinterDelegator printer = new UMLStatechartsPrettyPrinterDelegator();
   UMLStatechartsParser parser = new UMLStatechartsParser();
-
+  
   @Before
   public void init() {
     Log.enableFailQuick(false);
@@ -36,7 +37,7 @@ public class SCActionsParserPPTest {
     TestUtils.check(parser);
     assertTrue("No ast present", ast.isPresent());
 
-    String pp = new UMLStatechartsPrettyPrinterDelegator().prettyprint(ast.get());
+    String pp = printer.prettyprint(ast.get());
     Optional<ASTSCEntryAction> astPP = parser.parse_StringSCEntryAction(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
@@ -48,7 +49,7 @@ public class SCActionsParserPPTest {
     TestUtils.check(parser);
     assertTrue("No ast present", ast.isPresent());
 
-    String pp = new UMLStatechartsPrettyPrinterDelegator().prettyprint(ast.get());
+    String pp = printer.prettyprint(ast.get());
     Optional<ASTSCExitAction> astPP = parser.parse_StringSCExitAction(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
@@ -60,7 +61,7 @@ public class SCActionsParserPPTest {
     TestUtils.check(parser);
     assertTrue("No ast present", ast.isPresent());
 
-    String pp = new UMLStatechartsPrettyPrinterDelegator().prettyprint(ast.get());
+    String pp = printer.prettyprint(ast.get());
     Optional<ASTSCAction> astPP = parser.parse_StringSCAction(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
@@ -72,7 +73,7 @@ public class SCActionsParserPPTest {
     TestUtils.check(parser);
     assertTrue("No ast present", ast.isPresent());
 
-    String pp = new UMLStatechartsPrettyPrinterDelegator().prettyprint(ast.get());
+    String pp = printer.prettyprint(ast.get());
     Optional<ASTSCAction> astPP = parser.parse_StringSCAction(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));

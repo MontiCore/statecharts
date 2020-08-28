@@ -24,10 +24,10 @@ import static org.junit.Assert.assertTrue;
  * and validates that the PrettyPrinter returns an equivalent model
  */
 public class SCTransitions4ModellingParserTest {
-
+  
+  UMLStatechartsPrettyPrinterDelegator printer = new UMLStatechartsPrettyPrinterDelegator();
   UMLStatechartsParser parser = new UMLStatechartsParser();
-  UMLStatechartsPrettyPrinterDelegator prettyPrinter = new UMLStatechartsPrettyPrinterDelegator();
-
+  
   @Before
   public void init() {
     Log.enableFailQuick(false);
@@ -39,7 +39,7 @@ public class SCTransitions4ModellingParserTest {
     TestUtils.check(parser);
     assertTrue("No ast present", ast.isPresent());
 
-    String pp = new UMLStatechartsPrettyPrinterDelegator().prettyprint(ast.get());
+    String pp = printer.prettyprint(ast.get());
     Optional<ASTEventTransitionAction> astPP = parser.parse_StringEventTransitionAction(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
@@ -59,7 +59,7 @@ public class SCTransitions4ModellingParserTest {
     TestUtils.check(parser);
     assertTrue("No ast present", ast.isPresent());
 
-    String pp = new UMLStatechartsPrettyPrinterDelegator().prettyprint(ast.get());
+    String pp = printer.prettyprint(ast.get());
     Optional<ASTSCEntryAction> astPP = parser.parse_StringSCEntryAction(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));

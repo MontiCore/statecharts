@@ -22,9 +22,10 @@ import static org.junit.Assert.*;
  * and validates that the PrettyPrinter returns an equivalent model
  */
 public class SCHierarchyParserPPTest {
-
+  
+  UMLStatechartsPrettyPrinterDelegator printer = new UMLStatechartsPrettyPrinterDelegator();
   UMLStatechartsParser parser = new UMLStatechartsParser();
-
+  
   @Before
   public void init() {
     Log.enableFailQuick(false);
@@ -37,7 +38,7 @@ public class SCHierarchyParserPPTest {
     assertTrue("No ast present", ast.isPresent());
     assertEquals(2, ast.get().getSCStateElementsList().size());
 
-    String pp = new UMLStatechartsPrettyPrinterDelegator().prettyprint(ast.get());
+    String pp = printer.prettyprint(ast.get());
     Optional<ASTSCHierarchyBody> astPP = parser.parse_StringSCHierarchyBody(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
@@ -53,7 +54,7 @@ public class SCHierarchyParserPPTest {
     assertEquals("stereotype", ast.get().getStereotype().getValues(0).getName());
     assertNull(ast.get().getStereotype().getValues(0).getContent());
 
-    String pp = new UMLStatechartsPrettyPrinterDelegator().prettyprint(ast.get());
+    String pp = printer.prettyprint(ast.get());
     Optional<ASTSCInternTransition> astPP = parser.parse_StringSCInternTransition(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
