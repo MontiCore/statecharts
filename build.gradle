@@ -7,8 +7,10 @@ plugins {
   id "de.set.ecj" version "1.4.1" // Eclipse compiler as it's much faster than javac
 }
 
+def mc_version = "6.2.0"
+
 group = "de.monticore.lang"
-version = "2.0-SNAPSHOT"
+version = "$mc_version-SNAPSHOT"
 description = "Statecharts"
 sourceCompatibility = JavaVersion.VERSION_1_8
 buildDir = file("$projectDir/target")
@@ -19,7 +21,6 @@ def grammarOutDir = "$buildDir/generated-sources/mc"
 def testGrammarDir = "src/test/grammars"
 def testGrammarOutDir = "$buildDir/generated-test-sources/mc"
 
-def mc_version = "6.2.0"
 def commons_version = "1.7.10-SNAPSHOT"
 def logback_version = "1.2.3"
 def junit_version = "4.13"

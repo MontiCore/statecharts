@@ -2,6 +2,8 @@
 package de.monticore.parser;
 
 import de.monticore.parser.util.TestUtils;
+import de.monticore.prettyprint.UMLStatechartsPrettyPrinterDelegator;
+import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.sccompleteness._ast.ASTSCCompleteness;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.se_rwth.commons.logging.Log;
@@ -20,9 +22,11 @@ import static org.junit.Assert.assertTrue;
  * and validates that the PrettyPrinter returns an equivalent model
  */
 public class SCCompletenessParserPPTest {
-
+  
+  UMLStatechartsPrettyPrinterDelegator printer = new UMLStatechartsPrettyPrinterDelegator();
+  
   UMLStatechartsParser parser = new UMLStatechartsParser();
-
+  
   @Before
   public void init() {
     Log.enableFailQuick(false);
@@ -36,7 +40,10 @@ public class SCCompletenessParserPPTest {
     assertTrue("Expected complete", ast.get().isComplete());
     assertFalse("Expected not incomplete", ast.get().isIncomplete());
 
-    TestUtils.checkPP(ast.get(), parser::parse_StringSCCompleteness);
+    String pp = printer.prettyprint(ast.get());
+    Optional<ASTSCCompleteness> astPP = parser.parse_StringSCCompleteness(pp);
+    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
+    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
   }
 
   @Test
@@ -48,8 +55,10 @@ public class SCCompletenessParserPPTest {
     assertFalse("Expected not complete", ast.get().isComplete());
     assertTrue("Expected incomplete", ast.get().isIncomplete());
 
-    TestUtils.checkPP(ast.get(), parser::parse_StringSCCompleteness);
+    String pp = printer.prettyprint(ast.get());
+    Optional<ASTSCCompleteness> astPP = parser.parse_StringSCCompleteness(pp);
+    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
+    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
   }
-
 
 }

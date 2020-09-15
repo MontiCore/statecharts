@@ -3,6 +3,7 @@ package de.monticore.parser;
 
 import de.monticore.parser.util.TestUtils;
 import de.monticore.prettyprint.UMLStatechartsPrettyPrinterDelegator;
+import de.monticore.scactions._ast.ASTSCAction;
 import de.monticore.scdoactions._ast.ASTSCDoAction;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.se_rwth.commons.logging.Log;
@@ -20,10 +21,10 @@ import static org.junit.Assert.assertTrue;
  * and validates that the PrettyPrinter returns an equivalent model
  */
 public class SCDoActionsParserPPTest {
-
+  
+  UMLStatechartsPrettyPrinterDelegator printer = new UMLStatechartsPrettyPrinterDelegator();
   UMLStatechartsParser parser = new UMLStatechartsParser();
-  UMLStatechartsPrettyPrinterDelegator prettyPrinter = new UMLStatechartsPrettyPrinterDelegator();
-
+  
   @Before
   public void init() {
     Log.enableFailQuick(false);
@@ -35,9 +36,11 @@ public class SCDoActionsParserPPTest {
     TestUtils.check(parser);
     assertTrue("No ast present", ast.isPresent());
 
-    TestUtils.checkPP(ast.get(), parser::parse_StringSCDoAction);
+    String pp = printer.prettyprint(ast.get());
+    Optional<ASTSCDoAction> astPP = parser.parse_StringSCDoAction(pp);
+    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
+    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
   }
-
 
   @Test
   public void testSCActionDo() throws IOException {
@@ -45,7 +48,10 @@ public class SCDoActionsParserPPTest {
     TestUtils.check(parser);
     assertTrue("No ast present", ast.isPresent());
 
-    TestUtils.checkPP(ast.get(), parser::parse_StringSCAction);
+    String pp = printer.prettyprint(ast.get());
+    Optional<ASTSCAction> astPP = parser.parse_StringSCAction(pp);
+    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
+    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
   }
 
 }

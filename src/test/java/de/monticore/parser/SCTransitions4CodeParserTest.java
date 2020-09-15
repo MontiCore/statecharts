@@ -3,6 +3,7 @@ package de.monticore.parser;
 
 import de.monticore.parser.util.TestUtils;
 import de.monticore.prettyprint.UMLStatechartsPrettyPrinterDelegator;
+import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.sctransitions4code._ast.ASTTransitionBody;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.se_rwth.commons.logging.Log;
@@ -21,9 +22,10 @@ import static org.junit.Assert.assertTrue;
  * and validates that the PrettyPrinter returns an equivalent model
  */
 public class SCTransitions4CodeParserTest {
-
+  
+  UMLStatechartsPrettyPrinterDelegator printer = new UMLStatechartsPrettyPrinterDelegator();
   UMLStatechartsParser parser = new UMLStatechartsParser();
-
+  
   @Before
   public void init() {
     Log.enableFailQuick(false);
@@ -37,11 +39,15 @@ public class SCTransitions4CodeParserTest {
     assertTrue("Pre", ast.get().isPresentPre());
     assertFalse("action", ast.get().isPresentTransitionAction());
 
-    TestUtils.checkPP(ast.get(), parser::parse_StringTransitionBody);
+    String pp = printer.prettyprint(ast.get());
+    Optional<ASTTransitionBody> astPP = parser.parse_StringTransitionBody(pp);
+    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
+    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
   }
 
   @Test
-  public void testTransitionBodyPreAndEvent() throws IOException {
+  public void testTransitionBodyPreAndEvent()
+      throws IOException {
     Optional<ASTTransitionBody> ast = parser.parse_StringTransitionBody(" [ true ] a.b.c");
     TestUtils.check(parser);
     assertTrue("No ast present", ast.isPresent());
@@ -49,7 +55,10 @@ public class SCTransitions4CodeParserTest {
     assertTrue("event", ast.get().isPresentSCEvent());
     assertFalse("action", ast.get().isPresentTransitionAction());
 
-    TestUtils.checkPP(ast.get(), parser::parse_StringTransitionBody);
+    String pp = printer.prettyprint(ast.get());
+    Optional<ASTTransitionBody> astPP = parser.parse_StringTransitionBody(pp);
+    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
+    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
   }
 
   @Test
@@ -61,7 +70,10 @@ public class SCTransitions4CodeParserTest {
     assertTrue("event", ast.get().isPresentSCEvent());
     assertTrue("action", ast.get().isPresentTransitionAction());
 
-    TestUtils.checkPP(ast.get(), parser::parse_StringTransitionBody);
+    String pp = printer.prettyprint(ast.get());
+    Optional<ASTTransitionBody> astPP = parser.parse_StringTransitionBody(pp);
+    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
+    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
   }
 
 }

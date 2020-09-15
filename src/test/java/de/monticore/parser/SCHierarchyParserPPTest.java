@@ -3,6 +3,7 @@ package de.monticore.parser;
 
 import de.monticore.parser.util.TestUtils;
 import de.monticore.prettyprint.UMLStatechartsPrettyPrinterDelegator;
+import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scstatehierarchy._ast.ASTSCHierarchyBody;
 import de.monticore.scstatehierarchy._ast.ASTSCInternTransition;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
@@ -21,10 +22,10 @@ import static org.junit.Assert.*;
  * and validates that the PrettyPrinter returns an equivalent model
  */
 public class SCHierarchyParserPPTest {
-
+  
+  UMLStatechartsPrettyPrinterDelegator printer = new UMLStatechartsPrettyPrinterDelegator();
   UMLStatechartsParser parser = new UMLStatechartsParser();
-  UMLStatechartsPrettyPrinterDelegator prettyPrinter = new UMLStatechartsPrettyPrinterDelegator();
-
+  
   @Before
   public void init() {
     Log.enableFailQuick(false);
@@ -37,7 +38,10 @@ public class SCHierarchyParserPPTest {
     assertTrue("No ast present", ast.isPresent());
     assertEquals(2, ast.get().getSCStateElementsList().size());
 
-    TestUtils.checkPP(ast.get(), parser::parse_StringSCHierarchyBody);
+    String pp = printer.prettyprint(ast.get());
+    Optional<ASTSCHierarchyBody> astPP = parser.parse_StringSCHierarchyBody(pp);
+    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
+    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
   }
 
   @Test
@@ -50,7 +54,10 @@ public class SCHierarchyParserPPTest {
     assertEquals("stereotype", ast.get().getStereotype().getValues(0).getName());
     assertNull(ast.get().getStereotype().getValues(0).getContent());
 
-    TestUtils.checkPP(ast.get(), parser::parse_StringSCInternTransition);
+    String pp = printer.prettyprint(ast.get());
+    Optional<ASTSCInternTransition> astPP = parser.parse_StringSCInternTransition(pp);
+    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
+    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
   }
 
 }

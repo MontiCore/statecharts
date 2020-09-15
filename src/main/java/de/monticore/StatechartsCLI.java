@@ -13,6 +13,7 @@ import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsGlobalScope;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsSymbolTableCreatorDelegator;
+import de.se_rwth.commons.Files;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.cli.*;
 import org.apache.commons.lang3.StringUtils;
@@ -39,56 +40,58 @@ public class StatechartsCLI {
     // initialize logging with standard logging
     Log.init();
     cli.run(args);
-
+  
   }
-
-  public void run(String[] args) {
+  
+  public void run(String[] args){
     Options options = initOptions();
-
+  
     try {
       // create CLI parser and parse input options from command line
       CommandLineParser cliparser = new DefaultParser();
       CommandLine cmd = cliparser.parse(options, args);
-
+    
       // help: when --help
       if (cmd.hasOption("h")) {
         printHelp(options);
         // do not continue, when help is printed
         return;
       }
-
+    
       // if -i input is missing: also print help and stop
       if (!cmd.hasOption("i")) {
         printHelp(options);
         // do not continue, when help is printed
         return;
       }
-
+    
       // parse input file, which is now available
       // (only returns if successful)
       ASTSCArtifact scartifact = parseFile(cmd.getOptionValue("i"));
-
+    
       createSymbolTable(scartifact);
-
+    
       // -option pretty print
       if (cmd.hasOption("pp")) {
         String path = cmd.getOptionValue("pp", StringUtils.EMPTY);
         prettyPrint(scartifact, path);
       }
-
+    
       // -option reports
       if (cmd.hasOption("r")) {
         String path = cmd.getOptionValue("r", StringUtils.EMPTY);
         report(scartifact, path);
       }
-
-    }
-    catch (ParseException e) {
+    
+    
+    } catch (ParseException e) {
       // ann unexpected error from the apache CLI parser:
       Log.error("0xA5C01 Could not process CLI parameters: " + e.getMessage());
     }
   }
-
+  
+  
+  
   /**
    * Creates the symbol table from the parsed AST.
    *
@@ -96,19 +99,24 @@ public class StatechartsCLI {
    * @return The artifact scope derived from the parsed AST
    */
   public UMLStatechartsArtifactScope createSymbolTable(ASTSCArtifact ast) {
-    UMLStatechartsGlobalScope globalScope = UMLStatechartsMill.uMLStatechartsGlobalScopeBuilder().setModelPath(new ModelPath()).setModelFileExtension(".sc").build();
-
-    UMLStatechartsSymbolTableCreatorDelegator symbolTable = UMLStatechartsMill.uMLStatechartsSymbolTableCreatorDelegatorBuilder().setGlobalScope(globalScope).build();
-
+    UMLStatechartsGlobalScope globalScope = UMLStatechartsMill.uMLStatechartsGlobalScopeBuilder()
+        .setModelPath(new ModelPath())
+        .setModelFileExtension(".sc")
+        .build();
+    
+    UMLStatechartsSymbolTableCreatorDelegator symbolTable = UMLStatechartsMill.uMLStatechartsSymbolTableCreatorDelegatorBuilder()
+        .setGlobalScope(globalScope)
+        .build();
+    
     return symbolTable.createFromAST(ast);
   }
-
+  
   /**
    * Creates reports for the Statechart-AST to stdout or a specified file.
    *
    * @param scartifact The Statechart-AST for which the reports are created
-   * @param path       The target path of the directory for the report artifacts. If
-   *                   empty, the contents are printed to stdout instead
+   * @param path The target path of the directory for the report artifacts. If
+   *          empty, the contents are printed to stdout instead
    */
   public void report(ASTSCArtifact scartifact, String path) {
     // calculate and print reports
@@ -165,7 +173,7 @@ public class StatechartsCLI {
     ast.accept(stateCollectorVisitor);
     return String.join(", ", stateCollectorVisitor.getStates());
   }
-
+  
   /**
    * Formats and prints the help information including parameters an options.
    *
@@ -176,7 +184,7 @@ public class StatechartsCLI {
     formatter.setWidth(80);
     formatter.printHelp("UMLSCTool", options);
   }
-
+  
   /**
    * Parses the contents of a given file as a Statechart.
    *
@@ -194,17 +202,18 @@ public class StatechartsCLI {
     }
     return sc.get();
   }
-
+  
   /**
    * Prints the contents of the SC-AST to stdout or a specified file.
    *
    * @param scartifact The SC-AST to be pretty printed
-   * @param file       The target file name for printing the SC artifact. If empty,
-   *                   the content is printed to stdout instead
+   * @param file The target file name for printing the SC artifact. If empty,
+   *          the content is printed to stdout instead
    */
   public void prettyPrint(ASTSCArtifact scartifact, String file) {
     // pretty print AST
-    UMLStatechartsPrettyPrinterDelegator prettyPrinterDelegator = new UMLStatechartsPrettyPrinterDelegator();
+    UMLStatechartsPrettyPrinterDelegator prettyPrinterDelegator
+        = new UMLStatechartsPrettyPrinterDelegator();
     scartifact.accept(prettyPrinterDelegator);
     String prettyOutput = prettyPrinterDelegator.getPrinter().getContent();
     print(prettyOutput, file);
@@ -219,15 +228,14 @@ public class StatechartsCLI {
    * the file is Optional.empty()).
    *
    * @param content The String to be printed
-   * @param path    The target path to the file for printing the content. If empty,
-   *                the content is printed to stdout instead
+   * @param path The target path to the file for printing the content. If empty,
+   *          the content is printed to stdout instead
    */
   public void print(String content, String path) {
     // print to stdout or file
     if (path.isEmpty()) {
       System.out.println(content);
-    }
-    else {
+    } else {
       File f = new File(path);
       // create directories (logs error otherwise)
       f.getAbsoluteFile().getParentFile().mkdirs();
@@ -237,12 +245,13 @@ public class StatechartsCLI {
         writer = new FileWriter(f);
         writer.write(content);
         writer.close();
-      }
-      catch (IOException e) {
+      } catch (IOException e) {
         Log.error("0xA7105 Could not write to file " + f.getAbsolutePath());
       }
     }
   }
+
+
 
   /**
    * Initializes the available CLI options for the Statechart tool.
@@ -251,19 +260,39 @@ public class StatechartsCLI {
    */
   protected Options initOptions() {
     Options options = new Options();
-
+    
     // help dialog
-    options.addOption(Option.builder("h").longOpt("help").desc("Prints this help dialog").build());
-
+    options.addOption(Option.builder("h")
+        .longOpt("help")
+        .desc("Prints this help dialog")
+        .build());
+    
     // parse input file
-    options.addOption(Option.builder("i").longOpt("input").argName("file").hasArg().desc("Reads the source file (mandatory) and parses the contents as a statechart").build());
-
+    options.addOption(Option.builder("i")
+        .longOpt("input")
+        .argName("file")
+        .hasArg()
+        .desc("Reads the source file (mandatory) and parses the contents as a statechart")
+        .build());
+    
     // pretty print SC
-    options.addOption(Option.builder("pp").longOpt("prettyprint").argName("file").optionalArg(true).numberOfArgs(1).desc("Prints the Statechart-AST to stdout or the specified file (optional)").build());
-
+    options.addOption(Option.builder("pp")
+        .longOpt("prettyprint")
+        .argName("file")
+        .optionalArg(true)
+        .numberOfArgs(1)
+        .desc("Prints the Statechart-AST to stdout or the specified file (optional)")
+        .build());
+    
     // reports about the SC
-    options.addOption(Option.builder("r").longOpt("report").argName("dir").hasArg(true).desc("Prints reports of the statechart artifact to the specified directory (optional). Available reports:" + System.lineSeparator() + "not yet implemented").build());
-
+    options.addOption(Option.builder("r")
+        .longOpt("report")
+        .argName("dir")
+        .hasArg(true)
+        .desc("Prints reports of the statechart artifact to the specified directory (optional). Available reports:"
+            + System.lineSeparator() + "not yet implemented")
+        .build());
+    
     return options;
   }
 }

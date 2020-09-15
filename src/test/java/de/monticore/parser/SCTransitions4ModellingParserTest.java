@@ -5,6 +5,7 @@ import de.monticore.parser.util.TestUtils;
 import de.monticore.prettyprint.UMLStatechartsPrettyPrinterDelegator;
 import de.monticore.scactions._ast.ASTSCABody;
 import de.monticore.scactions._ast.ASTSCEntryAction;
+import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.sctransitions4code._ast.ASTTransitionBody;
 import de.monticore.sctransitions4modelling._ast.ASTEventTransitionAction;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
@@ -23,10 +24,10 @@ import static org.junit.Assert.assertTrue;
  * and validates that the PrettyPrinter returns an equivalent model
  */
 public class SCTransitions4ModellingParserTest {
-
+  
+  UMLStatechartsPrettyPrinterDelegator printer = new UMLStatechartsPrettyPrinterDelegator();
   UMLStatechartsParser parser = new UMLStatechartsParser();
-  UMLStatechartsPrettyPrinterDelegator prettyPrinter = new UMLStatechartsPrettyPrinterDelegator();
-
+  
   @Before
   public void init() {
     Log.enableFailQuick(false);
@@ -38,9 +39,11 @@ public class SCTransitions4ModellingParserTest {
     TestUtils.check(parser);
     assertTrue("No ast present", ast.isPresent());
 
-    TestUtils.checkPP(ast.get(), parser::parse_StringEventTransitionAction);
+    String pp = printer.prettyprint(ast.get());
+    Optional<ASTEventTransitionAction> astPP = parser.parse_StringEventTransitionAction(pp);
+    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
+    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
   }
-
 
   @Test
   public void testSCABody() throws IOException {
@@ -50,12 +53,16 @@ public class SCTransitions4ModellingParserTest {
   }
 
   @Test
-  public void testEventTransitionActionSCEntryAction() throws IOException {
+  public void testEventTransitionActionSCEntryAction()
+      throws IOException {
     Optional<ASTSCEntryAction> ast = parser.parse_StringSCEntryAction(" entry / {doStuff(); } [ false ]");
     TestUtils.check(parser);
     assertTrue("No ast present", ast.isPresent());
 
-    TestUtils.checkPP(ast.get(), parser::parse_StringSCEntryAction);
+    String pp = printer.prettyprint(ast.get());
+    Optional<ASTSCEntryAction> astPP = parser.parse_StringSCEntryAction(pp);
+    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
+    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
   }
 
 }

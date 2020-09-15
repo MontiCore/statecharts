@@ -35,7 +35,7 @@ public class UMLSCPrettyPrinterTest {
     try (FileReader fw = new FileReader(file)) {
       Optional<ASTSCArtifact> origAstOpt = parser.parse(fw);
 
-      Assert.assertTrue("No ast parsed from file", origAstOpt.isPresent());
+      Assert.assertTrue("No ast parsed from file " + file.getName(), origAstOpt.isPresent());
       String prettyOut = prettyPrinterDelegator.prettyprint(origAstOpt.get());
 
       Optional<ASTSCArtifact> prettyAstOpt = parser.parse_String(prettyOut);
