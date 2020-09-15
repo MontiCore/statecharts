@@ -290,7 +290,7 @@ public class StatechartsCLI {
         .argName("dir")
         .hasArg(true)
         .desc("Prints reports of the statechart artifact to the specified directory (optional). Available reports:"
-            + System.lineSeparator() + "not yet implemented")
+            + System.lineSeparator() + "reachable states, branching degree, and state names")
         .build());
     
     return options;
