@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class StateNameCollectorVisitor implements SCBasisVisitor {
 
-  private SCBasisVisitor realThis;
+  private SCBasisVisitor realThis= this;
 
   private final Set<String> states = new HashSet<>();
 

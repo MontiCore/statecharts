@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class ReachableStateVisitor implements SCBasisVisitor {
 
-  private SCBasisVisitor realThis;
+  private SCBasisVisitor realThis = this;
 
   private final String fromState;
   private final Set<String> reachableStates = new HashSet<>();

@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class BranchingDegreeVisitor implements SCBasisVisitor {
 
-  private SCBasisVisitor realThis;
+  private SCBasisVisitor realThis = this;
 
   private final Map<String, Integer> branchingDegree = new HashMap<>();
 
