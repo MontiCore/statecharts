@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 plugins {
   id "java"
-  id "monticore" version "6.2.0-SNAPSHOT" // MontiCore Plugin
+  id "monticore" version "6.2.0" // MontiCore Plugin
   id "maven-publish"
   id "com.github.johnrengelman.shadow" version "6.0.0"
   id "de.set.ecj" version "1.4.1" // Eclipse compiler as it's much faster than javac
@@ -21,7 +21,7 @@ def grammarOutDir = "$buildDir/generated-sources/mc"
 def testGrammarDir = "src/test/grammars"
 def testGrammarOutDir = "$buildDir/generated-test-sources/mc"
 
-def commons_version = "1.7.10-SNAPSHOT"
+def commons_version = "1.7.10"
 def logback_version = "1.2.3"
 def junit_version = "4.13"
 def commons_cli_version = "1.4"
