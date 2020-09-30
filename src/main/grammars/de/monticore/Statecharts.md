@@ -16,7 +16,7 @@ language components that offer the different features for Statecharts. These com
 - [SCCompleteness](SCCompleteness.mc4)
 
 <div align="center">
-<img width="800" src="../../../../../doc/Statecharts.LFD.png" alt="Statecharts LFD">
+<img width="800" src="doc/Statecharts.LFD.png" alt="Statecharts LFD">
 <br><b>Figure 1:</b> 
 Overview of the statecharts language components and their relations.
 </div><br>
@@ -108,7 +108,7 @@ Furthermore, states and transitions
 with extension points for their bodies (`SCSBody` and `SCTBody`) are provided. 
 
  ## Hierarchical states
- This project provides two language components for hierarchical states: `SCStateHierarchy` and  
+ This project provides two language components for hierarchical states: `SCStateHierarchy` and 
  `SCStateInvariants`. The language component `SCStateHierarchy` is based on the `SCBasis` language 
  component and adds a state body variant that allows nested state elements, i.e., states and transitions.
  The second language component `SCStateInvariants` extends `SCStateHierarchy` and additionally provides 
