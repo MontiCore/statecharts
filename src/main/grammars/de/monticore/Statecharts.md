@@ -15,6 +15,13 @@ language components that offer the different features for Statecharts. These com
 - [SCTransitions4Modelling](SCTransitions4Modelling.mc4), and
 - [SCCompleteness](SCCompleteness.mc4)
 
+<div align="center">
+<img width="800" src="../../../../../doc/Statecharts.LFD.png" alt="Statecharts LFD">
+<br><b>Figure 1:</b> 
+Overview of the statecharts language components and their relations.
+</div><br>
+
+
 ## Syntax
 
 A small for the UML Statecharts language:
@@ -43,7 +50,8 @@ and four transitions (each terminated by `;`).
 
 Further extensions are shown in the following, where 
 `EngineRunning` has two substates as well as entry, exit actions and an invariant:
-```
+<a name="example2"></a>
+``` 
 statechart Car {
   initial state EngineOff;
   state EngineRunning {
@@ -54,8 +62,6 @@ statechart Car {
     exit / {lightsOff();}
   };
 }
-
-
 ```
 
 Expressions and statements can be taken from MontiCores basic grammar library 
@@ -90,10 +96,6 @@ messages `!m` or `?m`)
  - no do actions 
  - no state invariants
  - transitions consist of a precondition, an event and an action, each of which is optional.
-<!-- TODO: ist das so, dass die für MA sinnvollen transitionen ein "event" haben? 
-Entsprechend der Grammatik wäre es: ein "event" haben können
-
--->
 
  
  ## SCBasis
@@ -105,9 +107,19 @@ of states and transitions (or other constructs).
 Furthermore, states and transitions 
 with extension points for their bodies (`SCSBody` and `SCTBody`) are provided. 
 
+ ## Hierarchical states
+ This project provides two language components for hierarchical states: `SCStateHierarchy` and  
+ `SCStateInvariants`. The language component `SCStateHierarchy` is based on the `SCBasis` language 
+ component and adds a state body variant that allows nested state elements, i.e., states and transitions.
+ The second language component `SCStateInvariants` extends `SCStateHierarchy` and additionally provides 
+ invariants within states. The [second syntax example](#example2) contains an hierachical state 
+ `EngineRunning` which has two substates `Parking` and `Driving` and an invariant `[!fuelIsEmpty]`.
+ 
+ ## Actions
+ 
+ ## Transitions
+ 
  <!-- TODO
- ## SCStateHierarchy
- ## SCStateInvariants
  ## SCActions
  ## SCDoActions
  ## SCTransitions4Code
@@ -127,7 +139,7 @@ with extension points for their bodies (`SCSBody` and `SCTBody`) are provided.
 
 * [**List of languages**](https://git.rwth-aachen.de/monticore/monticore/-/blob/dev/docs/Languages.md)
 * [**MontiCore Core Grammar Library**](https://git.rwth-aachen.de/monticore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/Grammars.md)
-* [Best Practices](BestPractices.md)
+* [Best Practices](https://git.rwth-aachen.de/monticore/monticore/-/blob/dev/docs/BestPractices.md)
 * [Publications about MBSE and MontiCore](https://www.se-rwth.de/publications/)
 
 * [Licence definition](https://github.com/MontiCore/monticore/blob/master/00.org/Licenses/LICENSE-MONTICORE-3-LEVEL.md)
