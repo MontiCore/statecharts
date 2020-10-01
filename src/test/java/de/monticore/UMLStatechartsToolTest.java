@@ -43,12 +43,24 @@ public class UMLStatechartsToolTest {
   public void testUMLStatechartsReport(){
     StatechartsCLI.main(new String[]{
         "-i", "src/test/resources/examples/Door.sc",
-        "-r", "target"
+        "-r", "target/door"
     });
     assertEquals("Reporting for Door.sc was not successful", Log.getErrorCount(), 0);
-    assertTrue("branchingDegree report missing", new File("target/branchingDegree.txt").exists());
-    assertTrue("reachability report missing",new File("target/reachability.txt").exists());
-    assertTrue("stateNames report missing",new File("target/stateNames.txt").exists());
+    assertTrue("branchingDegree report missing", new File("target/door/branchingDegree.txt").exists());
+    assertTrue("reachability report missing",new File("target/door/reachability.txt").exists());
+    assertTrue("stateNames report missing",new File("target/door/stateNames.txt").exists());
+  }
+  
+  @Test
+  public void testUMLStatechartsReportCar(){
+    StatechartsCLI.main(new String[]{
+        "-i", "src/test/resources/examples/Car.sc",
+        "-r", "target/car"
+    });
+    assertEquals("Reporting for Door.sc was not successful", Log.getErrorCount(), 0);
+    assertTrue("branchingDegree report missing", new File("target/car/branchingDegree.txt").exists());
+    assertTrue("reachability report missing",new File("target/car/reachability.txt").exists());
+    assertTrue("stateNames report missing",new File("target/car/stateNames.txt").exists());
   }
   
 }

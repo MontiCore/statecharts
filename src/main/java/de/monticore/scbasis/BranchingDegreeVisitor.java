@@ -1,5 +1,5 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore._visitor;
+package de.monticore.scbasis;
 
 import de.monticore.scbasis._ast.ASTSCTransition;
 import de.monticore.scbasis._visitor.SCBasisVisitor;
@@ -13,9 +13,9 @@ import java.util.Map;
  */
 public class BranchingDegreeVisitor implements SCBasisVisitor {
 
-  private SCBasisVisitor realThis = this;
+  protected SCBasisVisitor realThis = this;
 
-  private final Map<String, Integer> branchingDegree = new HashMap<>();
+  protected final Map<String, Integer> branchingDegree = new HashMap<>();
 
   @Override
   public SCBasisVisitor getRealThis() {

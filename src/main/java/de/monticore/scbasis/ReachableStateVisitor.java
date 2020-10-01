@@ -1,5 +1,5 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore._visitor;
+package de.monticore.scbasis;
 
 import de.monticore.scbasis._ast.ASTSCTransition;
 import de.monticore.scbasis._visitor.SCBasisVisitor;
@@ -12,10 +12,10 @@ import java.util.Set;
  */
 public class ReachableStateVisitor implements SCBasisVisitor {
 
-  private SCBasisVisitor realThis = this;
+  protected SCBasisVisitor realThis = this;
 
-  private final String fromState;
-  private final Set<String> reachableStates = new HashSet<>();
+  protected final String fromState;
+  protected final Set<String> reachableStates = new HashSet<>();
 
   public ReachableStateVisitor(String fromState) {
     this.fromState = fromState;

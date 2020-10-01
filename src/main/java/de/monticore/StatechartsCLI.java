@@ -1,20 +1,19 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-import de.monticore._visitor.BranchingDegreeVisitor;
-import de.monticore._visitor.InitialStateCollectorVisitor;
-import de.monticore._visitor.ReachableStateVisitor;
-import de.monticore._visitor.StateNameCollectorVisitor;
+import de.monticore.scbasis.InitialStateCollectorVisitor;
+import de.monticore.scbasis.ReachableStateVisitor;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.prettyprint.UMLStatechartsPrettyPrinterDelegator;
 import de.monticore.scbasis._ast.ASTSCArtifact;
+import de.monticore.scstatehierarchy.HierarchicalBranchingDegree;
+import de.monticore.scstatehierarchy.HierarchicalStateCollector;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsGlobalScope;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsSymbolTableCreatorDelegator;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsDelegatorVisitor;
-import de.se_rwth.commons.Files;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.cli.*;
 import org.apache.commons.lang3.StringUtils;
@@ -139,10 +138,12 @@ public class StatechartsCLI {
   public String reportReachableStates(ASTSCArtifact ast) {
     UMLStatechartsDelegatorVisitor delegator = UMLStatechartsMill.uMLStatechartsDelegatorVisitorBuilder().build();
     // collect all states
-    StateNameCollectorVisitor stateCollectorVisitor = new StateNameCollectorVisitor();
-    delegator.setSCBasisVisitor(stateCollectorVisitor);
+    HierarchicalStateCollector stateCollector = new HierarchicalStateCollector();
+    delegator.setSCBasisVisitor(stateCollector);
+    delegator.setSCStateHierarchyVisitor(stateCollector);
     ast.accept(delegator);
-    Set<String> statesToBeChecked = stateCollectorVisitor.getStates();
+    Set<String> statesToBeChecked = stateCollector.getStates()
+        .stream().map(e -> e.getName()).collect(Collectors.toSet());
     
     // collect all initial states
     InitialStateCollectorVisitor initialStateCollectorVisitor = new InitialStateCollectorVisitor();
@@ -174,9 +175,10 @@ public class StatechartsCLI {
   }
 
   public String reportBranchingDegree(ASTSCArtifact ast) {
-    BranchingDegreeVisitor branchingDegreeVisitor = new BranchingDegreeVisitor();
+    HierarchicalBranchingDegree branchingDegreeVisitor = new HierarchicalBranchingDegree();
     UMLStatechartsDelegatorVisitor delegator = UMLStatechartsMill.uMLStatechartsDelegatorVisitorBuilder().build();
     delegator.setSCBasisVisitor(branchingDegreeVisitor);
+    delegator.setSCStateHierarchyVisitor(branchingDegreeVisitor);
     ast.accept(delegator);
     return branchingDegreeVisitor.getBranchingDegrees().entrySet().stream()
         .map(e -> e.getKey() + ": " + e.getValue())
@@ -184,12 +186,14 @@ public class StatechartsCLI {
   }
 
   public String reportStateNames(ASTSCArtifact ast) {
-    StateNameCollectorVisitor stateCollectorVisitor = new StateNameCollectorVisitor();
+    HierarchicalStateCollector stateCollectorVisitor = new HierarchicalStateCollector();
     UMLStatechartsDelegatorVisitor delegator = UMLStatechartsMill.uMLStatechartsDelegatorVisitorBuilder().build();
     delegator.setSCBasisVisitor(stateCollectorVisitor);
+    delegator.setSCStateHierarchyVisitor(stateCollectorVisitor);
     ast.accept(delegator);
     ast.accept(stateCollectorVisitor);
-    return String.join(", ", stateCollectorVisitor.getStates());
+    return String.join(", ", stateCollectorVisitor.getStates()
+        .stream().map(e -> e.getName()).collect( Collectors.toSet()));
   }
   
   /**

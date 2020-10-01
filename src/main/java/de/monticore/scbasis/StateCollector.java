@@ -1,20 +1,20 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore._visitor;
+package de.monticore.scbasis;
 
 import de.monticore.scbasis._ast.ASTSCState;
 import de.monticore.scbasis._visitor.SCBasisVisitor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Collects all initial states
+ * Collects all states
  */
-public class InitialStateCollectorVisitor implements SCBasisVisitor {
+public class StateCollector implements SCBasisVisitor {
 
-  private SCBasisVisitor realThis = this;
+  protected SCBasisVisitor realThis= this;
 
-  private final Set<String> states = new HashSet<>();
+  protected final List<ASTSCState> states = new ArrayList<>();
 
   @Override
   public SCBasisVisitor getRealThis() {
@@ -28,12 +28,10 @@ public class InitialStateCollectorVisitor implements SCBasisVisitor {
 
   @Override
   public void visit(ASTSCState node) {
-    if (node.getSCModifier().isInitial()) {
-      this.states.add(node.getName());
-    }
+    this.states.add(node);
   }
 
-  public Set<String> getStates() {
+  public List<ASTSCState> getStates() {
     return states;
   }
 }
