@@ -18,8 +18,9 @@ build:
   artifacts:
     paths:
       - target/
-      
-      
+    expire_in: 1 week
+    
+    
 deploy:
   stage: deploy
   dependencies:
