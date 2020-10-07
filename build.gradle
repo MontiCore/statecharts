@@ -1,13 +1,11 @@
 /* (c) https://github.com/MontiCore/monticore */
 plugins {
   id "java"
-  id "monticore" version "6.2.0" // MontiCore Plugin
+  id "monticore" version "$mc_version" // MontiCore Plugin
   id "maven-publish"
   id "com.github.johnrengelman.shadow" version "6.0.0"
   id "de.set.ecj" version "1.4.1" // Eclipse compiler as it's much faster than javac
 }
-
-def mc_version = "6.2.0"
 
 group = "de.monticore.lang"
 version = "$mc_version-SNAPSHOT"
@@ -18,7 +16,6 @@ buildDir = file("$projectDir/target")
 def grammar_classifier = "grammars"
 def grammarDir = "src/main/grammars"
 def grammarOutDir = "$buildDir/generated-sources/mc"
-def testGrammarDir = "src/test/grammars"
 def testGrammarOutDir = "$buildDir/generated-test-sources/mc"
 
 def commons_version = "1.7.10"
@@ -79,15 +76,6 @@ def scGrammars = [
         UMLStatecharts          : ["SCDoActions", "SCStateInvariants", "SCCompleteness", "SCTransitions4Modelling"],
 ]
 
-// list of all grammars, needed to have a fix order
-//def testGrammars = [
-//        IOAutomata      : ["SCBasis"],
-//        MyFlatSC        : ["SCBodies"],
-//        MyHierSC        : ["SCBodies", "SCBasis"],
-//        MyIOAutomata    : [],
-//        MySCWithActions : ["SCBodies","SCDoActions"],
-//        SCDemo          : ["SCBodies", "Statecharts"]
-//]
 
 String createGrammarName(String grammarDir, String name) {
   "${grammarDir}/de/monticore/${name}.mc4"
@@ -120,34 +108,7 @@ scGrammars.each {
 }
 
 
-
-
-//task generateTest {}
-//
-//// one task per test grammar file
-//testGrammars.each {
-//  def g = createGrammarName(testGrammarDir, it.key)
-//  def grammarName = it.key
-//  def superGrammarNames = it.value
-//
-//  task "generateTestGrammar${grammarName}"(type: MCTask) {
-//    def dependsOnGrammars = testGrammars[grammarName].collect { name -> tasks["generateGrammar${name}"] }
-//    dependsOn dependsOnGrammars
-//
-//    def grammarFile = file g
-//    grammar = grammarFile
-//    outputDir = file testGrammarOutDir
-//    handcodedPath file("$projectDir/src/test/java")
-//    superGrammars.from(getSuperGrammars(grammarDir, superGrammarNames))
-//    def uptoDate = incCheck(getGrammarInclPackage(testGrammarDir, grammarFile))
-//    outputs.upToDateWhen { uptoDate }
-//  }
-//  generateTest.dependsOn "generateTestGrammar${grammarName}"
-//}
-
-
 compileJava.dependsOn generate
-//compileTestJava.dependsOn generateTest
 
 // Fixes issue with java plugin in projects without resources
 compileTestJava.doFirst { mkdir sourceSets.main.output.resourcesDir }
