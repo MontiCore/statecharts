@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
+import de.monticore.io.FileReaderWriter;
 import de.monticore.scbasis.InitialStateCollectorVisitor;
 import de.monticore.scbasis.ReachableStateVisitor;
 import de.monticore.io.paths.ModelPath;
@@ -12,8 +13,10 @@ import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsGlobalScope;
+import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopeDeSer;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsSymbolTableCreatorDelegator;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsDelegatorVisitor;
+import de.monticore.utils.Names;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.cli.*;
 import org.apache.commons.lang3.StringUtils;
@@ -68,8 +71,13 @@ public class StatechartsCLI {
       // parse input file, which is now available
       // (only returns if successful)
       ASTSCArtifact scartifact = parseFile(cmd.getOptionValue("i"));
-    
-      createSymbolTable(scartifact);
+  
+      UMLStatechartsArtifactScope scope = createSymbolTable(scartifact);
+  
+      if (cmd.hasOption("st")) {
+        String path = cmd.getOptionValue("st", StringUtils.EMPTY);
+        storeSymbols(scope, path);
+      }
     
       // -option pretty print
       if (cmd.hasOption("pp")) {
@@ -90,7 +98,15 @@ public class StatechartsCLI {
     }
   }
   
-  
+  public void storeSymbols(UMLStatechartsArtifactScope scope, String path) {
+    UMLStatechartsScopeDeSer deser = UMLStatechartsMill
+        .uMLStatechartsScopeDeSerBuilder().build();
+    String serialized = deser.serialize(scope);
+    Path f = Paths.get(path)
+        .resolve(Paths.get(Names.getPathFromPackage(scope.getPackageName())))
+        .resolve(scope.getName()+".scsym");
+    FileReaderWriter.storeInFile(f, serialized);
+  }
   
   /**
    * Creates the symbol table from the parsed AST.
@@ -304,6 +320,14 @@ public class StatechartsCLI {
         .optionalArg(true)
         .numberOfArgs(1)
         .desc("Prints the Statechart-AST to stdout or the specified file (optional)")
+        .build());
+  
+    // pretty print SC
+    options.addOption(Option.builder("st")
+        .longOpt("store")
+        .argName("file")
+        .hasArg()
+        .desc("Serialized the Symbol table of the given Statechart")
         .build());
     
     // reports about the SC
