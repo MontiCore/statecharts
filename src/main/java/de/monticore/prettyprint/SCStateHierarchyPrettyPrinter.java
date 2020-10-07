@@ -19,7 +19,7 @@ public class SCStateHierarchyPrettyPrinter
   public void handle(ASTSCHierarchyBody node) {
     getPrinter().println("{");
     getPrinter().indent();
-    for (ASTSCStateElement element : node.getSCStateElementsList()){
+    for (ASTSCStateElement element : node.getSCStateElementList()){
       element.accept(getRealThis());
     }
     getPrinter().unindent();

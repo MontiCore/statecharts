@@ -36,7 +36,7 @@ public class SCHierarchyParserPPTest {
     Optional<ASTSCHierarchyBody> ast = parser.parse_StringSCHierarchyBody(" { entry / ; <<abc>> -> ;}");
     TestUtils.check(parser);
     assertTrue("No ast present", ast.isPresent());
-    assertEquals(2, ast.get().getSCStateElementsList().size());
+    assertEquals(2, ast.get().getSCStateElementList().size());
 
     String pp = printer.prettyprint(ast.get());
     Optional<ASTSCHierarchyBody> astPP = parser.parse_StringSCHierarchyBody(pp);

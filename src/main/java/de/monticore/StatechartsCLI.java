@@ -11,10 +11,7 @@ import de.monticore.scstatehierarchy.HierarchicalBranchingDegree;
 import de.monticore.scstatehierarchy.HierarchicalStateCollector;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
-import de.monticore.umlstatecharts._symboltable.UMLStatechartsArtifactScope;
-import de.monticore.umlstatecharts._symboltable.UMLStatechartsGlobalScope;
-import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopeDeSer;
-import de.monticore.umlstatecharts._symboltable.UMLStatechartsSymbolTableCreatorDelegator;
+import de.monticore.umlstatecharts._symboltable.*;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsDelegatorVisitor;
 import de.monticore.utils.Names;
 import de.se_rwth.commons.logging.Log;
@@ -72,7 +69,7 @@ public class StatechartsCLI {
       // (only returns if successful)
       ASTSCArtifact scartifact = parseFile(cmd.getOptionValue("i"));
   
-      UMLStatechartsArtifactScope scope = createSymbolTable(scartifact);
+      IUMLStatechartsArtifactScope scope = createSymbolTable(scartifact);
   
       if (cmd.hasOption("st")) {
         String path = cmd.getOptionValue("st", StringUtils.EMPTY);
@@ -98,7 +95,7 @@ public class StatechartsCLI {
     }
   }
   
-  public void storeSymbols(UMLStatechartsArtifactScope scope, String path) {
+  public void storeSymbols(IUMLStatechartsArtifactScope scope, String path) {
     UMLStatechartsScopeDeSer deser = UMLStatechartsMill
         .uMLStatechartsScopeDeSerBuilder().build();
     String serialized = deser.serialize(scope);
@@ -114,8 +111,8 @@ public class StatechartsCLI {
    * @param ast The top statechart model element.
    * @return The artifact scope derived from the parsed AST
    */
-  public UMLStatechartsArtifactScope createSymbolTable(ASTSCArtifact ast) {
-    UMLStatechartsGlobalScope globalScope = UMLStatechartsMill.uMLStatechartsGlobalScopeBuilder()
+  public IUMLStatechartsArtifactScope createSymbolTable(ASTSCArtifact ast) {
+    IUMLStatechartsGlobalScope globalScope = UMLStatechartsMill.uMLStatechartsGlobalScopeBuilder()
         .setModelPath(new ModelPath())
         .setModelFileExtension(".sc")
         .build();

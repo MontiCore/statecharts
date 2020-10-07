@@ -37,7 +37,7 @@ public class SCBasisParserPPTest {
     assertEquals("a.b.c", ast.get().getPackage().toString());
 
     assertEquals(1, ast.get().sizeMCImportStatements());
-    assertEquals("de.monticore.cd", ast.get().getMCImportStatements(0).getQName());
+    assertEquals("de.monticore.cd", ast.get().getMCImportStatement(0).getQName());
 
     String pp = prettyPrinter.prettyprint(ast.get());
     Optional<ASTSCArtifact> astPP = parser.parse_StringSCArtifact(pp);
@@ -52,8 +52,8 @@ public class SCBasisParserPPTest {
     assertTrue("No ast present", ast.isPresent());
     assertEquals("SC", ast.get().getName());
 
-    assertEquals(1, ast.get().getSCStatechartElementsList().size());
-    assertEquals("S1", ((ASTSCState) ast.get().getSCStatechartElementsList().get(0)).getName());
+    assertEquals(1, ast.get().getSCStatechartElementList().size());
+    assertEquals("S1", ((ASTSCState) ast.get().getSCStatechartElementList().get(0)).getName());
 
     String pp = prettyPrinter.prettyprint(ast.get());
     Optional<ASTStatechart> astPP = parser.parse_StringStatechart(pp);

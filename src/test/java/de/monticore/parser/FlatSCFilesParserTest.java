@@ -34,8 +34,8 @@ public class FlatSCFilesParserTest {
   public void testStatechartFoo() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/examples/flat/foo.sc");
     assertEquals("Foo", ast.getStatechart().getName());
-    assertEquals(1, ast.getStatechart().getSCStatechartElementsList().size());
-    assertEquals("Bla", ((ASTSCState) ast.getStatechart().getSCStatechartElementsList().get(0)).getName());
+    assertEquals(1, ast.getStatechart().getSCStatechartElementList().size());
+    assertEquals("Bla", ((ASTSCState) ast.getStatechart().getSCStatechartElementList().get(0)).getName());
 
   }
 
@@ -43,14 +43,14 @@ public class FlatSCFilesParserTest {
   public void testStatechart2() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/examples/flat/test2.sc");
     assertEquals("Door2", ast.getStatechart().getName());
-    assertEquals(3, ast.getStatechart().getSCStatechartElementsList().size());
+    assertEquals(3, ast.getStatechart().getSCStatechartElementList().size());
   }
 
   @Test
   public void testStatechart3() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/examples/flat/test3.sc");
     assertEquals("Door2", ast.getStatechart().getName());
-    assertEquals(3, ast.getStatechart().getSCStatechartElementsList().size());
+    assertEquals(3, ast.getStatechart().getSCStatechartElementList().size());
   }
 
   @Test
@@ -63,8 +63,8 @@ public class FlatSCFilesParserTest {
   public void testStatechart5() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/examples/flat/test5.sc");
     assertEquals("Door1", ast.getStatechart().getName());
-    assertEquals(1, ast.getMCImportStatementsList().size());
-    assertEquals("java.util.List", ast.getMCImportStatements(0).getQName());
+    assertEquals(1, ast.getMCImportStatementList().size());
+    assertEquals("java.util.List", ast.getMCImportStatement(0).getQName());
   }
 
   protected ASTSCArtifact parse(String file)

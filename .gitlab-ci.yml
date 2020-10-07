@@ -16,9 +16,8 @@ build:
   script:
     - "./gradlew build $GRADLE_OPT $ARGS1"
   artifacts:
-    reports:
-      junit:
-      - ./*/target/surefire-reports/TEST-*.xml
+    paths:
+      - target/
       
       
 deploy:
@@ -27,3 +26,6 @@ deploy:
     - build
   script:
     - "./gradlew publish -PmavenPassword=$pass -PmavenUser=$user $GRADLE_OPT $ARGS2"
+  only:
+    refs:
+      - dev

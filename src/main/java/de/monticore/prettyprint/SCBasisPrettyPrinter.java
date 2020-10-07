@@ -20,7 +20,7 @@ public class SCBasisPrettyPrinter implements SCBasisVisitor {
       getPrinter().print(node.getPackage());
       getPrinter().println(";");
     }
-    for (ASTMCImportStatement importStatement : node.getMCImportStatementsList()) {
+    for (ASTMCImportStatement importStatement : node.getMCImportStatementList()) {
       importStatement.accept(getRealThis());
     }
     node.getStatechart().accept(getRealThis());
@@ -37,7 +37,7 @@ public class SCBasisPrettyPrinter implements SCBasisVisitor {
     }
     getPrinter().println("{");
     getPrinter().indent();
-    for (ASTSCStatechartElement elem : node.getSCStatechartElementsList()) {
+    for (ASTSCStatechartElement elem : node.getSCStatechartElementList()) {
       elem.accept(getRealThis());
     }
     getPrinter().unindent();
