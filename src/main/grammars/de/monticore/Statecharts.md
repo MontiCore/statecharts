@@ -131,6 +131,66 @@ with extension points for their bodies (`SCSBody` and `SCTBody`) are provided.
 
 <!-- ### Symboltable -->
 
+### Symboltable
+
+## Symbol kinds used by the SC language (importable or subclassed):
+The SC language uses symbols of kind `TypeSymbol`, `VariableSymbol` as well as 
+the symbols that are used by these symbols (e.g. `FunctionSymbol` 
+is used by `TypeSymbol`.
+
+## Symbol kinds defined by the SD language (exported):
+The SC language defines the symbol kinds `StatechartSymbol` and `SCStateSynbol`.      
+- A `SCStateSymbol` is defined as (and has no additional body):
+  ```
+  class SCStateSymbol {
+      String name;
+  }
+  ```
+- For each SC there is also a `StatechartSymbol` defined as:
+  ```
+  class StatechartSymbol {
+      String name;
+  }
+  ```
+  
+The SC language does not reuse the `DiagramSymbol` of the BasicSymbols language component as the name of a statechart is optional which is not supported by the diagram symbol.
+
+## Symbols imported by SC models:
+* SCs import `VariableSymbols`, `FunctionSymbols` and `TypeSymbols`. 
+These imported symbol can be used within action or transition bodies. 
+Furthermore, events of transitions can use FunctionSymbols, invariants and pre-/post-conditions can
+use VariableSymbols and FunctionSymbols.
+
+## Symbols exported by SC models:
+* SC models export `SCStateSymbols`. 
+For each state defined in an SC, the SC exports a corresponding `SCStateSymbol`. 
+* Each SC exports at most one `StatechartSymbol` corresponding to the Statechart.
+- The artifact scope of an SC "Door.sc" is stored in "Door.scsym".
+  Structure:
+  ```
+  {
+    "name": "Door",
+    "symbols": [
+      {
+        "kind": "de.monticore.scbasis._symboltable.SCStateSymbol",
+        "name": "Opened"
+      },
+      {
+        "kind": "de.monticore.scbasis._symboltable.SCStateSymbol",
+        "name": "Closed"
+      },
+      {
+        "kind": "de.monticore.scbasis._symboltable.SCStateSymbol",
+        "name": "Locked"
+      },
+      {
+        "kind": "de.monticore.scbasis._symboltable.StatechartSymbol",
+        "name": "Door"
+      }
+    ]
+  }
+  ```
+
 
 ## Further Information
 

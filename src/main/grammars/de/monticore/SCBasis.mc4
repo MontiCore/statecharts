@@ -70,7 +70,7 @@ component grammar SCBasis extends
     Statechart has a Name and a set of states and transitions.
     Statechart can have a stereotype attached to it.
   */
-  symbol scope Statechart =
+  symbol Statechart =
     Stereotype?
     "statechart" Name? "{"
       SCStatechartElement*

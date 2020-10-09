@@ -45,8 +45,14 @@ public class MySCWithActionsParserTest {
     check(parser);
   }
   
+  @Test
+  public void testTransition2() throws IOException {
+    parser.parse_StringSCTransition(" Closed -> Opened open() / { String foo = b;};");
+    check(parser);
+  }
   
-    @Test
+  
+  @Test
   public void testState2() throws IOException {
     parser.parse_StringSCState("state Opened {"
         + "  entry / { ringTheDoorBell(); }"
@@ -69,6 +75,21 @@ public class MySCWithActionsParserTest {
     check(parser);
   }
   
+  @Test
+  public void testState5() throws IOException {
+    parser.parse_StringSCState("state Closed {"
+        + "  -> timeOut() / { lockDoor(); String foo = b;};"
+        + "};");
+    check(parser);
+  }
+  
+  @Test
+  public void testState6() throws IOException {
+    parser.parse_StringSCState("state Closed {"
+        + " exit / {lightsOff(); String foo = b;}"
+        + "};");
+    check(parser);
+  }
   protected void check(UMLStatechartsParser parser) {
     if (parser.hasErrors()) {
       for(Finding f : LogStub.getFindings()){

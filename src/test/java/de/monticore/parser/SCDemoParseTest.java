@@ -140,4 +140,14 @@ public class SCDemoParseTest {
     parser.parse_StringSCTransition("Opened -> Closed return ;");
     assertFalse(parser.hasErrors());
   }
+  
+  @Test
+  public void testTransition7() throws IOException {
+    parser.parse_String("import a.b.Person;\n"
+        + "\n"
+        + "statechart Door4 {\n"
+        + "  Closed -> Opened open() / { String foo = age;};\n"
+        + "}\n");
+    assertFalse(parser.hasErrors());
+  }
 }

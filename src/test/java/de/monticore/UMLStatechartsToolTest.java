@@ -58,6 +58,16 @@ public class UMLStatechartsToolTest {
   }
   
   @Test
+  public void testUMLStatechartsStore3(){
+    StatechartsCLI.main(new String[]{
+        "-i", "src/test/resources/valid/Test.sc",
+        "-st", "target/test"
+    });
+    assertEquals("Storing symbol table of Test.sc was not successful", Log.getErrorCount(), 0);
+  }
+  
+  
+  @Test
   public void testUMLStatechartsReport(){
     StatechartsCLI.main(new String[]{
         "-i", "src/test/resources/examples/Door.sc",

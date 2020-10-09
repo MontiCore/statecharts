@@ -98,8 +98,6 @@ scGrammars.each {
     def File grammarFile = file g
     grammar = grammarFile
     outputDir = file grammarOutDir
-    handcodedPath file("$projectDir/src/main/java")
-    
     def uptoDate = incCheck(getGrammarInclPackage(grammarDir, grammarFile))
     superGrammars.from(getSuperGrammars(grammarDir, superGrammarNames))
     outputs.upToDateWhen { uptoDate }
