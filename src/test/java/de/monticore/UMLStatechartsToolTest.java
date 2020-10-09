@@ -3,6 +3,7 @@ package de.monticore;
 
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -21,7 +22,11 @@ public class UMLStatechartsToolTest {
     LogStub.initPlusLog();
   }
   
-
+  @Before
+  public void setUp() throws Exception {
+    Log.clearFindings();
+  }
+  
   @Test
   public void testUMLStatecharts(){
     new StatechartsCLI().run(new String[]{
