@@ -66,7 +66,7 @@ public class UMLStatechartsToolTest {
   public void testUMLStatechartsStore3(){
     new StatechartsCLI().run(new String[]{
         "-i", resourcesDir + "valid/Test.sc",
-        "-st", outputDir + "test"
+        "-st", outputDir + "testsc"
     });
     assertEquals("Storing symbol table of Test.sc was not successful", Log.getErrorCount(), 0);
   }
