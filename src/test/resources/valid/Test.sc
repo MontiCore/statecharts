@@ -1,5 +1,5 @@
 /* (c) https://github.com/MontiCore/monticore */
-statechart Test {
+statechart {
   initial state EngineOff;
   state EngineRunning {
     [!fuelIsEmpty]
