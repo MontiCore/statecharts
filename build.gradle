@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "de.monticore.lang"
-version = "$mc_version-SNAPSHOT"
+version = "$mc_version"+ (mc_version.endsWith("SNAPSHOT") ? "" : "-SNAPSHOT")
 description = "Statecharts"
 sourceCompatibility = JavaVersion.VERSION_1_8
 buildDir = file("$projectDir/target")
