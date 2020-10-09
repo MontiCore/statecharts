@@ -12,8 +12,7 @@ public class SCBasisSymbolTableCreator  extends SCBasisSymbolTableCreatorTOP  {
     super(enclosingScope);
   }
   
-  public SCBasisSymbolTableCreator(
-      Deque<? extends ISCBasisScope> scopeStack) {
+  public SCBasisSymbolTableCreator(Deque<? extends ISCBasisScope> scopeStack) {
     super(scopeStack);
   }
   
