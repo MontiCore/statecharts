@@ -24,7 +24,7 @@ public class UMLStatechartsToolTest {
 
   @Test
   public void testUMLStatecharts(){
-    StatechartsCLI.main(new String[]{
+    new StatechartsCLI().run(new String[]{
         "-i", resourcesDir + "examples/Door.sc"
     });
     assertEquals("Door.sc was not processed successfully", Log.getErrorCount(), 0);
@@ -32,7 +32,7 @@ public class UMLStatechartsToolTest {
   
   @Test
   public void testUMLStatechartsPP(){
-    StatechartsCLI.main(new String[]{
+    new StatechartsCLI().run(new String[]{
         "-i", resourcesDir + "examples/Door.sc",
         "-pp"
     });
@@ -41,7 +41,7 @@ public class UMLStatechartsToolTest {
   
   @Test
   public void testUMLStatechartsStore(){
-    StatechartsCLI.main(new String[]{
+    new StatechartsCLI().run(new String[]{
         "-i", resourcesDir + "examples/Door.sc",
         "-st", outputDir + "door"
     });
@@ -50,7 +50,7 @@ public class UMLStatechartsToolTest {
   
   @Test
   public void testUMLStatechartsStore2(){
-    StatechartsCLI.main(new String[]{
+    new StatechartsCLI().run(new String[]{
         "-i", resourcesDir + "examples/Car.sc",
         "-st", outputDir + "car"
     });
@@ -59,7 +59,7 @@ public class UMLStatechartsToolTest {
   
   @Test
   public void testUMLStatechartsStore3(){
-    StatechartsCLI.main(new String[]{
+    new StatechartsCLI().run(new String[]{
         "-i", resourcesDir + "valid/Test.sc",
         "-st", outputDir + "test"
     });
@@ -69,7 +69,7 @@ public class UMLStatechartsToolTest {
   
   @Test
   public void testUMLStatechartsReport(){
-    StatechartsCLI.main(new String[]{
+    new StatechartsCLI().run(new String[]{
         "-i", resourcesDir + "examples/Door.sc",
         "-r", outputDir + "door"
     });
@@ -81,7 +81,7 @@ public class UMLStatechartsToolTest {
   
   @Test
   public void testUMLStatechartsReportCar(){
-    StatechartsCLI.main(new String[]{
+    new StatechartsCLI().run(new String[]{
         "-i", resourcesDir + "examples/Car.sc",
         "-r", outputDir + "/car"
     });
