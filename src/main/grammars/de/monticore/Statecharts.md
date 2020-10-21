@@ -32,10 +32,10 @@ Java expressions as constraints and Java blocks/statements as actions:
 
 ```
 statechart Door {
-  state Opened;           // three states
+  state Opened [9 < now < 18];  // state with invariant
   initial state Closed;
   state Locked;
-                          // four transitions 
+                                // transitions 
   Opened -> Closed  close() ;
   Closed -> Opened  open()    / { count++; ringTheDoorBell(); };
   Closed -> Locked  timeOut() / lockDoor(); ;
@@ -61,8 +61,8 @@ statechart Car {
   initial state EngineOff;
   state EngineRunning {      // state with substates
     [!fuelIsEmpty]           // state invariant (Boolean expression)
-    entry / {lightsOn();}    // entry / exit action
-    exit / {lightsOff();}
+    entry / {lightsOn(); }   // entry / exit action
+    exit  / {lightsOff();}
     initial state Parking;   // substates
     state Driving;
   };
