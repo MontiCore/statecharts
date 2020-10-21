@@ -3,9 +3,7 @@
 
 # Statecharts
 
-This project offers two variants of Statechart Languages [UMLStatecharts](UMLStatecharts.mc4) and 
-[TriggeredStatecharts](TriggeredStatecharts.mc4) both of which are based on several provided 
-language components that offer the different features for Statecharts. These components are:
+This project offers a set of language components to define Statechart Languages:
 - [SCBasis](SCBasis.mc4),
 - [SCStateHierarchy](SCStateHierarchy.mc4),
 - [SCStateInvariants](SCStateInvariants.mc4),
@@ -14,6 +12,11 @@ language components that offer the different features for Statecharts. These com
 - [SCTransitions4Code](SCTransitions4Code.mc4),
 - [SCTransitions4Modelling](SCTransitions4Modelling.mc4), and
 - [SCCompleteness](SCCompleteness.mc4)
+
+And it defines two concrete, complete variants of Statechart languages [UMLStatecharts](UMLStatecharts.mc4) and 
+[TriggeredStatecharts](TriggeredStatecharts.mc4) both of which are based on several provided 
+language components that offer the different features for Statecharts. 
+
 
 <div align="center">
 <img width="800" src="doc/Statecharts.LFD.png" alt="Statecharts LFD">
@@ -24,58 +27,66 @@ Overview of the statecharts language components and their relations.
 
 ## Syntax
 
-A small for the UML Statecharts language:
+A small teaser for the UML Statechart language, which allows a method call as stimulus,
+Java expressions as constraints and Java blocks/statements as actions:
 
 ```
 statechart Door {
-  state Opened;
+  state Opened;           // three states
   initial state Closed;
   state Locked;
-
+                          // four transitions 
   Opened -> Closed  close() ;
-  Closed -> Opened  open() / { count++; ringTheDoorBell(); };
+  Closed -> Opened  open()    / { count++; ringTheDoorBell(); };
   Closed -> Locked  timeOut() / lockDoor(); ;
   Locked -> Closed  [isAuthorized() && keyFits()] unlock() ;
 }
-
 ```
+
 This example models the three states of a door: `Opened`, `Closed`, and `Locked`
 and four transitions (each terminated by `;`).
 - States may be marked with `initial` and `final`.
-- A transition is defined by `source -> target` states,
-  a stimulus, such as a method call `close()`,
-  a trigger condition `[...]`, and an action `/ ...`.
-- Expressions can be used for conditions, and statements respectively blocks `{...}` 
-  for the actions.
+- A *transition* is defined by `source -> target` states,
+  a *stimulus*, such as a method call `close()`,
+  a *trigger condition* `[...]`, and an action `/ ...`.
+- *Expressions* can be used for *conditions*, and *statements* respectively blocks `{...}` 
+  for the *actions*.
 
-Further extensions are shown in the following, where 
-`EngineRunning` has two substates as well as entry, exit actions and an invariant:
+Further langage concepts of the UML Statechart are shown in the following example, where state 
+`EngineRunning` has two substates as well as *entry*, *exit* *actions* and an *invariant*:
+
 <a name="example2"></a>
 ``` 
 statechart Car {
   initial state EngineOff;
-  state EngineRunning {
-    [!fuelIsEmpty]
-    entry / {lightsOn();}
-    initial state Parking;
-    state Driving;
+  state EngineRunning {      // state with substates
+    [!fuelIsEmpty]           // state invariant (Boolean expression)
+    entry / {lightsOn();}    // entry / exit action
     exit / {lightsOff();}
+    initial state Parking;   // substates
+    state Driving;
   };
 }
 ```
 
-Expressions and statements can be taken from MontiCores basic grammar library 
-and extended by any own interesting language constructs (such as sending/receiving 
-messages `!m` or `?m`)
+Expressions and statements are taken from MontiCores basic grammar library 
+and can be extended by any own interesting language constructs 
+(such as sending or receiving messages `!m` or `?m`)
 
  ## UMLStatecharts
 
- This language combines the language components `SCActions`, `SCDoActions`, `SCStateHierarchy`, 
+ The goal of the `UMLStatecharts` is to provide a language for handling hierarchical StateCharts 
+ in the spirit of modeling language for software: It's triggers are usually function calls 
+ received either as a normal method call or also as a remote procedure call. 
+ Its body contains procedural actions. `UMLStatecharts` are equipped with various enhancements, 
+ such as hierarchy, entry and exit states, conditions on the transitions or invariants.
+ However, they own purpose do not provide the full original Statechart language, because 
+ in an object oriented development process, neither history, nor AND-states are really needed.
+ See [Rum16] for a detailed discussion. 
+
+ The `UMLStatecharts` language combines the language components `SCActions`, `SCDoActions`, `SCStateHierarchy`, 
  `SCStateInvariants`, `SCCompleteness`, `SCTransitions4Modelling`, `CommonExpressions` and
- `MCCommonStatements`. Thus, it allows modeling UML-like Statechart with hierarchical states that 
- may have entry, do and exit actions as well as invariants. Furthermore, transitions with pre- 
- and postconditions, events and actions are possible. The  statechart itself as well as states 
- can be marked as complete. The teaser above conforms to this language.
+ `MCCommonStatements`. The teasers above conform to this language.
  
  ## TriggeredStatecharts
  
