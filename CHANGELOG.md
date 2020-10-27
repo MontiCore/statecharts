@@ -2,6 +2,7 @@
 to be released  
 based on MontiCore 6.5.0-SNAPSHOT
 
+* Transitions now directly point to states via `Name@SCState`
 * `Statechart` nonterminal divided into `NamedStatechart` and `UnnamedStatechart`, which both implement the newly created interface nonterminal `Statechart`
 
 

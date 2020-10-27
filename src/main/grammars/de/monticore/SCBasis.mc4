@@ -135,7 +135,7 @@ component grammar SCBasis extends
     body describing stimulus as well as potential actions, postconditions, etc.
   */
   SCTransition implements SCStateElement, SCStatechartElement =
-   Stereotype? sourceName:Name "->" targetName:Name SCTBody ";" ;
+   Stereotype? sourceName:Name@SCState "->" targetName:Name@SCState SCTBody ";" ;
 
   /**
     The body of a transition is for extension
