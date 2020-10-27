@@ -41,6 +41,7 @@ public class UMLStatechartsPrettyPrinterDelegator
     setSCCompletenessVisitor(new SCCompletenessPrettyPrinter(printer));
     setSCTransitions4ModellingVisitor(new SCTransitions4ModellingPrettyPrinter(printer));
     setSCTransitions4CodeVisitor(new SCTransitions4CodePrettyPrinter(printer));
+    setSCEventsVisitor(new SCEventsPrettyPrinter(printer));
 
     setCommonExpressionsVisitor(new CommonExpressionsPrettyPrinter(printer));
     setMCCommonStatementsVisitor(new MCCommonStatementsPrettyPrinter(printer));

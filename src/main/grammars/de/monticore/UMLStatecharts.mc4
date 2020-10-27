@@ -39,6 +39,7 @@ grammar UMLStatecharts
                   SCStateHierarchy, SCStateInvariants,
                   SCCompleteness,
                   SCTransitions4Modelling,
+                  SCEvents,
                   CommonExpressions,
                   MCCommonStatements {
 

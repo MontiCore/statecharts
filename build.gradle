@@ -61,47 +61,21 @@ repositories {
   }
 }
 
-// list of all grammars, needed to have a fix order
-def scGrammars = [
-        SCBasis                 : [],
-        SCActions               : ["SCBasis"],
-        SCDoActions             : ["SCActions"],
-        SCCompleteness          : ["SCBasis"],
-        SCStateHierarchy        : ["SCBasis"],
-        SCStateInvariants       : ["SCStateHierarchy"],
-        SCTransitions4Code      : ["SCBasis"],
-        SCTransitions4Modelling : ["SCTransitions4Code"],
-        TriggeredStatecharts    : ["SCActions", "SCStateHierarchy", "SCTransitions4Code" ],
-        UMLStatecharts          : ["SCDoActions", "SCStateInvariants", "SCCompleteness", "SCTransitions4Modelling"],
-]
-
-
-String createGrammarName(String grammarDir, String name) {
-  "${grammarDir}/de/monticore/${name}.mc4"
-}
-
-
-
 task generate {}
 
 // one task per grammar file
-scGrammars.each {
-  def g = createGrammarName(grammarDir,it.key)
-  def grammarName = it.key
-  def superGrammarNames = it.value
-  
-  task "generateGrammar${grammarName}"(type: MCTask) {
-    def dependsOnGrammars = scGrammars[grammarName].collect { name -> tasks["generateGrammar${name}"] }
-    dependsOn dependsOnGrammars
+fileTree("src/main/grammars").matching { include '**/*.mc4'}.each {
+  def g = it
+  def taskname = "generateGrammar${it.getName().substring(0,it.getName().lastIndexOf('.'))}"
+  task  "$taskname" (type: MCTask) {
     
-    def File grammarFile = file g
-    grammar = grammarFile
+    grammar = file g
     outputDir = file grammarOutDir
-    def uptoDate = incCheck(getGrammarInclPackage(grammarDir, grammarFile))
-    superGrammars.from(getSuperGrammars(grammarDir, superGrammarNames))
+    def grammarIncludingPackage = file("src/main/grammars").toURI().relativize(g.toURI()).toString()
+    def uptoDate = incCheck(grammarIncludingPackage)
     outputs.upToDateWhen { uptoDate }
   }
-  generate.dependsOn ("generateGrammar${grammarName}")
+  generate.dependsOn ("$taskname")
 }
 
 
@@ -163,16 +137,4 @@ publishing {
     def snapshotsRepoUrl = "https://nexus.se.rwth-aachen.de/content/repositories/monticore-snapshots/"
     url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
   }
-}
-
-
-List<URI> getSuperGrammars(String grammarDir, List<String> grammarNames) {
-  return grammarNames.collect {
-    def grammar = file createGrammarName(grammarDir, it)
-    return grammar.toURI()
-  }
-}
-
-String getGrammarInclPackage(String grammarDir, File grammarFile ){
-  return file(grammarDir).toURI().relativize(grammarFile.toURI()).toString()
 }

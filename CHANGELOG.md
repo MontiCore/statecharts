@@ -2,6 +2,9 @@
 to be released  
 based on MontiCore 6.5.0-SNAPSHOT
 
+* introduced grammar `SCEvents` for events definitions
+  * example: `event String foo(int a)` 
+  * `UMLStatecharts` now supports events definitions by integrating this grammar
 * Transitions now directly point to states via `Name@SCState`
 * `Statechart` nonterminal divided into `NamedStatechart` and `UnnamedStatechart`, which both implement the newly created interface nonterminal `Statechart`
 

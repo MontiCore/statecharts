@@ -70,6 +70,14 @@ public class UMLStatechartsToolTest {
     });
     assertEquals("Storing symbol table of Test.sc was not successful", Log.getErrorCount(), 0);
   }
+  @Test
+  public void testUMLStatechartsPP3(){
+    new StatechartsCLI().run(new String[]{
+        "-i", resourcesDir + "valid/Test.sc",
+        "-pp", outputDir + "testsc/Test.sc"
+    });
+    assertEquals("Pretty printing Test.sc was not successful", Log.getErrorCount(), 0);
+  }
   
   
   @Test

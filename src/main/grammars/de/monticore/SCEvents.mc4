@@ -1,0 +1,14 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore;
+
+import de.monticore.symbols.*;
+import  de.monticore.types.*;
+
+component grammar SCEvents extends SCBasis, BasicSymbols, MCBasicTypes {
+
+  SCEventDef implements Function, SCStatechartElement = 
+    "event" MCReturnType Name "(" (SCEventParameter || ",")* ")";
+  
+  SCEventParameter implements Variable =
+      MCType Name;
+}
