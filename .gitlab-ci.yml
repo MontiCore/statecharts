@@ -30,6 +30,10 @@ deploy:
     - build
   script:
     - "./gradlew publish -PmavenPassword=$pass -PmavenUser=$user $GRADLE_OPT $ARGS2"
+  artifacts:
+    paths:
+      - target/libs/statecharts-cli.jar
+    expire_in: 1 week
   only:
     refs:
       - dev
