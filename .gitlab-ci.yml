@@ -5,9 +5,12 @@ image: maven:3.5.4-jdk-11
 stages:
   - build
   - deploy
+  - check
 
 before_script:
   - chmod +x gradlew
+  - chmod +x check/downloadlinkchecker.sh
+  - chmod +x check/mdlinkcheck.sh
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
 
@@ -30,3 +33,14 @@ deploy:
   only:
     refs:
       - dev
+
+checkMDLinks:
+  stage: check
+  dependencies:
+    - deploy
+  script:
+    - "./check/downloadlinkchecker.sh $secibuildtoken"
+    - "url=https://git.rwth-aachen.de/monticore/statechart/sc-language/-/blob/dev/src/main/grammars/de/monticore/Statecharts.md"
+    - "./check/mdlinkcheck.sh -url $url -t $secibuildtoken -p"
+  only:
+    - dev
