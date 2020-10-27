@@ -19,7 +19,7 @@ def testGrammarOutDir = "$buildDir/generated-test-sources/mc"
 
 def commons_version = "1.7.10"
 def logback_version = "1.2.3"
-def junit_version = "4.13"
+def junit_version = "4.13.1"
 def commons_cli_version = "1.4"
 
 // configure non-standard source sets
