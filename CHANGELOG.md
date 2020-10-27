@@ -1,5 +1,5 @@
-# 6.4.0-SNAPSHOT
-to be released  
+# 6.4.0
+released: 27.10.2020   
 based on MontiCore 6.4.0
 
 * fixed handling of optional statechart name in symbol table creation
