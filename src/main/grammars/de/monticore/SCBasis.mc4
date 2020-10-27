@@ -6,6 +6,7 @@ package de.monticore;
 
 import de.monticore.types.*;
 import de.monticore.expressions.*;
+import de.monticore.symbols.*;
 
 /**
  *  This is the basis language component for Statecharts.
@@ -51,7 +52,7 @@ import de.monticore.expressions.*;
  */
 
 component grammar SCBasis extends
-                    UMLStereotype, MCBasicTypes, ExpressionsBasis {
+                    UMLStereotype, MCBasicTypes, ExpressionsBasis, BasicSymbols {
 
   //***********************************************************
   // Statechart structure
@@ -65,16 +66,30 @@ component grammar SCBasis extends
     MCImportStatement*
     Statechart
   ;
+  
+  /**
+      Statechart optionally has a Name and a set of states and transitions.
+      Statechart can have a stereotype attached to it.
+    */
+  interface Statechart = Stereotype? SCStatechartElement*;
 
   /**
-    Statechart has a Name and a set of states and transitions.
-    Statechart can have a stereotype attached to it.
+    The named version of a Statechart
   */
-  symbol scope Statechart =
+  /*scope*/ NamedStatechart implements Diagram, Statechart =
     Stereotype?
-    "statechart" Name? "{"
+    "statechart" Name "{"
       SCStatechartElement*
     "}";
+    
+  /**
+      The unnamed version of a Statechart
+  */
+  scope UnnamedStatechart implements Statechart =
+      Stereotype?
+      "statechart" "{"
+        SCStatechartElement*
+      "}";
 
   /**
     Interface subsuming states and transitions on the top level

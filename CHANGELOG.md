@@ -2,6 +2,7 @@
 to be released  
 based on MontiCore 6.5.0-SNAPSHOT
 
+* `Statechart` nonterminal divided into `NamedStatechart` and `UnnamedStatechart`, which both implement the newly created interface nonterminal `Statechart`
 
 
 # 6.4.0

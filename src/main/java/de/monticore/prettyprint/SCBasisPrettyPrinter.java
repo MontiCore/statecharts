@@ -27,14 +27,21 @@ public class SCBasisPrettyPrinter implements SCBasisVisitor {
   }
 
   @Override
-  public void handle(ASTStatechart node) {
-    if (node.isPresentStereotype()) {
-      node.getStereotype().accept(getRealThis());
-    }
-    getPrinter().print("statechart ");
-    if (node.isPresentName()) {
-      getPrinter().print(node.getName());
-    }
+  public void handle(ASTNamedStatechart node) {
+    printStatechartHead(node);
+    getPrinter().print(node.getName());
+    printStatechartBody(node);
+  }
+  
+ 
+  
+  @Override
+  public void handle(ASTUnnamedStatechart node) {
+    printStatechartHead(node);
+    printStatechartBody(node);
+  }
+  
+  protected void printStatechartBody(ASTStatechart node) {
     getPrinter().println("{");
     getPrinter().indent();
     for (ASTSCStatechartElement elem : node.getSCStatechartElementList()) {
@@ -43,7 +50,14 @@ public class SCBasisPrettyPrinter implements SCBasisVisitor {
     getPrinter().unindent();
     getPrinter().println("}");
   }
-
+  
+  protected void printStatechartHead(ASTStatechart node) {
+    if (node.isPresentStereotype()) {
+      node.getStereotype().accept(getRealThis());
+    }
+    getPrinter().print("statechart ");
+  }
+  
   @Override
   public void handle(ASTSCState node) {
     node.getSCModifier().accept(getRealThis());

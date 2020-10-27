@@ -2,6 +2,7 @@
 package de.monticore.parser;
 
 import com.google.common.base.Joiner;
+import de.monticore.scbasis._ast.ASTNamedStatechart;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scbasis._ast.ASTSCState;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
@@ -33,7 +34,8 @@ public class FlatSCFilesParserTest {
   @Test
   public void testStatechartFoo() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/examples/flat/foo.sc");
-    assertEquals("Foo", ast.getStatechart().getName());
+    assertTrue(ast.getStatechart() instanceof ASTNamedStatechart);
+    assertEquals("Foo", ((ASTNamedStatechart) ast.getStatechart()).getName());
     assertEquals(1, ast.getStatechart().getSCStatechartElementList().size());
     assertEquals("Bla", ((ASTSCState) ast.getStatechart().getSCStatechartElementList().get(0)).getName());
 
@@ -42,27 +44,31 @@ public class FlatSCFilesParserTest {
   @Test
   public void testStatechart2() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/examples/flat/test2.sc");
-    assertEquals("Door2", ast.getStatechart().getName());
+    assertTrue(ast.getStatechart() instanceof ASTNamedStatechart);
+    assertEquals("Door2", ((ASTNamedStatechart) ast.getStatechart()).getName());
     assertEquals(3, ast.getStatechart().getSCStatechartElementList().size());
   }
 
   @Test
   public void testStatechart3() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/examples/flat/test3.sc");
-    assertEquals("Door2", ast.getStatechart().getName());
+    assertTrue(ast.getStatechart() instanceof ASTNamedStatechart);
+    assertEquals("Door2", ((ASTNamedStatechart) ast.getStatechart()).getName());
     assertEquals(3, ast.getStatechart().getSCStatechartElementList().size());
   }
 
   @Test
   public void testStatechart4() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/examples/flat/test4.sc");
-    assertEquals("Door1", ast.getStatechart().getName());
+    assertTrue(ast.getStatechart() instanceof ASTNamedStatechart);
+    assertEquals("Door1", ((ASTNamedStatechart) ast.getStatechart()).getName());
   }
 
   @Test
   public void testStatechart5() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/examples/flat/test5.sc");
-    assertEquals("Door1", ast.getStatechart().getName());
+    assertTrue(ast.getStatechart() instanceof ASTNamedStatechart);
+    assertEquals("Door1", ((ASTNamedStatechart) ast.getStatechart()).getName());
     assertEquals(1, ast.getMCImportStatementList().size());
     assertEquals("java.util.List", ast.getMCImportStatement(0).getQName());
   }

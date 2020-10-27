@@ -47,7 +47,7 @@ public class SCBasisParserPPTest {
 
   @Test
   public void testSCStatechart() throws IOException {
-    Optional<ASTStatechart> ast = parser.parse_StringStatechart("statechart SC {" + "state S1;" + "}");
+    Optional<ASTNamedStatechart> ast = parser.parse_StringNamedStatechart("statechart SC {" + "state S1;" + "}");
     TestUtils.check(parser);
     assertTrue("No ast present", ast.isPresent());
     assertEquals("SC", ast.get().getName());
