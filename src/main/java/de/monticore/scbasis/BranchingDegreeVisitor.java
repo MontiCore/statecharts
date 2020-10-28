@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.scbasis;
 
+import de.monticore.scbasis._ast.ASTSCState;
 import de.monticore.scbasis._ast.ASTSCTransition;
 import de.monticore.scbasis._visitor.SCBasisVisitor;
 
@@ -25,6 +26,12 @@ public class BranchingDegreeVisitor implements SCBasisVisitor {
   @Override
   public void setRealThis(SCBasisVisitor realThis) {
     this.realThis = realThis;
+  }
+
+  @Override
+  public void visit(ASTSCState node) {
+    // Ensure states without an outgoing transition are collected
+    this.branchingDegree.putIfAbsent(node.getName(), 0);
   }
 
   @Override
