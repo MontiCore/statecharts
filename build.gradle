@@ -42,6 +42,7 @@ configurations { grammar }
 
 dependencies {
   grammar "de.monticore:monticore-grammar:$mc_version:$grammar_classifier"
+  implementation "de.monticore:monticore-runtime:$mc_version"
   implementation "de.monticore:monticore-grammar:$mc_version"
   implementation "de.se_rwth.commons:se-commons-logging:$commons_version"
   implementation "de.se_rwth.commons:se-commons-utilities:$commons_version"
@@ -50,7 +51,6 @@ dependencies {
   implementation "ch.qos.logback:logback-classic:$logback_version"
   testImplementation "junit:junit:$junit_version"
   testImplementation "de.monticore:monticore-runtime:$mc_version:tests"
-  testImplementation "de.monticore:monticore-runtime:$mc_version"
 }
 
 repositories {
