@@ -18,6 +18,7 @@ build:
   artifacts:
     paths:
       - target/
+      - .gradle/
     expire_in: 1 week
     
     
