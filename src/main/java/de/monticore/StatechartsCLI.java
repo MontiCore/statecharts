@@ -99,7 +99,7 @@ public class StatechartsCLI {
   
   public void storeSymbols(IUMLStatechartsArtifactScope scope, String path) {
     UMLStatechartsScopeDeSer deser = UMLStatechartsMill
-        .uMLStatechartsScopeDeSerBuilder().build();
+        .uMLStatechartsScopeDeSer();
     String serialized = deser.serialize(scope);
     Path f = Paths.get(path)
         .resolve(Paths.get(Names.getPathFromPackage(scope.getPackageName())))
@@ -114,15 +114,11 @@ public class StatechartsCLI {
    * @return The artifact scope derived from the parsed AST
    */
   public IUMLStatechartsArtifactScope createSymbolTable(ASTSCArtifact ast) {
-    IUMLStatechartsGlobalScope globalScope = UMLStatechartsMill.uMLStatechartsGlobalScopeBuilder()
-        .setModelPath(new ModelPath())
-        .setModelFileExtension(".sc")
-        .build();
-    
-    UMLStatechartsSymbolTableCreatorDelegator symbolTable = UMLStatechartsMill.uMLStatechartsSymbolTableCreatorDelegatorBuilder()
-        .setGlobalScope(globalScope)
-        .build();
-    
+    IUMLStatechartsGlobalScope globalScope = UMLStatechartsMill.uMLStatechartsGlobalScope();
+    globalScope.setModelFileExtension(".sc");
+
+    UMLStatechartsSymbolTableCreatorDelegator symbolTable = UMLStatechartsMill.uMLStatechartsSymbolTableCreatorDelegator();
+
     return symbolTable.createFromAST(ast);
   }
   
