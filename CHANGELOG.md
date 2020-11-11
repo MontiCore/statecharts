@@ -2,8 +2,11 @@
 to be released  
 based on MontiCore 6.5.0-SNAPSHOT
 
+* StateInvariants no longer extends StateHierarchy to ensure invariants can be used without hierarchical states
+    * SCInvState replaced SCStateInvariant
+    * changed the concrete syntax from `state Foo { [a>b] };` to `state Foo [a>b] { };`  
 * introduced grammar `SCEvents` for events definitions
-  * example: `event String foo(int a)` 
+  * example: `event String foo(int a)`
   * `UMLStatecharts` now supports events definitions by integrating this grammar
 * Transitions now directly point to states via `Name@SCState`
 * `Statechart` nonterminal divided into `NamedStatechart` and `UnnamedStatechart`, which both implement the newly created interface nonterminal `Statechart`

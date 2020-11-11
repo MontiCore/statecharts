@@ -23,11 +23,11 @@ import de.monticore.statements.*;
  *  * TriggeredStatecharts.mc4 (based on regular triggers and Port-Values)
  */
 
-component grammar SCStateInvariants extends SCStateHierarchy {
+component grammar SCStateInvariants extends SCBasis {
 
   /**
     States with a body allow to add State Invariants
   */
-  SCStateInvariant implements SCStateElement = "[" Expression "]";
+  SCInvState extends SCState =  SCModifier "state" Name "[" Expression "]" SCSBody ";";
 
 }

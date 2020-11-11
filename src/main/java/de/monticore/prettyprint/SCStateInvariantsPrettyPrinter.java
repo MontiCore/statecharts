@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.prettyprint;
 
-import de.monticore.scstateinvariants._ast.ASTSCStateInvariant;
+import de.monticore.scstateinvariants._ast.ASTSCInvState;
 import de.monticore.scstateinvariants._visitor.SCStateInvariantsVisitor;
 
 public class SCStateInvariantsPrettyPrinter
@@ -14,10 +14,14 @@ public class SCStateInvariantsPrettyPrinter
   }
 
   @Override
-  public void handle(ASTSCStateInvariant node) {
+  public void handle(ASTSCInvState node) {
+    node.getSCModifier().accept(getRealThis());
+    getPrinter().print(" state " + node.getName());
     getPrinter().print(" [");
     node.getExpression().accept(getRealThis());
     getPrinter().print("] ");
+    node.getSCSBody().accept(getRealThis());
+    getPrinter().print(";");
   }
 
   @Override

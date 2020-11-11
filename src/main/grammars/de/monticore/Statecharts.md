@@ -52,18 +52,17 @@ and four transitions (each terminated by `;`).
 - *Expressions* can be used for *conditions*, and *statements* respectively blocks `{...}` 
   for the *actions*.
 
-Further langage concepts of the UML Statechart are shown in the following example, where state 
+Further language concepts of the UML Statechart are shown in the following example, where state 
 `EngineRunning` has two substates as well as *entry*, *exit* *actions* and an *invariant*:
 
 <a name="example2"></a>
 ``` 
 statechart Car {
   initial state EngineOff;
-  state EngineRunning {      // state with substates
-    [!fuelIsEmpty]           // state invariant (Boolean expression)
-    entry / {lightsOn(); }   // entry / exit action
+  state EngineRunning [!fuelIsEmpty] {  // state with substates and state invariant (Boolean expression)
+    entry / {lightsOn(); }              // entry / exit action
     exit  / {lightsOff();}
-    initial state Parking;   // substates
+    initial state Parking;              // substates
     state Driving;
   };
 }
@@ -75,17 +74,17 @@ and can be extended by any own interesting language constructs
 
  ## UMLStatecharts
 
- The goal of the `UMLStatecharts` is to provide a language for handling hierarchical StateCharts 
- in the spirit of modeling language for software: It's triggers are usually function calls 
+ The goal of the `UMLStatecharts` is to provide a language for handling hierarchical Statecharts 
+ in the spirit of modeling language for software: Its triggers are usually function calls 
  received either as a normal method call or also as a remote procedure call. 
  Its body contains procedural actions. `UMLStatecharts` are equipped with various enhancements, 
  such as hierarchy, entry and exit states, conditions on the transitions or invariants.
- However, they own purpose do not provide the full original Statechart language, because 
+ However, they on purpose do not provide the full original Statechart language, because 
  in an object oriented development process, neither history, nor AND-states are really needed.
  See [Rum16] for a detailed discussion. 
 
  The `UMLStatecharts` language combines the language components `SCActions`, `SCDoActions`, `SCStateHierarchy`, 
- `SCStateInvariants`, `SCCompleteness`, `SCTransitions4Modelling`, `CommonExpressions` and
+ `SCStateInvariants`, `SCCompleteness`, `SCTransitions4Modelling`, `CommonExpressions`, SCEvents, and
  `MCCommonStatements`. The teasers above conform to this language.
  
  ## TriggeredStatecharts
@@ -142,40 +141,45 @@ with extension points for their bodies (`SCSBody` and `SCTBody`) are provided.
 
 <!-- ### Symboltable -->
 
-### Symboltable
+## Symboltable
 
-## Symbol kinds used by the SC language (importable or subclassed):
+### Symbol kinds used by the SC language (importable or subclassed):
 The SC language uses symbols of kind `TypeSymbol`, `VariableSymbol` as well as 
 the symbols that are used by these symbols (e.g. `FunctionSymbol` 
 is used by `TypeSymbol`.
 
-## Symbol kinds defined by the SD language (exported):
-The SC language defines the symbol kinds `StatechartSymbol` and `SCStateSynbol`.      
+Furthermore, the SC language reuses the `DiagramSymbol` of the BasicSymbols language component for named Statecharts.
+
+
+### Symbol kinds defined by the SD language (exported):
+The SC language defines the symbol kinds `SCStateSynbol` and `SCEventDefSymbol`.      
 - A `SCStateSymbol` is defined as (and has no additional body):
   ```
   class SCStateSymbol {
       String name;
   }
   ```
-- For each SC there is also a `StatechartSymbol` defined as:
+- The UMLStatechart language also exports the kind `SCEventDefSymbol` defined as:
   ```
-  class StatechartSymbol {
+  class SCEventDefSymbol {
       String name;
   }
   ```
   
-The SC language does not reuse the `DiagramSymbol` of the BasicSymbols language component as the name of a statechart is optional which is not supported by the diagram symbol.
+  This kind of symbols are refered to by stimuli that do not refer to functions 
+  and thus do not have arguments and return types.
+  Symbols of this kind are not produced by Statecharts but instead used by the events of transitions.
 
-## Symbols imported by SC models:
+### Symbols imported by SC models:
 * SCs import `VariableSymbols`, `FunctionSymbols` and `TypeSymbols`. 
 These imported symbol can be used within action or transition bodies. 
-Furthermore, events of transitions can use FunctionSymbols, invariants and pre-/post-conditions can
-use VariableSymbols and FunctionSymbols.
+Furthermore, events of transitions can use `FunctionSymbols` or `SCEventDefSymbols`,
+ invariants and pre-/post-conditions can use `VariableSymbols` and `FunctionSymbols`.
 
-## Symbols exported by SC models:
+### Symbols exported by SC models:
 * SC models export `SCStateSymbols`. 
 For each state defined in an SC, the SC exports a corresponding `SCStateSymbol`. 
-* Each SC exports at most one `StatechartSymbol` corresponding to the Statechart.
+* Each SC exports at most one `DiagramSymbol` corresponding to the Statechart.
 - The artifact scope of an SC "Door.sc" is stored in "Door.scsym".
   Structure:
   ```
@@ -195,7 +199,7 @@ For each state defined in an SC, the SC exports a corresponding `SCStateSymbol`.
         "name": "Locked"
       },
       {
-        "kind": "de.monticore.scbasis._symboltable.StatechartSymbol",
+        "kind": "de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol",
         "name": "Door"
       }
     ]

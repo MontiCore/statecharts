@@ -73,9 +73,7 @@ public class SCDemoParseTest {
   
   @Test
   public void testState3() throws IOException {
-    parser.parse_StringSCState("state Opened {"
-        + "  [!Locked]"
-        + "};");
+    parser.parse_StringSCState("state Opened  [!Locked] {} ;");
     assertFalse(parser.hasErrors());
   }
   

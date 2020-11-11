@@ -1,11 +1,8 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.prettyprint;
 
-import de.monticore.scactions._ast.ASTSCEntryAction;
-import de.monticore.scactions._ast.ASTSCExitAction;
-import de.monticore.scactions._visitor.SCActionsVisitor;
-import de.monticore.scevents._ast.ASTSCEventDef;
-import de.monticore.scevents._ast.ASTSCEventParameter;
+import de.monticore.scevents._ast.ASTSCFuncEventDef;
+import de.monticore.scevents._ast.ASTSCFuncEventParameter;
 import de.monticore.scevents._visitor.SCEventsVisitor;
 
 public class SCEventsPrettyPrinter
@@ -17,21 +14,24 @@ public class SCEventsPrettyPrinter
     this.printer = printer;
   }
 
-  @Override public void handle(ASTSCEventDef node) {
+  
+  @Override public void handle(ASTSCFuncEventDef node) {
     getPrinter().print("event ");
-    node.getMCReturnType().accept(getRealThis());
+    if(node.isPresentMCReturnType()) {
+      node.getMCReturnType().accept(getRealThis());
+    }
     getPrinter().print(" " + node.getName());
     getPrinter().print("(");
     String comma = "";
-    for(ASTSCEventParameter p : node.getSCEventParameterList()) {
+    for(ASTSCFuncEventParameter p : node.getParamList()) {
       getPrinter().print(comma);
       p.accept(getRealThis());
       comma = ", ";
     }
-    getPrinter().println(")");
+    getPrinter().println(");");
   }
   
-  @Override public void handle(ASTSCEventParameter node) {
+  @Override public void handle(ASTSCFuncEventParameter node) {
     node.getMCType().accept(getRealThis());
     getPrinter().print(" " + node.getName());
   }

@@ -6,9 +6,20 @@ import  de.monticore.types.*;
 
 component grammar SCEvents extends SCBasis, BasicSymbols, MCBasicTypes {
 
-  SCEventDef implements Function, SCStatechartElement = 
-    "event" MCReturnType Name "(" (SCEventParameter || ",")* ")";
-  
-  SCEventParameter implements Variable =
-      MCType Name;
+  /**
+  * Event kind for stimuli without return types or arguments.
+  * Only the kind is defined here, but a statechart itself does not produce symbols of this kind
+  */ 
+  interface symbol  SCEventDef = Name;
+
+
+  /**
+  *  Event definition that corresponds to a function call. 
+  *  It has an optional return type and a (possibly empty) list of arguments.
+  */
+  SCFuncEventDef implements Function, SCStatechartElement = 
+    "event" MCReturnType? Name "(" param:(SCFuncEventParameter || ",")* ")" ";";
+    
+  SCFuncEventParameter implements Variable =
+      MCType Name;  
 }
