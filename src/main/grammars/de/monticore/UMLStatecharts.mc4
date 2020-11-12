@@ -41,7 +41,8 @@ grammar UMLStatecharts
                   SCTransitions4Modelling,
                   SCEvents,
                   CommonExpressions,
-                  MCCommonStatements {
+                  MCCommonStatements,
+                  MCReturnStatements {
 
   start SCArtifact;
 

@@ -26,6 +26,30 @@ public class SCDemoParseTest {
   }
   
   @Test
+  public void testTeaser2() throws IOException {
+    parser.parse("src/test/resources/examples/Car.sc");
+    assertFalse(parser.hasErrors());
+  }
+  
+  @Test
+  public void testTeaser3() throws IOException {
+    parser.parse("src/test/resources/examples/Door2.sc");
+    assertFalse(parser.hasErrors());
+  }
+  
+  @Test
+  public void testTestSC() throws IOException {
+    parser.parse("src/test/resources/valid/Test.sc");
+    assertFalse(parser.hasErrors());
+  }
+  
+  @Test
+  public void testTest2SC() throws IOException {
+    parser.parse("src/test/resources/valid/Test2.sc");
+    assertFalse(parser.hasErrors());
+  }
+  
+  @Test
   public void testStatechart() throws IOException {
     parser.parse_StringStatechart("statechart {"
         + "  // …\n"
@@ -135,7 +159,7 @@ public class SCDemoParseTest {
   
   @Test
   public void testTransition6() throws IOException {
-    parser.parse_StringSCTransition("Opened -> Closed return ;");
+    parser.parse_StringSCTransition("Opened -> Closed close ;");
     assertFalse(parser.hasErrors());
   }
   

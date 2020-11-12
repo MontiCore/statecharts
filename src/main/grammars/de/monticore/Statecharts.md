@@ -128,18 +128,6 @@ with extension points for their bodies (`SCSBody` and `SCTBody`) are provided.
  ## Actions
  
  ## Transitions
- 
- <!-- TODO
- ## SCActions
- ## SCDoActions
- ## SCTransitions4Code
- ## SCTransitions4Modelling
- ## SCCompleteness
- -->
-
-<!-- #### Handwritten Extensions -->
-
-<!-- ### Symboltable -->
 
 ## Symboltable
 
@@ -148,7 +136,8 @@ The SC language uses symbols of kind `TypeSymbol`, `VariableSymbol` as well as
 the symbols that are used by these symbols (e.g. `FunctionSymbol` 
 is used by `TypeSymbol`.
 
-Furthermore, the SC language reuses the `DiagramSymbol` of the BasicSymbols language component for named Statecharts.
+Furthermore, the SC language reuses the `DiagramSymbol` of the BasicSymbols language
+ component for named Statecharts.
 
 
 ### Symbol kinds defined by the SD language (exported):
@@ -206,6 +195,41 @@ For each state defined in an SC, the SC exports a corresponding `SCStateSymbol`.
   }
   ```
 
+## Examples
+Besides the examples shown directly in this document, other example models can be found here:
+[src/test/resources/examples](../../../../../src/test/resources/examples)
+
+## Usage 
+The packaged jars are provided via SE Maven repository:  
+https://nexus.se.rwth-aachen.de/content/groups/public/
+
+### in Gradle:
+  ```
+  implementation 'de.monticore.lang:statecharts:6.5.0'
+```
+  
+### CLI Tool:  
+[statecharts-cli.jar](https://nexus.se.rwth-aachen.de/service/rest/v1/search/assets/download?sort=version&repository=monticore-snapshots&maven.groupId=de.monticore.lang&maven.artifactId=statechartsi&maven.extension=jar&maven.classifier=cli)  
+
+Available Features:
+
+| Option                   | Explanation |
+| ------                   | ------ |
+| -h,--help                | Prints this help dialog   |
+| -i,--input <file>        | Reads the source file (mandatory) and parses the contents as a statechart |
+| -pp,--prettyprint <file> | Prints the Statechart-AST to stdout or the specified file (optional) |
+| -r,--report <dir>        | Prints reports of the statechart artifact to the specified directory. Available reports: reachable states, branching degree, and state names  |
+| -st,--store <file>       | Serialized the Symbol table of the given Statechart |
+
+
+### Usage in Maven:
+```
+<dependency>
+  <groupId>de.monticore.lang</groupId>
+  <artifactId>statecharts</artifactId>
+  <version>6.5.0</version>
+</dependency>
+```
 
 ## Further Information
 

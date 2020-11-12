@@ -1,9 +1,11 @@
 /* (c) https://github.com/MontiCore/monticore */
 statechart Test2 {
 
+  // event definition with parameters and return type 
   event String bar( String a, int b, a.b.Person p)  ;
+  
+  // event definition without parameters and return type 
   event  bar2( )  ;
-  event bar3;
   
   initial state EngineOff;
   state EngineRunning [!fuelIsEmpty] {

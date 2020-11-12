@@ -4,8 +4,8 @@ statechart Door {
   initial state Closed;
   state Locked;
 
-  Opened -> Closed close() ;
-  Closed -> Opened open() / {ringTheDoorBell();};
+  Opened -> Closed close() ;                        // transition with stimulus only
+  Closed -> Opened open() / {ringTheDoorBell();};   // transition with stimulus and body
   Closed -> Locked timeOut() / { lockDoor(); } ;
-  Locked -> Closed [isAuthorized] unlock() ;
+  Locked -> Closed [isAuthorized] unlock() ;        // transition with stimulus and pre condition
 }

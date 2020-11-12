@@ -33,7 +33,7 @@ public class FlatSCFilesParserTest {
 
   @Test
   public void testStatechartFoo() throws IOException {
-    ASTSCArtifact ast = parse("src/test/resources/examples/flat/foo.sc");
+    ASTSCArtifact ast = parse("src/test/resources/flat/foo.sc");
     assertTrue(ast.getStatechart() instanceof ASTNamedStatechart);
     assertEquals("Foo", ((ASTNamedStatechart) ast.getStatechart()).getName());
     assertEquals(1, ast.getStatechart().getSCStatechartElementList().size());
@@ -43,7 +43,7 @@ public class FlatSCFilesParserTest {
 
   @Test
   public void testStatechart2() throws IOException {
-    ASTSCArtifact ast = parse("src/test/resources/examples/flat/test2.sc");
+    ASTSCArtifact ast = parse("src/test/resources/flat/test2.sc");
     assertTrue(ast.getStatechart() instanceof ASTNamedStatechart);
     assertEquals("Door2", ((ASTNamedStatechart) ast.getStatechart()).getName());
     assertEquals(3, ast.getStatechart().getSCStatechartElementList().size());
@@ -51,7 +51,7 @@ public class FlatSCFilesParserTest {
 
   @Test
   public void testStatechart3() throws IOException {
-    ASTSCArtifact ast = parse("src/test/resources/examples/flat/test3.sc");
+    ASTSCArtifact ast = parse("src/test/resources/flat/test3.sc");
     assertTrue(ast.getStatechart() instanceof ASTNamedStatechart);
     assertEquals("Door2", ((ASTNamedStatechart) ast.getStatechart()).getName());
     assertEquals(3, ast.getStatechart().getSCStatechartElementList().size());
@@ -59,14 +59,14 @@ public class FlatSCFilesParserTest {
 
   @Test
   public void testStatechart4() throws IOException {
-    ASTSCArtifact ast = parse("src/test/resources/examples/flat/test4.sc");
+    ASTSCArtifact ast = parse("src/test/resources/flat/test4.sc");
     assertTrue(ast.getStatechart() instanceof ASTNamedStatechart);
     assertEquals("Door1", ((ASTNamedStatechart) ast.getStatechart()).getName());
   }
 
   @Test
   public void testStatechart5() throws IOException {
-    ASTSCArtifact ast = parse("src/test/resources/examples/flat/test5.sc");
+    ASTSCArtifact ast = parse("src/test/resources/flat/test5.sc");
     assertTrue(ast.getStatechart() instanceof ASTNamedStatechart);
     assertEquals("Door1", ((ASTNamedStatechart) ast.getStatechart()).getName());
     assertEquals(1, ast.getMCImportStatementList().size());

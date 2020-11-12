@@ -7,6 +7,7 @@ import de.monticore.expressions.prettyprint.ExpressionsBasisPrettyPrinter;
 import de.monticore.scbasis._ast.ASTSCBasisNode;
 import de.monticore.sctransitions4modelling._ast.ASTSCTransitions4ModellingNode;
 import de.monticore.statements.prettyprint.MCCommonStatementsPrettyPrinter;
+import de.monticore.statements.prettyprint.MCReturnStatementsPrettyPrinter;
 import de.monticore.statements.prettyprint.MCVarDeclarationStatementsPrettyPrinter;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.monticore.umlstatecharts._ast.ASTUMLStatechartsNode;
@@ -45,6 +46,7 @@ public class UMLStatechartsPrettyPrinterDelegator
 
     setCommonExpressionsVisitor(new CommonExpressionsPrettyPrinter(printer));
     setMCCommonStatementsVisitor(new MCCommonStatementsPrettyPrinter(printer));
+    setMCReturnStatementsVisitor(new MCReturnStatementsPrettyPrinter(printer));
 
     setMCVarDeclarationStatementsVisitor(new MCVarDeclarationStatementsPrettyPrinter(printer));
   }
