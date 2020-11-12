@@ -1,6 +1,6 @@
-# 6.5.0-SNAPSHOT
-to be released  
-based on MontiCore 6.5.0-SNAPSHOT
+# 6.5.0
+released: 12.11.2020  
+based on MontiCore 6.5.0
 
 * StateInvariants no longer extends StateHierarchy to ensure invariants can be used without hierarchical states
     * SCInvState replaced SCStateInvariant
