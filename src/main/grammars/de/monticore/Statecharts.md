@@ -209,7 +209,7 @@ https://nexus.se.rwth-aachen.de/content/groups/public/
 ```
   
 ### CLI Tool:  
-[statecharts-cli.jar](https://nexus.se.rwth-aachen.de/service/rest/v1/search/assets/download?sort=version&repository=monticore-snapshots&maven.groupId=de.monticore.lang&maven.artifactId=statechartsi&maven.extension=jar&maven.classifier=cli)  
+[statecharts-cli.jar](https://nexus.se.rwth-aachen.de/service/rest/v1/search/assets/download?sort=version&repository=monticore-snapshots&maven.groupId=de.monticore.lang&maven.artifactId=statecharts&maven.extension=jar&maven.classifier=cli)  
 
 Available Features:
 
