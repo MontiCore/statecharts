@@ -1,5 +1,5 @@
 # 6.6.0-SNAPSHOT
-to be released 
+to be released  
 based on MontiCore 6.6.0-SNAPSHOT
 
 * `UMLStatecharts` now extends `MCReturnStatements` such that transitions can have returns

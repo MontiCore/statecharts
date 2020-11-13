@@ -98,8 +98,7 @@ public class StatechartsCLI {
   }
   
   public void storeSymbols(IUMLStatechartsArtifactScope scope, String path) {
-    UMLStatechartsScopeDeSer deser = UMLStatechartsMill
-        .uMLStatechartsScopeDeSer();
+    UMLStatechartsScopeDeSer deser = new UMLStatechartsScopeDeSer();
     String serialized = deser.serialize(scope);
     Path f = Paths.get(path)
         .resolve(Paths.get(Names.getPathFromPackage(scope.getPackageName())))
