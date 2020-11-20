@@ -113,8 +113,8 @@ public class StatechartsCLI {
    * @return The artifact scope derived from the parsed AST
    */
   public IUMLStatechartsArtifactScope createSymbolTable(ASTSCArtifact ast) {
-    IUMLStatechartsGlobalScope globalScope = UMLStatechartsMill.uMLStatechartsGlobalScope();
-    globalScope.setModelFileExtension(".sc");
+    IUMLStatechartsGlobalScope globalScope = UMLStatechartsMill.globalScope();
+    globalScope.setFileExt(".sc");
 
     UMLStatechartsSymbolTableCreatorDelegator symbolTable = UMLStatechartsMill.uMLStatechartsSymbolTableCreatorDelegator();
 

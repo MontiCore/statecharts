@@ -1,6 +1,6 @@
 # (c) https://github.com/MontiCore/monticore
 
-image: maven:3.5.4-jdk-11
+image: registry.git.rwth-aachen.de/monticore/container-registry/gradle:6.5.1-jdk8
 
 stages:
   - build
@@ -14,7 +14,7 @@ before_script:
 build:
   stage: build
   script:
-    - "./gradlew build $GRADLE_OPT $ARGS1"
+    - "gradle build $GRADLE_OPT $ARGS1"
   artifacts:
     paths:
       - target/
@@ -27,7 +27,7 @@ deploy:
   dependencies:
     - build
   script:
-    - "./gradlew publish -PmavenPassword=$pass -PmavenUser=$user $GRADLE_OPT $ARGS2"
+    - "gradle publish -PmavenPassword=$pass -PmavenUser=$user $GRADLE_OPT $ARGS2"
   artifacts:
     paths:
       - target/libs/statecharts-cli.jar
