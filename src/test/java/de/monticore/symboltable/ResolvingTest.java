@@ -26,7 +26,7 @@ public class ResolvingTest {
   @Before
   public void setUp() throws Exception {
     Log.clearFindings();
-    UMLStatechartsMill.uMLStatechartsGlobalScope().clear();
+    UMLStatechartsMill.globalScope().clear();
   }
   
   @Test
