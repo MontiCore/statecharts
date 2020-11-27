@@ -4,11 +4,10 @@ package de.monticore.prettyprint;
 import de.monticore.scbasis._ast.ASTSCStateElement;
 import de.monticore.scstatehierarchy._ast.ASTSCHierarchyBody;
 import de.monticore.scstatehierarchy._ast.ASTSCInternTransition;
-import de.monticore.scstatehierarchy._visitor.SCStateHierarchyVisitor;
+import de.monticore.scstatehierarchy._visitor.SCStateHierarchyHandler;
+import de.monticore.scstatehierarchy._visitor.SCStateHierarchyTraverser;
 
-public class SCStateHierarchyPrettyPrinter
-    implements SCStateHierarchyVisitor {
-  private SCStateHierarchyVisitor realThis = this;
+public class SCStateHierarchyPrettyPrinter implements SCStateHierarchyHandler {
   protected IndentPrinter printer;
 
   public SCStateHierarchyPrettyPrinter(IndentPrinter printer) {
@@ -20,7 +19,7 @@ public class SCStateHierarchyPrettyPrinter
     getPrinter().println("{");
     getPrinter().indent();
     for (ASTSCStateElement element : node.getSCStateElementList()){
-      element.accept(getRealThis());
+      element.accept(getTraverser());
     }
     getPrinter().unindent();
     getPrinter().println("}");
@@ -29,22 +28,23 @@ public class SCStateHierarchyPrettyPrinter
   @Override
   public void handle(ASTSCInternTransition node) {
     if (node.isPresentStereotype()){
-      node.getStereotype().accept(getRealThis());
+      node.getStereotype().accept(getTraverser());
     }
     getPrinter().print(" -> ");
-    node.getSCTBody().accept(getRealThis());
+    node.getSCTBody().accept(getTraverser());
     getPrinter().println(";");
   }
-
-  @Override
-  public SCStateHierarchyVisitor getRealThis() {
-    return realThis;
+  
+  SCStateHierarchyTraverser traverser;
+  
+  @Override public SCStateHierarchyTraverser getTraverser() {
+    return traverser;
   }
-
-  @Override
-  public void setRealThis(SCStateHierarchyVisitor realThis) {
-    this.realThis = realThis;
+  
+  @Override public void setTraverser(SCStateHierarchyTraverser traverser) {
+    this.traverser = traverser;
   }
+  
 
   public IndentPrinter getPrinter() {
     return printer;

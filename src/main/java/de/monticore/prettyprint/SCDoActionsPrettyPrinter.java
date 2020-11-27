@@ -2,11 +2,10 @@
 package de.monticore.prettyprint;
 
 import de.monticore.scdoactions._ast.ASTSCDoAction;
-import de.monticore.scdoactions._visitor.SCDoActionsVisitor;
+import de.monticore.scdoactions._visitor.SCDoActionsHandler;
+import de.monticore.scdoactions._visitor.SCDoActionsTraverser;
 
-public class SCDoActionsPrettyPrinter
-    implements SCDoActionsVisitor {
-  private SCDoActionsVisitor realThis = this;
+public class SCDoActionsPrettyPrinter implements SCDoActionsHandler {
   protected IndentPrinter printer;
 
   public SCDoActionsPrettyPrinter(IndentPrinter printer) {
@@ -16,17 +15,17 @@ public class SCDoActionsPrettyPrinter
   @Override
   public void handle(ASTSCDoAction node) {
     getPrinter().print("do / ");
-    node.getSCABody().accept(getRealThis());
+    node.getSCABody().accept(getTraverser());
   }
-
-  @Override
-  public SCDoActionsVisitor getRealThis() {
-    return realThis;
+  
+  SCDoActionsTraverser traverser;
+  
+  @Override public SCDoActionsTraverser getTraverser() {
+    return traverser;
   }
-
-  @Override
-  public void setRealThis(SCDoActionsVisitor realThis) {
-    this.realThis = realThis;
+  
+  @Override public void setTraverser(SCDoActionsTraverser traverser) {
+    this.traverser = traverser;
   }
 
   public IndentPrinter getPrinter() {

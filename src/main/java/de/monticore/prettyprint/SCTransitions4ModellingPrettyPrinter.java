@@ -2,11 +2,10 @@
 package de.monticore.prettyprint;
 
 import de.monticore.sctransitions4modelling._ast.ASTEventTransitionAction;
-import de.monticore.sctransitions4modelling._visitor.SCTransitions4ModellingVisitor;
+import de.monticore.sctransitions4modelling._visitor.SCTransitions4ModellingHandler;
+import de.monticore.sctransitions4modelling._visitor.SCTransitions4ModellingTraverser;
 
-public class SCTransitions4ModellingPrettyPrinter
-    implements SCTransitions4ModellingVisitor {
-  private SCTransitions4ModellingVisitor realThis = this;
+public class SCTransitions4ModellingPrettyPrinter implements SCTransitions4ModellingHandler {
   protected IndentPrinter printer;
 
   public SCTransitions4ModellingPrettyPrinter(IndentPrinter printer) {
@@ -16,23 +15,23 @@ public class SCTransitions4ModellingPrettyPrinter
   @Override
   public void handle(ASTEventTransitionAction node) {
     if (node.isPresentMCBlockStatement()) {
-      node.getMCBlockStatement().accept(getRealThis());
+      node.getMCBlockStatement().accept(getTraverser());
     }
     if (node.isPresentPost()) {
       getPrinter().print("[");
-      node.getPost().accept(getRealThis());
+      node.getPost().accept(getTraverser());
       getPrinter().print("]");
     }
   }
-
-  @Override
-  public SCTransitions4ModellingVisitor getRealThis() {
-    return realThis;
+  
+  SCTransitions4ModellingTraverser traverser;
+  
+  @Override public SCTransitions4ModellingTraverser getTraverser() {
+    return traverser;
   }
-
-  @Override
-  public void setRealThis(SCTransitions4ModellingVisitor realThis) {
-    this.realThis = realThis;
+  
+  @Override public void setTraverser(SCTransitions4ModellingTraverser traverser) {
+    this.traverser = traverser;
   }
 
   public IndentPrinter getPrinter() {

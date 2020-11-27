@@ -19,7 +19,7 @@ import java.util.Optional;
  */
 public class UMLSCPrettyPrinterTest {
   UMLStatechartsParser parser = new UMLStatechartsParser();
-  UMLStatechartsPrettyPrinterDelegator prettyPrinterDelegator = new UMLStatechartsPrettyPrinterDelegator();
+  UMLStatechartsFullPrettyPrinter prettyPrinterDelegator = new UMLStatechartsFullPrettyPrinter();
 
   @Before
   public void init() {

@@ -2,11 +2,9 @@
 package de.monticore.prettyprint;
 
 import de.monticore.triggeredstatecharts._ast.ASTSCEmptyEvent;
-import de.monticore.triggeredstatecharts._visitor.TriggeredStatechartsVisitor;
+import de.monticore.triggeredstatecharts._visitor.TriggeredStatechartsVisitor2;
 
-public class TriggeredStatechartsPrettyPrinter
-    implements TriggeredStatechartsVisitor {
-  private TriggeredStatechartsVisitor realThis = this;
+public class TriggeredStatechartsPrettyPrinter implements TriggeredStatechartsVisitor2 {
   protected IndentPrinter printer;
 
   public TriggeredStatechartsPrettyPrinter(IndentPrinter printer) {
@@ -17,16 +15,7 @@ public class TriggeredStatechartsPrettyPrinter
   public void visit(ASTSCEmptyEvent node) {
     // empty
   }
-
-  @Override
-  public TriggeredStatechartsVisitor getRealThis() {
-    return realThis;
-  }
-
-  @Override
-  public void setRealThis(TriggeredStatechartsVisitor realThis) {
-    this.realThis = realThis;
-  }
+  
 
   public IndentPrinter getPrinter() {
     return printer;

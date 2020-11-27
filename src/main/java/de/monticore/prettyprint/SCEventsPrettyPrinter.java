@@ -3,11 +3,10 @@ package de.monticore.prettyprint;
 
 import de.monticore.scevents._ast.ASTSCFuncEventDef;
 import de.monticore.scevents._ast.ASTSCFuncEventParameter;
-import de.monticore.scevents._visitor.SCEventsVisitor;
+import de.monticore.scevents._visitor.SCEventsHandler;
+import de.monticore.scevents._visitor.SCEventsTraverser;
 
-public class SCEventsPrettyPrinter
-    implements SCEventsVisitor {
-  private SCEventsVisitor realThis = this;
+public class SCEventsPrettyPrinter implements SCEventsHandler {
   protected IndentPrinter printer;
 
   public SCEventsPrettyPrinter(IndentPrinter printer) {
@@ -18,33 +17,34 @@ public class SCEventsPrettyPrinter
   @Override public void handle(ASTSCFuncEventDef node) {
     getPrinter().print("event ");
     if(node.isPresentMCReturnType()) {
-      node.getMCReturnType().accept(getRealThis());
+      node.getMCReturnType().accept(getTraverser());
     }
     getPrinter().print(" " + node.getName());
     getPrinter().print("(");
     String comma = "";
     for(ASTSCFuncEventParameter p : node.getParamList()) {
       getPrinter().print(comma);
-      p.accept(getRealThis());
+      p.accept(getTraverser());
       comma = ", ";
     }
     getPrinter().println(");");
   }
   
   @Override public void handle(ASTSCFuncEventParameter node) {
-    node.getMCType().accept(getRealThis());
+    node.getMCType().accept(getTraverser());
     getPrinter().print(" " + node.getName());
   }
   
-  @Override
-  public SCEventsVisitor getRealThis() {
-    return realThis;
+  SCEventsTraverser traverser;
+  
+  @Override public SCEventsTraverser getTraverser() {
+    return traverser;
   }
-
-  @Override
-  public void setRealThis(SCEventsVisitor realThis) {
-    this.realThis = realThis;
+  
+  @Override public void setTraverser(SCEventsTraverser traverser) {
+    this.traverser = traverser;
   }
+  
 
   public IndentPrinter getPrinter() {
     return printer;
