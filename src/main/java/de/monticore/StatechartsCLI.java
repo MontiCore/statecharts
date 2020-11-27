@@ -4,8 +4,7 @@ package de.monticore;
 import de.monticore.io.FileReaderWriter;
 import de.monticore.scbasis.InitialStateCollectorVisitor;
 import de.monticore.scbasis.ReachableStateVisitor;
-import de.monticore.io.paths.ModelPath;
-import de.monticore.prettyprint.UMLStatechartsPrettyPrinterDelegator;
+import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scstatehierarchy.HierarchicalBranchingDegree;
 import de.monticore.scstatehierarchy.HierarchicalStateCollector;
@@ -39,6 +38,7 @@ public class StatechartsCLI {
     StatechartsCLI cli = new StatechartsCLI();
     // initialize logging with standard logging
     Log.init();
+    UMLStatechartsMill.init();
     cli.run(args);
   
   }
@@ -115,10 +115,10 @@ public class StatechartsCLI {
   public IUMLStatechartsArtifactScope createSymbolTable(ASTSCArtifact ast) {
     IUMLStatechartsGlobalScope globalScope = UMLStatechartsMill.globalScope();
     globalScope.setFileExt(".sc");
+  
+    UMLStatechartsScopesGenitorDelegator genitor = UMLStatechartsMill.scopesGenitorDelegator();
 
-    UMLStatechartsSymbolTableCreatorDelegator symbolTable = UMLStatechartsMill.uMLStatechartsSymbolTableCreatorDelegator();
-
-    return symbolTable.createFromAST(ast);
+    return genitor.createFromAST(ast);
   }
   
   /**
@@ -244,11 +244,11 @@ public class StatechartsCLI {
    */
   public void prettyPrint(ASTSCArtifact scartifact, String file) {
     // pretty print AST
-    UMLStatechartsPrettyPrinterDelegator prettyPrinterDelegator
-        = new UMLStatechartsPrettyPrinterDelegator();
-    scartifact.accept(prettyPrinterDelegator);
-    String prettyOutput = prettyPrinterDelegator.getPrinter().getContent();
-    print(prettyOutput, file);
+//    UMLStatechartsFullPrettyPrinter prettyPrinterDelegator
+//        = new UMLStatechartsFullPrettyPrinter();
+//    scartifact.accept(prettyPrinterDelegator);
+//    String prettyOutput = prettyPrinterDelegator.getPrinter().getContent();
+//    print(prettyOutput, file);
   }
 
   public void print(String content, String path, String file) {

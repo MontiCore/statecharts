@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
+import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
 import org.junit.Before;
@@ -20,6 +21,7 @@ public class UMLStatechartsToolTest {
   @BeforeClass
   public static void beforeClass() throws Exception {
     LogStub.initPlusLog();
+    UMLStatechartsMill.init();
   }
   
   @Before
