@@ -2,16 +2,18 @@
 package de.monticore;
 
 import de.monticore.io.FileReaderWriter;
+import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.scbasis.InitialStateCollectorVisitor;
 import de.monticore.scbasis.ReachableStateVisitor;
-import de.monticore.io.paths.ModelPath;
-import de.monticore.prettyprint.UMLStatechartsPrettyPrinterDelegator;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scstatehierarchy.HierarchicalBranchingDegree;
 import de.monticore.scstatehierarchy.HierarchicalStateCollector;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
-import de.monticore.umlstatecharts._symboltable.*;
+import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
+import de.monticore.umlstatecharts._symboltable.IUMLStatechartsGlobalScope;
+import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopeDeSer;
+import de.monticore.umlstatecharts._symboltable.UMLStatechartsSymbolTableCreatorDelegator;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsDelegatorVisitor;
 import de.monticore.utils.Names;
 import de.se_rwth.commons.logging.Log;
@@ -244,10 +246,9 @@ public class StatechartsCLI {
    */
   public void prettyPrint(ASTSCArtifact scartifact, String file) {
     // pretty print AST
-    UMLStatechartsPrettyPrinterDelegator prettyPrinterDelegator
-        = new UMLStatechartsPrettyPrinterDelegator();
-    scartifact.accept(prettyPrinterDelegator);
-    String prettyOutput = prettyPrinterDelegator.getPrinter().getContent();
+    UMLStatechartsFullPrettyPrinter prettyPrinterDelegator
+        = new UMLStatechartsFullPrettyPrinter();
+    String prettyOutput = prettyPrinterDelegator.prettyprint(scartifact);
     print(prettyOutput, file);
   }
 
