@@ -3,7 +3,6 @@ package de.monticore.parser;
 
 import de.monticore.parser.util.TestUtils;
 import de.monticore.prettyprint.UMLStatechartsPrettyPrinterDelegator;
-import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.sctransitions4code._ast.ASTTransitionBody;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.se_rwth.commons.logging.Log;

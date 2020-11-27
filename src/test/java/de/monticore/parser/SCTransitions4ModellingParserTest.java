@@ -5,8 +5,6 @@ import de.monticore.parser.util.TestUtils;
 import de.monticore.prettyprint.UMLStatechartsPrettyPrinterDelegator;
 import de.monticore.scactions._ast.ASTSCABody;
 import de.monticore.scactions._ast.ASTSCEntryAction;
-import de.monticore.scbasis._ast.ASTSCArtifact;
-import de.monticore.sctransitions4code._ast.ASTTransitionBody;
 import de.monticore.sctransitions4modelling._ast.ASTEventTransitionAction;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.se_rwth.commons.logging.Log;

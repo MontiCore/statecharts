@@ -10,8 +10,6 @@ import de.monticore.statements.prettyprint.MCVarDeclarationStatementsPrettyPrint
 import de.monticore.triggeredstatecharts._ast.ASTTriggeredStatechartsNode;
 import de.monticore.triggeredstatecharts._visitor.TriggeredStatechartsDelegatorVisitor;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
-import de.monticore.umlstatecharts._ast.ASTUMLStatechartsNode;
-import de.monticore.umlstatecharts._visitor.UMLStatechartsDelegatorVisitor;
 
 public class TriggeredStatechartsPrettyPrinterDelegator
     extends TriggeredStatechartsDelegatorVisitor {

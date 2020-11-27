@@ -2,11 +2,7 @@
 package de.monticore.scstatehierarchy;
 
 import de.monticore.scbasis.StateCollector;
-import de.monticore.scbasis._ast.ASTSCState;
 import de.monticore.scstatehierarchy._visitor.SCStateHierarchyVisitor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Extends the StateCollector for Hierarchical states

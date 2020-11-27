@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import static org.junit.Assert.assertFalse;
 

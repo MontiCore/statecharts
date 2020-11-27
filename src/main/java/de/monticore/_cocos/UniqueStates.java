@@ -2,15 +2,16 @@
 package de.monticore._cocos;
 
 import com.google.common.collect.Sets;
-import de.monticore.scstatehierarchy.HierarchicalStateCollector;
 import de.monticore.scbasis._ast.ASTSCState;
 import de.monticore.scbasis._ast.ASTStatechart;
 import de.monticore.scbasis._cocos.SCBasisASTStatechartCoCo;
+import de.monticore.scstatehierarchy.HierarchicalStateCollector;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsDelegatorVisitor;
 import de.se_rwth.commons.logging.Log;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
