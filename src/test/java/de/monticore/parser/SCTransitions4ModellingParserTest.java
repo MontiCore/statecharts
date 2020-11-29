@@ -2,7 +2,7 @@
 package de.monticore.parser;
 
 import de.monticore.parser.util.TestUtils;
-import de.monticore.prettyprint.UMLStatechartsPrettyPrinterDelegator;
+import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.scactions._ast.ASTSCABody;
 import de.monticore.scactions._ast.ASTSCEntryAction;
 import de.monticore.sctransitions4modelling._ast.ASTEventTransitionAction;
@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class SCTransitions4ModellingParserTest {
   
-  UMLStatechartsPrettyPrinterDelegator printer = new UMLStatechartsPrettyPrinterDelegator();
+  UMLStatechartsFullPrettyPrinter printer = new UMLStatechartsFullPrettyPrinter();
   UMLStatechartsParser parser = new UMLStatechartsParser();
   
   @Before

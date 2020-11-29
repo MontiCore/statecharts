@@ -2,7 +2,7 @@
 package de.monticore.parser;
 
 import de.monticore.parser.util.TestUtils;
-import de.monticore.prettyprint.UMLStatechartsPrettyPrinterDelegator;
+import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.scstatehierarchy._ast.ASTSCHierarchyBody;
 import de.monticore.scstatehierarchy._ast.ASTSCInternTransition;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
  */
 public class SCHierarchyParserPPTest {
   
-  UMLStatechartsPrettyPrinterDelegator printer = new UMLStatechartsPrettyPrinterDelegator();
+  UMLStatechartsFullPrettyPrinter printer = new UMLStatechartsFullPrettyPrinter();
   UMLStatechartsParser parser = new UMLStatechartsParser();
   
   @Before

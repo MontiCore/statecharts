@@ -2,7 +2,7 @@
 package de.monticore.parser;
 
 import de.monticore.parser.util.TestUtils;
-import de.monticore.prettyprint.UMLStatechartsPrettyPrinterDelegator;
+import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.scbasis._ast.*;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.se_rwth.commons.logging.Log;
@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 public class SCBasisParserPPTest {
 
   UMLStatechartsParser parser = new UMLStatechartsParser();
-  UMLStatechartsPrettyPrinterDelegator prettyPrinter = new UMLStatechartsPrettyPrinterDelegator();
+  UMLStatechartsFullPrettyPrinter prettyPrinter = new UMLStatechartsFullPrettyPrinter();
 
   @Before
   public void init() {

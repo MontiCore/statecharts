@@ -2,11 +2,10 @@
 package de.monticore.prettyprint;
 
 import de.monticore.umlstatecharts._ast.ASTSCUMLEvent;
-import de.monticore.umlstatecharts._visitor.UMLStatechartsVisitor;
+import de.monticore.umlstatecharts._visitor.UMLStatechartsHandler;
+import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 
-public class UMLStatechartsPrettyPrinter
-    implements UMLStatechartsVisitor {
-  private UMLStatechartsVisitor realThis = this;
+public class UMLStatechartsPrettyPrinter implements UMLStatechartsHandler {
   protected IndentPrinter printer;
 
   public UMLStatechartsPrettyPrinter(IndentPrinter printer) {
@@ -19,20 +18,21 @@ public class UMLStatechartsPrettyPrinter
       getPrinter().print(node.getName());
       getPrinter().print(" ");
       if (node.isPresentArguments()) {
-        node.getArguments().accept(getRealThis());
+        node.getArguments().accept(getTraverser());
       }
     }
   }
-
-  @Override
-  public UMLStatechartsVisitor getRealThis() {
-    return realThis;
+  
+  UMLStatechartsTraverser traverser;
+  
+  @Override public UMLStatechartsTraverser getTraverser() {
+    return traverser;
+  }
+  
+  @Override public void setTraverser(UMLStatechartsTraverser traverser) {
+    this.traverser = traverser;
   }
 
-  @Override
-  public void setRealThis(UMLStatechartsVisitor realThis) {
-    this.realThis = realThis;
-  }
 
   public IndentPrinter getPrinter() {
     return printer;

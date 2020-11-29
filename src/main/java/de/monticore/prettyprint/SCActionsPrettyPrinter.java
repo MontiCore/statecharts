@@ -3,11 +3,11 @@ package de.monticore.prettyprint;
 
 import de.monticore.scactions._ast.ASTSCEntryAction;
 import de.monticore.scactions._ast.ASTSCExitAction;
-import de.monticore.scactions._visitor.SCActionsVisitor;
+import de.monticore.scactions._visitor.SCActionsHandler;
+import de.monticore.scactions._visitor.SCActionsTraverser;
 
 public class SCActionsPrettyPrinter
-    implements SCActionsVisitor {
-  private SCActionsVisitor realThis = this;
+    implements SCActionsHandler {
   protected IndentPrinter printer;
 
   public SCActionsPrettyPrinter(IndentPrinter printer) {
@@ -17,25 +17,25 @@ public class SCActionsPrettyPrinter
   @Override
   public void handle(ASTSCEntryAction node) {
     getPrinter().print("entry / ");
-    node.getSCABody().accept(getRealThis());
+    node.getSCABody().accept(getTraverser());
   }
 
   @Override
   public void handle(ASTSCExitAction node) {
     getPrinter().print("exit / ");
-    node.getSCABody().accept(getRealThis());
+    node.getSCABody().accept(getTraverser());
   }
-
-  @Override
-  public SCActionsVisitor getRealThis() {
-    return realThis;
+  
+  SCActionsTraverser traverser;
+  
+  @Override public SCActionsTraverser getTraverser() {
+    return traverser;
   }
-
-  @Override
-  public void setRealThis(SCActionsVisitor realThis) {
-    this.realThis = realThis;
+  
+  @Override public void setTraverser(SCActionsTraverser traverser) {
+    this.traverser = traverser;
   }
-
+  
   public IndentPrinter getPrinter() {
     return printer;
   }

@@ -2,11 +2,10 @@
 package de.monticore.prettyprint;
 
 import de.monticore.sccompleteness._ast.ASTSCCompleteness;
-import de.monticore.sccompleteness._visitor.SCCompletenessVisitor;
+import de.monticore.sccompleteness._visitor.SCCompletenessHandler;
+import de.monticore.sccompleteness._visitor.SCCompletenessTraverser;
 
-public class SCCompletenessPrettyPrinter
-    implements SCCompletenessVisitor {
-  private SCCompletenessVisitor realThis = this;
+public class SCCompletenessPrettyPrinter implements SCCompletenessHandler {
   protected IndentPrinter printer;
 
   public SCCompletenessPrettyPrinter(IndentPrinter printer) {
@@ -22,15 +21,15 @@ public class SCCompletenessPrettyPrinter
       getPrinter().print(" (...) ");
     }
   }
-
-  @Override
-  public SCCompletenessVisitor getRealThis() {
-    return realThis;
+  
+  SCCompletenessTraverser traverser;
+  
+  @Override public SCCompletenessTraverser getTraverser() {
+    return traverser;
   }
-
-  @Override
-  public void setRealThis(SCCompletenessVisitor realThis) {
-    this.realThis = realThis;
+  
+  @Override public void setTraverser(SCCompletenessTraverser traverser) {
+    this.traverser = traverser;
   }
 
   public IndentPrinter getPrinter() {

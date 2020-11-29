@@ -2,11 +2,10 @@
 package de.monticore.prettyprint;
 
 import de.monticore.scstateinvariants._ast.ASTSCInvState;
-import de.monticore.scstateinvariants._visitor.SCStateInvariantsVisitor;
+import de.monticore.scstateinvariants._visitor.SCStateInvariantsHandler;
+import de.monticore.scstateinvariants._visitor.SCStateInvariantsTraverser;
 
-public class SCStateInvariantsPrettyPrinter
-    implements SCStateInvariantsVisitor {
-  private SCStateInvariantsVisitor realThis = this;
+public class SCStateInvariantsPrettyPrinter implements SCStateInvariantsHandler {
   protected IndentPrinter printer;
 
   public SCStateInvariantsPrettyPrinter(IndentPrinter printer) {
@@ -15,23 +14,23 @@ public class SCStateInvariantsPrettyPrinter
 
   @Override
   public void handle(ASTSCInvState node) {
-    node.getSCModifier().accept(getRealThis());
+    node.getSCModifier().accept(getTraverser());
     getPrinter().print(" state " + node.getName());
     getPrinter().print(" [");
-    node.getExpression().accept(getRealThis());
+    node.getExpression().accept(getTraverser());
     getPrinter().print("] ");
-    node.getSCSBody().accept(getRealThis());
+    node.getSCSBody().accept(getTraverser());
     getPrinter().print(";");
   }
-
-  @Override
-  public SCStateInvariantsVisitor getRealThis() {
-    return realThis;
+  
+  SCStateInvariantsTraverser traverser;
+  
+  @Override public SCStateInvariantsTraverser getTraverser() {
+    return traverser;
   }
-
-  @Override
-  public void setRealThis(SCStateInvariantsVisitor realThis) {
-    this.realThis = realThis;
+  
+  @Override public void setTraverser(SCStateInvariantsTraverser traverser) {
+    this.traverser = traverser;
   }
 
   public IndentPrinter getPrinter() {

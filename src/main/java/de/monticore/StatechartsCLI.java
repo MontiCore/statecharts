@@ -2,6 +2,7 @@
 package de.monticore;
 
 import de.monticore.io.FileReaderWriter;
+import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.scbasis.InitialStateCollectorVisitor;
 import de.monticore.scbasis.ReachableStateVisitor;
 import de.monticore.scbasis._ast.ASTSCArtifact;
@@ -246,11 +247,10 @@ public class StatechartsCLI {
    */
   public void prettyPrint(ASTSCArtifact scartifact, String file) {
     // pretty print AST
-//    UMLStatechartsFullPrettyPrinter prettyPrinterDelegator
-//        = new UMLStatechartsFullPrettyPrinter();
-//    scartifact.accept(prettyPrinterDelegator);
-//    String prettyOutput = prettyPrinterDelegator.getPrinter().getContent();
-//    print(prettyOutput, file);
+    UMLStatechartsFullPrettyPrinter prettyPrinterDelegator
+        = new UMLStatechartsFullPrettyPrinter();
+    String prettyOutput = prettyPrinterDelegator.prettyprint(scartifact);
+    print(prettyOutput, file);
   }
 
   public void print(String content, String path, String file) {
