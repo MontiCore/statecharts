@@ -1,8 +1,8 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.cocos;
 
-import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore._cocos.UniqueStates;
+import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.umlstatecharts._cocos.UMLStatechartsCoCoChecker;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.se_rwth.commons.logging.Log;
@@ -13,7 +13,8 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class UniqueStatesTest {
   

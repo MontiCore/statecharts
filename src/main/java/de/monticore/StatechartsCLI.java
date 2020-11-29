@@ -13,7 +13,7 @@ import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsGlobalScope;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopeDeSer;
-import de.monticore.umlstatecharts._symboltable.UMLStatechartsSymbolTableCreatorDelegator;
+import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopesGenitorDelegator;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsDelegatorVisitor;
 import de.monticore.utils.Names;
 import de.se_rwth.commons.logging.Log;
@@ -41,6 +41,7 @@ public class StatechartsCLI {
     StatechartsCLI cli = new StatechartsCLI();
     // initialize logging with standard logging
     Log.init();
+    UMLStatechartsMill.init();
     cli.run(args);
   
   }
@@ -117,10 +118,10 @@ public class StatechartsCLI {
   public IUMLStatechartsArtifactScope createSymbolTable(ASTSCArtifact ast) {
     IUMLStatechartsGlobalScope globalScope = UMLStatechartsMill.globalScope();
     globalScope.setFileExt(".sc");
+  
+    UMLStatechartsScopesGenitorDelegator genitor = UMLStatechartsMill.scopesGenitorDelegator();
 
-    UMLStatechartsSymbolTableCreatorDelegator symbolTable = UMLStatechartsMill.uMLStatechartsSymbolTableCreatorDelegator();
-
-    return symbolTable.createFromAST(ast);
+    return genitor.createFromAST(ast);
   }
   
   /**
