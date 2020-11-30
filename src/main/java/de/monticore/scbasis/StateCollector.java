@@ -2,7 +2,7 @@
 package de.monticore.scbasis;
 
 import de.monticore.scbasis._ast.ASTSCState;
-import de.monticore.scbasis._visitor.SCBasisVisitor;
+import de.monticore.scbasis._visitor.SCBasisVisitor2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,21 +10,10 @@ import java.util.List;
 /**
  * Collects all states
  */
-public class StateCollector implements SCBasisVisitor {
+public class StateCollector implements SCBasisVisitor2 {
 
-  protected SCBasisVisitor realThis= this;
 
   protected final List<ASTSCState> states = new ArrayList<>();
-
-  @Override
-  public SCBasisVisitor getRealThis() {
-    return realThis;
-  }
-
-  @Override
-  public void setRealThis(SCBasisVisitor realThis) {
-    this.realThis = realThis;
-  }
 
   @Override
   public void visit(ASTSCState node) {

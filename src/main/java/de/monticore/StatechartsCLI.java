@@ -3,18 +3,18 @@ package de.monticore;
 
 import de.monticore.io.FileReaderWriter;
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
-import de.monticore.scbasis.InitialStateCollectorVisitor;
-import de.monticore.scbasis.ReachableStateVisitor;
+import de.monticore.scbasis.BranchingDegreeCalculator;
+import de.monticore.scbasis.InitialStateCollector;
+import de.monticore.scbasis.ReachableStateCollector;
+import de.monticore.scbasis.StateCollector;
 import de.monticore.scbasis._ast.ASTSCArtifact;
-import de.monticore.scstatehierarchy.HierarchicalBranchingDegree;
-import de.monticore.scstatehierarchy.HierarchicalStateCollector;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsGlobalScope;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopeDeSer;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopesGenitorDelegator;
-import de.monticore.umlstatecharts._visitor.UMLStatechartsDelegatorVisitor;
+import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 import de.monticore.utils.Names;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.cli.*;
@@ -149,20 +149,19 @@ public class StatechartsCLI {
   public static final String REPORT_STATE_NAMES = "stateNames.txt";
 
   public String reportReachableStates(ASTSCArtifact ast) {
-    UMLStatechartsDelegatorVisitor delegator = UMLStatechartsMill.uMLStatechartsDelegatorVisitorBuilder().build();
+    UMLStatechartsTraverser traverser = UMLStatechartsMill.traverser();
     // collect all states
-    HierarchicalStateCollector stateCollector = new HierarchicalStateCollector();
-    delegator.setSCBasisVisitor(stateCollector);
-    delegator.setSCStateHierarchyVisitor(stateCollector);
-    ast.accept(delegator);
+    StateCollector stateCollector = new StateCollector();
+    traverser.addSCBasisVisitor(stateCollector);
+    ast.accept(traverser);
     Set<String> statesToBeChecked = stateCollector.getStates()
         .stream().map(e -> e.getName()).collect(Collectors.toSet());
     
     // collect all initial states
-    InitialStateCollectorVisitor initialStateCollectorVisitor = new InitialStateCollectorVisitor();
-    delegator.setSCBasisVisitor(initialStateCollectorVisitor);
-    ast.accept(delegator);
-    Set<String> reachableStates = initialStateCollectorVisitor.getStates();
+    InitialStateCollector initialStateCollector = new InitialStateCollector();
+    traverser.addSCBasisVisitor(initialStateCollector);
+    ast.accept(traverser);
+    Set<String> reachableStates = initialStateCollector.getStates();
     
     // calculate reachable states
     Set<String> currentlyChecked = new HashSet<>(reachableStates);
@@ -171,10 +170,10 @@ public class StatechartsCLI {
       // While the open list is not empty, check which states can be reached from it
       String from = currentlyChecked.iterator().next();
       currentlyChecked.remove(from);
-      ReachableStateVisitor reachableStateVisitor = new ReachableStateVisitor(from);
-      delegator.setSCBasisVisitor(reachableStateVisitor);
-      ast.accept(delegator);
-      for (String to : reachableStateVisitor.getReachableStates()) {
+      ReachableStateCollector reachableStateCollector = new ReachableStateCollector(from);
+      traverser.addSCBasisVisitor(reachableStateCollector);
+      ast.accept(traverser);
+      for (String to : reachableStateCollector.getReachableStates()) {
         if (!reachableStates.contains(to)) {
           // In case a new reachable state is found, add it to the open list
           // and mark it as reachable
@@ -184,27 +183,25 @@ public class StatechartsCLI {
         }
       }
     }
-    return "reachable: " + String.join(",", reachableStates) + System.lineSeparator() + "unreachable: " + String.join(",", statesToBeChecked);
+    return "reachable: " + String.join(",", reachableStates) + System.lineSeparator() 
+       + "unreachable: " + String.join(",", statesToBeChecked);
   }
 
   public String reportBranchingDegree(ASTSCArtifact ast) {
-    HierarchicalBranchingDegree branchingDegreeVisitor = new HierarchicalBranchingDegree();
-    UMLStatechartsDelegatorVisitor delegator = UMLStatechartsMill.uMLStatechartsDelegatorVisitorBuilder().build();
-    delegator.setSCBasisVisitor(branchingDegreeVisitor);
-    delegator.setSCStateHierarchyVisitor(branchingDegreeVisitor);
-    ast.accept(delegator);
-    return branchingDegreeVisitor.getBranchingDegrees().entrySet().stream()
+    BranchingDegreeCalculator branchingDegreeCalculator = new BranchingDegreeCalculator();
+    UMLStatechartsTraverser traverser = UMLStatechartsMill.traverser();
+    traverser.addSCBasisVisitor(branchingDegreeCalculator);
+    ast.accept(traverser);
+    return branchingDegreeCalculator.getBranchingDegrees().entrySet().stream()
         .map(e -> e.getKey() + ": " + e.getValue())
         .collect(Collectors.joining(System.lineSeparator()));
   }
 
   public String reportStateNames(ASTSCArtifact ast) {
-    HierarchicalStateCollector stateCollectorVisitor = new HierarchicalStateCollector();
-    UMLStatechartsDelegatorVisitor delegator = UMLStatechartsMill.uMLStatechartsDelegatorVisitorBuilder().build();
-    delegator.setSCBasisVisitor(stateCollectorVisitor);
-    delegator.setSCStateHierarchyVisitor(stateCollectorVisitor);
-    ast.accept(delegator);
-    ast.accept(stateCollectorVisitor);
+    StateCollector stateCollectorVisitor = new StateCollector();
+    UMLStatechartsTraverser traverser = UMLStatechartsMill.traverser();
+    traverser.addSCBasisVisitor(stateCollectorVisitor);
+    ast.accept(traverser);
     return String.join(", ", stateCollectorVisitor.getStates()
         .stream().map(e -> e.getName()).collect( Collectors.toSet()));
   }

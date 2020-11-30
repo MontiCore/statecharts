@@ -9,6 +9,7 @@ This project offers a set of language components to define Statechart Languages:
 - [SCStateInvariants](SCStateInvariants.mc4),
 - [SCActions](SCActions.mc4),
 - [SCDoActions](SCDoActions.mc4),
+- [SCEvents](SCEvents.mc4),
 - [SCTransitions4Code](SCTransitions4Code.mc4),
 - [SCTransitions4Modelling](SCTransitions4Modelling.mc4), and
 - [SCCompleteness](SCCompleteness.mc4)
@@ -117,17 +118,34 @@ of states and transitions (or other constructs).
 Furthermore, states and transitions 
 with extension points for their bodies (`SCSBody` and `SCTBody`) are provided. 
 
- ## Hierarchical states
- This project provides two language components for hierarchical states: `SCStateHierarchy` and 
- `SCStateInvariants`. The language component `SCStateHierarchy` is based on the `SCBasis` language 
- component and adds a state body variant that allows nested state elements, i.e., states and transitions.
- The second language component `SCStateInvariants` extends `SCStateHierarchy` and additionally provides 
- invariants within states. The [second syntax example](#example2) contains an hierachical state 
- `EngineRunning` which has two substates `Parking` and `Driving` and an invariant `[!fuelIsEmpty]`.
+ ## Hierarchical States
+ This project provides the language component `SCStateHierarchy` for _hierarchical states_. 
+ It is based on the `SCBasis` language component and adds a state body variant that allows nested
+ state elements, e.g., states and transitions.
+ The [second syntax example](#example2) contains an hierarchical state 
+ `EngineRunning` which has two substates `Parking` and `Driving`.
  
  ## Actions
+Two grammars provide the syntax for actions: `SCActions` and `SCDoActions`. The former provides _entry_
+and _exit actions_. The latter builds upon the `SCActions` grammar and additionally provides _do 
+activities_. 
+The [second syntax example](#example2) contains a state 
+`EngineRunning` which has an `entry` and an `exit` action. The syntax for do activities is quite similar
+but uses the keyword `do`, example: `do / {update();}`
  
  ## Transitions
+This project also offers two variants of transitions realized by the two grammars 
+`Transitions4Modelling`  and `Transitions4Code`. The "simpler" variant is offered by `Transitions4Code`,
+where transitions consist of precondition, an event and an action, each of which is optional. 
+Transitions4Modelling offers a more sophisticated variant of transitions, which are suitable for 
+specification and can additionally have a postcondition. The language component `Transitions4Modelling`
+thus extends `Transitions4Code`.
+ 
+ 
+ ## Invariants
+Invariants are provided by the language component `SCStateInvariants`.  
+The [second syntax example](#example2) contains a state `EngineRunning` 
+which has an invariant `[!fuelIsEmpty]`. 
 
 ## Symboltable
 
@@ -136,7 +154,7 @@ The SC language uses symbols of kind `TypeSymbol`, `VariableSymbol` as well as
 the symbols that are used by these symbols (e.g. `FunctionSymbol` 
 is used by `TypeSymbol`.
 
-Furthermore, the SC language reuses the `DiagramSymbol` of the BasicSymbols language
+Furthermore, the SC language reuses the `DiagramSymbol` of the `BasicSymbols` language
  component for named Statecharts.
 
 
@@ -200,12 +218,12 @@ Besides the examples shown directly in this document, other example models can b
 [src/test/resources/examples](../../../../../src/test/resources/examples)
 
 ## Usage 
-The packaged jars are provided via SE Maven repository:  
+The packaged jars are provided via the SE repository:  
 https://nexus.se.rwth-aachen.de/content/groups/public/
 
 ### in Gradle:
   ```
-  implementation 'de.monticore.lang:statecharts:6.5.0'
+  implementation 'de.monticore.lang:statecharts:6.6.0-SNAPSHOT'
 ```
   
 ### CLI Tool:  
@@ -227,7 +245,7 @@ Available Features:
 <dependency>
   <groupId>de.monticore.lang</groupId>
   <artifactId>statecharts</artifactId>
-  <version>6.5.0</version>
+  <version>6.6.0-SNAPSHOT</version>
 </dependency>
 ```
 

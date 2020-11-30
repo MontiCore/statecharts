@@ -2,12 +2,12 @@
 package de.monticore._cocos;
 
 import com.google.common.collect.Sets;
+import de.monticore.scbasis.StateCollector;
 import de.monticore.scbasis._ast.ASTSCState;
 import de.monticore.scbasis._ast.ASTStatechart;
 import de.monticore.scbasis._cocos.SCBasisASTStatechartCoCo;
-import de.monticore.scstatehierarchy.HierarchicalStateCollector;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
-import de.monticore.umlstatecharts._visitor.UMLStatechartsDelegatorVisitor;
+import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.List;
@@ -24,12 +24,11 @@ public class UniqueStates implements SCBasisASTStatechartCoCo {
   
   @Override
   public void check(ASTStatechart node) {
-    UMLStatechartsDelegatorVisitor delegator = UMLStatechartsMill
-        .uMLStatechartsDelegatorVisitorBuilder().build();
-    HierarchicalStateCollector vis = new HierarchicalStateCollector();
-    delegator.setSCBasisVisitor(vis);
-    delegator.setSCStateHierarchyVisitor(vis);
-    node.accept(delegator);
+    UMLStatechartsTraverser traverser = UMLStatechartsMill
+        .traverser();
+    StateCollector vis = new StateCollector();
+    traverser.addSCBasisVisitor(vis);
+    node.accept(traverser);
     Set<String> uniques = Sets.newHashSet();
     List<ASTSCState> duplicates = vis.getStates().stream()
         .filter(e -> !uniques.add(e.getName()))

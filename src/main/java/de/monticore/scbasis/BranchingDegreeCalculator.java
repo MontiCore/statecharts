@@ -3,7 +3,7 @@ package de.monticore.scbasis;
 
 import de.monticore.scbasis._ast.ASTSCState;
 import de.monticore.scbasis._ast.ASTSCTransition;
-import de.monticore.scbasis._visitor.SCBasisVisitor;
+import de.monticore.scbasis._visitor.SCBasisVisitor2;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,21 +12,9 @@ import java.util.Map;
  * Sums up the amount of outgoing transitions for every
  * state (branching degree)
  */
-public class BranchingDegreeVisitor implements SCBasisVisitor {
-
-  protected SCBasisVisitor realThis = this;
+public class BranchingDegreeCalculator implements SCBasisVisitor2 {
 
   protected final Map<String, Integer> branchingDegree = new HashMap<>();
-
-  @Override
-  public SCBasisVisitor getRealThis() {
-    return realThis;
-  }
-
-  @Override
-  public void setRealThis(SCBasisVisitor realThis) {
-    this.realThis = realThis;
-  }
 
   @Override
   public void visit(ASTSCState node) {

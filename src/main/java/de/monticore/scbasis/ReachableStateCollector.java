@@ -2,7 +2,7 @@
 package de.monticore.scbasis;
 
 import de.monticore.scbasis._ast.ASTSCTransition;
-import de.monticore.scbasis._visitor.SCBasisVisitor;
+import de.monticore.scbasis._visitor.SCBasisVisitor2;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,25 +10,14 @@ import java.util.Set;
 /**
  * Collects all states reachable from a given state
  */
-public class ReachableStateVisitor implements SCBasisVisitor {
+public class ReachableStateCollector implements SCBasisVisitor2 {
 
-  protected SCBasisVisitor realThis = this;
 
   protected final String fromState;
   protected final Set<String> reachableStates = new HashSet<>();
 
-  public ReachableStateVisitor(String fromState) {
+  public ReachableStateCollector(String fromState) {
     this.fromState = fromState;
-  }
-
-  @Override
-  public SCBasisVisitor getRealThis() {
-    return realThis;
-  }
-
-  @Override
-  public void setRealThis(SCBasisVisitor realThis) {
-    this.realThis = realThis;
   }
 
   @Override
