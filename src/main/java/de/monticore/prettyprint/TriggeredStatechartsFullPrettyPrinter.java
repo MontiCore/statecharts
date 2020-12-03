@@ -35,7 +35,7 @@ public class TriggeredStatechartsFullPrettyPrinter {
     traverser.setUMLStereotypeHandler(new UMLStereotypePrettyPrinter(printer));
     MCCommonLiteralsPrettyPrinter mcCommonLiteralsPP = new MCCommonLiteralsPrettyPrinter(printer);
     traverser.setMCCommonLiteralsHandler(mcCommonLiteralsPP);
-    traverser.addMCCommonLiteralsVisitor(mcCommonLiteralsPP);
+    traverser.add4MCCommonLiterals(mcCommonLiteralsPP);
     traverser.setMCBasicTypesHandler(new MCBasicTypesPrettyPrinter(printer));
     traverser.setExpressionsBasisHandler(new ExpressionsBasisPrettyPrinter(printer));
     

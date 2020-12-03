@@ -152,14 +152,14 @@ public class StatechartsCLI {
     UMLStatechartsTraverser traverser = UMLStatechartsMill.traverser();
     // collect all states
     StateCollector stateCollector = new StateCollector();
-    traverser.addSCBasisVisitor(stateCollector);
+    traverser.add4SCBasis(stateCollector);
     ast.accept(traverser);
     Set<String> statesToBeChecked = stateCollector.getStates()
         .stream().map(e -> e.getName()).collect(Collectors.toSet());
     
     // collect all initial states
     InitialStateCollector initialStateCollector = new InitialStateCollector();
-    traverser.addSCBasisVisitor(initialStateCollector);
+    traverser.add4SCBasis(initialStateCollector);
     ast.accept(traverser);
     Set<String> reachableStates = initialStateCollector.getStates();
     
@@ -171,7 +171,7 @@ public class StatechartsCLI {
       String from = currentlyChecked.iterator().next();
       currentlyChecked.remove(from);
       ReachableStateCollector reachableStateCollector = new ReachableStateCollector(from);
-      traverser.addSCBasisVisitor(reachableStateCollector);
+      traverser.add4SCBasis(reachableStateCollector);
       ast.accept(traverser);
       for (String to : reachableStateCollector.getReachableStates()) {
         if (!reachableStates.contains(to)) {
@@ -190,7 +190,7 @@ public class StatechartsCLI {
   public String reportBranchingDegree(ASTSCArtifact ast) {
     BranchingDegreeCalculator branchingDegreeCalculator = new BranchingDegreeCalculator();
     UMLStatechartsTraverser traverser = UMLStatechartsMill.traverser();
-    traverser.addSCBasisVisitor(branchingDegreeCalculator);
+    traverser.add4SCBasis(branchingDegreeCalculator);
     ast.accept(traverser);
     return branchingDegreeCalculator.getBranchingDegrees().entrySet().stream()
         .map(e -> e.getKey() + ": " + e.getValue())
@@ -200,7 +200,7 @@ public class StatechartsCLI {
   public String reportStateNames(ASTSCArtifact ast) {
     StateCollector stateCollectorVisitor = new StateCollector();
     UMLStatechartsTraverser traverser = UMLStatechartsMill.traverser();
-    traverser.addSCBasisVisitor(stateCollectorVisitor);
+    traverser.add4SCBasis(stateCollectorVisitor);
     ast.accept(traverser);
     return String.join(", ", stateCollectorVisitor.getStates()
         .stream().map(e -> e.getName()).collect( Collectors.toSet()));

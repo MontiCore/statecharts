@@ -27,7 +27,7 @@ public class UniqueStates implements SCBasisASTStatechartCoCo {
     UMLStatechartsTraverser traverser = UMLStatechartsMill
         .traverser();
     StateCollector vis = new StateCollector();
-    traverser.addSCBasisVisitor(vis);
+    traverser.add4SCBasis(vis);
     node.accept(traverser);
     Set<String> uniques = Sets.newHashSet();
     List<ASTSCState> duplicates = vis.getStates().stream()
