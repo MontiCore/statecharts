@@ -233,7 +233,7 @@ Available Features:
 
 | Option                   | Explanation |
 | ------                   | ------ |
-| -h,--help                | Prints this help dialog   |
+| -h,--help                | Prints this help informations   |
 | -i,--input <file>        | Reads the source file (mandatory) and parses the contents as a statechart |
 | -pp,--prettyprint <file> | Prints the Statechart-AST to stdout or the specified file (optional) |
 | -r,--report <dir>        | Prints reports of the statechart artifact to the specified directory. Available reports: reachable states, branching degree, and state names  |
