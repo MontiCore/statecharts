@@ -19,20 +19,20 @@ forms of actions.
 This MontiCore project offers a set of language components to define 
 Statechart Languages: 
 
-- [SCBasis](SCBasis.mc4),
-- [SCStateHierarchy](SCStateHierarchy.mc4),
-- [SCStateInvariants](SCStateInvariants.mc4),
-- [SCActions](SCActions.mc4),
-- [SCDoActions](SCDoActions.mc4),
-- [SCEvents](SCEvents.mc4),
-- [SCTransitions4Code](SCTransitions4Code.mc4),
-- [SCTransitions4Modelling](SCTransitions4Modelling.mc4), and
-- [SCCompleteness](SCCompleteness.mc4)
+- [`SCBasis`](SCBasis.mc4),
+- [`SCStateHierarchy`](SCStateHierarchy.mc4),
+- [`SCStateInvariants`](SCStateInvariants.mc4),
+- [`SCActions`](SCActions.mc4),
+- [`SCDoActions`](SCDoActions.mc4),
+- [`SCEvents`](SCEvents.mc4),
+- [`SCTransitions4Code`](SCTransitions4Code.mc4),
+- [`SCTransitions4Modelling`](SCTransitions4Modelling.mc4), and
+- [`SCCompleteness`](SCCompleteness.mc4)
 
 And it defines two concrete, complete variants of Statechart languages:
 
- - [UMLStatecharts](UMLStatecharts.mc4) and 
- - [TriggeredStatecharts](TriggeredStatecharts.mc4)
+ - [`UMLStatecharts`](UMLStatecharts.mc4) and 
+ - [`TriggeredStatecharts`](TriggeredStatecharts.mc4)
 
 Both are based on several of the above provided language components and 
 group them into two forms of complete Statecharts. Please also note, 
@@ -127,16 +127,22 @@ and can be extended by any own interesting language constructs
  `CommonExpressions` and `MCCommonStatements`. 
  The teaser above conform to this language.
 
-## The TriggeredStatecharts Language Variant 
+ `UMLStatecharts` can be used as is, or extended in various forms.
+ It can also be used as blueprint for individual configuration of
+ a Statechart language variant.
+
+## The [TriggeredStatecharts](TriggeredStatecharts.mc4) Language Variant 
   
- `TriggeredStatecharts` is a second combination of the basic language 
- components. 
+ `TriggeredStatecharts` is the second provided 
+ combination of the basic language components. 
  It combines the 
  language components `SCActions`, `SCStateHierarchy`, 
  `SCTransitions4Code`, `CommonExpressions` and 
- `MCCommonStatements`. Thus, it allows modeling Statecharts with 
- hierarchical states that may 
- have entry and exit actions.
+ provides the same set of statements and expressions defined by
+ `CommonExpressions` and `MCCommonStatements`.
+ Thus, this language variant allows modeling Statecharts with 
+ hierarchical states that may have entry and exit actions, but does
+ use values instead of function calls as input.
  
  On the one hand, `TriggeredStatecharts` show how flexible the language 
  component library
@@ -145,9 +151,9 @@ and can be extended by any own interesting language constructs
  On the other hand, `TriggeredStatecharts` have their own dedicated use 
  for descriptions
  in the embedded area, where a software component is often *triggered* 
- on a regular basis (i.e. with a certain periodic repetition and signals 
+ on a regular basis, i.e. with a certain periodic repetition, and signals 
  do not
- arrive as events, but as available values). We also designed 
+ arrive as events, but as available values. We also designed 
  `TriggeredStatecharts`
  as implementation oriented language, and therefore do not add 
  specification oriented constructs:
@@ -156,16 +162,17 @@ and can be extended by any own interesting language constructs
  - transitions consist of a precondition, an event and an action, 
    each of which is optional.
 
+ ## Statechart Language Components
  
- ## SCBasis
-`SCBasis` is the basic grammar component for automata. It defines
-a Statechart structure including package 
-and imports as well as the Statechart nonterminal itself. 
-Inside a Statechart the `SCArtifact` extension point allows adding 
-various forms
-of states and transitions (or other constructs).
-Furthermore, states and transitions 
-with extension points for their bodies (`SCSBody` and `SCTBody`) are provided. 
+ ### Basics in the `SCBasis` Component
+
+`SCBasis` is the basic grammar component for automata. It defines a 
+Statechart structure including package and imports as well as the 
+Statechart nonterminal itself. Inside a Statechart the `SCArtifact` 
+extension point allows adding various forms of states and transitions 
+(or other constructs). Furthermore, states and transitions with 
+extension points for their bodies (`SCSBody` and `SCTBody`) are 
+provided. 
 
  ## Hierarchical States
  This project provides the language component `SCStateHierarchy` 
