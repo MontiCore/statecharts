@@ -13,7 +13,7 @@ public interface ISCBasisScope extends ISCBasisScopeTOP{
     
     setSCStateSymbolsAlreadyResolved(false);
     // XXX TODO, hat nicht geklappt (BR): final String remainingSymbolName = getRemainingNameForResolveDown(name);
-    final String remainingSymbolName = getRemainingNameForResolveDown(name).first();
+    final String remainingSymbolName = getRemainingNameForResolveDown(name).get(0);
     return this.resolveSCStateDownMany(foundSymbols, remainingSymbolName, modifier, predicate);
   }
   
