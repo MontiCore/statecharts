@@ -3,7 +3,22 @@
 
 # Statecharts
 
-This project offers a set of language components to define Statechart Languages:
+Statecharts are a comfortable form to describe behavior, based on the 
+internal state of a component. Statecharts have originally been 
+invented and described in [Harel'87] and were given a sound semantical 
+basis. They extend automata theory in various forms, including 
+hierarchy, actions, etc. Statecharts are the foundational behavior 
+description during which for modelling standards, such as UML and 
+SysML. 
+
+Dependent on the application domain, several forms of Statecharts are 
+needed, for example to accommodate stimuli in form of method calls, 
+incoming values (signals) or only preconditions that trigger certain 
+forms of actions. 
+
+This MontiCore project offers a set of language components to define 
+Statechart Languages: 
+
 - [SCBasis](SCBasis.mc4),
 - [SCStateHierarchy](SCStateHierarchy.mc4),
 - [SCStateInvariants](SCStateInvariants.mc4),
@@ -14,11 +29,17 @@ This project offers a set of language components to define Statechart Languages:
 - [SCTransitions4Modelling](SCTransitions4Modelling.mc4), and
 - [SCCompleteness](SCCompleteness.mc4)
 
-And it defines two concrete, complete variants of Statechart languages 
-[UMLStatecharts](UMLStatecharts.mc4) and 
-[TriggeredStatecharts](TriggeredStatecharts.mc4) both of which are based
-on several provided 
-language components that offer the different features for Statecharts. 
+And it defines two concrete, complete variants of Statechart languages:
+
+ - [UMLStatecharts](UMLStatecharts.mc4) and 
+ - [TriggeredStatecharts](TriggeredStatecharts.mc4)
+
+Both of are based on several of the above provided language components 
+and group them into two forms of complete Statecharts. Please also 
+note, that all of these components and languages are still configurable 
+with concrete forms of values, expressions and statements -- like the 
+ones defined in [MontiCore's expression grammar 
+library][https://git.rwth-aachen.de/monticore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/Grammars.md]. 
 
 
 <div align="center">
