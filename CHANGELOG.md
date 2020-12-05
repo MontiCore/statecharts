@@ -40,3 +40,14 @@ based on MontiCore 6.2.0
 * Pretty printers for new grammar structure
 * New grammar structure composed of the following grammars:
   * `SCActions`, `SCBasis`, `SCCompleteness`, `SCDoActions`, `SCStateHierarchy`, `SCStateInvariants`, `SCTransitions4Code`, `SCTransitions4Modelling`, `TriggeredStatecharts`, `UMLStatecharts`
+
+  ## Further Information
+
+  * [Project root: MontiCore @github](https://github.com/MontiCore/monticore)
+  * [MontiCore documentation](http://www.monticore.de/)
+  * [**List of languages**](https://github.com/MontiCore/monticore/blob/dev/docs/Languages.md)
+  * [**MontiCore Core Grammar Library**](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/Grammars.md)
+  * [Best Practices](https://github.com/MontiCore/monticore/blob/dev/docs/BestPractices.md)
+  * [Publications about MBSE and MontiCore](https://www.se-rwth.de/publications/)
+  * [Licence definition](https://github.com/MontiCore/monticore/blob/master/00.org/Licenses/LICENSE-MONTICORE-3-LEVEL.md)
+
