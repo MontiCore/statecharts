@@ -228,14 +228,20 @@ See [Rum16] for a detailed discussion.
 
 ## Symboltable
 
-### Symbol kinds used by the SC language (importable or subclassed):
-The SC language uses symbols of kind `TypeSymbol`, `VariableSymbol` as well as 
-the symbols that are used by these symbols (e.g. `FunctionSymbol` 
-is used by `TypeSymbol`.
+Statecharts mainly introduces symbols to denote states. While the form 
+of Statecharts adapts over the different language variants, the symbol 
+infrastructure for state symbols remains stable. Therefore, the 
+discussion below is valid for all combinations of Statechart languages 
+that are based on `SCBasis`. 
 
-Furthermore, the SC language reuses the `DiagramSymbol` of the 
-`BasicSymbols` language
- component for named Statecharts.
+### Symbol kinds used by the SC language (importable or subclassed):
+
+The SC language uses symbols of kind `TypeSymbol`, `VariableSymbol` as 
+well as the dependent symbols that are used by these symbols (e.g. 
+`FunctionSymbol` is used by `TypeSymbol`. 
+
+Furthermore, the SC language reuses the `DiagramSymbol` for named 
+Statecharts. 
 
 
 ### Symbol kinds defined by the SD language (exported):
@@ -246,6 +252,12 @@ The SC language defines the symbol kinds `SCStateSynbol` and `SCEventDefSymbol`.
       String name;
   }
   ```
+  
+  The state symbols embody the state names of the states defined in 
+  a Statechart. These symbols are used for efficient navigation inside 
+  the Statechart but also can be made available for other models that
+  want to refer to the states.
+  
 - The UMLStatechart language also exports the kind `SCEventDefSymbol` defined as:
   ```
   class SCEventDefSymbol {
@@ -256,18 +268,30 @@ The SC language defines the symbol kinds `SCStateSynbol` and `SCEventDefSymbol`.
   This kind of symbols are refered to by stimuli that do not 
   refer to functions 
   and thus do not have arguments and return types.
-  Symbols of this kind are not produced by Statecharts but instead used 
-  by the events of transitions.
+  While the symbol kind is defined within the Statechart language,
+  symbols of this kind are not defined by Statecharts themselves
+  (thus an extension would be needed ..), but instead used 
+  by the events of transitions when imported.
 
 ### Symbols imported by SC models:
+
 * SCs import `VariableSymbols`, `FunctionSymbols` and `TypeSymbols`. 
   These imported symbol can be used within action or transition bodies. 
-  Furthermore, events of transitions can use `FunctionSymbols` or 
-  `SCEventDefSymbols`,
-  invariants and pre-/post-conditions can use `VariableSymbols` and 
-  `FunctionSymbols`.
+* Furthermore, events of transitions can use `FunctionSymbols` or 
+  `SCEventDefSymbols`, 
+  
+* Invariants and pre-/post-conditions can use `VariableSymbols` and 
+  `FunctionSymbols` (dependent of the invariant language that is 
+  actually used). 
+  
+  It is notable, that the MontiCore language composition techniques 
+  allow Statecharts to import symbols and "transport" them to embedded 
+  sublanguages, such that Statecharts themselves including their symbol
+  table infrastructure are rather independently
+  developed. 
 
 ### Symbols exported by SC models:
+
 * SC models export `SCStateSymbols`. 
   For each state defined in an SC, the SC exports a corresponding 
   `SCStateSymbol`. 
