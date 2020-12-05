@@ -48,7 +48,7 @@ language components and their relations (shown as language feature
 diagram). </div><br> 
 
 
-## Textual Syntax Example for StateCharts 
+## Textual Syntax Example for Statecharts 
 
 Here is a small teaser for the UML Statechart language, which allows a 
 method call as stimulus, Java expressions as constraints and Java 
@@ -127,8 +127,8 @@ and can be extended by any own interesting language constructs
  `CommonExpressions` and `MCCommonStatements`. 
  The teaser above conform to this language.
 
- `UMLStatecharts` can be used as is, or extended in various forms.
- It can also be used as blueprint for individual configuration of
+ `UMLStatecharts` can directly be used or extended in various forms.
+ The language definition can also be used as blueprint for individual configuration of
  a Statechart language variant.
 
 ## The [TriggeredStatecharts](TriggeredStatecharts.mc4) Language Variant 
@@ -155,7 +155,7 @@ and can be extended by any own interesting language constructs
  do not
  arrive as events, but as available values. We also designed 
  `TriggeredStatecharts`
- as implementation oriented language, and therefore do not add 
+ as implementation oriented language and therefore do not add 
  specification oriented constructs:
  - no do actions 
  - no state invariants
@@ -219,7 +219,7 @@ which has a simple invariant `[!fuelIsEmpty]`.
 
  ### Completeness in the [`SCCompleteness`](SCCompleteness.mc4) Component
  
-This small grammar just allows Statechart compartments to be marked as 
+This small grammar allows Statechart compartments to be marked as 
 complete `(c)` or incomplete `(...)`, which semantically makes an 
 important difference when using Statecharts for specification and refinement.
 See [Rum16] for a detailed discussion.
