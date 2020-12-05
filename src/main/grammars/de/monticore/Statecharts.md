@@ -99,6 +99,9 @@ Expressions and statements are taken from MontiCores basic grammar library
 and can be extended by any own interesting language constructs 
 (such as sending or receiving messages `!m` or `?m`)
 
+Further example models can be found here:
+[src/test/resources/examples](../../../../../src/test/resources/examples).
+
 ## The [UMLStatecharts](UMLStatecharts.mc4) Language Variant 
 
  The goal of the `UMLStatecharts` is to provide a language for handling 
@@ -285,19 +288,31 @@ The SC language defines the symbol kinds `SCStateSynbol` and `SCEventDefSymbol`.
   actually used). 
   
   It is notable, that the MontiCore language composition techniques 
-  allow Statecharts to import symbols and "transport" them to embedded 
+  allow Statecharts to automatically import symbols and "transport" 
+  them to embedded 
   sublanguages, such that Statecharts themselves including their symbol
-  table infrastructure are rather independently
-  developed. 
+  table infrastructure can rather independently be
+  developed. They don't even need to know about unforseen new
+  symbol kinds that are used in embedded languages.
 
 ### Symbols exported by SC models:
 
 * SC models export `SCStateSymbols`. 
   For each state defined in an SC, the SC exports a corresponding 
-  `SCStateSymbol`. 
+  `SCStateSymbol`.
+  
+  While states are stored and thus made externally available,
+  transitions are deliberately kept encapsulated und thus 
+  state symbols do not contain any information about their transitions. 
+  
+  This also includes hierarchically nested substates.
+  When these states should be encapsuled, a reconfiguration of
+  either the symbol storage or the scope structure would be needed.
+  
 * Each SC exports at most one `DiagramSymbol` corresponding to the Statechart.
-- The artifact scope of an SC "Door.sc" is stored in "Door.scsym".
-  Structure:
+
+* For example the artifact scope of an SC "Door.sc" is stored in 
+  file "Door.scsym" with this content:
   ```
   {
     "name": "Door",
@@ -322,36 +337,36 @@ The SC language defines the symbol kinds `SCStateSynbol` and `SCEventDefSymbol`.
   }
   ```
 
-## Examples
-Besides the examples shown directly in this document, other example 
-models can be found here:
-[src/test/resources/examples](../../../../../src/test/resources/examples)
-
 ## Usage 
+
 The packaged jars are provided via the SE repository:  
 https://nexus.se.rwth-aachen.de/content/groups/public/
 
 ### in Gradle:
   ```
   implementation 'de.monticore.lang:statecharts:6.6.0-SNAPSHOT'
-```
+  ```
   
 ### CLI Tool:  
-[statecharts-cli.jar](https://nexus.se.rwth-aachen.de/service/rest/v1/search/assets/download?sort=version&repository=monticore-snapshots&maven.groupId=de.monticore.lang&maven.artifactId=statecharts&maven.extension=jar&maven.classifier=cli)  
 
-Available Features:
+For a easy, black-box use the complete tool can be downloaded as
+[statecharts-cli.jar](https://nexus.se.rwth-aachen.de/service/rest/v1/search/assets/download?sort=version&repository=monticore-snapshots&maven.groupId=de.monticore.lang&maven.artifactId=statecharts&maven.extension=jar&maven.classifier=cli) 
+in its respective newest version.
+The jar can e.g. be used like:
+
+```
+  java -jar statecharts-cli.jar -h
+  java -jar statecharts-cli.jar -i Car.sc -pp
+``` 
+
+Available parameters are:
 
 | Option                     | Explanation |
 | ------                     | ------ |
 | `-h,--help`                | Prints this help information   |
-| `-i,--input <file>`        | Reads the source file (mandatory) and 
-                                parses the contents as a statechart |
-| `-pp,--prettyprint <file>` | Prints the Statechart-AST to stdout or the 
-                                specified file (optional) |
-| `-r,--report <dir>`        | Prints reports of the statechart artifact 
-                                to the specified directory. This includes 
-                                e.g. reachable states and branching 
-                                degrees  |
+| `-i,--input <file>`        | Reads the source file (mandatory) and parses the contents as a statechart |
+| `-pp,--prettyprint <file>` | Prints the Statechart-AST to stdout or the specified file (optional) |
+| `-r,--report <dir>`        | Prints reports of the statechart artifact to the specified directory. This includes e.g. reachable states and branching degrees  |
 | `-st,--store <file>`       | Stores the symbol table of the given Statechart |
 
 
