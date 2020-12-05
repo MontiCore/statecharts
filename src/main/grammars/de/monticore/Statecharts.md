@@ -3,8 +3,8 @@
 
 # Statecharts
 
-Statecharts are a comfortable form to describe behavior, based on the 
-internal state of a component. Statecharts have originally been 
+Statecharts are a comfortable language to describe behavior based on 
+the internal state of a component. Statecharts have originally been 
 invented and described in [Harel'87] and were given a sound semantical 
 basis. They extend automata theory in various forms, including 
 hierarchy, actions, etc. Statecharts are the foundational behavior 
@@ -12,7 +12,7 @@ description during which for modelling standards, such as UML and
 SysML. 
 
 Dependent on the application domain, several forms of Statecharts are 
-needed, for example to accommodate stimuli in form of method calls, 
+needed for example to accommodate stimuli in form of method calls, 
 incoming values (signals) or only preconditions that trigger certain 
 forms of actions. 
 
@@ -34,26 +34,25 @@ And it defines two concrete, complete variants of Statechart languages:
  - [UMLStatecharts](UMLStatecharts.mc4) and 
  - [TriggeredStatecharts](TriggeredStatecharts.mc4)
 
-Both of are based on several of the above provided language components 
-and group them into two forms of complete Statecharts. Please also 
-note, that all of these components and languages are still configurable 
-with concrete forms of values, expressions and statements -- like the 
-ones defined in [MontiCore's expression grammar 
-library][https://git.rwth-aachen.de/monticore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/Grammars.md]. 
+Both are based on several of the above provided language components and 
+group them into two forms of complete Statecharts. Please also note, 
+that all of these components and languages are still configurable 
+activity extendable with concrete forms of values, expressions and 
+statements - like the ones defined in [MontiCore's expression grammar 
+library](https://git.rwth-aachen.de/monticore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/Grammars.md). 
 
 
-<div align="center">
-<img width="800" src="doc/Statecharts.LFD.png" alt="Statecharts LFD">
-<br><b>Figure 1:</b> 
-Overview of the statecharts language components and their relations.
-</div><br>
+<div align="center"> <img width="800" src="doc/Statecharts.LFD.png" 
+alt="Statecharts LFD"> <br><b>Figure 1:</b> Overview of the statecharts 
+language components and their relations (shown as language feature 
+diagram). </div><br> 
 
 
-## Syntax
+## Textual Syntax Example for StateCharts 
 
-A small teaser for the UML Statechart language, which allows a method 
-call as stimulus,
-Java expressions as constraints and Java blocks/statements as actions:
+Here is a small teaser for the UML Statechart language, which allows a 
+method call as stimulus, Java expressions as constraints and Java 
+blocks/statements as actions: 
 
 ```
 statechart Door {
@@ -100,32 +99,36 @@ Expressions and statements are taken from MontiCores basic grammar library
 and can be extended by any own interesting language constructs 
 (such as sending or receiving messages `!m` or `?m`)
 
- ## UMLStatecharts
+## The [UMLStatecharts](UMLStatecharts.mc4) Language Variant 
 
  The goal of the `UMLStatecharts` is to provide a language for handling 
  hierarchical Statecharts 
- in the spirit of modeling language for software: Its triggers are 
+ in the spirit of modeling languages for software: Its triggers are 
  usually function calls 
  received either as a normal method call or also as a remote procedure 
- call. 
- Its body contains procedural actions. `UMLStatecharts` are equipped with 
- various enhancements, 
+ call. Usually they have arguments and are typed.
+
+ The body of such a Statechart 
+ contains procedural actions. `UMLStatecharts` are equipped with 
+ various comfortbale modelleing elements, 
  such as hierarchy, entry and exit states, conditions on the transitions 
  or invariants.
  However, they on purpose do not provide the full original Statechart 
  language, because 
- in an object oriented development process, neither history, nor 
- AND-states are really needed.
+ in an object oriented development process, the history indicator and 
+ AND-states are not really needed.
  See [Rum16] for a detailed discussion. 
 
  The `UMLStatecharts` language combines the language components 
  `SCActions`, `SCDoActions`, `SCStateHierarchy`, 
  `SCStateInvariants`, `SCCompleteness`, `SCTransitions4Modelling`, 
- `CommonExpressions`, SCEvents, and
- `MCCommonStatements`. The teasers above conform to this language.
- 
- ## TriggeredStatecharts
- 
+ `CommonExpressions`, and SCEvents, and
+ provides a set of Java-like expressions and statements included from
+ `CommonExpressions` and `MCCommonStatements`. 
+ The teaser above conform to this language.
+
+## The TriggeredStatecharts Language Variant 
+  
  `TriggeredStatecharts` is a second combination of the basic language 
  components. 
  It combines the 
