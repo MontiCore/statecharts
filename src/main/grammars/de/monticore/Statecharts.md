@@ -122,7 +122,7 @@ and can be extended by any own interesting language constructs
  The `UMLStatecharts` language combines the language components 
  `SCActions`, `SCDoActions`, `SCStateHierarchy`, 
  `SCStateInvariants`, `SCCompleteness`, `SCTransitions4Modelling`, 
- `CommonExpressions`, and SCEvents, and
+ `CommonExpressions`, and `SCEvents`, and
  provides a set of Java-like expressions and statements included from
  `CommonExpressions` and `MCCommonStatements`. 
  The teaser above conform to this language.
@@ -164,7 +164,7 @@ and can be extended by any own interesting language constructs
 
  ## Statechart Language Components
  
- ### Basics in the `SCBasis` Component
+ ### Basic Structure in the [`SCBasis`](SCBasis.mc4) Component
 
 `SCBasis` is the basic grammar component for automata. It defines a 
 Statechart structure including package and imports as well as the 
@@ -174,16 +174,18 @@ extension point allows adding various forms of states and transitions
 extension points for their bodies (`SCSBody` and `SCTBody`) are 
 provided. 
 
- ## Hierarchical States
- This project provides the language component `SCStateHierarchy` 
+ ### Hierarchical States in the [`SCStateHierarchy`](SCStateHierarchy.mc4) Component
+
+ This component provides the language component `SCStateHierarchy` 
  for _hierarchical states_. 
  It is based on the `SCBasis` language component and adds a state 
  body variant that allows nested
- state elements, e.g., states and transitions.
- The [second syntax example](#example2) contains an hierarchical state 
+ state elements, which contains states and transitions.
+ The [second syntax example](#example2) below contains an hierarchical state 
  `EngineRunning` which has two substates `Parking` and `Driving`.
  
- ## Actions
+ ### Actions in the [`SCActions`](SCActions.mc4) and  [`SCDoActions`](SCDoActions.mc4) Components
+
 Two grammars provide the syntax for actions: `SCActions` and 
 `SCDoActions`. The former provides _entry_
 and _exit actions_. The latter builds upon the `SCActions` grammar 
@@ -191,27 +193,38 @@ and additionally provides _do
 activities_. 
 The [second syntax example](#example2) contains a state 
 `EngineRunning` which has an `entry` and an `exit` action. The syntax 
-for do activities is quite similar
+for do activities is quite similar,
 but uses the keyword `do`, example: `do / {update();}`
  
- ## Transitions
+ ### Transitions in [`SCTransitions4Code`](SCTransitions4Code.mc4) and [`SCTransitions4Modelling`](SCTransitions4Modelling.mc4)
+
 This project also offers two variants of transitions realized by the 
 two grammars 
 `Transitions4Modelling`  and `Transitions4Code`. The "simpler" variant 
 is offered by `Transitions4Code`,
-where transitions consist of precondition, an event and an action, 
+where transitions consist of a precondition, an event and an action, 
 each of which is optional. 
-Transitions4Modelling offers a more sophisticated variant of transitions, 
+`Transitions4Modelling` offers a more sophisticated variant of transitions, 
 which are suitable for 
 specification and can additionally have a postcondition. The 
 language component `Transitions4Modelling`
 thus extends `Transitions4Code`.
  
  
- ## Invariants
+ ### Invariants in the [`SCStateInvariants`](SCStateInvariants.mc4) Component
+
 Invariants are provided by the language component `SCStateInvariants`.  
 The [second syntax example](#example2) contains a state `EngineRunning` 
-which has an invariant `[!fuelIsEmpty]`. 
+which has a simple invariant `[!fuelIsEmpty]`. 
+
+ ### Completeness in the [`SCCompleteness`](SCCompleteness.mc4) Component
+ 
+This small grammar just allows Statechart compartments to be marked as 
+complete `(c)` or incomplete `(...)`, which semantically makes an 
+important difference when using Statecharts for specification and refinement.
+See [Rum16] for a detailed discussion.
+
+
 
 ## Symboltable
 
