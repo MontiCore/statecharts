@@ -367,7 +367,7 @@ Available parameters are:
 | `-i,--input <file>`        | Reads the source file (mandatory) and parses the contents as a statechart |
 | `-pp,--prettyprint <file>` | Prints the Statechart-AST to stdout or the specified file (optional) |
 | `-r,--report <dir>`        | Prints reports of the statechart artifact to the specified directory. This includes e.g. reachable states and branching degrees  |
-| `-st,--store <file>`       | Stores the symbol table of the given Statechart |
+| `-s,--symboltable <file>`  | Stores the symbol table of the given Statechart |
 
 
 ### Usage in Maven:
