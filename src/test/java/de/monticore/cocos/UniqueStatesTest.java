@@ -23,7 +23,6 @@ public class UniqueStatesTest {
   @BeforeClass
   public static void beforeClass() throws Exception {
     LogStub.init();
-    LogStub.initPlusLog();
   }
   
   @Test

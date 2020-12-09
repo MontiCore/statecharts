@@ -1,0 +1,44 @@
+{
+  "generated-using": "www.MontiCore.de technology",
+  "name": "Test2",
+  "kindHierarchy": [
+    [
+      "de.monticore.umlstatecharts._symboltable.MethodSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol"
+    ],
+    [
+      "de.monticore.umlstatecharts._symboltable.OOTypeSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
+    ],
+    [
+      "de.monticore.umlstatecharts._symboltable.TypeVarSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
+    ],
+    [
+      "de.monticore.umlstatecharts._symboltable.FieldSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol"
+    ]
+  ],
+  "symbols": [
+    {
+      "kind": "de.monticore.scbasis._symboltable.SCStateSymbol",
+      "name": "EngineOff"
+    },
+    {
+      "kind": "de.monticore.scbasis._symboltable.SCStateSymbol",
+      "name": "EngineRunning"
+    },
+    {
+      "kind": "de.monticore.scbasis._symboltable.SCStateSymbol",
+      "name": "Parking"
+    },
+    {
+      "kind": "de.monticore.scbasis._symboltable.SCStateSymbol",
+      "name": "Driving"
+    },
+    {
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol",
+      "name": "Test2"
+    }
+  ]
+}

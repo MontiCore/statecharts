@@ -2,6 +2,10 @@
 to be released  
 based on MontiCore 6.6.0-SNAPSHOT
 
+* new `path` option to add paths to the model path
+* symbol table creation via genitors
+* renamed parameter `st` to `s`
+* migrated all visitors to use new traverser structure
 * `UMLStatecharts` now extends `MCReturnStatements` such that transitions can have returns
 
 # 6.5.0

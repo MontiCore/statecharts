@@ -7,10 +7,10 @@ plugins {
   id "de.set.ecj" version "1.4.1" // Eclipse compiler as it's much faster than javac
 }
 
-group = "de.monticore.lang"
 description = "Statecharts"
 sourceCompatibility = JavaVersion.VERSION_1_8
 buildDir = file("$projectDir/target")
+
 
 def grammar_classifier = "grammars"
 def grammarDir = "src/main/grammars"
@@ -52,7 +52,6 @@ dependencies {
   implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
   implementation "ch.qos.logback:logback-classic:$logback_version"
   testImplementation "junit:junit:$junit_version"
-  testImplementation "de.monticore:monticore-runtime:$mc_version:tests"
 }
 
 repositories {

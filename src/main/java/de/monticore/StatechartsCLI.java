@@ -2,16 +2,18 @@
 package de.monticore;
 
 import de.monticore.io.FileReaderWriter;
+import de.monticore.io.paths.ModelPath;
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.scbasis.BranchingDegreeCalculator;
 import de.monticore.scbasis.InitialStateCollector;
 import de.monticore.scbasis.ReachableStateCollector;
 import de.monticore.scbasis.StateCollector;
 import de.monticore.scbasis._ast.ASTSCArtifact;
+import de.monticore.scevents._symboltable.SCEventsSTCompleter;
+import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
-import de.monticore.umlstatecharts._symboltable.IUMLStatechartsGlobalScope;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopeDeSer;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopesGenitorDelegator;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
@@ -25,6 +27,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -67,6 +70,14 @@ public class StatechartsCLI {
         // do not continue, when help is printed
         return;
       }
+  
+      // we need the global scope for symbols and cocos
+      ModelPath modelPath = new ModelPath(Paths.get(""));
+      if (cmd.hasOption("path")) {
+        modelPath = new ModelPath(Arrays.stream(cmd.getOptionValues("path")).map(x -> Paths.get(x)).collect(Collectors.toList()));
+      }
+      UMLStatechartsMill.globalScope().setModelPath(modelPath);
+      BasicSymbolsMill.initializePrimitives();
     
       // parse input file, which is now available
       // (only returns if successful)
@@ -76,8 +87,8 @@ public class StatechartsCLI {
       String fileName = Paths.get(cmd.getOptionValue("i")).getFileName().toString();
       scope.setName(fileName.substring(0, fileName.lastIndexOf('.')));
   
-      if (cmd.hasOption("st")) {
-        String path = cmd.getOptionValue("st", StringUtils.EMPTY);
+      if (cmd.hasOption("s")) {
+        String path = cmd.getOptionValue("s", StringUtils.EMPTY);
         storeSymbols(scope, path);
       }
     
@@ -116,12 +127,17 @@ public class StatechartsCLI {
    * @return The artifact scope derived from the parsed AST
    */
   public IUMLStatechartsArtifactScope createSymbolTable(ASTSCArtifact ast) {
-    IUMLStatechartsGlobalScope globalScope = UMLStatechartsMill.globalScope();
-    globalScope.setFileExt(".sc");
   
+    // create scope and symbol skeleton
     UMLStatechartsScopesGenitorDelegator genitor = UMLStatechartsMill.scopesGenitorDelegator();
+    IUMLStatechartsArtifactScope symTab = genitor.createFromAST(ast);
+  
+    // complete symbols including type check
+    UMLStatechartsTraverser completer = UMLStatechartsMill.traverser();
+    completer.add4SCEvents(new SCEventsSTCompleter());  
+    ast.accept(completer);
 
-    return genitor.createFromAST(ast);
+    return symTab;
   }
   
   /**
@@ -316,8 +332,8 @@ public class StatechartsCLI {
         .build());
   
     // pretty print SC
-    options.addOption(Option.builder("st")
-        .longOpt("store")
+    options.addOption(Option.builder("s")
+        .longOpt("symboltable")
         .argName("file")
         .hasArg()
         .desc("Serialized the Symbol table of the given Statechart")
@@ -330,6 +346,12 @@ public class StatechartsCLI {
         .hasArg(true)
         .desc("Prints reports of the statechart artifact to the specified directory. Available reports:"
             + System.lineSeparator() + "reachable states, branching degree, and state names")
+        .build());
+  
+    // model paths
+    options.addOption(Option.builder("path")
+        .hasArgs()
+        .desc("Sets the artifact path for imported symbols, space separated.")
         .build());
     
     return options;
