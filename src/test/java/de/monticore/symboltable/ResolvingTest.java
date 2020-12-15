@@ -47,7 +47,6 @@ public class ResolvingTest {
   public void testResolvingState2() {
     IUMLStatechartsGlobalScope gs = UMLStatechartsMill
         .globalScope();
-    gs.setFileExt("sc");
     gs.setModelPath(new ModelPath(Paths.get("src/test/resources/symtab")));
     Optional<SCStateSymbol> stateSymbol = gs.resolveSCState("Test2.Parking");
     assertTrue("Could not resolve state Parking", stateSymbol.isPresent());

@@ -344,7 +344,7 @@ https://nexus.se.rwth-aachen.de/content/groups/public/
 
 ### in Gradle:
   ```
-  implementation 'de.monticore.lang:statecharts:6.6.0'
+  implementation "de.monticore.lang:statecharts:$sc_version"
   ```
   
 ### CLI Tool:  
@@ -375,7 +375,7 @@ Available parameters are:
 <dependency>
   <groupId>de.monticore.lang</groupId>
   <artifactId>statecharts</artifactId>
-  <version>6.6.0</version>
+  <version>${sc.version}</version>
 </dependency>
 ```
 

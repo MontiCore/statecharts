@@ -1,5 +1,9 @@
+#6.7.0-SNAPSHOT
+to be released  
+based on MontiCore 6.7.0-SNAPSHOT
+
 # 6.6.0
-released: 15.12.2020 
+released: 15.12.2020  
 based on MontiCore 6.6.0
 
 * new `path` option to add paths to the model path
