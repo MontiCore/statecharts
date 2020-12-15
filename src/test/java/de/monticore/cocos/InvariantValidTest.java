@@ -4,6 +4,7 @@ package de.monticore.cocos;
 import de.monticore.StatechartsCLI;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scstateinvariants.coco.InvariantValidCoco;
+import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.symbols.oosymbols._symboltable.FieldSymbol;
 import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
 import de.monticore.types.DeriveSymTypeOfSCStateInvariants;
@@ -18,7 +19,6 @@ import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -96,7 +96,7 @@ public class InvariantValidTest {
     
   }
   
-  @Test @Ignore
+  @Test 
   public void testCoCoValid3() throws IOException {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/valid/Invariant4.sc");
@@ -110,8 +110,8 @@ public class InvariantValidTest {
     age.setType(SymTypeExpressionFactory.createTypeConstant("int"));
     age.setIsStatic(true);
     person.addFieldSymbol(age);
-    person.addVariableSymbol(age);
     UMLStatechartsMill.globalScope().add(person);
+    UMLStatechartsMill.globalScope().add((TypeSymbol) person);
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker().addCoCo(
         new InvariantValidCoco(new TypeCheck(new DeriveSymTypeOfUMLStatecharts())));
     checker.checkAll(ast.get());
