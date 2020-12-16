@@ -2,6 +2,7 @@
 package de.monticore.cocos;
 
 import de.monticore.StatechartsCLI;
+import de.monticore.io.paths.ModelPath;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scstateinvariants.coco.InvariantValidCoco;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
@@ -22,6 +23,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -40,6 +42,7 @@ public class InvariantValidTest {
   @Before
   public void setUp() throws Exception {
     Log.clearFindings();
+    UMLStatechartsMill.init();
   }
   
   @Test
@@ -103,7 +106,7 @@ public class InvariantValidTest {
     assertTrue("Invariant3.sc could not be parsed",  ast.isPresent());
     
     IUMLStatechartsArtifactScope st = new StatechartsCLI().createSymbolTable(ast.get());
-    st.setName("Invariant3");
+    st.setName("Invariant4");
     OOTypeSymbol person = UMLStatechartsMill.oOTypeSymbolBuilder().setName("Person").build();
     person.setSpannedScope(UMLStatechartsMill.scope());
     FieldSymbol age = UMLStatechartsMill.fieldSymbolBuilder().setName("age").build();
@@ -112,6 +115,22 @@ public class InvariantValidTest {
     person.addFieldSymbol(age);
     UMLStatechartsMill.globalScope().add(person);
     UMLStatechartsMill.globalScope().add((TypeSymbol) person);
+    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker().addCoCo(
+        new InvariantValidCoco(new TypeCheck(new DeriveSymTypeOfUMLStatecharts())));
+    checker.checkAll(ast.get());
+    assertEquals(0, Log.getErrorCount());
+    
+  }
+  
+  @Test
+  public void testCoCoValid4() throws IOException {
+    Optional<ASTSCArtifact> ast = parser
+        .parse("src/test/resources/valid/Invariant5.sc");
+    assertTrue("Invariant5.sc could not be parsed",  ast.isPresent());
+    
+    IUMLStatechartsArtifactScope st = new StatechartsCLI().createSymbolTable(ast.get());
+    st.setName("Invariant5");
+    UMLStatechartsMill.globalScope().setModelPath(new ModelPath(Paths.get("src/test/resources/symtab")));
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker().addCoCo(
         new InvariantValidCoco(new TypeCheck(new DeriveSymTypeOfUMLStatecharts())));
     checker.checkAll(ast.get());

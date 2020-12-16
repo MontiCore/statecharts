@@ -1,11 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.umlstatecharts._symboltable;
 
-import com.google.common.collect.Sets;
 import de.monticore.io.paths.ModelPath;
-import de.monticore.utils.Names;
-
-import java.util.Set;
 
 public class UMLStatechartsGlobalScope extends UMLStatechartsGlobalScopeTOP {
   
@@ -24,11 +20,13 @@ public class UMLStatechartsGlobalScope extends UMLStatechartsGlobalScopeTOP {
     return this.realThis;
   }
   
-  @Override
-  public Set<String> calculateModelNamesForSCState(String name) {
-    if(name.contains(".")){
-      return Sets.newHashSet(Names.getQualifier(name), name);
+  public  void loadFileForModelName (String modelName)  {
+    java.util.Optional<de.monticore.io.paths.ModelCoordinate> mc =
+        de.monticore.io.FileFinder.findFile(getModelPath(), modelName, getFileExt(), cache);
+    if(mc.isPresent()){
+      addLoadedFile(mc.get().getQualifiedPath().toString());
+      IUMLStatechartsArtifactScope as = getSymbols2Json().load(mc.get().getLocation());
+      addSubScope(as);
     }
-    return Sets.newHashSet(name);
   }
 }

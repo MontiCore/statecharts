@@ -5,6 +5,7 @@ import de.monticore.StatechartsCLI;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scbasis._symboltable.SCStateSymbol;
+import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsGlobalScope;
@@ -50,5 +51,14 @@ public class ResolvingTest {
     gs.setModelPath(new ModelPath(Paths.get("src/test/resources/symtab")));
     Optional<SCStateSymbol> stateSymbol = gs.resolveSCState("Test2.Parking");
     assertTrue("Could not resolve state Parking", stateSymbol.isPresent());
+  }
+  
+  @Test
+  public void testResolvingType() {
+    IUMLStatechartsGlobalScope gs = UMLStatechartsMill
+        .globalScope();
+    gs.setModelPath(new ModelPath(Paths.get("src/test/resources/symtab")));
+    Optional<TypeSymbol> typeSymbol = gs.resolveType("mytypes.Address");
+    assertTrue("Could not resolve type mytypes.Address", typeSymbol.isPresent());
   }
 }

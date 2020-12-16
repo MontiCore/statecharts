@@ -1,7 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-import de.monticore.io.FileReaderWriter;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.scbasis.BranchingDegreeCalculator;
@@ -14,8 +13,8 @@ import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
-import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopeDeSer;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopesGenitorDelegator;
+import de.monticore.umlstatecharts._symboltable.UMLStatechartsSymbols2Json;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 import de.monticore.utils.Names;
 import de.se_rwth.commons.logging.Log;
@@ -112,12 +111,11 @@ public class StatechartsCLI {
   }
   
   public void storeSymbols(IUMLStatechartsArtifactScope scope, String path) {
-    UMLStatechartsScopeDeSer deser = new UMLStatechartsScopeDeSer();
-    String serialized = deser.serialize(scope);
+    UMLStatechartsSymbols2Json deser = new UMLStatechartsSymbols2Json();
     Path f = Paths.get(path)
         .resolve(Paths.get(Names.getPathFromPackage(scope.getPackageName())))
         .resolve(scope.getName()+".scsym");
-    FileReaderWriter.storeInFile(f, serialized);
+    deser.store(scope, f.toString());
   }
   
   /**
