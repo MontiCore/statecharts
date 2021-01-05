@@ -1,135 +1,7 @@
 {
   "name": "Address",
   "package": "mytypes",
-  "kindHierarchy": [
-    [
-      "de.monticore.cd4code._symboltable.FieldSymbol",
-      "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol"
-    ],
-    [
-      "de.monticore.cd4code._symboltable.OOTypeSymbol",
-      "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
-    ],
-    [
-      "de.monticore.cd4code._symboltable.MethodSymbol",
-      "de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol"
-    ],
-    [
-      "de.monticore.cd4code._symboltable.TypeVarSymbol",
-      "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
-    ]
-  ],
   "symbols": [
-    {
-      "kind": "de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol",
-      "name": "Address",
-      "isClass": true,
-      "isInterface": false,
-      "isEnum": false,
-      "isAbstract": false,
-      "isPrivate": false,
-      "isProtected": false,
-      "isPublic": false,
-      "isStatic": false,
-      "isFinal": false,
-      "spannedScope": {
-        "isShadowingScope": false,
-        "symbols": [
-          {
-            "kind": "de.monticore.symbols.oosymbols._symboltable.FieldSymbol",
-            "name": "city",
-            "isPrivate": false,
-            "isProtected": false,
-            "isPublic": false,
-            "isStatic": false,
-            "isFinal": false,
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeOfObject",
-              "objName": "mytypes.String"
-            },
-            "isReadOnly": false
-          },
-          {
-            "kind": "de.monticore.symbols.oosymbols._symboltable.FieldSymbol",
-            "name": "street",
-            "isPrivate": false,
-            "isProtected": false,
-            "isPublic": false,
-            "isStatic": false,
-            "isFinal": false,
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeOfObject",
-              "objName": "mytypes.String"
-            },
-            "isReadOnly": false
-          },
-          {
-            "kind": "de.monticore.symbols.oosymbols._symboltable.FieldSymbol",
-            "name": "number",
-            "isPrivate": false,
-            "isProtected": false,
-            "isPublic": false,
-            "isStatic": false,
-            "isFinal": false,
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeConstant",
-              "constName": "int"
-            },
-            "isReadOnly": false
-          },
-          {
-            "kind": "de.monticore.symbols.oosymbols._symboltable.FieldSymbol",
-            "name": "areaCode",
-            "isPrivate": false,
-            "isProtected": false,
-            "isPublic": false,
-            "isStatic": true,
-            "isFinal": false,
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeConstant",
-              "constName": "int"
-            },
-            "isReadOnly": false
-          },
-          {
-            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
-            "name": "city",
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeOfObject",
-              "objName": "mytypes.String"
-            },
-            "isReadOnly": false
-          },
-          {
-            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
-            "name": "street",
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeOfObject",
-              "objName": "mytypes.String"
-            },
-            "isReadOnly": false
-          },
-          {
-            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
-            "name": "number",
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeConstant",
-              "constName": "int"
-            },
-            "isReadOnly": false
-          },
-          {
-            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
-            "name": "areaCode",
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeConstant",
-              "constName": "int"
-            },
-            "isReadOnly": false
-          }
-        ]
-      }
-    },
     {
       "kind": "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol",
       "name": "Address",
@@ -137,67 +9,11 @@
         "isShadowingScope": false,
         "symbols": [
           {
-            "kind": "de.monticore.symbols.oosymbols._symboltable.FieldSymbol",
-            "name": "city",
-            "isPrivate": false,
-            "isProtected": false,
-            "isPublic": false,
-            "isStatic": false,
-            "isFinal": false,
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeOfObject",
-              "objName": "mytypes.String"
-            },
-            "isReadOnly": false
-          },
-          {
-            "kind": "de.monticore.symbols.oosymbols._symboltable.FieldSymbol",
-            "name": "street",
-            "isPrivate": false,
-            "isProtected": false,
-            "isPublic": false,
-            "isStatic": false,
-            "isFinal": false,
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeOfObject",
-              "objName": "mytypes.String"
-            },
-            "isReadOnly": false
-          },
-          {
-            "kind": "de.monticore.symbols.oosymbols._symboltable.FieldSymbol",
-            "name": "number",
-            "isPrivate": false,
-            "isProtected": false,
-            "isPublic": false,
-            "isStatic": false,
-            "isFinal": false,
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeConstant",
-              "constName": "int"
-            },
-            "isReadOnly": false
-          },
-          {
-            "kind": "de.monticore.symbols.oosymbols._symboltable.FieldSymbol",
-            "name": "areaCode",
-            "isPrivate": false,
-            "isProtected": false,
-            "isPublic": false,
-            "isStatic": true,
-            "isFinal": false,
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeConstant",
-              "constName": "int"
-            },
-            "isReadOnly": false
-          },
-          {
             "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
             "name": "city",
             "type": {
               "kind": "de.monticore.types.check.SymTypeOfObject",
-              "objName": "mytypes.String"
+              "objName": "java.lang.String"
             },
             "isReadOnly": false
           },
@@ -206,7 +22,7 @@
             "name": "street",
             "type": {
               "kind": "de.monticore.types.check.SymTypeOfObject",
-              "objName": "mytypes.String"
+              "objName": "java.lang.String"
             },
             "isReadOnly": false
           },

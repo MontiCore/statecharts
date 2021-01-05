@@ -79,7 +79,7 @@ public class UMLStatechartsToolTest {
         "-i", resourcesDir + "valid/Test2.sc",
         "-s", outputDir + "testsc2"
     });
-    assertEquals("Storing symbol table of Test.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals("Storing symbol table of Test2.sc was not successful", Log.getErrorCount(), 0);
   }
   
   

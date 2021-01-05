@@ -2,6 +2,8 @@
 package de.monticore.umlstatecharts._symboltable;
 
 import de.monticore.io.paths.ModelPath;
+import de.monticore.symbols.basicsymbols._symboltable.BasicSymbolsDeSer;
+import de.monticore.symbols.oosymbols._symboltable.OOSymbolsDeSer;
 
 public class UMLStatechartsGlobalScope extends UMLStatechartsGlobalScopeTOP {
   
@@ -28,5 +30,11 @@ public class UMLStatechartsGlobalScope extends UMLStatechartsGlobalScopeTOP {
       IUMLStatechartsArtifactScope as = getSymbols2Json().load(mc.get().getLocation());
       addSubScope(as);
     }
+  }
+  
+  @Override public void init() {
+    super.init();
+    desers.put("de.monticore.symbols.oosymbols._symboltable.IOOSymbolsScope", new OOSymbolsDeSer());
+    desers.put("de.monticore.symbols.basicsymbols._symboltable.IBasicSymbolsScope", new BasicSymbolsDeSer());
   }
 }

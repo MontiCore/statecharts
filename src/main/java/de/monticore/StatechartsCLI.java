@@ -10,6 +10,9 @@ import de.monticore.scbasis.StateCollector;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scevents._symboltable.SCEventsSTCompleter;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
+import de.monticore.types.DeriveSymTypeOfUMLStatecharts;
+import de.monticore.types.SynthesizeSymType;
+import de.monticore.types.check.TypeCheck;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
@@ -132,7 +135,8 @@ public class StatechartsCLI {
   
     // complete symbols including type check
     UMLStatechartsTraverser completer = UMLStatechartsMill.traverser();
-    completer.add4SCEvents(new SCEventsSTCompleter());  
+    TypeCheck typeCheck = new TypeCheck(new SynthesizeSymType(),new DeriveSymTypeOfUMLStatecharts());
+    completer.add4SCEvents(new SCEventsSTCompleter(typeCheck));  
     ast.accept(completer);
 
     return symTab;

@@ -7,7 +7,7 @@ import de.monticore.types.check.TypeCheck;
 import de.se_rwth.commons.logging.Log;
 
 public class InvariantValidCoco implements SCStateInvariantsASTSCInvStateCoCo {
-  TypeCheck deriveSymType;
+  protected TypeCheck deriveSymType;
   
   public InvariantValidCoco(TypeCheck deriveSymType) {
     this.deriveSymType = deriveSymType;

@@ -8,7 +8,6 @@ import de.monticore.scstateinvariants.coco.InvariantValidCoco;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.symbols.oosymbols._symboltable.FieldSymbol;
 import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
-import de.monticore.types.DeriveSymTypeOfSCStateInvariants;
 import de.monticore.types.DeriveSymTypeOfUMLStatecharts;
 import de.monticore.types.check.SymTypeExpressionFactory;
 import de.monticore.types.check.TypeCheck;
@@ -52,8 +51,8 @@ public class InvariantValidTest {
     assertTrue("Invariant.sc could not be parsed",  ast.isPresent());
     IUMLStatechartsArtifactScope st = new StatechartsCLI().createSymbolTable(ast.get());
     st.setName("Invariant");
-    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker().addCoCo(
-        new InvariantValidCoco(new TypeCheck(new DeriveSymTypeOfSCStateInvariants())));
+    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
+    checker.addCoCo(new InvariantValidCoco(new TypeCheck(new DeriveSymTypeOfUMLStatecharts())));
     try {
       checker.checkAll(ast.get());
     } catch (NoSuchElementException e){ 
@@ -71,8 +70,8 @@ public class InvariantValidTest {
     assertTrue("Invariant2.sc could not be parsed",  ast.isPresent());
     IUMLStatechartsArtifactScope st = new StatechartsCLI().createSymbolTable(ast.get());
     st.setName("Invariant2");
-    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker().addCoCo(
-        new InvariantValidCoco(new TypeCheck(new DeriveSymTypeOfSCStateInvariants())));
+    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
+    checker.addCoCo(new InvariantValidCoco(new TypeCheck(new DeriveSymTypeOfUMLStatecharts())));
     checker.checkAll(ast.get());
     assertEquals(0, Log.getErrorCount());
     
@@ -92,8 +91,8 @@ public class InvariantValidTest {
             SymTypeExpressionFactory.createTypeConstant("boolean")
         ).build()
     );
-    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker().addCoCo(
-        new InvariantValidCoco(new TypeCheck(new DeriveSymTypeOfSCStateInvariants())));
+    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
+    checker.addCoCo(new InvariantValidCoco(new TypeCheck(new DeriveSymTypeOfUMLStatecharts())));
     checker.checkAll(ast.get());
     assertEquals(0, Log.getErrorCount());
     
@@ -115,8 +114,8 @@ public class InvariantValidTest {
     person.addFieldSymbol(age);
     UMLStatechartsMill.globalScope().add(person);
     UMLStatechartsMill.globalScope().add((TypeSymbol) person);
-    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker().addCoCo(
-        new InvariantValidCoco(new TypeCheck(new DeriveSymTypeOfUMLStatecharts())));
+    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
+    checker.addCoCo(new InvariantValidCoco(new TypeCheck(new DeriveSymTypeOfUMLStatecharts())));
     checker.checkAll(ast.get());
     assertEquals(0, Log.getErrorCount());
     
@@ -131,8 +130,8 @@ public class InvariantValidTest {
     IUMLStatechartsArtifactScope st = new StatechartsCLI().createSymbolTable(ast.get());
     st.setName("Invariant5");
     UMLStatechartsMill.globalScope().setModelPath(new ModelPath(Paths.get("src/test/resources/symtab")));
-    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker().addCoCo(
-        new InvariantValidCoco(new TypeCheck(new DeriveSymTypeOfUMLStatecharts())));
+    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
+    checker.addCoCo(new InvariantValidCoco(new TypeCheck(new DeriveSymTypeOfUMLStatecharts())));
     checker.checkAll(ast.get());
     assertEquals(0, Log.getErrorCount());
     

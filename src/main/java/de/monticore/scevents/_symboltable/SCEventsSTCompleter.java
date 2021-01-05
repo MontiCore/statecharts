@@ -5,41 +5,32 @@ import de.monticore.scevents._ast.ASTSCFuncEventDef;
 import de.monticore.scevents._ast.ASTSCFuncEventParameter;
 import de.monticore.scevents._visitor.SCEventsVisitor2;
 import de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol;
-import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
-import de.monticore.types.DeriveSymTypeOfUMLStatecharts;
 import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.check.SymTypeExpressionFactory;
-import de.se_rwth.commons.logging.Log;
-
-import java.util.Optional;
+import de.monticore.types.check.TypeCheck;
 
 public class SCEventsSTCompleter implements SCEventsVisitor2 {
   
-  DeriveSymTypeOfUMLStatecharts typeChecker = new DeriveSymTypeOfUMLStatecharts();
+  protected TypeCheck typeCheck;
+  
+  public SCEventsSTCompleter(TypeCheck typeCheck){
+    this.typeCheck = typeCheck;
+  }
+  
   
   
   @Override public void visit(ASTSCFuncEventDef ast) {
     FunctionSymbol funcSym = ast.getSymbol();
-    Optional<SymTypeExpression> typeResult = Optional.empty();
+    SymTypeExpression typeResult;
     if(ast.isPresentMCReturnType() && ast.getMCReturnType().isPresentMCType()) {
-      typeResult = typeChecker.calculateType(ast.getMCReturnType().getMCType());
+      typeResult = typeCheck.symTypeFromAST(ast.getMCReturnType().getMCType());
     } else{
-      typeResult = Optional.of(SymTypeExpressionFactory.createTypeVoid());
+      typeResult = SymTypeExpressionFactory.createTypeVoid();
     }
-    if(!typeResult.isPresent()){
-      Log.error(String.format("0x5C003: The return type of the event %s could not be calculated",
-          ast.getName()));
-    }
-    funcSym.setReturnType(typeResult.get());
+    funcSym.setReturnType(typeResult);
   }
   
   @Override public void visit(ASTSCFuncEventParameter ast) {
-    VariableSymbol varSymbol = ast.getSymbol();
-      Optional<SymTypeExpression> typeResult = typeChecker.calculateType(ast.getMCType());
-    if(!typeResult.isPresent()){
-      Log.error(String.format("0x5C004: The type of the event paremeter %s could not be calculated",
-          ast.getName()));
-    }
-    varSymbol.setType(typeResult.get());
+    ast.getSymbol().setType(typeCheck.symTypeFromAST(ast.getMCType()));
   }
 }

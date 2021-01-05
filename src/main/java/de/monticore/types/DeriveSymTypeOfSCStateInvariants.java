@@ -9,7 +9,6 @@ import de.monticore.scstateinvariants.SCStateInvariantsMill;
 import de.monticore.scstateinvariants._visitor.SCStateInvariantsTraverser;
 import de.monticore.scstateinvariants._visitor.SCStateInvariantsVisitor2;
 import de.monticore.types.check.*;
-import de.monticore.types.mcbasictypes._ast.ASTMCType;
 
 import java.util.Optional;
 
@@ -20,45 +19,30 @@ public class DeriveSymTypeOfSCStateInvariants implements ITypesCalculator,
   protected SCStateInvariantsTraverser traverser;
   
   public DeriveSymTypeOfSCStateInvariants() {
-    this.typeCheckResult = new TypeCheckResult();
-    this.traverser = SCStateInvariantsMill.traverser();
     init();
   }
   
   @Override public void init() {
-      // initializes visitors used for typechecking
-      final DeriveSymTypeOfLiterals deriveSymTypeOfLiterals = new DeriveSymTypeOfLiterals();
-      deriveSymTypeOfLiterals.setTypeCheckResult(getTypeCheckResult());
-      traverser.add4MCLiteralsBasis(deriveSymTypeOfLiterals);
-    
-      final DeriveSymTypeOfMCCommonLiterals deriveSymTypeOfMCCommonLiterals = new DeriveSymTypeOfMCCommonLiterals();
-      deriveSymTypeOfMCCommonLiterals.setTypeCheckResult(getTypeCheckResult());
+    this.typeCheckResult = new TypeCheckResult();
+    this.traverser = SCStateInvariantsMill.traverser();
+    // initializes visitors used for typechecking
+    final DeriveSymTypeOfLiterals deriveSymTypeOfLiterals = new DeriveSymTypeOfLiterals();
+    deriveSymTypeOfLiterals.setTypeCheckResult(getTypeCheckResult());
+    traverser.add4MCLiteralsBasis(deriveSymTypeOfLiterals);
+  
+    final DeriveSymTypeOfMCCommonLiterals deriveSymTypeOfMCCommonLiterals = new DeriveSymTypeOfMCCommonLiterals();
+    deriveSymTypeOfMCCommonLiterals.setTypeCheckResult(getTypeCheckResult());
     traverser.add4MCCommonLiterals(deriveSymTypeOfMCCommonLiterals);
-    
-      final DeriveSymTypeOfExpression deriveSymTypeOfExpression = new DeriveSymTypeOfExpression();
-      deriveSymTypeOfExpression.setTypeCheckResult(getTypeCheckResult());
+  
+    final DeriveSymTypeOfExpression deriveSymTypeOfExpression = new DeriveSymTypeOfExpression();
+    deriveSymTypeOfExpression.setTypeCheckResult(getTypeCheckResult());
     traverser.add4ExpressionsBasis(deriveSymTypeOfExpression);
     traverser.setExpressionsBasisHandler(deriveSymTypeOfExpression);
-    
-      final SynthesizeSymTypeFromMCBasicTypes synthesizeSymTypeFromMCBasicTypes = new SynthesizeSymTypeFromMCBasicTypes();
-      synthesizeSymTypeFromMCBasicTypes.setTypeCheckResult(getTypeCheckResult());
-    traverser.add4MCBasicTypes(synthesizeSymTypeFromMCBasicTypes);
-    traverser.setMCBasicTypesHandler(synthesizeSymTypeFromMCBasicTypes);
     
   }
   
   public TypeCheckResult getTypeCheckResult() {
     return typeCheckResult;
-  }
-  
-  public Optional<SymTypeExpression> calculateType(ASTMCType type) {
-    type.accept(traverser);
-    if (getTypeCheckResult().isPresentCurrentResult()) {
-      return Optional.of(getTypeCheckResult().getCurrentResult());
-    }
-    else {
-      return Optional.empty();
-    }
   }
   
   @Override

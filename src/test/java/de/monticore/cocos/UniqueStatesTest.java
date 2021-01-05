@@ -30,7 +30,8 @@ public class UniqueStatesTest {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/invalid/NonUnique.sc");
     assertTrue("NonUnique.sc could not be parsed",  ast.isPresent());
-    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker().addCoCo(new UniqueStates());
+    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
+    checker.addCoCo(new UniqueStates());
     checker.checkAll(ast.get());
     assertEquals(1, Log.getErrorCount());
     assertTrue(Log.getFindings().stream().anyMatch(n -> n.getMsg().contains(UniqueStates.ERROR_CODE)));
@@ -42,7 +43,8 @@ public class UniqueStatesTest {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/examples/Door.sc");
     assertTrue("Door.sc could not be parsed",  ast.isPresent());
-    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker().addCoCo(new UniqueStates());
+    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
+    checker.addCoCo(new UniqueStates());
     checker.checkAll(ast.get());
     assertEquals(0, Log.getErrorCount());
     

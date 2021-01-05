@@ -6,8 +6,6 @@ import de.monticore.expressions.expressionsbasis._visitor.ExpressionsBasisTraver
 import de.monticore.literals.mccommonliterals._ast.ASTSignedLiteral;
 import de.monticore.literals.mcliteralsbasis._ast.ASTLiteral;
 import de.monticore.types.check.*;
-import de.monticore.types.mcbasictypes._ast.ASTMCType;
-import de.monticore.types.mcbasictypes._ast.ASTMCVoidType;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 
@@ -19,13 +17,14 @@ public class DeriveSymTypeOfUMLStatecharts implements ITypesCalculator {
   protected UMLStatechartsTraverser traverser;
   
   public DeriveSymTypeOfUMLStatecharts() {
-    this.typeCheckResult = new TypeCheckResult();
-    this.traverser = UMLStatechartsMill.traverser();
     init();
   }
   
   
   @Override public void init() {
+  
+    this.typeCheckResult = new TypeCheckResult();
+    this.traverser = UMLStatechartsMill.traverser();
       // initializes visitors used for typechecking
       final DeriveSymTypeOfLiterals deriveSymTypeOfLiterals = new DeriveSymTypeOfLiterals();
       deriveSymTypeOfLiterals.setTypeCheckResult(getTypeCheckResult());
@@ -40,12 +39,7 @@ public class DeriveSymTypeOfUMLStatecharts implements ITypesCalculator {
     traverser.add4ExpressionsBasis(deriveSymTypeOfExpression);
     traverser.setExpressionsBasisHandler(deriveSymTypeOfExpression);
     
-      final SynthesizeSymTypeFromMCBasicTypes synthesizeSymTypeFromMCBasicTypes = new SynthesizeSymTypeFromMCBasicTypes();
-      synthesizeSymTypeFromMCBasicTypes.setTypeCheckResult(getTypeCheckResult());
-    traverser.add4MCBasicTypes(synthesizeSymTypeFromMCBasicTypes);
-    traverser.setMCBasicTypesHandler(synthesizeSymTypeFromMCBasicTypes);
-    
-    DeriveSymTypeOfCommonExpressions deriveSymTypeOfCommonExpressions = new DeriveSymTypeOfCommonExpressions();
+    DeriveSymTypeOfCommonExpressions deriveSymTypeOfCommonExpressions = new DeriveSymTypeOfCommonExpr();
     deriveSymTypeOfCommonExpressions.setTypeCheckResult(getTypeCheckResult());
     traverser.add4CommonExpressions(deriveSymTypeOfCommonExpressions);
     traverser.setCommonExpressionsHandler(deriveSymTypeOfCommonExpressions);
@@ -54,26 +48,6 @@ public class DeriveSymTypeOfUMLStatecharts implements ITypesCalculator {
   
   public TypeCheckResult getTypeCheckResult() {
     return typeCheckResult;
-  }
-  
-  public Optional<SymTypeExpression> calculateType(ASTMCType type) {
-    type.accept(traverser);
-    if (getTypeCheckResult().isPresentCurrentResult()) {
-      return Optional.of(getTypeCheckResult().getCurrentResult());
-    }
-    else {
-      return Optional.empty();
-    }
-  }
-  
-  public Optional<SymTypeExpression> calculateType(ASTMCVoidType type) {
-    type.accept(traverser);
-    if (getTypeCheckResult().isPresentCurrentResult()) {
-      return Optional.of(getTypeCheckResult().getCurrentResult());
-    }
-    else {
-      return Optional.empty();
-    }
   }
   
   @Override
