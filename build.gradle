@@ -139,3 +139,7 @@ publishing {
     url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
   }
 }
+
+task buildAll(type: GradleBuild) {
+  tasks = [ 'build' ]
+}
