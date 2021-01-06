@@ -1,4 +1,4 @@
-#6.7.0-SNAPSHOT
+# 6.7.0-SNAPSHOT
 to be released  
 based on MontiCore 6.7.0-SNAPSHOT
 
