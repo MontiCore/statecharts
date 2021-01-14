@@ -99,8 +99,14 @@ Expressions and statements are taken from MontiCores basic grammar library
 and can be extended by any own interesting language constructs 
 (such as sending or receiving messages `!m` or `?m`)
 
-Further example models can be found here:
+Further example models such as [`Door.sc`](../../../../../src/test/resources/examples/Door.sc) or [`Car.sc`](../../../../../src/test/resources/examples/Car.sc) can be found here:
 [src/test/resources/examples](../../../../../src/test/resources/examples).
+
+<div align="center"> <img width="800" src="doc/Door.sc.png" 
+alt="Statecharts LFD"> <br><b>Figure 2:</b> Graphical Representation of the Door Statechart. </div><br> 
+
+<div align="center"> <img width="800" src="doc/Car.sc.png" 
+alt="Statecharts LFD"> <br><b>Figure 3:</b> Graphical Representation of the Car Statechart. </div><br> 
 
 ## The [UMLStatecharts](UMLStatecharts.mc4) Language Variant 
 
