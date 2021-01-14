@@ -202,7 +202,7 @@ public class StatechartsCLI {
       }
     }
     return "reachable: " + String.join(",", reachableStates) + System.lineSeparator() 
-       + "unreachable: " + String.join(",", statesToBeChecked);
+       + "unreachable: " + String.join(",", statesToBeChecked) + System.lineSeparator() ;
   }
 
   public String reportBranchingDegree(ASTSCArtifact ast) {
@@ -212,7 +212,7 @@ public class StatechartsCLI {
     ast.accept(traverser);
     return branchingDegreeCalculator.getBranchingDegrees().entrySet().stream()
         .map(e -> e.getKey() + ": " + e.getValue())
-        .collect(Collectors.joining(System.lineSeparator()));
+        .collect(Collectors.joining(System.lineSeparator())) + System.lineSeparator();
   }
 
   public String reportStateNames(ASTSCArtifact ast) {
@@ -221,7 +221,7 @@ public class StatechartsCLI {
     traverser.add4SCBasis(stateCollectorVisitor);
     ast.accept(traverser);
     return String.join(", ", stateCollectorVisitor.getStates()
-        .stream().map(e -> e.getName()).collect( Collectors.toSet()));
+        .stream().map(e -> e.getName()).collect( Collectors.toSet())) + System.lineSeparator();
   }
   
   /**
