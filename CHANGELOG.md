@@ -1,6 +1,7 @@
 # 6.7.0-SNAPSHOT
 to be released  
 based on MontiCore 6.7.0-SNAPSHOT
+* the `s` parameter now expects the file name and not the folder anymore
 
 # 6.6.0
 released: 15.12.2020  

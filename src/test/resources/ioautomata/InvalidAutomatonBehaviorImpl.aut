@@ -2,7 +2,7 @@
 
 statechart InvalidAutomatonBehaviorImpl {
   	state Start;
-    initial state Start / {c = 5;};
+    initial state Start;
 
     Start -> Start [c < 2];
   }

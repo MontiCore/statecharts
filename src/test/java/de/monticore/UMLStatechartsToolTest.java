@@ -50,7 +50,7 @@ public class UMLStatechartsToolTest {
   public void testUMLStatechartsStore(){
     new StatechartsCLI().run(new String[]{
         "-i", resourcesDir + "examples/Door.sc",
-        "-s", outputDir + "door"
+        "-s", outputDir + "door/Door.scsym"
     });
     assertEquals("Storing symbol table of Door.sc was not successful", Log.getErrorCount(), 0);
   }
@@ -59,7 +59,7 @@ public class UMLStatechartsToolTest {
   public void testUMLStatechartsStore2(){
     new StatechartsCLI().run(new String[]{
         "-i", resourcesDir + "examples/Car.sc",
-        "-s", outputDir + "car"
+        "-s", outputDir + "car/Car.scsym"
     });
     assertEquals("Storing symbol table of Car.sc was not successful", Log.getErrorCount(), 0);
   }
@@ -68,7 +68,7 @@ public class UMLStatechartsToolTest {
   public void testUMLStatechartsStore3(){
     new StatechartsCLI().run(new String[]{
         "-i", resourcesDir + "valid/Test.sc",
-        "-s", outputDir + "testsc"
+        "-s", outputDir + "testsc/Test.scsym"
     });
     assertEquals("Storing symbol table of Test.sc was not successful", Log.getErrorCount(), 0);
   }
@@ -77,7 +77,7 @@ public class UMLStatechartsToolTest {
   public void testUMLStatechartsStore4(){
     new StatechartsCLI().run(new String[]{
         "-i", resourcesDir + "valid/Test2.sc",
-        "-s", outputDir + "testsc2"
+        "-s", outputDir + "testsc2/Test2.scsym"
     });
     assertEquals("Storing symbol table of Test2.sc was not successful", Log.getErrorCount(), 0);
   }
