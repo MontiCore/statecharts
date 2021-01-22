@@ -42,7 +42,12 @@ sourceSets {
 configurations { grammar }
 
 dependencies {
-  grammar "de.monticore:monticore-grammar:$mc_version:$grammar_classifier"
+  grammar ("de.monticore:monticore-grammar:$mc_version")
+          {
+            capabilities {
+              requireCapability("$group:monticore-grammar-grammars")
+            }
+          }
   implementation "de.monticore:monticore-runtime:$mc_version"
   implementation "de.monticore:monticore-grammar:$mc_version"
   implementation "de.se_rwth.commons:se-commons-logging:$commons_version"
