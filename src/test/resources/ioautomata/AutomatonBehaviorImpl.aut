@@ -1,6 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-statechart InvalidAutomatonBehaviorImpl {
+statechart AutomatonBehaviorImpl {
   	state Start;
     initial state Start;
 

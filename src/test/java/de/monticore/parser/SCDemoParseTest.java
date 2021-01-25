@@ -3,13 +3,14 @@ package de.monticore.parser;
 
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.se_rwth.commons.logging.Log;
+import de.se_rwth.commons.logging.LogStub;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class SCDemoParseTest {
   
@@ -17,6 +18,7 @@ public class SCDemoParseTest {
   
   @BeforeClass
   public static void init(){
+    LogStub.init();
     Log.enableFailQuick(false);
   }
   
@@ -56,21 +58,21 @@ public class SCDemoParseTest {
     assertFalse(parser.hasErrors());
   }
   
-  @Test @Ignore
+  @Test 
   public void testTestBumpControl() throws IOException {
-    parser.parse("src/test/resources/ioautomata/BumpControl.aut");
-    assertFalse(parser.hasErrors());
+    parser.parse("src/test/resources/invalid/BumpControl.aut");
+    assertTrue(parser.hasErrors());
   }
   
-  @Test @Ignore
+  @Test 
   public void testTestBumpSpeed() throws IOException {
-    parser.parse("src/test/resources/ioautomata/BumpSpeed.aut");
-    assertFalse(parser.hasErrors());
+    parser.parse("src/test/resources/invalid/BumpSpeed.aut");
+    assertTrue(parser.hasErrors());
   }
   
   @Test
   public void testTestInvalidAutomatonBehaviorImpl() throws IOException {
-    parser.parse("src/test/resources/ioautomata/InvalidAutomatonBehaviorImpl.aut");
+    parser.parse("src/test/resources/ioautomata/AutomatonBehaviorImpl.aut");
     assertFalse(parser.hasErrors());
   }
   
