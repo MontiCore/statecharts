@@ -45,7 +45,7 @@ dependencies {
   grammar ("de.monticore:monticore-grammar:$mc_version")
           {
             capabilities {
-              requireCapability("$group:monticore-grammar-grammars")
+              requireCapability("de.monticore:monticore-grammar-grammars")
             }
           }
   implementation "de.monticore:monticore-runtime:$mc_version"
