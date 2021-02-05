@@ -150,8 +150,3 @@ task buildAll(type: GradleBuild) {
 }
 
 defaultTasks('build')
-
-tasks.withType(MCTask) {
-  getService().set(project.ext.serviceProvider)
-  println(name)
-}
