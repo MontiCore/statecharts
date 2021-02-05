@@ -1,3 +1,7 @@
+# 6.8.0-SNAPSHOT
+to be released  
+based on MontiCore 6.8.0-SNAPSHOT
+
 # 6.7.0
 released: 05.02.2021  
 based on MontiCore 6.7.0
