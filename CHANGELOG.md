@@ -1,7 +1,10 @@
-# 6.7.0-SNAPSHOT
-to be released  
-based on MontiCore 6.7.0-SNAPSHOT
+# 6.7.0
+released: 05.02.2021  
+based on MontiCore 6.7.0
 * the `s` parameter now expects the file name and not the folder anymore
+* added new lines to reports
+* extended documentation
+
 
 # 6.6.0
 released: 15.12.2020  
