@@ -3,19 +3,6 @@
 
 # Statecharts
 
-Statecharts are a comfortable language to describe behavior based on 
-the internal state of a component. Statecharts have originally been 
-invented and described in [Harel'87] and were given a sound semantical 
-basis. They extend automata theory in various forms, including 
-hierarchy, actions, etc. Statecharts are the foundational behavior 
-description during which for modelling standards, such as UML and 
-SysML. 
-
-Dependent on the application domain, several forms of Statecharts are 
-needed for example to accommodate stimuli in form of method calls, 
-incoming values (signals) or only preconditions that trigger certain 
-forms of actions. 
-
 This MontiCore project offers a set of language components to define 
 Statechart Languages: 
 
@@ -47,66 +34,6 @@ alt="Statecharts LFD"> <br><b>Figure 1:</b> Overview of the statecharts
 language components and their relations (shown as language feature 
 diagram). </div><br> 
 
-
-## Textual Syntax Example for Statecharts 
-
-Here is a small teaser for the UML Statechart language, which allows a 
-method call as stimulus, Java expressions as constraints and Java 
-blocks/statements as actions: 
-
-```
-statechart Door {
-  state Opened [9 < now < 18];  // state with invariant
-  initial state Closed;
-  state Locked;
-                                // transitions 
-  Opened -> Closed  close() ;
-  Closed -> Opened  open()    / { count++; ringTheDoorBell(); };
-  Closed -> Locked  timeOut() / lockDoor(); ;
-  Locked -> Closed  [isAuthorized() && keyFits()] unlock() ;
-}
-```
-
-This example models the three states of a door: `Opened`, `Closed`, and `Locked`
-and four transitions (each terminated by `;`).
-- States may be marked with `initial` and `final`.
-- A *transition* is defined by `source -> target` states,
-  a *stimulus*, such as a method call `close()`,
-  a *trigger condition* `[...]`, and an action `/ ...`.
-- *Expressions* can be used for *conditions*, and *statements* 
-  respectively blocks `{...}` 
-  for the *actions*.
-
-Further language concepts of the UML Statechart are shown in the following 
-example, where state 
-`EngineRunning` has two substates as well as *entry*, *exit* *actions* 
-and an *invariant*:
-
-<a name="example2"></a>
-``` 
-statechart Car {
-  initial state EngineOff;
-  state EngineRunning [!fuelIsEmpty] {  // state with substates and state invariant (Boolean expression)
-    entry / {lightsOn(); }              // entry / exit action
-    exit  / {lightsOff();}
-    initial state Parking;              // substates
-    state Driving;
-  };
-}
-```
-
-Expressions and statements are taken from MontiCores basic grammar library 
-and can be extended by any own interesting language constructs 
-(such as sending or receiving messages `!m` or `?m`)
-
-Further example models such as [`Door.sc`](../../../../../src/test/resources/examples/Door.sc) or [`Car.sc`](../../../../../src/test/resources/examples/Car.sc) can be found here:
-[src/test/resources/examples](../../../../../src/test/resources/examples).
-
-<div align="center"> <img width="600" src="doc/Door.sc.png" 
-alt="Statecharts LFD"> <br><b>Figure 2:</b> Graphical Representation of the Door Statechart. </div><br> 
-
-<div align="center"> <img width="600" src="doc/Car.sc.png" 
-alt="Statecharts LFD"> <br><b>Figure 3:</b> Graphical Representation of the Car Statechart. </div><br> 
 
 ## The [UMLStatecharts](UMLStatecharts.mc4) Language Variant 
 
@@ -342,48 +269,6 @@ The SC language defines the symbol kinds `SCStateSynbol` and `SCEventDefSymbol`.
     ]
   }
   ```
-
-## Usage 
-
-The packaged jars are provided via the SE repository:  
-https://nexus.se.rwth-aachen.de/content/groups/public/
-
-### in Gradle:
-  ```
-  implementation "de.monticore.lang:statecharts:$sc_version"
-  ```
-  
-### CLI Tool:  
-
-For a easy, black-box use the complete tool can be downloaded as
-[statecharts-cli.jar](https://nexus.se.rwth-aachen.de/service/rest/v1/search/assets/download?sort=version&repository=monticore-snapshots&maven.groupId=de.monticore.lang&maven.artifactId=statecharts&maven.extension=jar&maven.classifier=cli) 
-in its respective newest version.
-The jar can e.g. be used like:
-
-```
-  java -jar statecharts-cli.jar -h
-  java -jar statecharts-cli.jar -i Car.sc -pp
-``` 
-
-Available parameters are:
-
-| Option                     | Explanation |
-| ------                     | ------ |
-| `-h,--help`                | Prints this help information   |
-| `-i,--input <file>`        | Reads the source file (mandatory) and parses the contents as a statechart |
-| `-pp,--prettyprint <file>` | Prints the Statechart-AST to stdout or the specified file (optional) |
-| `-r,--report <dir>`        | Prints reports of the statechart artifact to the specified directory. This includes e.g. reachable states and branching degrees  |
-| `-s,--symboltable <file>`  | Stores the symbol table of the given Statechart |
-
-
-### Usage in Maven:
-```
-<dependency>
-  <groupId>de.monticore.lang</groupId>
-  <artifactId>statecharts</artifactId>
-  <version>${sc.version}</version>
-</dependency>
-```
 
 ## Further Information
 
