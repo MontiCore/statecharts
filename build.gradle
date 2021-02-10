@@ -108,7 +108,7 @@ shadowJar {
     attributes "Main-Class": "de.monticore.${archiveBaseName.get().capitalize()}CLI"
   }
   archiveClassifier = "cli"
-  archiveFileName = "${archiveBaseName.get()}-${archiveClassifier.get()}.${archiveExtension.get()}"
+  archiveFileName = "${archiveBaseName.get().capitalize()}CLI.${archiveExtension.get()}"
   minimize()
 }
 
