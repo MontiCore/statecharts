@@ -205,9 +205,11 @@ The SC language defines the symbol kinds `SCStateSynbol` and `SCEventDefSymbol`.
   refer to functions 
   and thus do not have arguments and return types.
   While the symbol kind is defined within the Statechart language,
-  symbols of this kind are not defined by Statecharts themselves
-  (thus an extension would be needed ..), but instead used 
-  by the events of transitions when imported.
+  symbols of this kind are not defined by Statecharts themselves, 
+  but will be imported for use as events within transitions.
+  For example method or function symbols, but also data
+  type (i.e. class) symbols may be mapped to events.
+  Function symbols also can be used directly.
 
 ### Symbols imported by SC models:
 
