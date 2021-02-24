@@ -8,7 +8,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintStream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -115,6 +117,28 @@ public class UMLStatechartsToolTest {
     assertTrue("branchingDegree report missing", new File(outputDir + "car/branchingDegree.txt").exists());
     assertTrue("reachability report missing",new File(outputDir + "car/reachability.txt").exists());
     assertTrue("stateNames report missing",new File(outputDir + "car/stateNames.txt").exists());
+  }
+  
+  @Test
+  public void testHelp(){
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(out));
+    new StatechartsCLI().run(new String[]{    "-h" });
+    assertEquals(Log.getErrorCount(), 0);
+    String result = out.toString().replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
+    assertEquals( "usage: UMLSCTool\n"
+        + " -h,--help                  Prints this help dialog\n"
+        + " -i,--input <file>          Reads the source file (mandatory) and parses the\n"
+        + "                            contents as a statechart\n"
+        + " -path <arg>                Sets the artifact path for imported symbols, space\n"
+        + "                            separated.\n"
+        + " -pp,--prettyprint <file>   Prints the Statechart-AST to stdout or the specified\n"
+        + "                            file (optional)\n"
+        + " -r,--report <dir>          Prints reports of the statechart artifact to the\n"
+        + "                            specified directory. Available reports:\n"
+        + "                            reachable states, branching degree, and state names\n"
+        + " -s,--symboltable <file>    Serialized the Symbol table of the given Statechart\n"
+   , result );
   }
   
 }

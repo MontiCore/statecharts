@@ -52,11 +52,6 @@ public class SCDemoParseTest {
     assertFalse(parser.hasErrors());
   }
   
-  @Test
-  public void testTestAnotherAutomatonImpl() throws IOException {
-    parser.parse("src/test/resources/ioautomata/AnotherAutomatonImpl.aut");
-    assertFalse(parser.hasErrors());
-  }
   
   @Test 
   public void testTestBumpControl() throws IOException {
@@ -70,17 +65,7 @@ public class SCDemoParseTest {
     assertTrue(parser.hasErrors());
   }
   
-  @Test
-  public void testTestInvalidAutomatonBehaviorImpl() throws IOException {
-    parser.parse("src/test/resources/ioautomata/AutomatonBehaviorImpl.aut");
-    assertFalse(parser.hasErrors());
-  }
   
-  @Test
-  public void testTestValidAutomaton2() throws IOException {
-    parser.parse("src/test/resources/ioautomata/ValidAutomaton2.aut");
-    assertFalse(parser.hasErrors());
-  }
   
   @Test
   public void testStatechart() throws IOException {

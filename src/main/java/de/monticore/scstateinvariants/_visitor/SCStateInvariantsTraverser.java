@@ -10,9 +10,6 @@ public interface SCStateInvariantsTraverser extends SCStateInvariantsTraverserTO
     if (getSCStateInvariantsHandler().isPresent()) {
       getSCStateInvariantsHandler().get().handle(node);
     } else {
-      visit(node);
-      traverse(node);
-      endVisit(node);
       visit((ASTSCState) node);
       visit(node);
       traverse(node);

@@ -8,12 +8,17 @@ import de.monticore.scbasis.InitialStateCollector;
 import de.monticore.scbasis.ReachableStateCollector;
 import de.monticore.scbasis.StateCollector;
 import de.monticore.scbasis._ast.ASTSCArtifact;
+import de.monticore.scbasis._cocos.*;
+import de.monticore.scevents._cocos.NonCapitalEventNames;
+import de.monticore.scevents._cocos.NonCapitalParamNames;
 import de.monticore.scevents._symboltable.SCEventsSTCompleter;
+import de.monticore.scstatehierarchy.NoSubstatesHandler;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.types.DeriveSymTypeOfUMLStatecharts;
 import de.monticore.types.SynthesizeSymType;
 import de.monticore.types.check.TypeCheck;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
+import de.monticore.umlstatecharts._cocos.UMLStatechartsCoCoChecker;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopesGenitorDelegator;
@@ -87,6 +92,9 @@ public class StatechartsCLI {
       IUMLStatechartsArtifactScope scope = createSymbolTable(scartifact);
       String fileName = Paths.get(cmd.getOptionValue("i")).getFileName().toString();
       scope.setName(fileName.substring(0, fileName.lastIndexOf('.')));
+  
+      // check context conditions
+      checkAllCoCos(scartifact);
   
       if (cmd.hasOption("s")) {
         String path = cmd.getOptionValue("s", StringUtils.EMPTY);
@@ -247,6 +255,27 @@ public class StatechartsCLI {
       Log.error("0xA5C02 Input file " + path + " not found.");
     }
     return sc.get();
+  }
+  
+  /**
+   * Checks whether ast satisfies all CoCos.
+   *
+   * @param ast The ast of the SC.
+   */
+  public void checkAllCoCos(ASTSCArtifact ast) {
+    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
+    checker.addCoCo(new UniqueStates());
+    checker.addCoCo(new TransitionSourceTargetExists());
+    UMLStatechartsTraverser t = UMLStatechartsMill.traverser();
+    t.setSCStateHierarchyHandler(new NoSubstatesHandler());
+    checker.addCoCo(new AtLeastOneInitialState(t));
+    checker.addCoCo(new CapitalStateNames());
+    checker.addCoCo(new PackageCorrespondsToFolders());
+    checker.addCoCo(new SCFileExtension());
+    checker.addCoCo(new SCNameIsArtifactName());
+    checker.addCoCo(new NonCapitalEventNames());
+    checker.addCoCo(new NonCapitalParamNames());
+    checker.checkAll(ast);
   }
   
   /**

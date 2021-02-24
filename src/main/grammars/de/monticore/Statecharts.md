@@ -160,7 +160,51 @@ complete `(c)` or incomplete `(...)`, which semantically makes an
 important difference when using Statecharts for specification and refinement.
 See [Rum16] for a detailed discussion.
 
+## Context Conditions
+This section lists the context conditions grouped by their corresponding language component.
 
+### SCBasis Context Conditions
+The implementations of the context conditions for the [SCBasis](../../../grammars/de/monticore/SCBasis.mc4) 
+grammar are located [here](../../../java/de/monticore/scbasis/_cocos).
+
+* The context condition [```AtLeastOneInitialState```](../../../java/de/monticore/scbasis/_cocos/AtLeastOneInitialState.java)  
+  checks if an artifact containing an SC model has at least one initial state.
+
+* The context condition [```CapitalStateNames```](../../../java/de/monticore/scbasis/_cocos/CapitalStateNames.java) 
+  checks the naming convention that state names start with a capital letter.
+
+* The context condition [```PackageCorrespondsToFolders```](../../../java/de/monticore/scbasis/_cocos/PackageCorrespondsToFolders.java) 
+  checks if the package declaration matches the folder structure where the model is located.
+
+* The context condition [```SCFileExtension```](../../../java/de/monticore/scbasis/_cocos/SCFileExtension.java) 
+  checks if an artifact
+  containing an SC model has the common file ending ".sc" of SC artifacts.
+
+* The context condition [```SCNameIsArtifactName```](../../../java/de/monticore/scbasis/_cocos/SCNameIsArtifactName.java) 
+  checks if the name of a named statechart matches the artifacts (file) name.
+
+* The context condition [```TransitionSourceTargetExists```](../../../java/de/monticore/scbasis/_cocos/TransitionSourceTargetExists.java) 
+  checks if the source and target of a transition are defined states.
+
+* The context condition [```UniqueStates```](../../../java/de/monticore/scbasis/_cocos/UniqueStates.java) 
+  checks if the name of state is unique.
+
+### SCEvents Context Conditions
+The implementations of the context conditions for the [SCEvents](../../../grammars/de/monticore/SCEvents.mc4) 
+grammar are located [here](../../../java/de/monticore/scevents/_cocos).
+
+* The context condition [```NonCapitalEventNames```](../../../java/de/monticore/scbasis/_cocos/NonCapitalEventNames.java) 
+  checks the naming convention that event names start with a lower case letter.
+
+* The context condition [```NonCapitalParamNames```](../../../java/de/monticore/scbasis/_cocos/NonCapitalParamNames.java) 
+  checks the naming convention that event parameter names start with a lower case letter.
+
+### SCStateInvariants Context Conditions
+The implementations of the context conditions for the [SCStateInvariants](../../../grammars/de/monticore/SCStateInvariants.mc4)
+grammar are located [here](../../../java/de/monticore/scevents/_cocos).
+
+* The context condition [```InvariantValid```](../../../java/de/monticore/scbasis/_cocos/InvariantValid.java) 
+  checks that an invariant is of type boolean.
 
 ## Symboltable
 
@@ -192,7 +236,10 @@ The SC language defines the symbol kinds `SCStateSynbol` and `SCEventDefSymbol`.
   The state symbols embody the state names of the states defined in 
   a Statechart. These symbols are used for efficient navigation inside 
   the Statechart but also can be made available for other models that
-  want to refer to the states.
+  want to refer to the states. We deliberately have choosen to omit 
+  information about a state being initial or final as well as transitions
+  in the state symbol, because we do not regard this information as 
+  relevant outside the SC language itself.
   
 - The UMLStatechart language also exports the kind `SCEventDefSymbol` defined as:
   ```
