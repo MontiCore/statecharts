@@ -26,7 +26,8 @@ group them into two forms of complete Statecharts. Please also note,
 that all of these components and languages are still configurable 
 activity extendable with concrete forms of values, expressions and 
 statements - like the ones defined in [MontiCore's expression grammar 
-library](https://git.rwth-aachen.de/monticore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/Grammars.md). 
+library](https://git.rwth-aachen.de/monticore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/Grammars.md).    
+**Statechart examples demonstrating the syntax are provided in the [README](../../../../../README.md) of the project.**
 
 
 <div align="center"> <img width="800" src="doc/Statecharts.LFD.png" 
@@ -61,11 +62,12 @@ diagram). </div><br>
  `CommonExpressions`, and `SCEvents`, and
  provides a set of Java-like expressions and statements included from
  `CommonExpressions` and `MCCommonStatements`. 
- The teaser above conform to this language.
+ The teasers in the README conform to this language.
 
  `UMLStatecharts` can directly be used or extended in various forms.
  The language definition can also be used as blueprint for individual configuration of
- a Statechart language variant.
+ a Statechart language variant.      
+ **Example models are located [here](../../../../test/resources/examples/uml).**
 
 ## The [TriggeredStatecharts](TriggeredStatecharts.mc4) Language Variant 
   
@@ -96,7 +98,8 @@ diagram). </div><br>
  - no do actions 
  - no state invariants
  - transitions consist of a precondition, an event and an action, 
-   each of which is optional.
+   each of which is optional.    
+ **Example models are located [here](../../../../test/resources/examples/triggered).**
 
  ## Statechart Language Components
  
@@ -205,6 +208,23 @@ grammar are located [here](../../../java/de/monticore/scevents/_cocos).
 
 * The context condition [```InvariantValid```](../../../java/de/monticore/scbasis/_cocos/InvariantValid.java) 
   checks that an invariant is of type boolean.
+
+## Handwritten AST Extensions
+
+The generated data structure has been extended to the
+generated classes using the TOP mechanism as follows:
+
+* [`ASTStatechart`](../../../java/de/monticore/scbasis/_ast/ASTStatechart.java) contains
+  a method `Optional<String> getSCName()` for obtaining the name of the statechart. 
+  It returns an empty Optional by default which is used for `ASTUnnamedStatechart`. 
+* [`ASTNamedStatechart`](../../../java/de/monticore/scbasis/_ast/ASTNamedStatechart.java) 
+  overrides the method `Optional<String> getSCName()` and returns an Optional of the 
+  name of the statechart.
+* [`ASTSCArtifact`](../../../java/de/monticore/scbasis/_ast/ASTSCArtifact.java) has an 
+  attribute and corresponding access methods to store the file path of the artifact
+  after parsing. Used in CoCos, e.g., for checking whether the package name equals the
+  name of the full qualified name of the folder containing the artifact.
+
 
 ## Symboltable
 

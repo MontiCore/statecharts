@@ -29,12 +29,13 @@ public class UMLStatechartsToolTest {
   @Before
   public void setUp() throws Exception {
     Log.clearFindings();
+    UMLStatechartsMill.globalScope().clear();
   }
   
   @Test
   public void testUMLStatecharts(){
     new StatechartsCLI().run(new String[]{
-        "-i", resourcesDir + "examples/Door.sc"
+        "-i", resourcesDir + "examples/uml/Door.sc"
     });
     assertEquals("Door.sc was not processed successfully", Log.getErrorCount(), 0);
   }
@@ -42,7 +43,7 @@ public class UMLStatechartsToolTest {
   @Test
   public void testUMLStatechartsPP(){
     new StatechartsCLI().run(new String[]{
-        "-i", resourcesDir + "examples/Door.sc",
+        "-i", resourcesDir + "examples/uml/Door.sc",
         "-pp"
     });
     assertEquals("Pretty printing of Door.sc was not successful", Log.getErrorCount(), 0);
@@ -51,7 +52,7 @@ public class UMLStatechartsToolTest {
   @Test
   public void testUMLStatechartsStore(){
     new StatechartsCLI().run(new String[]{
-        "-i", resourcesDir + "examples/Door.sc",
+        "-i", resourcesDir + "examples/uml/Door.sc",
         "-s", outputDir + "door/Door.scsym"
     });
     assertEquals("Storing symbol table of Door.sc was not successful", Log.getErrorCount(), 0);
@@ -60,7 +61,7 @@ public class UMLStatechartsToolTest {
   @Test
   public void testUMLStatechartsStore2(){
     new StatechartsCLI().run(new String[]{
-        "-i", resourcesDir + "examples/Car.sc",
+        "-i", resourcesDir + "examples/uml/Car.sc",
         "-s", outputDir + "car/Car.scsym"
     });
     assertEquals("Storing symbol table of Car.sc was not successful", Log.getErrorCount(), 0);
@@ -98,7 +99,7 @@ public class UMLStatechartsToolTest {
   @Test
   public void testUMLStatechartsReport(){
     new StatechartsCLI().run(new String[]{
-        "-i", resourcesDir + "examples/Door.sc",
+        "-i", resourcesDir + "examples/uml/Door.sc",
         "-r", outputDir + "door"
     });
     assertEquals("Reporting for Door.sc was not successful", Log.getErrorCount(), 0);
@@ -110,7 +111,7 @@ public class UMLStatechartsToolTest {
   @Test
   public void testUMLStatechartsReportCar(){
     new StatechartsCLI().run(new String[]{
-        "-i", resourcesDir + "examples/Car.sc",
+        "-i", resourcesDir + "examples/uml/Car.sc",
         "-r", outputDir + "/car"
     });
     assertEquals("Reporting for Car.sc was not successful", Log.getErrorCount(), 0);

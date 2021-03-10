@@ -49,7 +49,7 @@ public class SCFileExtensionTest {
   @Test
   public void testCoCoValid() throws IOException {
     Optional<ASTSCArtifact> ast = parser
-        .parse("src/test/resources/examples/Door.sc");
+        .parse("src/test/resources/examples/uml/Door.sc");
     assertTrue("Door.sc could not be parsed",  ast.isPresent());
     check(ast.get());
     assertEquals(0, Log.getErrorCount());
@@ -62,7 +62,7 @@ public class SCFileExtensionTest {
   @Test
   public void testCoCoValidCar() throws IOException {
     Optional<ASTSCArtifact> ast = parser
-        .parse("src/test/resources/examples/Car.sc");
+        .parse("src/test/resources/examples/uml/Car.sc");
     assertTrue("Car.sc could not be parsed",  ast.isPresent());
     check(ast.get());
     assertEquals(0, Log.getErrorCount());

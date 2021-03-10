@@ -41,7 +41,7 @@ public class UniqueStatesTest {
   @Test
   public void testCoCOValid() throws IOException {
     Optional<ASTSCArtifact> ast = parser
-        .parse("src/test/resources/examples/Door.sc");
+        .parse("src/test/resources/examples/uml/Door.sc");
     assertTrue("Door.sc could not be parsed",  ast.isPresent());
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
     checker.addCoCo(new UniqueStates());
@@ -53,7 +53,7 @@ public class UniqueStatesTest {
   @Test
   public void testCoCoValidCar() throws IOException {
     Optional<ASTSCArtifact> ast = parser
-        .parse("src/test/resources/examples/Car.sc");
+        .parse("src/test/resources/examples/uml/Car.sc");
     assertTrue("Car.sc could not be parsed",  ast.isPresent());
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
     checker.addCoCo(new UniqueStates());

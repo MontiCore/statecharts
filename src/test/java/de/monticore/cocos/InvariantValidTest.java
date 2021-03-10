@@ -5,6 +5,7 @@ import de.monticore.StatechartsCLI;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scstateinvariants._cocos.InvariantValid;
+import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.symbols.oosymbols._symboltable.FieldSymbol;
 import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
@@ -36,6 +37,8 @@ public class InvariantValidTest {
   @BeforeClass
   public static void beforeClass() throws Exception {
     LogStub.init();
+    UMLStatechartsMill.init();
+    BasicSymbolsMill.initializePrimitives();
   }
   
   @Before

@@ -24,19 +24,19 @@ public class SCDemoParseTest {
   
   @Test
   public void testTeaser() throws IOException {
-    parser.parse("src/test/resources/examples/Door.sc");
+    parser.parse("src/test/resources/examples/uml/Door.sc");
     assertFalse(parser.hasErrors());
   }
   
   @Test
   public void testTeaser2() throws IOException {
-    parser.parse("src/test/resources/examples/Car.sc");
+    parser.parse("src/test/resources/examples/uml/Car.sc");
     assertFalse(parser.hasErrors());
   }
   
   @Test
   public void testTeaser3() throws IOException {
-    parser.parse("src/test/resources/examples/Door2.sc");
+    parser.parse("src/test/resources/examples/uml/Door2.sc");
     assertFalse(parser.hasErrors());
   }
   

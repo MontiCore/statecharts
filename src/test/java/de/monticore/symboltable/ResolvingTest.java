@@ -5,6 +5,7 @@ import de.monticore.StatechartsCLI;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scbasis._symboltable.SCStateSymbol;
+import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
@@ -24,7 +25,7 @@ public class ResolvingTest {
   
   @BeforeClass
   public static void beforeClass() throws Exception {
-    LogStub.initPlusLog();
+    LogStub.init();
   }
   
   @Before
@@ -37,6 +38,7 @@ public class ResolvingTest {
   @Test
   public void testResolvingState() {
     StatechartsCLI tool = new StatechartsCLI();
+    BasicSymbolsMill.initializePrimitives();
     ASTSCArtifact ast = tool.parseFile("src/test/resources/valid/Test.sc");
     IUMLStatechartsArtifactScope st = tool.createSymbolTable(ast);
     st.setName("Test");
@@ -57,6 +59,7 @@ public class ResolvingTest {
   public void testResolvingType() {
     IUMLStatechartsGlobalScope gs = UMLStatechartsMill
         .globalScope();
+    BasicSymbolsMill.initializePrimitives();
     gs.setModelPath(new ModelPath(Paths.get("src/test/resources/symtab")));
     Optional<TypeSymbol> typeSymbol = gs.resolveType("mytypes.Address");
     assertTrue("Could not resolve type mytypes.Address", typeSymbol.isPresent());
