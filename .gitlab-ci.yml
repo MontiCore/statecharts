@@ -20,6 +20,9 @@ build:
       - target/
       - .gradle/
     expire_in: 1 week
+  except:
+    changes:
+      - "**/*.md"
     
     
 deploy:
