@@ -55,7 +55,7 @@ public class InvariantValidTest {
     IUMLStatechartsArtifactScope st = new StatechartsCLI().createSymbolTable(ast.get());
     st.setName("Invariant");
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
-    checker.addCoCo(new InvariantValid(new TypeCheck(new DeriveSymTypeOfUMLStatecharts())));
+    checker.addCoCo(new InvariantValid(new TypeCheck(null, new DeriveSymTypeOfUMLStatecharts())));
     try {
       checker.checkAll(ast.get());
     } catch (NoSuchElementException e){ 
@@ -74,7 +74,7 @@ public class InvariantValidTest {
     IUMLStatechartsArtifactScope st = new StatechartsCLI().createSymbolTable(ast.get());
     st.setName("Invariant2");
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
-    checker.addCoCo(new InvariantValid(new TypeCheck(new DeriveSymTypeOfUMLStatecharts())));
+    checker.addCoCo(new InvariantValid(new TypeCheck(null, new DeriveSymTypeOfUMLStatecharts())));
     checker.checkAll(ast.get());
     assertEquals(0, Log.getErrorCount());
     
@@ -95,7 +95,7 @@ public class InvariantValidTest {
         ).build()
     );
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
-    checker.addCoCo(new InvariantValid(new TypeCheck(new DeriveSymTypeOfUMLStatecharts())));
+    checker.addCoCo(new InvariantValid(new TypeCheck(null, new DeriveSymTypeOfUMLStatecharts())));
     checker.checkAll(ast.get());
     assertEquals(0, Log.getErrorCount());
     
@@ -118,7 +118,7 @@ public class InvariantValidTest {
     UMLStatechartsMill.globalScope().add(person);
     UMLStatechartsMill.globalScope().add((TypeSymbol) person);
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
-    checker.addCoCo(new InvariantValid(new TypeCheck(new DeriveSymTypeOfUMLStatecharts())));
+    checker.addCoCo(new InvariantValid(new TypeCheck(null, new DeriveSymTypeOfUMLStatecharts())));
     checker.checkAll(ast.get());
     assertEquals(0, Log.getErrorCount());
     
@@ -134,7 +134,7 @@ public class InvariantValidTest {
     st.setName("Invariant5");
     UMLStatechartsMill.globalScope().setModelPath(new ModelPath(Paths.get("src/test/resources/symtab")));
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
-    checker.addCoCo(new InvariantValid(new TypeCheck(new DeriveSymTypeOfUMLStatecharts())));
+    checker.addCoCo(new InvariantValid(new TypeCheck(null, new DeriveSymTypeOfUMLStatecharts())));
     checker.checkAll(ast.get());
     assertEquals(0, Log.getErrorCount());
     

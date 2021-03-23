@@ -90,9 +90,7 @@ public class StatechartsCLI {
       ASTSCArtifact scartifact = parseFile(cmd.getOptionValue("i"));
   
       IUMLStatechartsArtifactScope scope = createSymbolTable(scartifact);
-      String fileName = Paths.get(cmd.getOptionValue("i")).getFileName().toString();
-      scope.setName(fileName.substring(0, fileName.lastIndexOf('.')));
-  
+
       // check context conditions
       checkAllCoCos(scartifact);
   
