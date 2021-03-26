@@ -1,7 +1,11 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
+import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
+import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
+import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
+import de.monticore.umlstatecharts._symboltable.IUMLStatechartsGlobalScope;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
 import org.junit.Before;
@@ -29,7 +33,23 @@ public class UMLStatechartsToolTest {
   @Before
   public void setUp() throws Exception {
     Log.clearFindings();
-    UMLStatechartsMill.globalScope().clear();
+    IUMLStatechartsGlobalScope gs = UMLStatechartsMill.globalScope();
+    gs.clear();
+    TypeSymbol stringType = UMLStatechartsMill
+        .typeSymbolBuilder()
+        .setEnclosingScope(gs)
+        .setName("String")
+        .build();
+    UMLStatechartsMill.globalScope().add(stringType);
+    IUMLStatechartsArtifactScope as = UMLStatechartsMill.artifactScope();
+    as.setEnclosingScope(gs);
+    as.setPackageName("a.b");
+    TypeSymbol personType = UMLStatechartsMill
+        .typeSymbolBuilder()
+        .setEnclosingScope(as)
+        .setName("Person")
+        .build();
+    as.add(personType);
   }
   
   @Test
