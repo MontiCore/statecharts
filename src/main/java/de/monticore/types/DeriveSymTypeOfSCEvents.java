@@ -1,10 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.types;
 
-import de.monticore.expressions.expressionsbasis._ast.ASTExpression;
-import de.monticore.expressions.expressionsbasis._visitor.ExpressionsBasisTraverser;
-import de.monticore.literals.mccommonliterals._ast.ASTSignedLiteral;
-import de.monticore.literals.mcliteralsbasis._ast.ASTLiteral;
 import de.monticore.scevents.SCEventsMill;
 import de.monticore.scevents._visitor.SCEventsTraverser;
 import de.monticore.scevents._visitor.SCEventsVisitor2;
@@ -12,7 +8,7 @@ import de.monticore.types.check.*;
 
 import java.util.Optional;
 
-public class DeriveSymTypeOfSCEvents implements ITypesCalculator, SCEventsVisitor2 {
+public class DeriveSymTypeOfSCEvents implements IDerive, SCEventsVisitor2 {
   
   protected TypeCheckResult typeCheckResult;
   protected SCEventsTraverser traverser;
@@ -42,41 +38,16 @@ public class DeriveSymTypeOfSCEvents implements ITypesCalculator, SCEventsVisito
   public TypeCheckResult getTypeCheckResult() {
     return typeCheckResult;
   }
-  
+
   @Override
-  public Optional<SymTypeExpression> calculateType(ASTExpression ex) {
-    ex.accept(traverser);
-    if (getTypeCheckResult().isPresentCurrentResult()) {
-      return Optional.of(getTypeCheckResult().getCurrentResult());
+  public Optional<SymTypeExpression> getResult() {
+    if(typeCheckResult.isPresentCurrentResult()){
+      return Optional.ofNullable(typeCheckResult.getCurrentResult());
     }
-    else {
-      return Optional.empty();
-    }
+    return Optional.empty();
   }
   
-  @Override
-  public Optional<SymTypeExpression> calculateType(ASTLiteral lit) {
-    lit.accept(traverser);
-    if (getTypeCheckResult().isPresentCurrentResult()) {
-      return Optional.of(getTypeCheckResult().getCurrentResult());
-    }
-    else {
-      return Optional.empty();
-    }
-  }
-  
-  @Override
-  public Optional<SymTypeExpression> calculateType(ASTSignedLiteral lit) {
-    lit.accept(traverser);
-    if (getTypeCheckResult().isPresentCurrentResult()) {
-      return Optional.of(getTypeCheckResult().getCurrentResult());
-    }
-    else {
-      return Optional.empty();
-    }
-  }
-  
-  @Override public ExpressionsBasisTraverser getTraverser() {
+  @Override public SCEventsTraverser getTraverser() {
     return traverser;
   }
 }

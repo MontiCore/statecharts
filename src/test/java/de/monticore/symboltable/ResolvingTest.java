@@ -32,7 +32,23 @@ public class ResolvingTest {
   public void setUp() throws Exception {
     Log.clearFindings();
     UMLStatechartsMill.init();
-    UMLStatechartsMill.globalScope().clear();
+    IUMLStatechartsGlobalScope gs = UMLStatechartsMill.globalScope();
+    gs.clear();
+    TypeSymbol stringType = UMLStatechartsMill
+        .typeSymbolBuilder()
+        .setEnclosingScope(gs)
+        .setName("String")
+        .build();
+    UMLStatechartsMill.globalScope().add(stringType);
+    IUMLStatechartsArtifactScope as = UMLStatechartsMill.artifactScope();
+    as.setEnclosingScope(gs);
+    as.setPackageName("a.b");
+    TypeSymbol personType = UMLStatechartsMill
+        .typeSymbolBuilder()
+        .setEnclosingScope(as)
+        .setName("Person")
+        .build();
+    as.add(personType);
   }
   
   @Test
