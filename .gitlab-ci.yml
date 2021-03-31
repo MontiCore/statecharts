@@ -1,6 +1,6 @@
 # (c) https://github.com/MontiCore/monticore
 
-image: registry.git.rwth-aachen.de/monticore/container-registry/gradle:6.5.1-jdk8
+image: registry.git.rwth-aachen.de/monticore/container-registry/gradle:6.8.2-jdk8
 
 stages:
   - build
@@ -8,7 +8,6 @@ stages:
   - check
 
 before_script:
-  - chmod +x gradlew
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
 build:
