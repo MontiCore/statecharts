@@ -76,7 +76,7 @@ component grammar SCBasis extends
   /**
     The named version of a Statechart
   */
-  /*scope*/ NamedStatechart implements Diagram, Statechart =
+  /*scope symbol*/ NamedStatechart implements Diagram, Statechart =
     Stereotype?
     "statechart" Name "{"
       SCStatechartElement*
