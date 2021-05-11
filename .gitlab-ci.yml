@@ -6,6 +6,7 @@ stages:
   - build
   - deploy
   - check
+  - mirror
 
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -49,5 +50,41 @@ checkMDLinks:
     - "linkCheckRes=$(java -jar MDLinkCheckerCLI.jar -url $url -t $secibuildtoken -p)"
     - "echo \"$linkCheckRes\""
     - "if [[ $linkCheckRes == *\"ERROR\"* ]]; then exit 1; fi"
+  only:
+    - dev
+
+githubmirror:
+  image: maven:3-jdk-8
+  stage: mirror
+  dependencies:
+    - checkMDLinks
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SE_CIBUILD_SSH_PRIV_KEY")
+    - echo "$SE_CIBUILD_SSH_PRIV_KEY" | tr -d '\r' | ssh-add -
+    - git config --global user.email "noreply-ci@se-rwth.de"
+    - git config --global user.name "MontiCore Mirroring Bot"
+    - mkdir -p ~/.ssh
+    - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+  script:
+    - "curl --location --header \"PRIVATE-TOKEN: $secibuildtoken\" \"https://git.rwth-aachen.de/api/v4/projects/monticore%2Fmdlinkchecker/jobs/artifacts/master/raw/target/libs/MDLinkChangerCLI.jar?job=build\" --output MDLinkChangerCLI.jar"
+    - sh pre/mirror.sh
+    - cd ..
+    - "if [ -d \"tmp\" ]; then rm -rf tmp; fi"
+    - mkdir "tmp"
+    - cd tmp
+    - git clone git@github.com:MontiCore/statecharts.git
+    - cd ..
+    - rm -r tmp/statecharts/*
+    - mv sc-language/* tmp/statecharts/
+    - cd tmp/statecharts
+    - git add --all
+    - "(git commit -m 'Updated branch with most recent version.') || true"
+    - git push --force
+    - cd ..
+    - cd ..
+    - rm -rf tmp
+    - exit 0
   only:
     - dev
