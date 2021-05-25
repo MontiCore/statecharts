@@ -1,8 +1,11 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
+import de.monticore.cd4code.prettyprint.CD4CodeFullPrettyPrinter;
+import de.monticore.cdbasis._ast.ASTCDCompilationUnit;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
+import de.monticore.sc2cd.SC2CDConverter;
 import de.monticore.scbasis.BranchingDegreeCalculator;
 import de.monticore.scbasis.InitialStateCollector;
 import de.monticore.scbasis.ReachableStateCollector;
@@ -109,6 +112,12 @@ public class StatechartsCLI {
       if (cmd.hasOption("r")) {
         String path = cmd.getOptionValue("r", StringUtils.EMPTY);
         report(scartifact, path);
+      }
+
+      // -option generate to CD
+      if (cmd.hasOption("g")) {
+        String path = cmd.getOptionValue("g", StringUtils.EMPTY);
+        generateCD(scartifact, path);
       }
     
     
@@ -323,6 +332,21 @@ public class StatechartsCLI {
     }
   }
 
+  /**
+   * Prints the contents of the SD-AST to stdout or a specified file.
+   *
+   * @param scartifact The SC-AST to be pretty printed
+   * @param file The target file name for printing the CD artifact. If empty,
+   *          the content is printed to stdout instead
+   */
+  public void generateCD(ASTSCArtifact scartifact, String file) {
+    // pretty print AST
+    SC2CDConverter converter = new SC2CDConverter();
+    ASTCDCompilationUnit cd = converter.doConvert(scartifact);
+    CD4CodeFullPrettyPrinter prettyPrinter = new CD4CodeFullPrettyPrinter();
+    String prettyOutput = prettyPrinter.prettyprint(cd);
+    print(prettyOutput, file);
+  }
 
 
   /**
@@ -372,6 +396,15 @@ public class StatechartsCLI {
         .desc("Prints reports of the statechart artifact to the specified directory. Available reports:"
             + System.lineSeparator() + "reachable states, branching degree, and state names")
         .build());
+
+    // convert to state pattern CD
+    options.addOption(Option.builder("g")
+                              .longOpt("generate")
+                              .argName("file")
+                              .optionalArg(true)
+                              .numberOfArgs(1)
+                              .desc("Prints the state pattern CD-AST to stdout or the specified file (optional)")
+                              .build());
   
     // model paths
     options.addOption(Option.builder("path")
