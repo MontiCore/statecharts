@@ -68,6 +68,15 @@ public class UMLStatechartsToolTest {
     });
     assertEquals("Pretty printing of Door.sc was not successful", Log.getErrorCount(), 0);
   }
+
+  @Test
+  public void testUMLStatechartsConverter(){
+    new StatechartsCLI().run(new String[]{
+            "-i", resourcesDir + "examples/uml/Door.sc",
+            "-g"
+    });
+    assertEquals("Converting to SD of Door.sc was not successful", Log.getErrorCount(), 0);
+  }
   
   @Test
   public void testUMLStatechartsStore(){
