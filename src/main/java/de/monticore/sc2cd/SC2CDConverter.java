@@ -25,14 +25,24 @@ public class SC2CDConverter {
   public static void main(String[] args) throws Exception {
     Log.enableFailQuick(false);
     UMLStatechartsMill.init();
-    Optional<ASTSCArtifact> opt = UMLStatechartsMill.parser().parse("src/test/resources/examples/uml/Door2.sc");
+    Optional<ASTSCArtifact> opt = UMLStatechartsMill.parser().parse("src/test/resources/examples/uml/DoorExample.sc");
 
     // Build ST
     UMLStatechartsMill.scopesGenitorDelegator().createFromAST(opt.get());
 
     CD4CodeFullPrettyPrinter fullPrettyPrinter = new CD4CodeFullPrettyPrinter();
 
-    System.out.println(fullPrettyPrinter.prettyprint(new SC2CDConverter().doConvert(opt.get())));
+    //    // Prepare CD4C
+    GlobalExtensionManagement glex = new GlobalExtensionManagement();
+    GeneratorSetup config = new GeneratorSetup();
+    config.setGlex(glex);
+    config.setOutputDirectory(new File("target/generated-sources/mc"));
+    config.setOutputDirectory(new File("target/gen"));
+    config.setTracing(false);
+    File templatePath = new File("src/main/resources");
+    config.setAdditionalTemplatePaths(Lists.newArrayList(templatePath));
+
+    System.out.println(fullPrettyPrinter.prettyprint(new SC2CDConverter().doConvert(opt.get(), config)));
   }
 
   /**
@@ -40,17 +50,9 @@ public class SC2CDConverter {
    * @param astscArtifact the SC
    * @return the CD
    */
-  public ASTCDCompilationUnit doConvert(ASTSCArtifact astscArtifact) {
-    // Prepare CD4C
-    GlobalExtensionManagement glex = new GlobalExtensionManagement();
-    GeneratorSetup config = new GeneratorSetup();
-    config.setGlex(glex);
-    config.setOutputDirectory(new File("target/generated"));
-    config.setTracing(false);
-    File templatePath = new File("src/main/resources");
-    config.setAdditionalTemplatePaths(Lists.newArrayList(templatePath));
-
+  public ASTCDCompilationUnit doConvert(ASTSCArtifact astscArtifact, GeneratorSetup config) {
     CD4C cd4C = new CD4C(config);
+    cd4C.setEmptyBodyTemplate("de.monticore.sc2cd.gen.EmptyMethod");
 
     // Phase 1: Work on states
     SC2CDStateVisitor phase1Visitor = new SC2CDStateVisitor(cd4C);

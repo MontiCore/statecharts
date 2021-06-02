@@ -1,3 +1,8 @@
+<#-- (c) https://github.com/MontiCore/monticore -->
+<#--
+  Constructor for the main class of a SC
+
+-->
 ${tc.signature("classname", "states", "initialState")}
 ${cd4c.constructor("public ${classname}()")}
 {

@@ -1,9 +1,15 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
+import com.google.common.collect.Lists;
 import de.monticore.cd4code.prettyprint.CD4CodeFullPrettyPrinter;
+import de.monticore.cdbasis._ast.ASTCDClass;
 import de.monticore.cdbasis._ast.ASTCDCompilationUnit;
+import de.monticore.generating.GeneratorEngine;
+import de.monticore.generating.GeneratorSetup;
+import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.io.paths.ModelPath;
+import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.sc2cd.SC2CDConverter;
 import de.monticore.scbasis.BranchingDegreeCalculator;
@@ -333,19 +339,54 @@ public class StatechartsCLI {
   }
 
   /**
-   * Prints the contents of the SD-AST to stdout or a specified file.
+   * Prints the contents of the SD-AST to stdout or
+   * generates the java classes for the generated SD-AST into a directory
    *
-   * @param scartifact The SC-AST to be pretty printed
-   * @param file The target file name for printing the CD artifact. If empty,
+   * @param scartifact The SC-AST to be converted
+   * @param outputDirectory The target directory name for outputting the CD artifact. If empty,
    *          the content is printed to stdout instead
    */
-  public void generateCD(ASTSCArtifact scartifact, String file) {
+  public void generateCD(ASTSCArtifact scartifact, String outputDirectory) {
     // pretty print AST
     SC2CDConverter converter = new SC2CDConverter();
-    ASTCDCompilationUnit cd = converter.doConvert(scartifact);
-    CD4CodeFullPrettyPrinter prettyPrinter = new CD4CodeFullPrettyPrinter();
-    String prettyOutput = prettyPrinter.prettyprint(cd);
-    print(prettyOutput, file);
+
+    GeneratorSetup config = new GeneratorSetup();
+    GlobalExtensionManagement glex = new GlobalExtensionManagement();
+    config.setGlex(glex);
+    if (!outputDirectory.isEmpty()){
+      // Prepare CD4C
+      File targetDir = new File(outputDirectory);
+      if (!targetDir.exists())
+        targetDir.mkdirs();
+      config.setOutputDirectory(targetDir);
+      config.setTracing(false);
+      File templatePath = new File("src/main/resources");
+      config.setAdditionalTemplatePaths(Lists.newArrayList(templatePath));
+    }
+
+    ASTCDCompilationUnit cd = converter.doConvert(scartifact, config);
+    if (outputDirectory.isEmpty()) {
+      CD4CodeFullPrettyPrinter prettyPrinter = new CD4CodeFullPrettyPrinter();
+      String prettyOutput = prettyPrinter.prettyprint(cd);
+      print(prettyOutput, outputDirectory);
+    }else{
+      final CD4CodeFullPrettyPrinter printer = new CD4CodeFullPrettyPrinter(new IndentPrinter());
+      GeneratorEngine generatorEngine = new GeneratorEngine(config);
+
+      Path packageDir = Path.of(".");
+      for (String pn : cd.getCDPackageList()){
+        packageDir = Paths.get(packageDir.toString(), pn);
+      }
+      if (!packageDir.toFile().exists())
+        packageDir.toFile().mkdirs();
+
+      for (ASTCDClass clazz : cd.getCDDefinition().getCDClassesList()) {
+        Path out = Paths.get(packageDir.toString(),clazz.getName() + ".java");
+        generatorEngine.generate("de.monticore.sc2cd.gen.Class", out,
+                                 clazz, printer, cd.getCDPackageList());
+      }
+
+    }
   }
 
 
@@ -403,9 +444,9 @@ public class StatechartsCLI {
                               .argName("file")
                               .optionalArg(true)
                               .numberOfArgs(1)
-                              .desc("Prints the state pattern CD-AST to stdout or the specified file (optional)")
+                              .desc("Prints the state pattern CD-AST to stdout or the generated java classes to the specified folder")
                               .build());
-  
+
     // model paths
     options.addOption(Option.builder("path")
         .hasArgs()

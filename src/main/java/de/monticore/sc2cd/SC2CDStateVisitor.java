@@ -63,7 +63,7 @@ public class SC2CDStateVisitor
     // Generate the constructor of the class
     // It inits all state attributes
     // and the initial state
-    this.cd4C.addConstructor(this.scClass, "sc2cd.StateInitConstructor",
+    this.cd4C.addConstructor(this.scClass, "de.monticore.sc2cd.StateInitConstructor",
                              scClass.getName(),
                              this.stateToClassMap.keySet(),
                              this.initialState);
@@ -87,11 +87,11 @@ public class SC2CDStateVisitor
 
     // Main class, names equally to the SC
     scClass = CDBasisMill.cDClassBuilder().setName(statechart.getName())
-            .setModifier(CDBasisMill.modifierBuilder().build()).build();
+            .setModifier(CDBasisMill.modifierBuilder().setPublic(true).build()).build();
     astcdDefinition.addCDElement(scClass);
 
     // setState method on the class
-    cd4C.addMethod(scClass, "sc2cd.StateSetStateMethod");
+    cd4C.addMethod(scClass, "de.monticore.sc2cd.StateSetStateMethod");
 
     // The "current state" attribute on the class
     ASTCDAttribute scClassStateAttribute = CD4CodeMill.cDAttributeBuilder()
