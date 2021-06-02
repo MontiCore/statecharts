@@ -373,7 +373,7 @@ public class StatechartsCLI {
       final CD4CodeFullPrettyPrinter printer = new CD4CodeFullPrettyPrinter(new IndentPrinter());
       GeneratorEngine generatorEngine = new GeneratorEngine(config);
 
-      Path packageDir = Path.of(".");
+      Path packageDir = Paths.get(".");
       for (String pn : cd.getCDPackageList()){
         packageDir = Paths.get(packageDir.toString(), pn);
       }
