@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-import de.monticore.io.paths.ModelPath;
+import de.monticore.io.paths.MCPath;
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.scbasis.BranchingDegreeCalculator;
 import de.monticore.scbasis.InitialStateCollector;
@@ -78,11 +78,11 @@ public class StatechartsCLI {
       }
   
       // we need the global scope for symbols and cocos
-      ModelPath modelPath = new ModelPath(Paths.get(""));
+      MCPath symbolPath = new MCPath(Paths.get(""));
       if (cmd.hasOption("path")) {
-        modelPath = new ModelPath(Arrays.stream(cmd.getOptionValues("path")).map(x -> Paths.get(x)).collect(Collectors.toList()));
+        symbolPath = new MCPath(Arrays.stream(cmd.getOptionValues("path")).map(x -> Paths.get(x)).collect(Collectors.toList()));
       }
-      UMLStatechartsMill.globalScope().setModelPath(modelPath);
+      UMLStatechartsMill.globalScope().setSymbolPath(symbolPath);
       BasicSymbolsMill.initializePrimitives();
     
       // parse input file, which is now available
