@@ -4,7 +4,7 @@ import de.monticore.cd.methodtemplates.CD4C;
 import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.cd4code.prettyprint.CD4CodeFullPrettyPrinter;
 import de.monticore.cdbasis.CDBasisMill;
-import de.monticore.cdbasis._ast.*;
+import de.monticore.cdbasis._ast.ASTCDClass;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.scbasis._ast.ASTSCTransition;
@@ -18,7 +18,9 @@ import de.monticore.umlstatecharts._visitor.UMLStatechartsVisitor2;
 import de.se_rwth.commons.Splitters;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class SC2CDTransitionVisitor
         implements UMLStatechartsVisitor2, SCTransitions4CodeVisitor2, SCBasisVisitor2 {
@@ -26,48 +28,47 @@ public class SC2CDTransitionVisitor
   /**
    * The main class
    */
-  private final ASTCDClass scClass;
+  protected final ASTCDClass scClass;
   /**
    * Mapping of the state implementation classes for every state
    */
-  private final Map<String, ASTCDClass> stateToClassMap;
+  protected final Map<String, ASTCDClass> stateToClassMap;
 
-  private final ASTMCReturnType voidReturnType;
-  private final CD4CodeFullPrettyPrinter cd4CodeFullPrettyPrinter;
+  protected final ASTMCReturnType voidReturnType;
+  protected final CD4CodeFullPrettyPrinter cd4CodeFullPrettyPrinter;
 
-  private final ASTCDClass stateSuperClass;
-  private final CD4C cd4C;
+  protected final ASTCDClass stateSuperClass;
+  protected final CD4C cd4C;
 
 
-  private final List<String> stimuli = new ArrayList<>();
+  protected final List<String> stimuli = new ArrayList<>();
 
 
   public SC2CDTransitionVisitor(ASTCDClass scClass,
                                 Map<String, ASTCDClass> stateToClassMap,
-                                ASTCDClass stateSuperClass,
-                                CD4C cd4C) {
+                                ASTCDClass stateSuperClass) {
     this.scClass = scClass;
     this.stateToClassMap = stateToClassMap;
     this.stateSuperClass = stateSuperClass;
-    this.cd4C = cd4C;
+    this.cd4C = CD4C.getInstance();
 
     this.cd4CodeFullPrettyPrinter = new CD4CodeFullPrettyPrinter(new IndentPrinter());
     this.voidReturnType = CDBasisMill.mCReturnTypeBuilder().setMCVoidType(CDBasisMill.mCVoidTypeBuilder().build()).build();
   }
 
 
-  private ASTMCQualifiedType qualifiedType(String qname) {
+  protected ASTMCQualifiedType qualifiedType(String qname) {
     return qualifiedType(Splitters.DOT.splitToList(qname));
   }
 
-  private ASTMCQualifiedType qualifiedType(List<String> partsList) {
+  protected ASTMCQualifiedType qualifiedType(List<String> partsList) {
     return CD4CodeMill.mCQualifiedTypeBuilder()
             .setMCQualifiedName(CD4CodeMill.mCQualifiedNameBuilder().setPartsList(partsList).build()).build();
   }
 
 
-  private ASTSCTransition transition;
-  private ASTTransitionBody transitionBody;
+  protected ASTSCTransition transition;
+  protected ASTTransitionBody transitionBody;
 
   @Override
   public void visit(ASTSCTransition node) {

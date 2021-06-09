@@ -10,7 +10,7 @@ ${tc.signature("printer", "package")}
 </#if>
 
 <#--${ast.printAnnotation()}
-${ast.printModifier()}--> ${printer.prettyprint(ast.getModifier())} class ${ast.getName()}
+${ast.printModifier()}--> ${printer.prettyprint(ast.getModifier())} class ${ast.getName()} <#rt>
 <#if ast.isPresentCDExtendUsage()>
   ${printer.prettyprint(ast.getCDExtendUsage())}
 </#if>

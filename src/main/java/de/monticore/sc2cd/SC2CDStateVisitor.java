@@ -14,7 +14,9 @@ import de.monticore.umlstatecharts._visitor.UMLStatechartsVisitor2;
 import de.se_rwth.commons.Splitters;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Phase 1: Create the State Pattern classes based on the states
@@ -22,34 +24,34 @@ import java.util.*;
 public class SC2CDStateVisitor
         implements SCBasisVisitor2, UMLStatechartsVisitor2 {
 
-  private ASTSCArtifact astscArtifact;
+  protected ASTSCArtifact astscArtifact;
 
-  private ASTCDCompilationUnit cdCompilationUnit;
+  protected ASTCDCompilationUnit cdCompilationUnit;
 
   /**
    * The StateCharts class
    */
-  private ASTCDClass scClass;
+  protected ASTCDClass scClass;
   /**
    * The super class for all state implementations
    */
-  private ASTCDClass stateSuperClass;
+  protected ASTCDClass stateSuperClass;
   /**
    * Mapping of the state implementation classes for every state
    */
-  private final Map<String, ASTCDClass> stateToClassMap = new HashMap<>();
+  protected final Map<String, ASTCDClass> stateToClassMap = new HashMap<>();
   /**
    * Code template reference
    */
-  private final CD4C cd4C;
+  protected final CD4C cd4C;
 
   /**
    * Name of the initial state
    */
-  private String initialState = null;
+  protected String initialState = "";
 
-  public SC2CDStateVisitor(CD4C cd4C) {
-    this.cd4C = cd4C;
+  public SC2CDStateVisitor() {
+    this.cd4C = CD4C.getInstance();
   }
 
 
@@ -89,24 +91,34 @@ public class SC2CDStateVisitor
     scClass = CDBasisMill.cDClassBuilder().setName(statechart.getName())
             .setModifier(CDBasisMill.modifierBuilder().setPublic(true).build()).build();
     astcdDefinition.addCDElement(scClass);
-
+    
+    
+  }
+  
+  /**
+   *  used endVisit as CD4C currently requires classes to have scopes already 
+   *  */
+  @Override
+  public void endVisit(ASTNamedStatechart statechart) {
+    CD4CodeMill.scopesGenitorDelegator().createFromAST(cdCompilationUnit);
+  
     // setState method on the class
     cd4C.addMethod(scClass, "de.monticore.sc2cd.StateSetStateMethod");
-
+  
     // The "current state" attribute on the class
     ASTCDAttribute scClassStateAttribute = CD4CodeMill.cDAttributeBuilder()
-            .setModifier(CD4CodeMill.modifierBuilder().setProtected(true).build())
-            .setMCType(qualifiedType("StateClass"))
-            .setName("state")
-            .build();
-
+        .setModifier(CD4CodeMill.modifierBuilder().setProtected(true).build())
+        .setMCType(qualifiedType("StateClass"))
+        .setName("state")
+        .build();
+  
     // And add it to the class
     scClass.addCDMember(scClassStateAttribute);
-
+  
     // The super class for states, has a handle{Stimulus} method
     stateSuperClass = CDBasisMill.cDClassBuilder().setName("StateClass")
-            .setModifier(CDBasisMill.modifierBuilder().setAbstract(true).build()).build();
-    astcdDefinition.addCDElement(stateSuperClass);
+        .setModifier(CDBasisMill.modifierBuilder().setAbstract(true).build()).build();
+    cdCompilationUnit.getCDDefinition().addCDElement(stateSuperClass);
   }
 
   // TODO: public void visit(ASTUnnamedStatechart statechart)
@@ -118,7 +130,7 @@ public class SC2CDStateVisitor
       throw new IllegalStateException(
               "State is named \"state\", which interferes with the attribute for the currently seleted state");
     }
-    if (initialState == null) {
+    if (initialState.isEmpty()) {
       initialState = state.getName();
     }
 
@@ -161,12 +173,12 @@ public class SC2CDStateVisitor
     return stateSuperClass;
   }
 
-  // Helper methods
-  private ASTMCQualifiedType qualifiedType(String qname) {
+  // Support methods
+  protected ASTMCQualifiedType qualifiedType(String qname) {
     return qualifiedType(Splitters.DOT.splitToList(qname));
   }
 
-  private ASTMCQualifiedType qualifiedType(List<String> partsList) {
+  protected ASTMCQualifiedType qualifiedType(List<String> partsList) {
     return CD4CodeMill.mCQualifiedTypeBuilder()
             .setMCQualifiedName(CD4CodeMill.mCQualifiedNameBuilder().setPartsList(partsList).build()).build();
   }

@@ -1,7 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
-import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
@@ -10,7 +9,6 @@ import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -74,7 +72,7 @@ public class UMLStatechartsToolTest {
   public void testUMLStatechartsConverter(){
     new StatechartsCLI().run(new String[]{
             "-i", resourcesDir + "examples/uml/DoorExample.sc",
-            "-g", "target/gentest"
+            "-gen", "target/gentest"
     });
     assertEquals("Converting to SD of Door.sc was not successful", Log.getErrorCount(), 0);
   }
@@ -158,7 +156,7 @@ public class UMLStatechartsToolTest {
     assertEquals(Log.getErrorCount(), 0);
     String result = out.toString().replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
     assertEquals( "usage: UMLSCTool\n"
-        + " -g,--generate <file>       Prints the state pattern CD-AST to stdout or the\n"
+        + " -gen,--generate <file>     Prints the state pattern CD-AST to stdout or the\n"
         + "                            generated java classes to the specified folder\n"
         + " -h,--help                  Prints this help dialog\n"
         + " -i,--input <file>          Reads the source file (mandatory) and parses the\n"

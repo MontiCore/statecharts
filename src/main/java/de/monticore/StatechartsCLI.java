@@ -121,8 +121,8 @@ public class StatechartsCLI {
       }
 
       // -option generate to CD
-      if (cmd.hasOption("g")) {
-        String path = cmd.getOptionValue("g", StringUtils.EMPTY);
+      if (cmd.hasOption("gen")) {
+        String path = cmd.getOptionValue("gen", StringUtils.EMPTY);
         generateCD(scartifact, path);
       }
     
@@ -439,7 +439,7 @@ public class StatechartsCLI {
         .build());
 
     // convert to state pattern CD
-    options.addOption(Option.builder("g")
+    options.addOption(Option.builder("gen")
                               .longOpt("generate")
                               .argName("file")
                               .optionalArg(true)
