@@ -82,7 +82,7 @@ Expressions and statements are taken from MontiCores basic grammar library
 and can be extended by any own interesting language constructs
 (such as sending or receiving messages `!m` or `?m`)
 
-Further example models such as [`Door.sc`](src/test/resources/examples/Door.sc) or [`Car.sc`](/src/test/resources/examples/Car.sc) can be found here:
+Further example models such as [`Door.sc`](src/test/resources/examples/uml/Door.sc) or [`Car.sc`](src/test/resources/examples/uml/Car.sc) can be found here:
 [src/test/resources/examples](src/test/resources/examples).
 
 Graphical representations of the examples above:
@@ -127,10 +127,11 @@ where the arguments are:
 
 | Option                     | Explanation |
 | ------                     | ------ |
+| `-gen,--generate <file>`   | Prints the state pattern CD-AST to stdout or the generated java classes to the specified folder (optional) |
 | `-h,--help`                | Prints this help information   |
 | `-i,--input <file>`        | Reads the source file (mandatory) and parses the contents as a statechart |
 | `-pp,--prettyprint <file>` | Prints the Statechart-AST to stdout or the specified file (optional) |
-| `-path`                     | Sets the artifact path for imported symbols, space separated |
+| `-path`                    | Sets the artifact path for imported symbols, space separated |
 | `-r,--report <dir>`        | Prints reports of the statechart artifact to the specified directory. This includes e.g. reachable states and branching degrees  |
 | `-s,--symboltable <file>`  | Stores the symbol table of the given Statechart |
 
