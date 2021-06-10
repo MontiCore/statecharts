@@ -9,7 +9,6 @@ import de.monticore.cdbasis._ast.ASTCDCompilationUnit;
 import de.monticore.generating.GeneratorEngine;
 import de.monticore.generating.GeneratorSetup;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
-import de.monticore.io.paths.ModelPath;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.sc2cd.SC2CDConverter;
 import de.monticore.scbasis.BranchingDegreeCalculator;
