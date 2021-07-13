@@ -1,9 +1,12 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.sc2cd;
 
 import de.monticore.cd.methodtemplates.CD4C;
 import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.cdbasis.CDBasisMill;
 import de.monticore.cdbasis._ast.*;
+import de.monticore.generating.templateengine.GlobalExtensionManagement;
+import de.monticore.generating.templateengine.TemplateHookPoint;
 import de.monticore.scbasis._ast.ASTNamedStatechart;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scbasis._ast.ASTSCState;
@@ -12,6 +15,7 @@ import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedType;
 import de.monticore.umlmodifier.UMLModifierMill;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsVisitor2;
 import de.se_rwth.commons.Splitters;
+import de.se_rwth.commons.logging.Log;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
@@ -23,6 +27,8 @@ import java.util.Map;
  */
 public class SC2CDStateVisitor
         implements SCBasisVisitor2, UMLStatechartsVisitor2 {
+
+  public final static String ERROR_CODE = "0xDC011";
 
   protected ASTSCArtifact astscArtifact;
 
@@ -45,13 +51,16 @@ public class SC2CDStateVisitor
    */
   protected final CD4C cd4C;
 
+  protected final GlobalExtensionManagement glex;
+
   /**
    * Name of the initial state
    */
   protected String initialState = "";
 
-  public SC2CDStateVisitor() {
+  public SC2CDStateVisitor(GlobalExtensionManagement glex) {
     this.cd4C = CD4C.getInstance();
+    this.glex = glex;
   }
 
 
@@ -91,8 +100,9 @@ public class SC2CDStateVisitor
     scClass = CDBasisMill.cDClassBuilder().setName(statechart.getName())
             .setModifier(CDBasisMill.modifierBuilder().setPublic(true).build()).build();
     astcdDefinition.addCDElement(scClass);
-    
-    
+    // replace the template to add a setState method
+    glex.replaceTemplate("de.monticore.sc2cd.gen.Class", scClass, new TemplateHookPoint("de.monticore.sc2cd.MainClass"));
+
   }
   
   /**
@@ -100,25 +110,15 @@ public class SC2CDStateVisitor
    *  */
   @Override
   public void endVisit(ASTNamedStatechart statechart) {
-    CD4CodeMill.scopesGenitorDelegator().createFromAST(cdCompilationUnit);
-  
-    // setState method on the class
-    cd4C.addMethod(scClass, "de.monticore.sc2cd.StateSetStateMethod");
-  
-    // The "current state" attribute on the class
-    ASTCDAttribute scClassStateAttribute = CD4CodeMill.cDAttributeBuilder()
-        .setModifier(CD4CodeMill.modifierBuilder().setProtected(true).build())
-        .setMCType(qualifiedType("StateClass"))
-        .setName("state")
-        .build();
-  
-    // And add it to the class
-    scClass.addCDMember(scClassStateAttribute);
-  
     // The super class for states, has a handle{Stimulus} method
     stateSuperClass = CDBasisMill.cDClassBuilder().setName("StateClass")
-        .setModifier(CDBasisMill.modifierBuilder().setAbstract(true).build()).build();
+            .setModifier(CDBasisMill.modifierBuilder().setAbstract(true).build()).build();
     cdCompilationUnit.getCDDefinition().addCDElement(stateSuperClass);
+
+    CD4CodeMill.scopesGenitorDelegator().createFromAST(cdCompilationUnit);
+
+    // The "current state" attribute on the class
+    cd4C.addAttribute(scClass, "protected StateClass state;");
   }
 
   // TODO: public void visit(ASTUnnamedStatechart statechart)
@@ -127,8 +127,7 @@ public class SC2CDStateVisitor
   @Override
   public void visit(ASTSCState state) {
     if (state.getName().equals("state")) {
-      throw new IllegalStateException(
-              "State is named \"state\", which interferes with the attribute for the currently seleted state");
+      Log.error(ERROR_CODE + "State is named \"state\", which interferes with the attribute for the currently selected state");
     }
     if (initialState.isEmpty()) {
       initialState = state.getName();
@@ -142,14 +141,9 @@ public class SC2CDStateVisitor
     // Add the StateClassImpl to the CD and mapping
     this.cdCompilationUnit.getCDDefinition().addCDElement(stateClass);
     this.stateToClassMap.put(state.getName(), stateClass);
+
     // Add reference to this in the main class, in form of an attribute
-    scClass.addCDMember(
-            CD4CodeMill.cDAttributeBuilder()
-                    .setModifier(CD4CodeMill.modifierBuilder().setProtected(true).build())
-                    .setMCType(qualifiedType(state.getName()))
-                    .setName(StringUtils.uncapitalize(state.getName()))
-                    .build()
-                       );
+    cd4C.addAttribute(scClass, "protected " + state.getName() + " " + StringUtils.uncapitalize(state.getName()) + ";");
 
     // Set the initial state
     if (state.getSCModifier().isInitial()) {

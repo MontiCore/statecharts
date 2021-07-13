@@ -1,8 +1,8 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.sc2cd;
 
 import de.monticore.cd.methodtemplates.CD4C;
 import de.monticore.cd4code.CD4CodeMill;
-import de.monticore.cdbasis._ast.ASTCDCompilationUnit;
 import de.monticore.generating.GeneratorSetup;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
@@ -15,12 +15,12 @@ public class SC2CDConverter {
    * @param astscArtifact the SC
    * @return the CD
    */
-  public ASTCDCompilationUnit doConvert(ASTSCArtifact astscArtifact, GeneratorSetup config) {
+  public SC2CDData doConvert(ASTSCArtifact astscArtifact, GeneratorSetup config) {
     CD4C.init(config);
     CD4C.getInstance().setEmptyBodyTemplate("de.monticore.sc2cd.gen.EmptyMethod");
 
     // Phase 1: Work on states
-    SC2CDStateVisitor phase1Visitor = new SC2CDStateVisitor();
+    SC2CDStateVisitor phase1Visitor = new SC2CDStateVisitor(config.getGlex());
     UMLStatechartsTraverser traverser = UMLStatechartsMill.inheritanceTraverser();
     traverser.add4SCBasis(phase1Visitor);
     traverser.add4UMLStatecharts(phase1Visitor);
@@ -39,6 +39,8 @@ public class SC2CDConverter {
     traverser.handle(astscArtifact);
 
     // voila
-    return phase1Visitor.getCdCompilationUnit();
+    return new SC2CDData(phase1Visitor.getCdCompilationUnit(), phase1Visitor.getScClass(),
+                         phase1Visitor.getStateSuperClass(),
+                         phase1Visitor.getStateToClassMap().values());
   }
 }
