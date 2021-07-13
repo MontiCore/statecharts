@@ -38,6 +38,6 @@ public class SC2CDTest {
     File templatePath = new File("src/main/resources");
     config.setAdditionalTemplatePaths(Lists.newArrayList(templatePath));
   
-    System.out.println(fullPrettyPrinter.prettyprint(new SC2CDConverter().doConvert(opt.get(), config)));
+    System.out.println(fullPrettyPrinter.prettyprint(new SC2CDConverter().doConvert(opt.get(), config).getCompilationUnit()));
   }
 }

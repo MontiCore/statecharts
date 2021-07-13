@@ -1,15 +1,14 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
+import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsGlobalScope;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -36,10 +35,16 @@ public class UMLStatechartsToolTest {
     LogStub.initPlusLog();
     UMLStatechartsMill.init();
   }
-  
+
+  @After
+  public void after(){
+    CD4CodeMill.reset();
+  }
+
   @Before
   public void setUp() throws Exception {
     Log.clearFindings();
+    UMLStatechartsMill.init();
     IUMLStatechartsGlobalScope gs = UMLStatechartsMill.globalScope();
     gs.clear();
     TypeSymbol stringType = UMLStatechartsMill
@@ -86,6 +91,29 @@ public class UMLStatechartsToolTest {
   }
 
   @Test
+  public void testUMLStatechartsConverterWithConfigTemplate(){
+    new StatechartsCLI().run(new String[]{
+            "-i", resourcesDir + "examples/uml/DoorExample.sc",
+            "-gen", "target/generated-sources/mc",
+            "-fp", "src/test/resources",
+            "-ct", "configTemplate/ct.ftl"
+    });
+    assertEquals("Converting to CD of Door.sc was not successful", Log.getErrorCount(), 0);
+  }
+
+  @Test
+  public void testUMLStatechartsConverterWithConfigTemplateAndTOP(){
+    new StatechartsCLI().run(new String[]{
+            "-i", resourcesDir + "examples/uml/DoorExample.sc",
+            "-gen", "target/generated-sources/mc",
+            "-fp", "src/test/resources",
+            "-ct", "configTemplate/ct.ftl",
+            "-hcp", "src/test/resources/handcoded"
+    });
+    assertEquals("Converting to CD of Door.sc was not successful", Log.getErrorCount(), 0);
+  }
+
+  @Test
   public void testUMLStatechartsStore(){
     new StatechartsCLI().run(new String[]{
         "-i", resourcesDir + "examples/uml/Door.sc",
@@ -128,6 +156,7 @@ public class UMLStatechartsToolTest {
         "-i", resourcesDir + "valid/Test.sc",
         "-pp", outputDir + "testsc/Test.sc"
     });
+    Log.getFindings().forEach(System.out::println);
     assertEquals("Pretty printing Test.sc was not successful", Log.getErrorCount(), 0);
   }
   
@@ -248,21 +277,28 @@ public class UMLStatechartsToolTest {
     new StatechartsCLI().run(new String[]{    "-h" });
     assertEquals(Log.getErrorCount(), 0);
     String result = out.toString().replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
-    assertEquals( "usage: UMLSCTool\n"
-                          + " -gen,--generate <file>     Prints the state pattern CD-AST to stdout or the\n"
-                          + "                            generated java classes to the specified folder\n"
-                          + "                            (optional)\n"
-                          + " -h,--help                  Prints this help dialog\n"
-                          + " -i,--input <file>          Reads the source file (mandatory) and parses the\n"
-                          + "                            contents as a statechart\n"
-                          + " -path <arg>                Sets the artifact path for imported symbols, space\n"
-                          + "                            separated.\n"
-                          + " -pp,--prettyprint <file>   Prints the Statechart-AST to stdout or the specified\n"
-                          + "                            file (optional)\n"
-                          + " -r,--report <dir>          Prints reports of the statechart artifact to the\n"
-                          + "                            specified directory. Available reports:\n"
-                          + "                            reachable states, branching degree, and state names\n"
-                          + " -s,--symboltable <file>    Serialized the Symbol table of the given Statechart\n"
+    assertEquals( "usage: UMLSCTool\n" +
+                          " -ct,--configTemplate <path>       Provides a config template (optional)\n" +
+                          " -fp,--templatePath <pathlist>     List of directories to look for handwritten\n" +
+                          "                                   templates to integrate (optional)\n" +
+                          " -gen,--generate <file>            Prints the state pattern CD-AST to stdout or\n" +
+                          "                                   the generated java classes to the specified\n" +
+                          "                                   folder (optional)\n" +
+                          " -h,--help                         Prints this help dialog\n" +
+                          " -hcp,--handcodedPath <pathlist>   List of directories to look for handwritten\n" +
+                          "                                   code to integrate (optional)\n" +
+                          " -i,--input <file>                 Reads the source file (mandatory) and parses\n" +
+                          "                                   the contents as a statechart\n" +
+                          " -path <arg>                       Sets the artifact path for imported symbols,\n" +
+                          "                                   space separated.\n" +
+                          " -pp,--prettyprint <file>          Prints the Statechart-AST to stdout or the\n" +
+                          "                                   specified file (optional)\n" +
+                          " -r,--report <dir>                 Prints reports of the statechart artifact to\n" +
+                          "                                   the specified directory. Available reports:\n" +
+                          "                                   reachable states, branching degree, and state\n" +
+                          "                                   names\n" +
+                          " -s,--symboltable <file>           Serialized the Symbol table of the given\n" +
+                          "                                   Statechart\n"
             , result );
   }
 }

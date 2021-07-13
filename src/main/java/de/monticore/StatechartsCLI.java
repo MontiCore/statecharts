@@ -1,16 +1,21 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
+import de.monticore.generating.templateengine.TemplateController;
+import de.monticore.generating.templateengine.TemplateHookPoint;
+import de.monticore.io.paths.IterablePath;
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.io.paths.MCPath;
 import de.monticore.cd4code.prettyprint.CD4CodeFullPrettyPrinter;
 import de.monticore.cdbasis._ast.ASTCDClass;
-import de.monticore.cdbasis._ast.ASTCDCompilationUnit;
 import de.monticore.generating.GeneratorEngine;
 import de.monticore.generating.GeneratorSetup;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.sc2cd.SC2CDConverter;
+import de.monticore.sc2cd.HookPointService;
+import de.monticore.sc2cd.SC2CDData;
+import de.monticore.sc2cd.SCTopDecorator;
 import de.monticore.scbasis.BranchingDegreeCalculator;
 import de.monticore.scbasis.InitialStateCollector;
 import de.monticore.scbasis.ReachableStateCollector;
@@ -44,10 +49,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class StatechartsCLI {
@@ -125,7 +127,11 @@ public class StatechartsCLI {
       // -option generate to CD
       if (cmd.hasOption("gen")) {
         String path = cmd.getOptionValue("gen", StringUtils.EMPTY);
-        generateCD(scartifact, path);
+        String configTemplate = cmd.getOptionValue("ct", StringUtils.EMPTY);
+        String templatePath = cmd.getOptionValue("fp", StringUtils.EMPTY);
+        String handcodedPath = cmd.getOptionValue("hcp", StringUtils.EMPTY);
+
+        generateCD(scartifact, path, configTemplate, templatePath, handcodedPath);
       }
 
     
@@ -370,42 +376,70 @@ public class StatechartsCLI {
    * @param outputDirectory The target directory name for outputting the CD artifact. If empty,
    *          the content is printed to stdout instead
    */
-  public void generateCD(ASTSCArtifact scartifact, String outputDirectory) {
+  public void generateCD(ASTSCArtifact scartifact, String outputDirectory, String configTemplate, String templatePath, String handcodedPath) {
     // pretty print AST
     SC2CDConverter converter = new SC2CDConverter();
 
-    GeneratorSetup config = new GeneratorSetup();
+    GeneratorSetup setup = new GeneratorSetup();
     GlobalExtensionManagement glex = new GlobalExtensionManagement();
-    config.setGlex(glex);
+    setup.setGlex(glex);
+
+
     if (!outputDirectory.isEmpty()){
       // Prepare CD4C
       File targetDir = new File(outputDirectory);
       if (!targetDir.exists())
         targetDir.mkdirs();
-      config.setOutputDirectory(targetDir);
-      config.setTracing(false);
+      setup.setOutputDirectory(targetDir);
+      setup.setTracing(false);
     }
 
-    ASTCDCompilationUnit cd = converter.doConvert(scartifact, config);
+    SC2CDData sc2CDData = converter.doConvert(scartifact, setup);
+
+    if (!handcodedPath.isEmpty()) {
+      SCTopDecorator topDecorator = new SCTopDecorator(new MCPath(handcodedPath));
+      topDecorator.decorate(sc2CDData.getCompilationUnit());
+    }
+
     if (outputDirectory.isEmpty()) {
       CD4CodeFullPrettyPrinter prettyPrinter = new CD4CodeFullPrettyPrinter();
-      String prettyOutput = prettyPrinter.prettyprint(cd);
+      String prettyOutput = prettyPrinter.prettyprint(sc2CDData.getCompilationUnit());
       print(prettyOutput, outputDirectory);
     }else{
       final CD4CodeFullPrettyPrinter printer = new CD4CodeFullPrettyPrinter(new IndentPrinter());
-      GeneratorEngine generatorEngine = new GeneratorEngine(config);
+      GeneratorEngine generatorEngine = new GeneratorEngine(setup);
 
       Path packageDir = Paths.get(".");
-      for (String pn : cd.getCDPackageList()){
+      for (String pn : sc2CDData.getCompilationUnit().getCDPackageList()){
         packageDir = Paths.get(packageDir.toString(), pn);
       }
-      if (!packageDir.toFile().exists())
-        packageDir.toFile().mkdirs();
 
-      for (ASTCDClass clazz : cd.getCDDefinition().getCDClassesList()) {
-        Path out = Paths.get(packageDir.toString(),clazz.getName() + ".java");
+      if (!configTemplate.isEmpty()) {
+        // Load a custom config template, if set
+        GeneratorSetup templateSetup = new GeneratorSetup();
+        templateSetup.setGlex(glex);
+
+        if (!templatePath.isEmpty()) {
+          templateSetup.setAdditionalTemplatePaths(IterablePath.from(new File(templatePath), "ftl")
+                                                           .getPaths().stream().map(p -> new File(p.toUri()))
+                                                           .collect(Collectors.toList()));
+        }
+
+        TemplateController tc = templateSetup.getNewTemplateController(configTemplate);
+        TemplateHookPoint hp = new TemplateHookPoint(configTemplate);
+        // Provide the glex, a template helper, and the CD classes as args
+        List<Object> args = Arrays.asList(templateSetup.getGlex(),
+                                          new HookPointService(),
+                                          sc2CDData.getScClass(),
+                                          sc2CDData.getStateSuperClass(),
+                                          sc2CDData.getStateClasses());
+        hp.processValue(tc, sc2CDData.getCompilationUnit(), args);
+      }
+
+      for (ASTCDClass clazz : sc2CDData.getCompilationUnit().getCDDefinition().getCDClassesList()) {
+        Path out = Paths.get(packageDir.toString(), clazz.getName() + ".java");
         generatorEngine.generate("de.monticore.sc2cd.gen.Class", out,
-                                 clazz, printer, cd.getCDPackageList());
+                                 clazz, printer, sc2CDData.getCompilationUnit().getCDPackageList());
       }
 
     }
@@ -462,12 +496,40 @@ public class StatechartsCLI {
 
     // convert to state pattern CD
     options.addOption(Option.builder("gen")
-                              .longOpt("generate")
-                              .argName("file")
-                              .optionalArg(true)
-                              .numberOfArgs(1)
-                              .desc("Prints the state pattern CD-AST to stdout or the generated java classes to the specified folder (optional)")
-                              .build());
+        .longOpt("generate")
+        .argName("file")
+        .optionalArg(true)
+        .numberOfArgs(1)
+        .desc("Prints the state pattern CD-AST to stdout or the generated java classes to the specified folder (optional)")
+        .build());
+
+    // configTemplate parameter
+    options.addOption(Option.builder("ct")
+        .longOpt("configTemplate")
+        .argName("path")
+        .optionalArg(true)
+        .numberOfArgs(1)
+        .desc("Provides a config template (optional)")
+        .build());
+
+    // handcoded gen path parameter
+    options.addOption(Option.builder("hcp")
+        .longOpt("handcodedPath")
+        .argName("pathlist")
+        .optionalArg(true)
+        .numberOfArgs(1)
+        .desc("List of directories to look for handwritten code to integrate (optional)")
+        .build());
+
+
+    // templatePath parameter
+    options.addOption(Option.builder("fp")
+        .longOpt("templatePath")
+        .argName("pathlist")
+        .optionalArg(true)
+        .numberOfArgs(1)
+        .desc("List of directories to look for handwritten templates to integrate (optional)")
+        .build());
 
     // model paths
     options.addOption(Option.builder("path")

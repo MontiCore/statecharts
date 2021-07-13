@@ -1,5 +1,12 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
 
+# 7.1.0-SNAPSHOT
+to be released  
+based on MontiCore 7.1.0-SNAPSHOT
+* added the functionality to generate CDs using state patterns using the `gen` option
+* added `ct` and `fp` options to influence the generation with a config template and a template path respectively
+* added `hcp` option to specify a hand-written path (for the TOP mechanism of the generation)
+
 # 6.8.0-SNAPSHOT
 to be released  
 based on MontiCore 6.8.0-SNAPSHOT

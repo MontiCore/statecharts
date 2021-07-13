@@ -5,5 +5,7 @@
 -->
 
 ${tc.signature("ast", "printer")}
-${printer.prettyprint(ast.getModifier())} ${printer.prettyprint(ast.getMCType())} ${ast.getName()} <#rt>
+<@compress single_line=true>
+ ${printer.prettyprint(ast.getModifier())} ${printer.prettyprint(ast.getMCType())} ${ast.getName()}
  <#if ast.isPresentInitial()>=${printer.prettyprint(ast.getInitial())}</#if>;
+</@compress>

@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.sc2cd;
 
 import de.monticore.cd.methodtemplates.CD4C;
@@ -21,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class SC2CDTransitionVisitor
         implements UMLStatechartsVisitor2, SCTransitions4CodeVisitor2, SCBasisVisitor2 {
@@ -67,27 +69,27 @@ public class SC2CDTransitionVisitor
   }
 
 
-  protected ASTSCTransition transition;
-  protected ASTTransitionBody transitionBody;
+  protected Optional<ASTSCTransition> transition = Optional.empty();
+  protected Optional<ASTTransitionBody> transitionBody = Optional.empty();
 
   @Override
   public void visit(ASTSCTransition node) {
-    this.transition = node;
+    this.transition = Optional.of(node);
   }
 
   @Override
   public void visit(ASTTransitionBody node) {
-    this.transitionBody = node;
+    this.transitionBody = Optional.of(node);
   }
 
   @Override
   public void endVisit(ASTSCTransition node) {
-    this.transition = null;
+    this.transition = Optional.empty();
   }
 
   @Override
   public void endVisit(ASTTransitionBody node) {
-    this.transitionBody = null;
+    this.transitionBody = Optional.empty();
   }
 
   @Override
@@ -95,7 +97,7 @@ public class SC2CDTransitionVisitor
     String stimulus = event.getName().getQName();
     if (!stimuli.contains(stimulus)) {
       // Add stimulus method to the Class
-      cd4C.addMethod(scClass, "de.monticore.sc2cd.StateStimulusMethod", stimulus);
+      cd4C.addMethod(scClass, "de.monticore.sc2cd.StateStimulusMethod", stimulus, scClass.getName());
 
       // Add handleStimulus(Class k) method to the StateClass
       stateSuperClass.addCDMember(CD4CodeMill.cDMethodBuilder().setModifier(CDBasisMill.modifierBuilder().build())
@@ -106,35 +108,35 @@ public class SC2CDTransitionVisitor
       this.stimuli.add(stimulus);
     }
 
-    if (transition == null || transitionBody == null) return;
+    if (!transition.isPresent() || !transitionBody.isPresent() ) return;
 
     // Add handleStimulus(Class k) method to the source-state StateClass impl
-    ASTCDClass stateImplClass = this.stateToClassMap.get(this.transition.getSourceName());
-    if (stateImplClass == null) {
-      throw new IllegalStateException("No source state " + this.transition.getSourceName() + " found!");
+    if (!this.stateToClassMap.containsKey(this.transition.get().getSourceName())) {
+      throw new IllegalStateException("No source state " + this.transition.get().getSourceName() + " found!");
     }
+    ASTCDClass stateImplClass = this.stateToClassMap.get(this.transition.get().getSourceName());
     if (stateImplClass.getCDMethodList().stream()
             .anyMatch(x -> x.getName().equals("handle" + StringUtils.capitalize(stimulus)))) {
       // This might occur due to stimuli with arguments
-      throw new IllegalStateException("Duplicate transition " + stimulus + " in " + this.transition.getSourceName() + " found!");
+      throw new IllegalStateException("Duplicate transition " + stimulus + " in " + this.transition.get().getSourceName() + " found!");
     }
 
     // Print the action using the UMLStatechartsFullPrettyPrinter
     String action = "/* no action */";
-    if (transitionBody.isPresentTransitionAction() && transitionBody.getTransitionAction()
+    if (transitionBody.get().isPresentTransitionAction() && transitionBody.get().getTransitionAction()
             .isPresentMCBlockStatement()) {
       IndentPrinter printer = new IndentPrinter();
-      new UMLStatechartsFullPrettyPrinter(printer).getTraverser().handle(transitionBody.getTransitionAction());
+      new UMLStatechartsFullPrettyPrinter(printer).getTraverser().handle(transitionBody.get().getTransitionAction());
       action = printer.getContent();
     }
     // Print the precondition as an expression, too
     String precondition = "true"; // by default true holds
-    if (transitionBody.isPresentPre()) {
-      precondition = this.cd4CodeFullPrettyPrinter.prettyprint(transitionBody.getPre());
+    if (transitionBody.get().isPresentPre()) {
+      precondition = this.cd4CodeFullPrettyPrinter.prettyprint(transitionBody.get().getPre());
     }
     // Finally, add the method
     cd4C.addMethod(stateImplClass, "de.monticore.sc2cd.StateClassHandleStimulus", stimulus, scClass.getName(),
-                   transition.getTargetName(), action, precondition);
+                   transition.get().getTargetName(), action, precondition);
   }
 
 
