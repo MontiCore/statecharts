@@ -32,7 +32,6 @@ public class SC2CDTest {
     GlobalExtensionManagement glex = new GlobalExtensionManagement();
     GeneratorSetup config = new GeneratorSetup();
     config.setGlex(glex);
-    config.setOutputDirectory(new File("target/generated-sources/mc"));
     config.setOutputDirectory(new File("target/gen"));
     config.setTracing(false);
     File templatePath = new File("src/main/resources");

@@ -8,7 +8,10 @@ import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsGlobalScope;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -105,7 +108,7 @@ public class UMLStatechartsToolTest {
   public void testUMLStatechartsConverterWithConfigTemplateAndTOP(){
     new StatechartsCLI().run(new String[]{
             "-i", resourcesDir + "examples/uml/DoorExample.sc",
-            "-gen", "target/generated-sources/mc",
+            "-gen", "target/gentest2",
             "-fp", "src/test/resources",
             "-ct", "configTemplate/ct.ftl",
             "-hcp", "src/test/resources/handcoded"
