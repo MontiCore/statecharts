@@ -1,12 +1,12 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.symboltable;
 
-import de.monticore.StatechartsCLI;
 import de.monticore.io.paths.MCPath;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scbasis._symboltable.SCStateSymbol;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
+import de.monticore.umlstatecharts.UMLStatechartsCLI;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsGlobalScope;
@@ -53,9 +53,9 @@ public class ResolvingTest {
   
   @Test
   public void testResolvingState() {
-    StatechartsCLI tool = new StatechartsCLI();
+    UMLStatechartsCLI tool = new UMLStatechartsCLI();
     BasicSymbolsMill.initializePrimitives();
-    ASTSCArtifact ast = tool.parseFile("src/test/resources/valid/Test.sc");
+    ASTSCArtifact ast = tool.parse("src/test/resources/valid/Test.sc");
     IUMLStatechartsArtifactScope st = tool.createSymbolTable(ast);
     st.setName("Test");
     Optional<SCStateSymbol> stateSymbol = st.resolveSCState("Parking");

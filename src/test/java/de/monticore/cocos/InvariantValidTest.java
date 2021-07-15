@@ -1,7 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.cocos;
 
-import de.monticore.StatechartsCLI;
 import de.monticore.io.paths.MCPath;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scstateinvariants._cocos.InvariantValid;
@@ -12,6 +11,7 @@ import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
 import de.monticore.types.DeriveSymTypeOfUMLStatecharts;
 import de.monticore.types.check.SymTypeExpressionFactory;
 import de.monticore.types.check.TypeCheck;
+import de.monticore.umlstatecharts.UMLStatechartsCLI;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._cocos.UMLStatechartsCoCoChecker;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
@@ -52,7 +52,7 @@ public class InvariantValidTest {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/invalid/Invariant.sc");
     assertTrue("Invariant.sc could not be parsed",  ast.isPresent());
-    IUMLStatechartsArtifactScope st = new StatechartsCLI().createSymbolTable(ast.get());
+    IUMLStatechartsArtifactScope st = new UMLStatechartsCLI().createSymbolTable(ast.get());
     st.setName("Invariant");
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
     checker.addCoCo(new InvariantValid(new TypeCheck(null, new DeriveSymTypeOfUMLStatecharts())));
@@ -71,7 +71,7 @@ public class InvariantValidTest {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/valid/Invariant2.sc");
     assertTrue("Invariant2.sc could not be parsed",  ast.isPresent());
-    IUMLStatechartsArtifactScope st = new StatechartsCLI().createSymbolTable(ast.get());
+    IUMLStatechartsArtifactScope st = new UMLStatechartsCLI().createSymbolTable(ast.get());
     st.setName("Invariant2");
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
     checker.addCoCo(new InvariantValid(new TypeCheck(null, new DeriveSymTypeOfUMLStatecharts())));
@@ -86,7 +86,7 @@ public class InvariantValidTest {
         .parse("src/test/resources/valid/Invariant3.sc");
     assertTrue("Invariant3.sc could not be parsed",  ast.isPresent());
   
-    IUMLStatechartsArtifactScope st = new StatechartsCLI()
+    IUMLStatechartsArtifactScope st = new UMLStatechartsCLI()
         .createSymbolTable(ast.get());
     st.setName("Invariant3");
     UMLStatechartsMill.globalScope().add(
@@ -107,7 +107,7 @@ public class InvariantValidTest {
         .parse("src/test/resources/valid/Invariant4.sc");
     assertTrue("Invariant3.sc could not be parsed",  ast.isPresent());
     
-    IUMLStatechartsArtifactScope st = new StatechartsCLI().createSymbolTable(ast.get());
+    IUMLStatechartsArtifactScope st = new UMLStatechartsCLI().createSymbolTable(ast.get());
     st.setName("Invariant4");
     OOTypeSymbol person = UMLStatechartsMill.oOTypeSymbolBuilder().setName("Person").build();
     person.setSpannedScope(UMLStatechartsMill.scope());
@@ -130,7 +130,7 @@ public class InvariantValidTest {
         .parse("src/test/resources/valid/Invariant5.sc");
     assertTrue("Invariant5.sc could not be parsed",  ast.isPresent());
     
-    IUMLStatechartsArtifactScope st = new StatechartsCLI().createSymbolTable(ast.get());
+    IUMLStatechartsArtifactScope st = new UMLStatechartsCLI().createSymbolTable(ast.get());
     st.setName("Invariant5");
     UMLStatechartsMill.globalScope().setSymbolPath(new MCPath(Paths.get("src/test/resources/symtab")));
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();

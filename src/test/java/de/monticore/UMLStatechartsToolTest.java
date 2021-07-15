@@ -2,6 +2,7 @@
 package de.monticore;
 
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
+import de.monticore.umlstatecharts.UMLStatechartsCLI;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsGlobalScope;
@@ -61,7 +62,7 @@ public class UMLStatechartsToolTest {
   
   @Test
   public void testUMLStatecharts(){
-    new StatechartsCLI().run(new String[]{
+    new UMLStatechartsCLI().run(new String[]{
         "-i", resourcesDir + "examples/uml/Door.sc"
     });
     assertEquals("Door.sc was not processed successfully", Log.getErrorCount(), 0);
@@ -69,7 +70,7 @@ public class UMLStatechartsToolTest {
   
   @Test
   public void testUMLStatechartsPP(){
-    new StatechartsCLI().run(new String[]{
+    new UMLStatechartsCLI().run(new String[]{
         "-i", resourcesDir + "examples/uml/Door.sc",
         "-pp"
     });
@@ -78,7 +79,7 @@ public class UMLStatechartsToolTest {
 
   @Test
   public void testUMLStatechartsConverter(){
-    new StatechartsCLI().run(new String[]{
+    new UMLStatechartsCLI().run(new String[]{
             "-i", resourcesDir + "examples/uml/DoorExample.sc",
             "-gen", "target/gentest"
     });
@@ -87,7 +88,7 @@ public class UMLStatechartsToolTest {
 
   @Test
   public void testUMLStatechartsStore(){
-    new StatechartsCLI().run(new String[]{
+    new UMLStatechartsCLI().run(new String[]{
         "-i", resourcesDir + "examples/uml/Door.sc",
         "-s", outputDir + "door/Door.scsym"
     });
@@ -96,7 +97,7 @@ public class UMLStatechartsToolTest {
   
   @Test
   public void testUMLStatechartsStore2(){
-    new StatechartsCLI().run(new String[]{
+    new UMLStatechartsCLI().run(new String[]{
         "-i", resourcesDir + "examples/uml/Car.sc",
         "-s", outputDir + "car/Car.scsym"
     });
@@ -105,7 +106,7 @@ public class UMLStatechartsToolTest {
   
   @Test
   public void testUMLStatechartsStore3(){
-    new StatechartsCLI().run(new String[]{
+    new UMLStatechartsCLI().run(new String[]{
         "-i", resourcesDir + "valid/Test.sc",
         "-s", outputDir + "testsc/Test.scsym"
     });
@@ -114,7 +115,7 @@ public class UMLStatechartsToolTest {
 
   @Test
   public void testUMLStatechartsStore4(){
-    new StatechartsCLI().run(new String[]{
+    new UMLStatechartsCLI().run(new String[]{
         "-i", resourcesDir + "valid/Test2.sc",
         "-s", outputDir + "testsc2/Test2.scsym"
     });
@@ -124,7 +125,7 @@ public class UMLStatechartsToolTest {
 
   @Test
   public void testUMLStatechartsPP3(){
-    new StatechartsCLI().run(new String[]{
+    new UMLStatechartsCLI().run(new String[]{
         "-i", resourcesDir + "valid/Test.sc",
         "-pp", outputDir + "testsc/Test.sc"
     });
@@ -134,7 +135,7 @@ public class UMLStatechartsToolTest {
   
   @Test
   public void testUMLStatechartsReportDoor() throws IOException {
-    new StatechartsCLI().run(new String[]{
+    new UMLStatechartsCLI().run(new String[]{
         "-i", resourcesDir + "examples/uml/Door.sc",
         "-r", outputDir + "door"
     });
@@ -159,7 +160,7 @@ public class UMLStatechartsToolTest {
   
   @Test
   public void testUMLStatechartsReportCar() throws IOException{
-    new StatechartsCLI().run(new String[]{
+    new UMLStatechartsCLI().run(new String[]{
         "-i", resourcesDir + "examples/uml/Car.sc",
         "-r", outputDir + "/car"
     });
@@ -245,10 +246,10 @@ public class UMLStatechartsToolTest {
   public void testHelp(){
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     System.setOut(new PrintStream(out));
-    new StatechartsCLI().run(new String[]{    "-h" });
+    new UMLStatechartsCLI().run(new String[]{    "-h" });
     assertEquals(Log.getErrorCount(), 0);
     String result = out.toString().replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
-    assertEquals( "usage: UMLSCTool\n"
+    assertEquals( "usage: UMLStatechartsCLI\n"
                           + " -gen,--generate <file>     Prints the state pattern CD-AST to stdout or the\n"
                           + "                            generated java classes to the specified folder\n"
                           + "                            (optional)\n"
