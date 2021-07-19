@@ -1,5 +1,5 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore;
+package de.monticore.umlstatecharts;
 
 import de.monticore.generating.templateengine.TemplateController;
 import de.monticore.generating.templateengine.TemplateHookPoint;
@@ -11,7 +11,9 @@ import de.monticore.cdbasis._ast.ASTCDClass;
 import de.monticore.generating.GeneratorEngine;
 import de.monticore.generating.GeneratorSetup;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
+import de.monticore.io.paths.MCPath;
 import de.monticore.prettyprint.IndentPrinter;
+import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.sc2cd.SC2CDConverter;
 import de.monticore.sc2cd.HookPointService;
 import de.monticore.sc2cd.SC2CDData;
@@ -33,56 +35,38 @@ import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.types.DeriveSymTypeOfUMLStatecharts;
 import de.monticore.types.SynthesizeSymType;
 import de.monticore.types.check.TypeCheck;
-import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._cocos.UMLStatechartsCoCoChecker;
-import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopesGenitorDelegator;
-import de.monticore.umlstatecharts._symboltable.UMLStatechartsSymbols2Json;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.cli.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class StatechartsCLI {
+public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
 
-  /**
-   * Main method that is called from command line and runs the UML Statechart tool.
-   *
-   * @param args The input parameters for configuring the UML Statechart tool.
-   */
-  public static void main(String[] args) {
-    StatechartsCLI cli = new StatechartsCLI();
-    // initialize logging with standard logging
-    Log.init();
-    UMLStatechartsMill.init();
-    cli.run(args);
-  
-  }
-  
+  @Override
   public void run(String[] args){
     Options options = initOptions();
-  
+
     try {
       // create CLI parser and parse input options from command line
       CommandLineParser cliparser = new DefaultParser();
       CommandLine cmd = cliparser.parse(options, args);
-    
+
       // help: when --help
       if (cmd.hasOption("h")) {
         printHelp(options);
         // do not continue, when help is printed
         return;
       }
-    
+
       // if -i input is missing: also print help and stop
       if (!cmd.hasOption("i")) {
         printHelp(options);
@@ -100,24 +84,24 @@ public class StatechartsCLI {
 
       // parse input file, which is now available
       // (only returns if successful)
-      ASTSCArtifact scartifact = parseFile(cmd.getOptionValue("i"));
-  
+      ASTSCArtifact scartifact = parse(cmd.getOptionValue("i"));
+
       IUMLStatechartsArtifactScope scope = createSymbolTable(scartifact);
 
       // check context conditions
-      checkAllCoCos(scartifact);
-  
+      runDefaultCoCos(scartifact);
+
       if (cmd.hasOption("s")) {
         String path = cmd.getOptionValue("s", StringUtils.EMPTY);
         storeSymbols(scope, path);
       }
-    
+
       // -option pretty print
       if (cmd.hasOption("pp")) {
         String path = cmd.getOptionValue("pp", StringUtils.EMPTY);
         prettyPrint(scartifact, path);
       }
-    
+
       // -option reports
       if (cmd.hasOption("r")) {
         String path = cmd.getOptionValue("r", StringUtils.EMPTY);
@@ -134,24 +118,20 @@ public class StatechartsCLI {
         generateCD(scartifact, path, configTemplate, templatePath, handcodedPath);
       }
 
-    
+
     } catch (ParseException e) {
       // ann unexpected error from the apache CLI parser:
       Log.error("0xA5C01 Could not process CLI parameters: " + e.getMessage());
     }
   }
-  
-  public void storeSymbols(IUMLStatechartsArtifactScope scope, String path) {
-    UMLStatechartsSymbols2Json deser = new UMLStatechartsSymbols2Json();
-    deser.store(scope, path);
-  }
-  
+
   /**
    * Creates the symbol table from the parsed AST.
    *
    * @param ast The top statechart model element.
    * @return The artifact scope derived from the parsed AST
    */
+  @Override
   public IUMLStatechartsArtifactScope createSymbolTable(ASTSCArtifact ast) {
 
     // create scope and symbol skeleton
@@ -166,7 +146,7 @@ public class StatechartsCLI {
 
     return symTab;
   }
-  
+
   /**
    * Creates reports for the Statechart-AST to stdout or a specified file.
    *
@@ -174,6 +154,7 @@ public class StatechartsCLI {
    * @param path The target path of the directory for the report artifacts. If
    *          empty, the contents are printed to stdout instead
    */
+  @Override
   public void report(ASTSCArtifact scartifact, String path) {
     // calculate and print reports
     String reachable = reportReachableStates(scartifact);
@@ -200,8 +181,8 @@ public class StatechartsCLI {
     traverser.add4SCStateHierarchy(stateCollector);
     ast.accept(traverser);
     Set<String> statesToBeChecked = stateCollector.getStates()
-        .stream().map(e -> e.getName()).collect(Collectors.toSet());
-    
+      .stream().map(e -> e.getName()).collect(Collectors.toSet());
+
     // collect all initial states
     traverser = UMLStatechartsMill.traverser();
     InitialStateCollector initialStateCollector = new InitialStateCollector();
@@ -210,7 +191,7 @@ public class StatechartsCLI {
     traverser.setSCStateHierarchyHandler(new NoSubstatesHandler());
     ast.accept(traverser);
     Set<String> reachableStates = initialStateCollector.getStates();
-    
+
     // calculate reachable states
     Set<String> currentlyChecked = new HashSet<>(reachableStates);
     statesToBeChecked.removeAll(reachableStates);
@@ -249,7 +230,7 @@ public class StatechartsCLI {
 
     }
     return "reachable: " + String.join(",", reachableStates) + System.lineSeparator()
-       + "unreachable: " + String.join(",", statesToBeChecked) + System.lineSeparator() ;
+      + "unreachable: " + String.join(",", statesToBeChecked) + System.lineSeparator() ;
   }
 
   public String reportBranchingDegree(ASTSCArtifact ast) {
@@ -258,8 +239,8 @@ public class StatechartsCLI {
     traverser.add4SCBasis(branchingDegreeCalculator);
     ast.accept(traverser);
     return branchingDegreeCalculator.getBranchingDegrees().entrySet().stream()
-        .map(e -> e.getKey() + ": " + e.getValue())
-        .collect(Collectors.joining(System.lineSeparator())) + System.lineSeparator();
+      .map(e -> e.getKey() + ": " + e.getValue())
+      .collect(Collectors.joining(System.lineSeparator())) + System.lineSeparator();
   }
 
   public String reportStateNames(ASTSCArtifact ast) {
@@ -268,44 +249,16 @@ public class StatechartsCLI {
     traverser.add4SCBasis(stateCollectorVisitor);
     ast.accept(traverser);
     return String.join(", ", stateCollectorVisitor.getStates()
-        .stream().map(e -> e.getName()).collect( Collectors.toSet())) + System.lineSeparator();
+      .stream().map(e -> e.getName()).collect( Collectors.toSet())) + System.lineSeparator();
   }
-  
-  /**
-   * Formats and prints the help information including parameters an options.
-   *
-   * @param options The input parameters and options.
-   */
-  public void printHelp(Options options) {
-    HelpFormatter formatter = new HelpFormatter();
-    formatter.setWidth(80);
-    formatter.printHelp("UMLSCTool", options);
-  }
-  
-  /**
-   * Parses the contents of a given file as a Statechart.
-   *
-   * @param path The path to the Statechart-file as String
-   */
-  public ASTSCArtifact parseFile(String path) {
-    Optional<ASTSCArtifact> sc = Optional.empty();
-    try {
-      Path model = Paths.get(path);
-      UMLStatechartsParser parser = new UMLStatechartsParser();
-      sc = parser.parse(model.toString());
-    }
-    catch (IOException | NullPointerException e) {
-      Log.error("0xA5C02 Input file " + path + " not found.");
-    }
-    return sc.get();
-  }
-  
+
   /**
    * Checks whether ast satisfies all CoCos.
    *
    * @param ast The ast of the SC.
    */
-  public void checkAllCoCos(ASTSCArtifact ast) {
+  @Override
+  public void runDefaultCoCos(ASTSCArtifact ast) {
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
     checker.addCoCo(new UniqueStates());
     checker.addCoCo(new TransitionSourceTargetExists());
@@ -328,44 +281,17 @@ public class StatechartsCLI {
    * @param file The target file name for printing the SC artifact. If empty,
    *          the content is printed to stdout instead
    */
+  @Override
   public void prettyPrint(ASTSCArtifact scartifact, String file) {
     // pretty print AST
     UMLStatechartsFullPrettyPrinter prettyPrinterDelegator
-        = new UMLStatechartsFullPrettyPrinter();
+      = new UMLStatechartsFullPrettyPrinter();
     String prettyOutput = prettyPrinterDelegator.prettyprint(scartifact);
     print(prettyOutput, file);
   }
 
   public void print(String content, String path, String file) {
     print(content, path.isEmpty()?path : path + "/"+ file);
-  }
-
-  /**
-   * Prints the given content to a target file (if specified) or to stdout (if
-   * the file is Optional.empty()).
-   *
-   * @param content The String to be printed
-   * @param path The target path to the file for printing the content. If empty,
-   *          the content is printed to stdout instead
-   */
-  public void print(String content, String path) {
-    // print to stdout or file
-    if (path.isEmpty()) {
-      System.out.println(content);
-    } else {
-      File f = new File(path);
-      // create directories (logs error otherwise)
-      f.getAbsoluteFile().getParentFile().mkdirs();
-
-      FileWriter writer;
-      try {
-        writer = new FileWriter(f);
-        writer.write(content);
-        writer.close();
-      } catch (IOException e) {
-        Log.error("0xA7105 Could not write to file " + f.getAbsolutePath());
-      }
-    }
   }
 
   /**
@@ -445,55 +371,69 @@ public class StatechartsCLI {
     }
   }
 
-
   /**
-   * Initializes the available CLI options for the Statechart tool.
+   * Initializes the standard CLI options for the Statechart tool.
    *
    * @return The CLI options with arguments.
    */
-  protected Options initOptions() {
-    Options options = new Options();
-    
+  @Override
+  public Options addStandardOptions(Options options) {
     // help dialog
     options.addOption(Option.builder("h")
-        .longOpt("help")
-        .desc("Prints this help dialog")
-        .build());
-    
+      .longOpt("help")
+      .desc("Prints this help dialog")
+      .build());
+
     // parse input file
     options.addOption(Option.builder("i")
-        .longOpt("input")
-        .argName("file")
-        .hasArg()
-        .desc("Reads the source file (mandatory) and parses the contents as a statechart")
-        .build());
-    
+      .longOpt("input")
+      .argName("file")
+      .hasArg()
+      .desc("Reads the source file (mandatory) and parses the contents as a statechart")
+      .build());
+
     // pretty print SC
     options.addOption(Option.builder("pp")
-        .longOpt("prettyprint")
-        .argName("file")
-        .optionalArg(true)
-        .numberOfArgs(1)
-        .desc("Prints the Statechart-AST to stdout or the specified file (optional)")
-        .build());
-  
+      .longOpt("prettyprint")
+      .argName("file")
+      .optionalArg(true)
+      .numberOfArgs(1)
+      .desc("Prints the Statechart-AST to stdout or the specified file (optional)")
+      .build());
+
     // pretty print SC
     options.addOption(Option.builder("s")
-        .longOpt("symboltable")
-        .argName("file")
-        .hasArg()
-        .desc("Serialized the Symbol table of the given Statechart")
-        .build());
-    
+      .longOpt("symboltable")
+      .argName("file")
+      .hasArg()
+      .desc("Serialized the Symbol table of the given Statechart")
+      .build());
+
     // reports about the SC
     options.addOption(Option.builder("r")
-        .longOpt("report")
-        .argName("dir")
-        .hasArg(true)
-        .desc("Prints reports of the statechart artifact to the specified directory. Available reports:"
-            + System.lineSeparator() + "reachable states, branching degree, and state names")
-        .build());
+      .longOpt("report")
+      .argName("dir")
+      .hasArg(true)
+      .desc("Prints reports of the statechart artifact to the specified directory. Available reports:"
+        + System.lineSeparator() + "reachable states, branching degree, and state names")
+      .build());
 
+    // model paths
+    options.addOption(Option.builder("path")
+      .hasArgs()
+      .desc("Sets the artifact path for imported symbols, space separated.")
+      .build());
+
+    return options;
+  }
+
+  /**
+   * Initializes the additional CLI options for the Statechart tool.
+   *
+   * @return The CLI options with arguments.
+   */
+  @Override
+  public Options addAdditionalOptions(Options options) {
     // convert to state pattern CD
     options.addOption(Option.builder("gen")
         .longOpt("generate")
