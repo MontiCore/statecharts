@@ -96,7 +96,7 @@ public class UMLStatechartsToolTest {
 
   @Test
   public void testUMLStatechartsConverterWithConfigTemplate(){
-    new StatechartsCLI().run(new String[]{
+    new UMLStatechartsCLI().run(new String[]{
             "-i", resourcesDir + "examples/uml/DoorExample.sc",
             "-gen", "target/gentest2",
             "-fp", "src/test/resources",
@@ -107,7 +107,7 @@ public class UMLStatechartsToolTest {
 
   @Test
   public void testUMLStatechartsConverterWithConfigTemplateAndTOP(){
-    new StatechartsCLI().run(new String[]{
+    new UMLStatechartsCLI().run(new String[]{
             "-i", resourcesDir + "examples/uml/DoorExample.sc",
             "-gen", "target/gentest3",
             "-fp", "src/test/resources",
