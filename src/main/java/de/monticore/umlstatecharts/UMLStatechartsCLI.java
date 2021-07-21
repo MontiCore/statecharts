@@ -2,6 +2,7 @@
 package de.monticore.umlstatecharts;
 
 import com.google.common.collect.Lists;
+import de.monticore.class2mc.Class2MCResolver;
 import de.monticore.generating.templateengine.TemplateController;
 import de.monticore.generating.templateengine.TemplateHookPoint;
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
@@ -32,6 +33,7 @@ import de.monticore.scevents._symboltable.SCEventsSTCompleter;
 import de.monticore.scstatehierarchy.HierarchicalStateCollector;
 import de.monticore.scstatehierarchy.NoSubstatesHandler;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
+import de.monticore.symbols.oosymbols.OOSymbolsMill;
 import de.monticore.types.DeriveSymTypeOfUMLStatecharts;
 import de.monticore.types.SynthesizeSymType;
 import de.monticore.types.check.TypeCheck;
@@ -84,6 +86,9 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
       }
       UMLStatechartsMill.globalScope().setSymbolPath(symbolPath);
       BasicSymbolsMill.initializePrimitives();
+      Class2MCResolver resolver = new Class2MCResolver();
+      OOSymbolsMill.globalScope().addAdaptedOOTypeSymbolResolver(resolver);
+      OOSymbolsMill.globalScope().addAdaptedTypeSymbolResolver(resolver);
 
       // parse input file, which is now available
       // (only returns if successful)

@@ -164,6 +164,15 @@ public class UMLStatechartsToolTest {
     assertEquals("Pretty printing Test.sc was not successful", Log.getErrorCount(), 0);
   }
   
+  @Test
+  public void testUMLStatechartsEvent(){
+    new UMLStatechartsCLI().run(new String[]{
+        "-i", resourcesDir + "flat/test6.sc"
+    });
+    Log.getFindings().forEach(System.out::println);
+    assertEquals("Processing of test6.sc was not successful", Log.getErrorCount(), 0);
+  }
+  
   
   @Test
   public void testUMLStatechartsReportDoor() throws IOException {
