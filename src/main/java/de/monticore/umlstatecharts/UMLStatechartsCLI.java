@@ -1,9 +1,9 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.umlstatecharts;
 
+import com.google.common.collect.Lists;
 import de.monticore.generating.templateengine.TemplateController;
 import de.monticore.generating.templateengine.TemplateHookPoint;
-import de.monticore.io.paths.IterablePath;
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.io.paths.MCPath;
 import de.monticore.cd4code.prettyprint.CD4CodeFullPrettyPrinter;
@@ -44,10 +44,13 @@ import org.apache.commons.cli.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
 
@@ -346,9 +349,15 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
         templateSetup.setGlex(glex);
 
         if (!templatePath.isEmpty()) {
-          templateSetup.setAdditionalTemplatePaths(IterablePath.from(new File(templatePath), "ftl")
-                                                           .getPaths().stream().map(p -> new File(p.toUri()))
-                                                           .collect(Collectors.toList()));
+          List<File>  files = Lists.newArrayList();
+          try (Stream<Path> paths = Files.walk(Paths.get(templatePath))) {
+            paths
+                .filter(Files::isRegularFile)
+                .forEach(f -> files.add(f.toFile()));
+          }
+          catch (IOException e) {
+            Log.error("0x5C700 Incorrect template path "+ templatePath);
+          }
         }
 
         TemplateController tc = templateSetup.getNewTemplateController(configTemplate);
