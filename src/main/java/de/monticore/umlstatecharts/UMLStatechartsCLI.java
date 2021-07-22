@@ -2,21 +2,19 @@
 package de.monticore.umlstatecharts;
 
 import com.google.common.collect.Lists;
-import de.monticore.class2mc.Class2MCResolver;
-import de.monticore.generating.templateengine.TemplateController;
-import de.monticore.generating.templateengine.TemplateHookPoint;
-import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
-import de.monticore.io.paths.MCPath;
 import de.monticore.cd4code.prettyprint.CD4CodeFullPrettyPrinter;
 import de.monticore.cdbasis._ast.ASTCDClass;
+import de.monticore.class2mc.Class2MCResolver;
 import de.monticore.generating.GeneratorEngine;
 import de.monticore.generating.GeneratorSetup;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
+import de.monticore.generating.templateengine.TemplateController;
+import de.monticore.generating.templateengine.TemplateHookPoint;
 import de.monticore.io.paths.MCPath;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
-import de.monticore.sc2cd.SC2CDConverter;
 import de.monticore.sc2cd.HookPointService;
+import de.monticore.sc2cd.SC2CDConverter;
 import de.monticore.sc2cd.SC2CDData;
 import de.monticore.sc2cd.SCTopDecorator;
 import de.monticore.scbasis.BranchingDegreeCalculator;
@@ -451,7 +449,7 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
     // convert to state pattern CD
     options.addOption(Option.builder("gen")
         .longOpt("generate")
-        .argName("file")
+        .argName("dir")
         .optionalArg(true)
         .numberOfArgs(1)
         .desc("Prints the state pattern CD-AST to stdout or the generated java classes to the specified folder (optional)")
@@ -460,7 +458,7 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
     // configTemplate parameter
     options.addOption(Option.builder("ct")
         .longOpt("configTemplate")
-        .argName("path")
+        .argName("file")
         .optionalArg(true)
         .numberOfArgs(1)
         .desc("Provides a config template (optional)")
@@ -487,6 +485,7 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
 
     // model paths
     options.addOption(Option.builder("path")
+        .argName("pathlist")
         .hasArgs()
         .desc("Sets the artifact path for imported symbols, space separated.")
         .build());

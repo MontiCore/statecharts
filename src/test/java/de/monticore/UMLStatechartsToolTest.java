@@ -291,10 +291,10 @@ public class UMLStatechartsToolTest {
     assertEquals(Log.getErrorCount(), 0);
     String result = out.toString().replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
     assertEquals( "usage: UMLStatechartsCLI\n" +
-                          " -ct,--configTemplate <path>       Provides a config template (optional)\n" +
+                          " -ct,--configTemplate <file>       Provides a config template (optional)\n" +
                           " -fp,--templatePath <pathlist>     List of directories to look for handwritten\n" +
                           "                                   templates to integrate (optional)\n" +
-                          " -gen,--generate <file>            Prints the state pattern CD-AST to stdout or\n" +
+                          " -gen,--generate <dir>             Prints the state pattern CD-AST to stdout or\n" +
                           "                                   the generated java classes to the specified\n" +
                           "                                   folder (optional)\n" +
                           " -h,--help                         Prints this help dialog\n" +
@@ -302,7 +302,7 @@ public class UMLStatechartsToolTest {
                           "                                   code to integrate (optional)\n" +
                           " -i,--input <file>                 Reads the source file (mandatory) and parses\n" +
                           "                                   the contents as a statechart\n" +
-                          " -path <arg>                       Sets the artifact path for imported symbols,\n" +
+                          " -path <pathlist>                  Sets the artifact path for imported symbols,\n" +
                           "                                   space separated.\n" +
                           " -pp,--prettyprint <file>          Prints the Statechart-AST to stdout or the\n" +
                           "                                   specified file (optional)\n" +
