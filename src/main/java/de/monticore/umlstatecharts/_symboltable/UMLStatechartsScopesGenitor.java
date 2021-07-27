@@ -19,7 +19,7 @@ public class UMLStatechartsScopesGenitor extends UMLStatechartsScopesGenitorTOP 
    */
   @Override
   public IUMLStatechartsArtifactScope createFromAST(ASTSCArtifact rootNode) {
-    Log.errorIfNull(rootNode, "0xAE880 Error by creating of the UMLStatechartsScopesGenitor symbol table: top ast node is null");
+    Log.errorIfNull(rootNode, "0xAE880 Internal Error: No symbol table defined, because empty (null) AST");
     IUMLStatechartsArtifactScope artifactScope = de.monticore.umlstatecharts.UMLStatechartsMill.artifactScope();
     if(rootNode.isPresentPackage()) {
       artifactScope.setPackageName(rootNode.getPackage().getQName());
