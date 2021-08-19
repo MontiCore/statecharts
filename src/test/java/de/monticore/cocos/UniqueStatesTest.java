@@ -7,6 +7,7 @@ import de.monticore.umlstatecharts._cocos.UMLStatechartsCoCoChecker;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -25,8 +26,13 @@ public class UniqueStatesTest {
     LogStub.init();
   }
   
+  @Before
+  public void setUp() throws Exception {
+    Log.clearFindings();
+  }
+  
   @Test
-  public void testCoCOInvalid() throws IOException {
+  public void testCoCoInvalid() throws IOException {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/invalid/NonUnique.sc");
     assertTrue("NonUnique.sc could not be parsed",  ast.isPresent());
@@ -39,7 +45,7 @@ public class UniqueStatesTest {
   }
   
   @Test
-  public void testCoCOValid() throws IOException {
+  public void testCoCoValid() throws IOException {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/examples/uml/Door.sc");
     assertTrue("Door.sc could not be parsed",  ast.isPresent());
