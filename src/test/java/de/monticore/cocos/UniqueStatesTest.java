@@ -3,6 +3,7 @@ package de.monticore.cocos;
 
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scbasis._cocos.UniqueStates;
+import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._cocos.UMLStatechartsCoCoChecker;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.se_rwth.commons.logging.Log;
@@ -29,6 +30,7 @@ public class UniqueStatesTest {
   @Before
   public void setUp() throws Exception {
     Log.clearFindings();
+    UMLStatechartsMill.init();
   }
   
   @Test
@@ -52,6 +54,9 @@ public class UniqueStatesTest {
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
     checker.addCoCo(new UniqueStates());
     checker.checkAll(ast.get());
+    if(Log.getErrorCount() >0){
+      Log.printFindings();
+    }
     assertEquals(0, Log.getErrorCount());
     
   }
@@ -64,6 +69,9 @@ public class UniqueStatesTest {
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
     checker.addCoCo(new UniqueStates());
     checker.checkAll(ast.get());
+    if(Log.getErrorCount() >0){
+      Log.printFindings();
+    }
     assertEquals(0, Log.getErrorCount());
     
   }
