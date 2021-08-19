@@ -38,13 +38,15 @@ public class InvariantValidTest {
   public static void beforeClass() throws Exception {
     LogStub.init();
     UMLStatechartsMill.init();
-    BasicSymbolsMill.initializePrimitives();
+    
   }
   
   @Before
   public void setUp() throws Exception {
     Log.clearFindings();
     UMLStatechartsMill.init();
+    UMLStatechartsMill.globalScope().clear();
+    BasicSymbolsMill.initializePrimitives();
   }
   
   @Test

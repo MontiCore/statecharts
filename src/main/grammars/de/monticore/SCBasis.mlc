@@ -1,0 +1,29 @@
+mlc SCBasis {
+  export "$projectDir/src/main/java" {
+    include "de/monticore/scbasis/**/*.java";
+    include "de/monticore/scbasis/*.java";
+  }
+  
+  export "$projectDir/target/generated-sources/mc/" {
+      include "de/monticore/scbasis/**/*.java";
+      include "de/monticore/scbasis/*.java";
+    }
+
+  export "$projectDir/src/main/grammars" {
+    include "de/monticore/SCBasis.mc4";
+  }
+
+/*
+  local "src/main/java" {
+  }
+*/
+  uses {
+    include "$mp/java/**/*.*";
+    include "$mp/de/monticore/symboltable/**/*.*";
+    include "$mp/de/monticore/utils/*.*";
+    include "$mp/de/monticore/ast/*.*";
+    include "$mp/com/google/**/*.*";
+    include "$mp/org/apache/**/*.*";
+    include "$mp/de/se_rwth/**/*.*";
+  }
+}

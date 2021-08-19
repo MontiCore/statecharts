@@ -1,0 +1,31 @@
+mlc SCDoActions {
+  export "$projectDir/src/main/java" {
+    include "de/monticore/scdoactions/**/*.java";
+    include "de/monticore/scdoactions/*.java";
+  }
+  
+  export "$projectDir/target/generated-sources/mc/" {
+      include "de/monticore/scdoactions/**/*.java";
+      include "de/monticore/scdoactions/*.java";
+    }
+
+  export "$projectDir/src/main/grammars" {
+    include "de/monticore/SCDoActions.mc4";
+  }
+  
+  uses mlc "SCActions";
+
+  uses { // jdk + external
+    include "$mp/java/**/*.*";
+    include "$mp/com/google/**/*.*";
+    include "$mp/org/apache/**/*.*";
+  }
+  
+  uses { // runtime
+      include "$mp/de/monticore/symboltable/**/*.*";
+      include "$mp/de/monticore/utils/*.*";
+      include "$mp/de/monticore/ast/*.*";
+      include "$mp/de/se_rwth/**/*.*";
+    }
+    
+}

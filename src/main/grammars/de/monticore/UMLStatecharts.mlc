@@ -1,0 +1,19 @@
+mlc UMLStatecharts {
+  export "$projectDir/src/main/java" {
+    include "de/monticore/umlstatecharts/**/*.java";
+  }
+
+  export "$projectDir/src/main/grammars" {
+    include "de/monticore/UMLStatecharts.mc4";
+  }
+
+/*
+  local "src/main/java" {
+  }
+*/
+  uses {
+    include "$mp/java/**/*.*";
+    include "$mp/de/se_rwth/**/*.*";
+    include "$projectDir/src/main/java/de/monticore/scbasis/**/*.java";
+  }
+}
