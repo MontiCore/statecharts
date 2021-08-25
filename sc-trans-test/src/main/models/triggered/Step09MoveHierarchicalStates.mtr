@@ -1,0 +1,18 @@
+/*
+ * MoveHierarchicalStates.sctrans
+ *
+ * Moves inner sub-states down the hierarchy.
+ */
+
+statechart $_ {
+
+    //In an outer state
+    state $_ {
+        //capture an inner state $I and delete it
+        // [[$I [[ state $_;]] :- ]]
+         [[SCState $I :- ]]
+    };
+
+    //and insert it into the top level of the statechart
+     [[ :- SCState $I ]]
+}

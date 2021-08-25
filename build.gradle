@@ -68,6 +68,7 @@ repositories {
 }
 
 task generate {}
+task generateTR {}
 
 // one task per grammar file
 fileTree(grammarDir).matching { include '**/*.mc4'}.each { g ->
@@ -76,14 +77,26 @@ fileTree(grammarDir).matching { include '**/*.mc4'}.each { g ->
     
     grammar = g
     outputDir = file grammarOutDir
+    dstlGen = true
     def grammarIncludingPackage = file(grammarDir).toURI().relativize(g.toURI()).toString()
     outputs.upToDateWhen { incCheck(grammarIncludingPackage)}
   }
   generate.dependsOn ("$taskname")
+  task  "${taskname}TR" (type: MCTask) {
+    grammar = file(grammarOutDir + "/" + de.monticore.dstlgen.util.DSTLPathUtil.getTRGrammar([file("src/main/grammars").toString()], g)) // Replace with getTRFile(g) once the plugin is updated and in the upstream
+    outputDir = file grammarOutDir
+    dstlGen = false
+    modelPath(grammarOutDir)
+    modelPath(file("src/main/grammars").toString())
+    def grammarIncludingPackage = file(grammarDir).toURI().relativize(g.toURI()).toString()
+    outputs.upToDateWhen { incCheck(grammarIncludingPackage)}
+  }
+  generateTR.dependsOn("${taskname}TR")
 }
 
 
 compileJava.dependsOn generate
+compileJava.dependsOn generateTR
 
 
 tasks.withType(Test) {
