@@ -58,7 +58,6 @@ checkMDLinks:
     - dev
 
 githubmirror:
-  image: maven:3-jdk-8
   stage: mirror
   dependencies:
     - checkMDLinks
@@ -81,7 +80,8 @@ githubmirror:
     - git clone git@github.com:MontiCore/statecharts.git
     - cd ..
     - rm -r tmp/statecharts/*
-    - mv sc-language/* tmp/statecharts/
+    - shopt -s extglob
+    - mv sc-language/!(MDLinkChangerCLI.jar) tmp/statecharts/
     - cd tmp/statecharts
     - git add --all
     - "(git commit -m 'Updated branch with most recent version.') || true"
