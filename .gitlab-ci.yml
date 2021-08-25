@@ -21,6 +21,14 @@ build:
       - .gradle/
     expire_in: 1 week
 
+test:
+  stage: check
+  dependencies:
+    - build
+  script:
+    - "cd sc-trans-test"
+    - "gradle --include-build ../. test $GRADLE_OPT $ARGS1"
+
 deploy:
   stage: deploy
   dependencies:

@@ -1,0 +1,12 @@
+/*
+ * Step02RemoveDuplicatedSubstates.sctrans
+ *
+ * Second and last step of optimization step 2.
+ * Removes duplicated substates.
+ *
+ */
+
+state $_ {
+    state $A;
+    [[ state $A; :- ]]
+};

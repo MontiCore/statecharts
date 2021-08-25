@@ -1,0 +1,22 @@
+/*
+ * Step02ChangeInternTrans.sctrans
+ *
+ * First step of optimization step 2.
+ * - Removes a intern transition
+ * - Adds a final initial substate with parent-name + "_intern".
+ * - Creates a self-loop-transition on the newly created substate with origin transition body.
+ * Note that using this transition multiple times can create multiple intern substates, if the
+ * original state has more than one intern transition. In this case use Step02RemoveDuplicatedSubstates.sctrans
+ * to remove duplicate intern substates.
+ */
+
+state $A {
+    [[ -> SCTBody $C; :- ]]
+    [[ :- final initial state $B;]]
+    [[ :- $B -> $B SCTBody $C; ]]
+};
+
+
+assign {
+    $B = $A + "_intern";
+}
