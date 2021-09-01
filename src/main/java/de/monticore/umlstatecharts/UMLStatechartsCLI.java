@@ -57,6 +57,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
+  
+  public static void main(String[] args) {
+    UMLStatechartsCLI cli = new  UMLStatechartsCLI();
+    cli.init();
+    cli.run(args);
+  }
 
   @Override
   public void run(String[] args){

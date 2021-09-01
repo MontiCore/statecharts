@@ -84,6 +84,15 @@ public class UMLStatechartsToolTest {
     });
     assertEquals("Pretty printing of Door.sc was not successful", Log.getErrorCount(), 0);
   }
+  
+  @Test
+  public void testUMLStatechartsPP2(){
+    new UMLStatechartsCLI().run(new String[]{
+        "-i", resourcesDir + "tf/Example.sc",
+        "-pp"
+    });
+    assertEquals("Pretty printing of Example.sc was not successful", Log.getErrorCount(), 0);
+  }
 
   @Test
   public void testUMLStatechartsConverter(){
