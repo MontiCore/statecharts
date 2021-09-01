@@ -173,6 +173,15 @@ public class UMLStatechartsToolTest {
     assertEquals("Processing of test6.sc was not successful", Log.getErrorCount(), 0);
   }
   
+  @Test
+  public void testUMLStatechartsTrafoGen(){
+    new UMLStatechartsCLI().run(new String[]{
+        "-tg", resourcesDir + "tf/ForwardToInitial.mtr", 
+        "-o", "target/testtfgen"
+    });
+    assertEquals("ForwardToInitial.mtr was not processed successfully", Log.getErrorCount(), 0);
+  }
+  
   
   @Test
   public void testUMLStatechartsReportDoor() throws IOException {
@@ -290,28 +299,37 @@ public class UMLStatechartsToolTest {
     new UMLStatechartsCLI().run(new String[]{    "-h" });
     assertEquals(Log.getErrorCount(), 0);
     String result = out.toString().replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
-    assertEquals( "usage: UMLStatechartsCLI\n" +
-                          " -ct,--configTemplate <file>       Provides a config template (optional)\n" +
-                          " -fp,--templatePath <pathlist>     List of directories to look for handwritten\n" +
-                          "                                   templates to integrate (optional)\n" +
-                          " -gen,--generate <dir>             Prints the state pattern CD-AST to stdout or\n" +
-                          "                                   the generated java classes to the specified\n" +
-                          "                                   folder (optional)\n" +
-                          " -h,--help                         Prints this help dialog\n" +
-                          " -hcp,--handcodedPath <pathlist>   List of directories to look for handwritten\n" +
-                          "                                   code to integrate (optional)\n" +
-                          " -i,--input <file>                 Reads the source file (mandatory) and parses\n" +
-                          "                                   the contents as a statechart\n" +
-                          " -path <pathlist>                  Sets the artifact path for imported symbols,\n" +
-                          "                                   space separated.\n" +
-                          " -pp,--prettyprint <file>          Prints the Statechart-AST to stdout or the\n" +
-                          "                                   specified file (optional)\n" +
-                          " -r,--report <dir>                 Prints reports of the statechart artifact to\n" +
-                          "                                   the specified directory. Available reports:\n" +
-                          "                                   reachable states, branching degree, and state\n" +
-                          "                                   names\n" +
-                          " -s,--symboltable <file>           Serialized the Symbol table of the given\n" +
-                          "                                   Statechart\n"
+    assertEquals( "usage: UMLStatechartsCLI\n"
+                          + " -ct,--configTemplate <file>                Provides a config template\n"
+                          + "                                            (optional)\n"
+                          + " -fp,--templatePath <pathlist>              List of directories to look for\n"
+                          + "                                            handwritten templates to integrate\n"
+                          + "                                            (optional)\n"
+                          + " -gen,--generate <dir>                      Prints the state pattern CD-AST to\n"
+                          + "                                            stdout or the generated java classes\n"
+                          + "                                            to the specified folder (optional)\n"
+                          + " -h,--help                                  Prints this help dialog\n"
+                          + " -hcp,--handcodedPath <pathlist>            List of directories to look for\n"
+                          + "                                            handwritten code to integrate\n"
+                          + "                                            (optional)\n"
+                          + " -i,--input <file>                          Reads the source file (mandatory)\n"
+                          + "                                            and parses the contents as a\n"
+                          + "                                            statechart\n"
+                          + " -o,--out <path>                            Output directory for all generated\n"
+                          + "                                            artifacts.\n"
+                          + " -path <pathlist>                           Sets the artifact path for imported\n"
+                          + "                                            symbols, space separated.\n"
+                          + " -pp,--prettyprint <file>                   Prints the Statechart-AST to stdout\n"
+                          + "                                            or the specified file (optional)\n"
+                          + " -r,--report <dir>                          Prints reports of the statechart\n"
+                          + "                                            artifact to the specified directory.\n"
+                          + "                                            Available reports:\n"
+                          + "                                            reachable states, branching degree,\n"
+                          + "                                            and state names\n"
+                          + " -s,--symboltable <file>                    Serialized the Symbol table of the\n"
+                          + "                                            given Statechart\n"
+                          + " -tg,--transformationGen <transformation>   Generates Java code for a given\n"
+                          + "                                            transformation\n"
             , result );
   }
 }
