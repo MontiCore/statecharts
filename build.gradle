@@ -1,4 +1,5 @@
 /* (c) https://github.com/MontiCore/monticore */
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
   id "java"
@@ -121,6 +122,23 @@ shadowJar {
   archiveFileName = "${archiveBaseName.get().capitalize()}CLI.${archiveExtension.get()}"
 }
 
+task uMLSCTransGenerator(type: ShadowJar) {
+  dependsOn shadowJar
+  group = "shadow"
+  manifest.attributes 'Main-Class': 'de.monticore.tr.UMLStatechartsTFGenCLI'
+  archiveFileName = 'UMLSCTransGenerator.jar'
+  archiveClassifier.set('umltfgen')
+  from zipTree(shadowJar.archiveFile)
+}
+
+task triggeredSCTransGenerator(type: ShadowJar) {
+  dependsOn shadowJar
+  group = "shadow"
+  manifest.attributes 'Main-Class': 'de.monticore.tr.TriggeredStatechartsTFGenCLI'
+  archiveFileName = 'TriggeredSCTransGenerator.jar'
+  archiveClassifier.set('triggeredtfgen')
+  from zipTree(shadowJar.archiveFile)
+}
 
 task testReport(type: TestReport) {
   destinationDir = file("$buildDir/reports/allTests")
@@ -137,7 +155,7 @@ java {
 
 sourcesJar.dependsOn project.collect { it.tasks.withType(MCTask)}
 
-jar.dependsOn grammarsJar, shadowJar
+jar.dependsOn grammarsJar, shadowJar, triggeredSCTransGenerator, uMLSCTransGenerator
 
 // configure deployment
 publishing {
@@ -145,6 +163,8 @@ publishing {
   publications {
     mavenJava(MavenPublication) {
       from components.java
+      artifact triggeredSCTransGenerator
+      artifact uMLSCTransGenerator
     }
   }
   repositories.maven {
