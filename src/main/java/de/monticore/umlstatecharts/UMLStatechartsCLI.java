@@ -32,10 +32,6 @@ import de.monticore.scstatehierarchy.HierarchicalStateCollector;
 import de.monticore.scstatehierarchy.NoSubstatesHandler;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.oosymbols.OOSymbolsMill;
-import de.monticore.tf.odrules._ast.ASTODRule;
-import de.monticore.tr.UMLStatechartsTFGenCLI;
-import de.monticore.tr.umlstatechartstr.UMLStatechartsTRMill;
-import de.monticore.tr.umlstatechartstr._ast.ASTUMLStatechartsTFRule;
 import de.monticore.types.DeriveSymTypeOfUMLStatecharts;
 import de.monticore.types.SynthesizeSymType;
 import de.monticore.types.check.TypeCheck;
@@ -81,84 +77,57 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
       }
 
       // if -i input is missing: also print help and stop
-      if (!(cmd.hasOption("i") || cmd.hasOption("tg"))) {
+      if (!cmd.hasOption("i")) {
         printHelp(options);
         // do not continue, when help is printed
         return;
       }
 
-      if(cmd.hasOption("i")) {
-        // we need the global scope for symbols and cocos
-        MCPath symbolPath = new MCPath(Paths.get(""));
-        if (cmd.hasOption("path")) {
-          symbolPath = new MCPath(Arrays.stream(cmd.getOptionValues("path")).map(x -> Paths.get(x))
-              .collect(Collectors.toList()));
-        }
-        UMLStatechartsMill.globalScope().setSymbolPath(symbolPath);
-        BasicSymbolsMill.initializePrimitives();
-        Class2MCResolver resolver = new Class2MCResolver();
-        OOSymbolsMill.globalScope().addAdaptedOOTypeSymbolResolver(resolver);
-        OOSymbolsMill.globalScope().addAdaptedTypeSymbolResolver(resolver);
-  
-        // parse input file, which is now available
-        // (only returns if successful)
-        ASTSCArtifact scartifact = parse(cmd.getOptionValue("i"));
-  
-        IUMLStatechartsArtifactScope scope = createSymbolTable(scartifact);
-  
-        // check context conditions
-        runDefaultCoCos(scartifact);
-  
-        if (cmd.hasOption("s")) {
-          String path = cmd.getOptionValue("s", StringUtils.EMPTY);
-          storeSymbols(scope, path);
-        }
-  
-        // -option pretty print
-        if (cmd.hasOption("pp")) {
-          String path = cmd.getOptionValue("pp", StringUtils.EMPTY);
-          prettyPrint(scartifact, path);
-        }
-  
-        // -option reports
-        if (cmd.hasOption("r")) {
-          String path = cmd.getOptionValue("r", StringUtils.EMPTY);
-          report(scartifact, path);
-        }
-  
-        // -option generate to CD
-        if (cmd.hasOption("gen")) {
-          String path = cmd.getOptionValue("gen", StringUtils.EMPTY);
-          String configTemplate = cmd.getOptionValue("ct", StringUtils.EMPTY);
-          String templatePath = cmd.getOptionValue("fp", StringUtils.EMPTY);
-          String handcodedPath = cmd.getOptionValue("hcp", StringUtils.EMPTY);
-    
-          generateCD(scartifact, path, configTemplate, templatePath, handcodedPath);
-        }
+      // we need the global scope for symbols and cocos
+      MCPath symbolPath = new MCPath(Paths.get(""));
+      if (cmd.hasOption("path")) {
+        symbolPath = new MCPath(Arrays.stream(cmd.getOptionValues("path")).map(x -> Paths.get(x)).collect(Collectors.toList()));
       }
-  
-      if(cmd.hasOption("tg")) {
-        UMLStatechartsTRMill.init();
-        UMLStatechartsTFGenCLI tfgen = new UMLStatechartsTFGenCLI();
-  
-        Path model = Paths.get(cmd.getOptionValue("tg"));
-  
-        // Parse rule
-        ASTUMLStatechartsTFRule rule = tfgen.parseRule(model).get();
-  
-        // check CoCos
-        tfgen.checkCoCos(rule);
-  
-        ASTODRule odrule;
-  
-        //create od rule
-        if (cmd.hasOption("mp")) {
-          odrule = tfgen.createODRule(rule, new MCPath(cmd.getOptionValue("mp")));
-        } else {
-          odrule = tfgen.createODRule(rule, new MCPath());
-        }
-        // generate
-        tfgen.generate(odrule, Paths.get(cmd.getOptionValue("o", "out")).toFile());
+      UMLStatechartsMill.globalScope().setSymbolPath(symbolPath);
+      BasicSymbolsMill.initializePrimitives();
+      Class2MCResolver resolver = new Class2MCResolver();
+      OOSymbolsMill.globalScope().addAdaptedOOTypeSymbolResolver(resolver);
+      OOSymbolsMill.globalScope().addAdaptedTypeSymbolResolver(resolver);
+
+      // parse input file, which is now available
+      // (only returns if successful)
+      ASTSCArtifact scartifact = parse(cmd.getOptionValue("i"));
+
+      IUMLStatechartsArtifactScope scope = createSymbolTable(scartifact);
+
+      // check context conditions
+      runDefaultCoCos(scartifact);
+
+      if (cmd.hasOption("s")) {
+        String path = cmd.getOptionValue("s", StringUtils.EMPTY);
+        storeSymbols(scope, path);
+      }
+
+      // -option pretty print
+      if (cmd.hasOption("pp")) {
+        String path = cmd.getOptionValue("pp", StringUtils.EMPTY);
+        prettyPrint(scartifact, path);
+      }
+
+      // -option reports
+      if (cmd.hasOption("r")) {
+        String path = cmd.getOptionValue("r", StringUtils.EMPTY);
+        report(scartifact, path);
+      }
+
+      // -option generate to CD
+      if (cmd.hasOption("gen")) {
+        String path = cmd.getOptionValue("gen", StringUtils.EMPTY);
+        String configTemplate = cmd.getOptionValue("ct", StringUtils.EMPTY);
+        String templatePath = cmd.getOptionValue("fp", StringUtils.EMPTY);
+        String handcodedPath = cmd.getOptionValue("hcp", StringUtils.EMPTY);
+
+        generateCD(scartifact, path, configTemplate, templatePath, handcodedPath);
       }
 
 
@@ -525,22 +494,6 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
         .argName("pathlist")
         .hasArgs()
         .desc("Sets the artifact path for imported symbols, space separated.")
-        .build());
-  
-    // transformation as input
-    options.addOption(Option.builder("tg")
-        .longOpt("transformationGen")
-        .argName("transformation")
-        .hasArg()
-        .desc("Generates Java code for a given transformation ")
-        .build());
-  
-    // specify custom output directory
-    options.addOption(Option.builder("o")
-        .longOpt("out")
-        .argName("path")
-        .hasArg()
-        .desc("Output directory for all generated artifacts.")
         .build());
 
     return options;
