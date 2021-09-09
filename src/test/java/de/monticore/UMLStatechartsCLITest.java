@@ -29,7 +29,7 @@ import java.util.stream.Stream;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class UMLStatechartsToolTest {
+public class UMLStatechartsCLITest {
   
   String resourcesDir = "src/test/resources/";
   String outputDir = "target/tooltest/";
@@ -46,7 +46,7 @@ public class UMLStatechartsToolTest {
   }
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     Log.clearFindings();
     UMLStatechartsMill.init();
     IUMLStatechartsGlobalScope gs = UMLStatechartsMill.globalScope();
