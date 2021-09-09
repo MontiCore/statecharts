@@ -2,10 +2,8 @@
 package de.monticore;
 
 import de.monticore.cd4code.CD4CodeMill;
-import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.triggeredstatecharts.TriggeredStatechartsCLI;
 import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
-import de.monticore.triggeredstatecharts._symboltable.ITriggeredStatechartsArtifactScope;
 import de.monticore.triggeredstatecharts._symboltable.ITriggeredStatechartsGlobalScope;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
@@ -80,7 +78,39 @@ public class TriggeredStatechartsCLITest {
   }
 
   @Test
-  public void testUMLStatechartsStore(){
+  public void testTriggeredStatechartsConverter(){
+    new TriggeredStatechartsCLI().run(new String[]{
+      "-i", resourcesDir + "examples/triggered/DoorExample2.sc",
+      "-gen", "target/gentest4"
+    });
+    assertEquals("Converting to SD of DoorExample2.sc was not successful", Log.getErrorCount(), 0);
+  }
+
+  @Test
+  public void testTriggeredStatechartsConverterWithConfigTemplate(){
+    new TriggeredStatechartsCLI().run(new String[]{
+      "-i", resourcesDir + "examples/triggered/DoorExample2.sc",
+      "-gen", "target/gentest5",
+      "-fp", "src/test/resources",
+      "-ct", "configTemplate/ct.ftl"
+    });
+    assertEquals("Converting to CD of DoorExample2.sc was not successful", Log.getErrorCount(), 0);
+  }
+
+  @Test
+  public void testTriggeredStatechartsConverterWithConfigTemplateAndTOP(){
+    new TriggeredStatechartsCLI().run(new String[]{
+      "-i", resourcesDir + "examples/triggered/DoorExample2.sc",
+      "-gen", "target/gentest6",
+      "-fp", "src/test/resources",
+      "-ct", "configTemplate/ct.ftl",
+      "-hcp", "src/test/resources/handcoded"
+    });
+    assertEquals("Converting to CD of DoorExample2.sc was not successful", Log.getErrorCount(), 0);
+  }
+
+  @Test
+  public void testTriggeredStatechartsStore(){
     new TriggeredStatechartsCLI().run(new String[]{
       "-i", resourcesDir + "examples/triggered/Door3.sc",
       "-s", outputDir + "door3/Door3.scsym"
@@ -89,7 +119,7 @@ public class TriggeredStatechartsCLITest {
   }
 
   @Test
-  public void testUMLStatechartsStore2(){
+  public void testTriggeredStatechartsStore2(){
     new TriggeredStatechartsCLI().run(new String[]{
       "-i", resourcesDir + "examples/triggered/Car2.sc",
       "-s", outputDir + "car2/Car2.scsym"
@@ -98,7 +128,7 @@ public class TriggeredStatechartsCLITest {
   }
 
   @Test
-  public void testUMLStatechartsStore3(){
+  public void testTriggeredStatechartsStore3(){
     new TriggeredStatechartsCLI().run(new String[]{
       "-i", resourcesDir + "tf/Example.sc",
       "-s", outputDir + "testsc/Example.scsym"
@@ -108,7 +138,7 @@ public class TriggeredStatechartsCLITest {
 
 
   @Test
-  public void testUMLStatechartsPP3(){
+  public void testTriggeredStatechartsPP3(){
     new TriggeredStatechartsCLI().run(new String[]{
       "-i", resourcesDir + "examples/triggered/Car2.sc",
       "-pp", outputDir + "testsc/Car2.sc"
@@ -119,7 +149,7 @@ public class TriggeredStatechartsCLITest {
 
 
   @Test
-  public void testUMLStatechartsReportDoor() throws IOException {
+  public void testTriggeredStatechartsReportDoor() throws IOException {
     new TriggeredStatechartsCLI().run(new String[]{
       "-i", resourcesDir + "examples/triggered/Door3.sc",
       "-r", outputDir + "door3"
@@ -144,7 +174,7 @@ public class TriggeredStatechartsCLITest {
   }
 
   @Test
-  public void testUMLStatechartsReportCar() throws IOException{
+  public void testTriggeredStatechartsReportCar() throws IOException{
     new TriggeredStatechartsCLI().run(new String[]{
       "-i", resourcesDir + "examples/triggered/Car2.sc",
       "-r", outputDir + "/car2"
@@ -238,6 +268,9 @@ public class TriggeredStatechartsCLITest {
         " -ct,--configTemplate <file>       Provides a config template (optional)\n" +
         " -fp,--templatePath <pathlist>     List of directories to look for handwritten\n" +
         "                                   templates to integrate (optional)\n" +
+        " -gen,--generate <dir>             Prints the state pattern CD-AST to stdout or\n" +
+        "                                   the generated java classes to the specified\n" +
+        "                                   folder (optional)\n" +
         " -h,--help                         Prints this help dialog\n" +
         " -hcp,--handcodedPath <pathlist>   List of directories to look for handwritten\n" +
         "                                   code to integrate (optional)\n" +

@@ -332,7 +332,7 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
       setup.setTracing(false);
     }
 
-    SC2CDData sc2CDData = converter.doConvert(scartifact, setup);
+    SC2CDData sc2CDData = converter.doConvertUML(scartifact, setup);
 
     if (!handcodedPath.isEmpty()) {
       SCTopDecorator topDecorator = new SCTopDecorator(new MCPath(handcodedPath));
@@ -346,6 +346,12 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
     }else{
       final CD4CodeFullPrettyPrinter printer = new CD4CodeFullPrettyPrinter(new IndentPrinter());
       GeneratorEngine generatorEngine = new GeneratorEngine(setup);
+
+      CD4CodeFullPrettyPrinter prettyPrinter = new CD4CodeFullPrettyPrinter();
+      String prettyOutput = prettyPrinter.prettyprint(sc2CDData.getCompilationUnit());
+      String cdName = sc2CDData.getCompilationUnit().getCDDefinition().getName() + ".cd";
+      print(prettyOutput, outputDirectory + "/" + cdName);
+
 
       Path packageDir = Paths.get(".");
       for (String pn : sc2CDData.getCompilationUnit().getCDPackageList()){

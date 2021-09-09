@@ -53,6 +53,10 @@ public class TriggeredStatechartsFullPrettyPrinter {
     return this.getPrinter().getContent();
   }
 
+  public TriggeredStatechartsTraverser getTraverser() {
+    return traverser;
+  }
+
   public String prettyprint(ASTSCBasisNode node) {
     this.getPrinter().clearBuffer();
     node.accept(traverser);

@@ -26,7 +26,7 @@ import java.util.Map;
  * Phase 1: Create the State Pattern classes based on the states
  */
 public class SC2CDStateVisitor
-        implements SCBasisVisitor2, UMLStatechartsVisitor2 {
+        implements SCBasisVisitor2 {
 
   public final static String ERROR_CODE = "0xDC011";
 
