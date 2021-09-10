@@ -1,17 +1,19 @@
-mlc SCBasis {
+mlc SCStateHierarchy {
   export "$projectDir/src/main/java" {
-    include "de/monticore/scbasis/**/*.java";
-    include "de/monticore/scbasis/*.java";
-  }
-  
-  export "$projectDir/target/generated-sources/mc/" {
-      include "de/monticore/scbasis/**/*.java";
-      include "de/monticore/scbasis/*.java";
+    include "de/monticore/scstatehierarchy/**/*.java";
+    include "de/monticore/scstatehierarchy/*.java";
   }
 
+  export "$projectDir/target/generated-sources/mc/" {
+      include "de/monticore/scstatehierarchy/**/*.java";
+      include "de/monticore/scstatehierarchy/*.java";
+    }
+
   export "$projectDir/src/main/grammars" {
-    include "de/monticore/SCBasis.mc4";
+    include "de/monticore/SCStateHierarchy.mc4";
   }
+
+  uses mlc "SCBasis";
 
 /*
   local "src/main/java" {

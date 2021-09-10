@@ -1,17 +1,19 @@
-mlc SCBasis {
+mlc SCTransitions4Modelling {
   export "$projectDir/src/main/java" {
-    include "de/monticore/scbasis/**/*.java";
-    include "de/monticore/scbasis/*.java";
+    include "de/monticore/sctransitions4modelling/**/*.java";
+    include "de/monticore/sctransitions4modelling/*.java";
   }
-  
+
   export "$projectDir/target/generated-sources/mc/" {
-      include "de/monticore/scbasis/**/*.java";
-      include "de/monticore/scbasis/*.java";
+      include "de/monticore/sctransitions4modelling/**/*.java";
+      include "de/monticore/sctransitions4modelling/*.java";
   }
 
   export "$projectDir/src/main/grammars" {
-    include "de/monticore/SCBasis.mc4";
+    include "de/monticore/SCTransitions4Modelling.mc4";
   }
+
+  uses mlc "SCTransitions4Code";
 
 /*
   local "src/main/java" {

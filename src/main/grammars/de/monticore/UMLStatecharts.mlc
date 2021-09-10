@@ -1,6 +1,12 @@
 mlc UMLStatecharts {
   export "$projectDir/src/main/java" {
     include "de/monticore/umlstatecharts/**/*.java";
+    include "de/monticore/umlstatecharts/*.java";
+  }
+
+  export "$projectDir/target/generated-sources/mc/" {
+    include "de/monticore/umlstatecharts/**/*.java";
+    include "de/monticore/umlstatecharts/*.java";
   }
 
   export "$projectDir/src/main/grammars" {

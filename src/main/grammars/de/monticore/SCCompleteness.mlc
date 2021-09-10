@@ -1,17 +1,19 @@
-mlc SCBasis {
+mlc SCCompleteness {
   export "$projectDir/src/main/java" {
-    include "de/monticore/scbasis/**/*.java";
-    include "de/monticore/scbasis/*.java";
-  }
-  
-  export "$projectDir/target/generated-sources/mc/" {
-      include "de/monticore/scbasis/**/*.java";
-      include "de/monticore/scbasis/*.java";
+    include "de/monticore/sccompleteness/**/*.java";
+    include "de/monticore/sccompleteness/*.java";
   }
 
+  export "$projectDir/target/generated-sources/mc/" {
+      include "de/monticore/sccompleteness/**/*.java";
+      include "de/monticore/sccompleteness/*.java";
+    }
+
   export "$projectDir/src/main/grammars" {
-    include "de/monticore/SCBasis.mc4";
+    include "de/monticore/SCCompleteness.mc4";
   }
+
+  uses mlc "SCBasis";
 
 /*
   local "src/main/java" {
