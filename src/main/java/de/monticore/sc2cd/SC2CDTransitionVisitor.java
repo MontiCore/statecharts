@@ -144,23 +144,33 @@ public class SC2CDTransitionVisitor
 
   @Override
   public void visit(ASTSCEmptyEvent node) {
-    //TODO wie Methoden nennen? handleStimulus nicht möglich, da kein Stimulus vorhanden
     if (!transition.isPresent() || !transitionBody.isPresent() ) return;
 
-    String stimulus = transition.get().getSourceName() + "2" + transition.get().getTargetName();
+    String stimulus = transition.get().getSourceName() + transition.get().getTargetName();
 
-    if (!stimuli.contains(stimulus)) {
-      // Add stimulus method to the Class
-      cd4C.addMethod(scClass, "de.monticore.sc2cd.StateStimulusMethod", stimulus, scClass.getName());
-
-      // Add handleStimulus(Class k) method to the StateClass
-      stateSuperClass.addCDMember(CD4CodeMill.cDMethodBuilder().setModifier(CDBasisMill.modifierBuilder().build())
-        .setMCReturnType(voidReturnType)
-        .setName("handle" + StringUtils.capitalize(stimulus)).addCDParameter(
-          CD4CodeMill.cDParameterBuilder().setName("k").setMCType(qualifiedType(scClass.getName())).build())
-        .build());
-      this.stimuli.add(stimulus);
+    //try next numbers
+    while (stimuli.contains(stimulus)) {
+      if(stimulus.equals(transition.get().getSourceName() + transition.get().getTargetName())){
+        stimulus = stimulus + "2";
+      }else{
+        int number = Integer.parseInt(stimulus.substring(stimulus.length()-1));
+        stimulus = stimulus.substring(stimulus.length()-1) + (number+1);
+      }
     }
+
+    // Add stimulus method to the Class
+    cd4C.addMethod(scClass, "de.monticore.sc2cd.StateStimulusMethod", stimulus, scClass.getName());
+
+    // Add handleStimulus(Class k) method to the StateClass
+    stateSuperClass.addCDMember(CD4CodeMill.cDMethodBuilder().setModifier(CDBasisMill.modifierBuilder().build())
+      .setMCReturnType(voidReturnType)
+      .setName("handle" + StringUtils.capitalize(stimulus)).addCDParameter(
+        CD4CodeMill.cDParameterBuilder().setName("k").setMCType(qualifiedType(scClass.getName())).build())
+      .build());
+    this.stimuli.add(stimulus);
+
+    //needed or the filtering in the next lines cannot be executed
+    String s = stimulus;
 
     //Add handleTransition(Class k) method to the source-state StateClass impl
     if (!this.stateToClassMap.containsKey(this.transition.get().getSourceName())) {
@@ -168,7 +178,7 @@ public class SC2CDTransitionVisitor
     }
     ASTCDClass stateImplClass = this.stateToClassMap.get(this.transition.get().getSourceName());
     if (stateImplClass.getCDMethodList().stream()
-      .anyMatch(x -> x.getName().equals("handle" + StringUtils.capitalize(stimulus)))) {
+      .anyMatch(x -> x.getName().equals("handle" + StringUtils.capitalize(s)))) {
       // This might occur due to stimuli with arguments
       throw new IllegalStateException("Duplicate transition " + stimulus + " in " + this.transition.get().getSourceName() + " found!");
     }
