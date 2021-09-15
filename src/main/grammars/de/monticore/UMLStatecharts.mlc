@@ -2,6 +2,8 @@ mlc UMLStatecharts {
   export "$projectDir/src/main/java" {
     include "de/monticore/umlstatecharts/**/*.java";
     include "de/monticore/umlstatecharts/*.java";
+    include "de/monticore/prettyprint/UMLStatechartsPrettyPrinter.java";
+    include "de/monticore/prettyprint/UMLStatechartsFullPrettyPrinter.java";
   }
 
   export "$projectDir/target/generated-sources/mc/" {
@@ -20,6 +22,11 @@ mlc UMLStatecharts {
   uses {
     include "$mp/java/**/*.*";
     include "$mp/de/se_rwth/**/*.*";
+    include "$mp/de/monticore/prettyprint/*.*";
+    include "$mp/de/monticore/statements/**/*.*";
+    include "$mp/de/monticore/expressions/**/*.*";
+    include "$mp/de/monticore/literals/**/*.*";
+    include "$mp/de/monticore/types/**/*.*";
     include "$projectDir/src/main/java/de/monticore/scbasis/**/*.java";
   }
 }

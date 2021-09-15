@@ -2,6 +2,7 @@ mlc SCTransitions4Modelling {
   export "$projectDir/src/main/java" {
     include "de/monticore/sctransitions4modelling/**/*.java";
     include "de/monticore/sctransitions4modelling/*.java";
+    include "de/monticore/prettyprint/SCTransitions4ModellingPrettyPrinter.java";
   }
 
   export "$projectDir/target/generated-sources/mc/" {
@@ -24,6 +25,7 @@ mlc SCTransitions4Modelling {
     include "$mp/de/monticore/symboltable/**/*.*";
     include "$mp/de/monticore/utils/*.*";
     include "$mp/de/monticore/ast/*.*";
+    include "$mp/de/monticore/prettyprint/*.*";
     include "$mp/com/google/**/*.*";
     include "$mp/org/apache/**/*.*";
     include "$mp/de/se_rwth/**/*.*";

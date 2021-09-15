@@ -2,6 +2,8 @@ mlc TriggeredStatecharts {
   export "$projectDir/src/main/java" {
     include "de/monticore/triggeredstatecharts/**/*.java";
     include "de/monticore/triggeredstatecharts/*.java";
+    include "de/monticore/prettyprint/TriggeredStatechartsPrettyPrinter.java";
+    include "de/monticore/prettyprint/TriggeredStatechartsFullPrettyPrinter.java";
   }
 
   export "$projectDir/target/generated-sources/mc" {
@@ -21,6 +23,11 @@ mlc TriggeredStatecharts {
     include "$mp/java/**/*.*";
     include "$mp/de/monticore/generating/**/*.*";
     include "$mp/de/se_rwth/**/*.*";
+    include "$mp/de/monticore/prettyprint/*.*";
     include "$projectDir/src/main/java/de/monticore/scbasis/**/*.java";
+    include "$mp/de/monticore/statements/**/*.*";
+    include "$mp/de/monticore/expressions/**/*.*";
+    include "$mp/de/monticore/literals/**/*.*";
+    include "$mp/de/monticore/types/**/*.*";
   }
 }

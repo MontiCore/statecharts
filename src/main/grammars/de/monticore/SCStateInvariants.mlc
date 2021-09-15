@@ -2,12 +2,13 @@ mlc SCStateInvariants {
   export "$projectDir/src/main/java" {
     include "de/monticore/scstateinvariants/**/*.java";
     include "de/monticore/scstateinvariants/*.java";
+    include "de/monticore/prettyprint/SCStateInvariantsPrettyPrinter.java";
   }
 
   export "$projectDir/target/generated-sources/mc/" {
       include "de/monticore/scstateinvariants/**/*.java";
       include "de/monticore/scstateinvariants/*.java";
-    }
+  }
 
   export "$projectDir/src/main/grammars" {
     include "de/monticore/SCStateInvariants.mc4";
@@ -25,6 +26,7 @@ mlc SCStateInvariants {
     include "$mp/de/monticore/utils/*.*";
     include "$mp/de/monticore/ast/*.*";
     include "$mp/de/monticore/types/check/*.*";
+    include "$mp/de/monticore/prettyprint/*.*";
     include "$mp/com/google/**/*.*";
     include "$mp/org/apache/**/*.*";
     include "$mp/de/se_rwth/**/*.*";
