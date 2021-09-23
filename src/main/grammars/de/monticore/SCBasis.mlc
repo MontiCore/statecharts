@@ -2,12 +2,13 @@ mlc SCBasis {
   export "$projectDir/src/main/java" {
     include "de/monticore/scbasis/**/*.java";
     include "de/monticore/scbasis/*.java";
+    include "de/monticore/prettyprint/SCBasisPrettyPrinter.java";
   }
   
   export "$projectDir/target/generated-sources/mc/" {
       include "de/monticore/scbasis/**/*.java";
       include "de/monticore/scbasis/*.java";
-    }
+  }
 
   export "$projectDir/src/main/grammars" {
     include "de/monticore/SCBasis.mc4";
@@ -22,6 +23,8 @@ mlc SCBasis {
     include "$mp/de/monticore/symboltable/**/*.*";
     include "$mp/de/monticore/utils/*.*";
     include "$mp/de/monticore/ast/*.*";
+    include "$mp/de/monticore/types/**/*.*";
+    include "$mp/de/monticore/prettyprint/*.*";
     include "$mp/com/google/**/*.*";
     include "$mp/org/apache/**/*.*";
     include "$mp/de/se_rwth/**/*.*";

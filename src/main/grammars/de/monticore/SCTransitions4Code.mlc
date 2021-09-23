@@ -1,20 +1,20 @@
-mlc SCEvents {
+mlc SCTransitions4Code {
   export "$projectDir/src/main/java" {
-    include "de/monticore/scevents/**/*.java";
-    include "de/monticore/scevents/*.java";
-    include "de/monticore/prettyprint/SCEventsPrettyPrinter.java";
+    include "de/monticore/sctransitions4code/**/*.java";
+    include "de/monticore/sctransitions4code/*.java";
+    include "de/monticore/prettyprint/SCTransitions4CodePrettyPrinter.java";
   }
-  
+
   export "$projectDir/target/generated-sources/mc/" {
-      include "de/monticore/scevents/**/*.java";
-      include "de/monticore/scevents/*.java";
+      include "de/monticore/sctransitions4code/**/*.java";
+      include "de/monticore/sctransitions4code/*.java";
   }
 
   export "$projectDir/src/main/grammars" {
-    include "de/monticore/SCEvents.mc4";
+    include "de/monticore/SCTransitions4Code.mc4";
   }
-  
-  uses mlc "SCBasis";
+
+  promote mlc "SCActions";
 
 /*
   local "src/main/java" {
@@ -22,9 +22,6 @@ mlc SCEvents {
 */
   uses {
     include "$mp/java/**/*.*";
-    include "$mp/de/monticore/symbols/**/*.*";
-    include "$mp/de/monticore/types/check/**/*.*";
-    include "$mp/de/monticore/types/check/*.*";
     include "$mp/de/monticore/symboltable/**/*.*";
     include "$mp/de/monticore/utils/*.*";
     include "$mp/de/monticore/ast/*.*";

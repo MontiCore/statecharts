@@ -1,19 +1,19 @@
-mlc SCEvents {
+mlc SCCompleteness {
   export "$projectDir/src/main/java" {
-    include "de/monticore/scevents/**/*.java";
-    include "de/monticore/scevents/*.java";
-    include "de/monticore/prettyprint/SCEventsPrettyPrinter.java";
+    include "de/monticore/sccompleteness/**/*.java";
+    include "de/monticore/sccompleteness/*.java";
+    include "de/monticore/prettyprint/SCCompletenessPrettyPrinter.java";
   }
-  
+
   export "$projectDir/target/generated-sources/mc/" {
-      include "de/monticore/scevents/**/*.java";
-      include "de/monticore/scevents/*.java";
+    include "de/monticore/sccompleteness/**/*.java";
+    include "de/monticore/sccompleteness/*.java";
   }
 
   export "$projectDir/src/main/grammars" {
-    include "de/monticore/SCEvents.mc4";
+    include "de/monticore/SCCompleteness.mc4";
   }
-  
+
   uses mlc "SCBasis";
 
 /*
@@ -22,9 +22,6 @@ mlc SCEvents {
 */
   uses {
     include "$mp/java/**/*.*";
-    include "$mp/de/monticore/symbols/**/*.*";
-    include "$mp/de/monticore/types/check/**/*.*";
-    include "$mp/de/monticore/types/check/*.*";
     include "$mp/de/monticore/symboltable/**/*.*";
     include "$mp/de/monticore/utils/*.*";
     include "$mp/de/monticore/ast/*.*";
