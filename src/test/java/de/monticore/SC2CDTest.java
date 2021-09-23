@@ -7,6 +7,7 @@ import de.monticore.generating.GeneratorSetup;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.sc2cd.SC2CDConverter;
 import de.monticore.scbasis._ast.ASTSCArtifact;
+import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.se_rwth.commons.logging.Log;
 import org.junit.Test;
@@ -18,7 +19,7 @@ import java.util.Optional;
 public class SC2CDTest {
   
   @Test
-  public void testSC2CD() throws IOException {
+  public void testUMLSC2CD() throws IOException {
     Log.enableFailQuick(false);
     UMLStatechartsMill.init();
     Optional<ASTSCArtifact> opt = UMLStatechartsMill.parser().parse("src/test/resources/examples/uml/DoorExample.sc");
@@ -37,6 +38,30 @@ public class SC2CDTest {
     File templatePath = new File("src/main/resources");
     config.setAdditionalTemplatePaths(Lists.newArrayList(templatePath));
   
-    System.out.println(fullPrettyPrinter.prettyprint(new SC2CDConverter().doConvert(opt.get(), config).getCompilationUnit()));
+    System.out.println(fullPrettyPrinter.prettyprint(new SC2CDConverter().doConvertUML(opt.get(), config).getCompilationUnit()));
   }
+
+  @Test
+  public void testTriggeredSC2CD() throws IOException {
+    Log.enableFailQuick(false);
+    TriggeredStatechartsMill.init();
+    Optional<ASTSCArtifact> opt = TriggeredStatechartsMill.parser().parse("src/test/resources/examples/triggered/DoorExample2.sc");
+
+    //Build ST
+    TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(opt.get());
+
+    CD4CodeFullPrettyPrinter fullPrettyPrinter = new CD4CodeFullPrettyPrinter();
+
+    //    // Prepare CD4C
+    GlobalExtensionManagement glex = new GlobalExtensionManagement();
+    GeneratorSetup config = new GeneratorSetup();
+    config.setGlex(glex);
+    config.setOutputDirectory(new File("target/gen"));
+    config.setTracing(false);
+    File templatePath = new File("src/main/resources");
+    config.setAdditionalTemplatePaths(Lists.newArrayList(templatePath));
+
+    System.out.println(fullPrettyPrinter.prettyprint(new SC2CDConverter().doConvertTriggered(opt.get(), config).getCompilationUnit()));
+  }
+
 }
