@@ -64,7 +64,7 @@ fileTree(dir: "$projectDir/src/main/models/triggered", include: '**/**.mtr').eac
   task "$taskname"(type: JavaExec) {
     group = "montitrans"
     classpath += sourceSets.main.runtimeClasspath
-    main = 'de.monticore.tr.UMLStatechartsTFGenCLI'
+    main = 'de.monticore.tr.UMLStatechartsTFGenTool'
     args += ["-i", "$g",
              "-o", "$buildDir/generated-sources"]
   }

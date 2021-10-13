@@ -139,7 +139,7 @@ shadowJar {
 task uMLSCTransGenerator(type: ShadowJar) {
   dependsOn shadowJar
   group = "shadow"
-  manifest.attributes 'Main-Class': 'de.monticore.tr.UMLStatechartsTFGenCLI'
+  manifest.attributes 'Main-Class': 'de.monticore.tr.UMLStatechartsTFGenTool'
   archiveFileName = 'UMLSCTransGenerator.jar'
   archiveClassifier.set('umltfgen')
   from zipTree(shadowJar.archiveFile)
@@ -148,7 +148,7 @@ task uMLSCTransGenerator(type: ShadowJar) {
 task triggeredSCTransGenerator(type: ShadowJar) {
   dependsOn shadowJar
   group = "shadow"
-  manifest.attributes 'Main-Class': 'de.monticore.tr.TriggeredStatechartsTFGenCLI'
+  manifest.attributes 'Main-Class': 'de.monticore.tr.TriggeredStatechartsTFGenTool'
   archiveFileName = 'TriggeredSCTransGenerator.jar'
   archiveClassifier.set('triggeredtfgen')
   from zipTree(shadowJar.archiveFile)
