@@ -306,6 +306,8 @@ public class UMLStatechartsCLITest {
                           " -gen,--generate <dir>             Prints the state pattern CD-AST to stdout or\n" +
                           "                                   the generated java classes to the specified\n" +
                           "                                   folder (optional)\n" +
+                          " -genr,--genreport <path>          Specifies the directory for printing reports\n" +
+                          "                                   based on the given model.\n" +
                           " -h,--help                         Prints this help dialog\n" +
                           " -hcp,--handcodedPath <pathlist>   List of directories to look for handwritten\n" +
                           "                                   code to integrate (optional)\n" +
