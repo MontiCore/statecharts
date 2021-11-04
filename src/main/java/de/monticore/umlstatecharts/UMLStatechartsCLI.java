@@ -10,6 +10,11 @@ import de.monticore.generating.GeneratorSetup;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.generating.templateengine.TemplateController;
 import de.monticore.generating.templateengine.TemplateHookPoint;
+import de.monticore.generating.templateengine.reporting.Reporting;
+import de.monticore.generating.templateengine.reporting.commons.ASTNodeIdentHelper;
+import de.monticore.generating.templateengine.reporting.commons.ReportManager;
+import de.monticore.generating.templateengine.reporting.commons.ReportingRepository;
+import de.monticore.generating.templateengine.reporting.reporter.*;
 import de.monticore.io.paths.MCPath;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
@@ -41,6 +46,7 @@ import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopesGenitorDeleg
 import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.cli.*;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -96,7 +102,8 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
 
       // parse input file, which is now available
       // (only returns if successful)
-      ASTSCArtifact scartifact = parse(cmd.getOptionValue("i"));
+      String input = cmd.getOptionValue("i");
+      ASTSCArtifact scartifact = parse(input);
 
       IUMLStatechartsArtifactScope scope = createSymbolTable(scartifact);
 
@@ -122,12 +129,27 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
 
       // -option generate to CD
       if (cmd.hasOption("gen")) {
-        String path = cmd.getOptionValue("gen", StringUtils.EMPTY);
+        String path = cmd.getOptionValue("gen");
         String configTemplate = cmd.getOptionValue("ct", StringUtils.EMPTY);
         String templatePath = cmd.getOptionValue("fp", StringUtils.EMPTY);
         String handcodedPath = cmd.getOptionValue("hcp", StringUtils.EMPTY);
+        String reportDirectory = cmd.getOptionValue("genr", path + "/report");
 
+        // Setup reporting
+        ReportManager.ReportManagerFactory factory = getReportManagerFactory(path, reportDirectory);
+        Reporting.init(path, reportDirectory, factory);
+
+        String modelName = FilenameUtils.getBaseName(input);
+        Reporting.on(modelName);
+        Reporting.reportModelStart(scartifact, modelName, "");
+        Reporting.reportParseInputFile(new File(input).getAbsoluteFile().toPath(), modelName);
+
+        // Generate the CD
         generateCD(scartifact, path, configTemplate, templatePath, handcodedPath);
+
+        // Flush reporting
+        Reporting.reportModelEnd(modelName, "");
+        Reporting.flush(scartifact);
       }
 
 
@@ -135,6 +157,37 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
       // ann unexpected error from the apache CLI parser:
       Log.error("0xA5C01 Could not process CLI parameters: " + e.getMessage());
     }
+  }
+
+  protected ReportManager.ReportManagerFactory getReportManagerFactory(String outputDirectory, String reportDirectory) {
+    return new ReportManager.ReportManagerFactory() {
+      @Override public ReportManager provide(String modelName) {
+        String lowerCaseName = modelName.toLowerCase();
+        ReportManager reports = new ReportManager(outputDirectory);
+        ReportingRepository repository = new ReportingRepository(new ASTNodeIdentHelper());
+        repository.initAllTemplates();
+
+        SummaryReporter summary = new SummaryReporter(reportDirectory, lowerCaseName, repository, UMLStatechartsMill.inheritanceTraverser());
+        GeneratedFilesReporter generated = new GeneratedFilesReporter(reportDirectory, lowerCaseName, repository);
+        HandWrittenCodeReporter handwritten = new HandWrittenCodeReporter(reportDirectory, lowerCaseName, repository);
+        TemplatesReporter templates = new TemplatesReporter(reportDirectory, lowerCaseName, repository);
+        TransformationReporter transformations = new TransformationReporter(reportDirectory, lowerCaseName, repository);
+        SuccessfulReporter finishReporter = new SuccessfulReporter(reportDirectory, lowerCaseName);
+        IncGenCheckReporter incGenCheck = new IncGenCheckReporter(reportDirectory, lowerCaseName);
+        IncGenGradleReporter gradleReporter = new IncGenGradleReporter(reportDirectory, lowerCaseName);
+
+        reports.addReportEventHandler(summary); // 01_Summary
+        reports.addReportEventHandler(generated); // 02_GeneratedFiles
+        reports.addReportEventHandler(handwritten); // 03_HandwrittenCodeFiles
+        reports.addReportEventHandler(templates); // 04_Templates
+        reports.addReportEventHandler(transformations); // 14_Transformations
+        reports.addReportEventHandler(finishReporter); // 19_Successful
+        reports.addReportEventHandler(incGenCheck); // IncGenCheck
+        reports.addReportEventHandler(gradleReporter);
+
+        return reports;
+      }
+    };
   }
 
   /**
@@ -314,7 +367,11 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
    * @param outputDirectory The target directory name for outputting the CD artifact. If empty,
    *          the content is printed to stdout instead
    */
-  public void generateCD(ASTSCArtifact scartifact, String outputDirectory, String configTemplate, String templatePath, String handcodedPath) {
+  public void generateCD(ASTSCArtifact scartifact,
+                         String outputDirectory,
+                         String configTemplate,
+                         String templatePath,
+                         String handcodedPath) {
     // pretty print AST
     SC2CDConverter converter = new SC2CDConverter();
 
@@ -364,7 +421,7 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
         templateSetup.setGlex(glex);
 
         if (!templatePath.isEmpty()) {
-          List<File>  files = Lists.newArrayList();
+          List<File> files = Lists.newArrayList();
           try (Stream<Path> paths = Files.walk(Paths.get(templatePath))) {
             paths
                 .filter(Files::isRegularFile)
@@ -383,7 +440,10 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
                                           sc2CDData.getScClass(),
                                           sc2CDData.getStateSuperClass(),
                                           sc2CDData.getStateClasses());
+        String qualifiedTemplateName = configTemplate.replaceAll(".ftl","");
+        Reporting.reportTemplateStart(qualifiedTemplateName, sc2CDData.getCompilationUnit());
         hp.processValue(tc, sc2CDData.getCompilationUnit(), args);
+        Reporting.reportTemplateEnd(qualifiedTemplateName, sc2CDData.getCompilationUnit());
       }
 
       for (ASTCDClass clazz : sc2CDData.getCompilationUnit().getCDDefinition().getCDClassesList()) {
@@ -501,6 +561,14 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
         .hasArgs()
         .desc("Sets the artifact path for imported symbols, space separated.")
         .build());
+
+    // specify generate reports path
+    options.addOption(Option.builder("genr")
+                              .longOpt("genreport")
+                              .argName("path")
+                              .hasArgs()
+                              .desc("Specifies the directory for printing reports based on the given model.")
+                              .build());
 
     return options;
   }
