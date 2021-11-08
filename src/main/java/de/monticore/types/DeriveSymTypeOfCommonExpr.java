@@ -36,7 +36,7 @@ public class DeriveSymTypeOfCommonExpr extends DeriveSymTypeOfCommonExpressions 
       if (!fieldSymbols.isEmpty()) {
         if (fieldSymbols.size() != 1) {
           typeCheckResult.reset();
-          logError("0xA0237", expr.get_SourcePositionStart());
+          logError("0xA1237", expr.get_SourcePositionStart());
         }
         if(!fieldSymbols.isEmpty()) {
           VariableSymbol var = fieldSymbols.get(0);
@@ -55,7 +55,7 @@ public class DeriveSymTypeOfCommonExpr extends DeriveSymTypeOfCommonExpressions 
           typeCheckResult.setCurrentResult(wholeResult);
       }else{
         typeCheckResult.reset();
-        logError("0xA0306", expr.get_SourcePositionStart());
+        logError("0xA1316", expr.get_SourcePositionStart());
       }
     } else {
       //inner type has no result --> try to resolve a type

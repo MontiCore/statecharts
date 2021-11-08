@@ -125,7 +125,7 @@ public class TriggeredStatechartsCLI extends TriggeredStatechartsCLITOP {
 
     } catch (ParseException e) {
       // ann unexpected error from the apache CLI parser:
-      Log.error("0xA5C01 Could not process CLI parameters: " + e.getMessage());
+      Log.error("0xA5C04 Could not process CLI parameters: " + e.getMessage());
     }
   }
 

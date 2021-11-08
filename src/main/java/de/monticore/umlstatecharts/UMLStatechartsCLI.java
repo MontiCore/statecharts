@@ -155,7 +155,7 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
 
     } catch (ParseException e) {
       // ann unexpected error from the apache CLI parser:
-      Log.error("0xA5C01 Could not process CLI parameters: " + e.getMessage());
+      Log.error("0xA5C02 Could not process CLI parameters: " + e.getMessage());
     }
   }
 
@@ -428,7 +428,7 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
                 .forEach(f -> files.add(f.toFile()));
           }
           catch (IOException e) {
-            Log.error("0x5C700 Incorrect template path "+ templatePath);
+            Log.error("0x5C701 Incorrect template path "+ templatePath);
           }
         }
 
