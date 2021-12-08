@@ -1,0 +1,8 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+statechart $_ {
+  state $from; // free variable
+  state $to; // make sure to not have $to -> $to
+  not [[ $from -> $to; ]]
+  [[ :- $from -> $to; ]]
+}

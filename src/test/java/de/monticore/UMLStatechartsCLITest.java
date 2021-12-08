@@ -322,7 +322,9 @@ public class UMLStatechartsCLITest {
                           "                                   reachable states, branching degree, and state\n" +
                           "                                   names\n" +
                           " -s,--symboltable <file>           Serialized the Symbol table of the given\n" +
-                          "                                   Statechart\n"
+                          "                                   Statechart\n" +
+                          " -t,--trafo <groovyscript>         Specifies the path for a groovy script\n" +
+                          "                                   applying transformations (optional)\n"
             , result );
   }
 }
