@@ -2,6 +2,7 @@
 package de.monticore.umlstatecharts;
 
 import com.google.common.collect.Lists;
+import de.monticore.TransformationScript;
 import de.monticore.cd4code.prettyprint.CD4CodeFullPrettyPrinter;
 import de.monticore.cdbasis._ast.ASTCDClass;
 import de.monticore.class2mc.Class2MCResolver;
@@ -37,6 +38,7 @@ import de.monticore.scstatehierarchy.HierarchicalStateCollector;
 import de.monticore.scstatehierarchy.NoSubstatesHandler;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.oosymbols.OOSymbolsMill;
+import de.monticore.tf.runtime.ODRule;
 import de.monticore.types.DeriveSymTypeOfUMLStatecharts;
 import de.monticore.types.SynthesizeSymType;
 import de.monticore.types.check.TypeCheck;
@@ -45,9 +47,13 @@ import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopesGenitorDelegator;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 import de.se_rwth.commons.logging.Log;
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.groovy.control.CompilerConfiguration;
+import org.codehaus.groovy.control.customizers.ImportCustomizer;
 
 import java.io.File;
 import java.io.IOException;
@@ -109,6 +115,10 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
 
       // check context conditions
       runDefaultCoCos(scartifact);
+
+      if (cmd.hasOption("t")) {
+        doTrafos(scartifact, cmd.getOptionValues("t"));
+      }
 
       if (cmd.hasOption("s")) {
         String path = cmd.getOptionValue("s", StringUtils.EMPTY);
@@ -340,6 +350,31 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
   }
 
   /**
+   * Apply transformation groovy workflow scripts
+   * @param ast The SC-AST to be transformed
+   * @param trafoScripts the array of trafos groovy script to be applied
+   */
+  public void doTrafos(ASTSCArtifact ast, String[] trafoScripts) {
+    CompilerConfiguration config = new CompilerConfiguration();
+    config.setScriptBaseClass(TransformationScript.class.getName()); // Groovy base script providing trafo helpers
+    // By default, import all trafos from the default de.monticore.tf package
+    config.addCompilationCustomizers(new ImportCustomizer().addStarImports("de.monticore.tf"));
+
+    GroovyShell shell = new GroovyShell(this.getClass().getClassLoader(), new Binding(), config);
+
+    for (String script : trafoScripts) {
+      try {
+        shell.getContext().setVariable("ast", ast);
+        TransformationScript groovyScript = (TransformationScript) shell.parse(new File(script));
+        groovyScript.__setTransformationGroovyShell(shell); // Pass this shell to respect imports
+        groovyScript.run();
+      }catch (IOException e){
+        throw new RuntimeException(e.getMessage(), e.getCause());
+      }
+    }
+  }
+
+  /**
    * Prints the contents of the SC-AST to stdout or a specified file.
    *
    * @param scartifact The SC-AST to be pretty printed
@@ -561,6 +596,14 @@ public class UMLStatechartsCLI extends UMLStatechartsCLITOP {
         .hasArgs()
         .desc("Sets the artifact path for imported symbols, space separated.")
         .build());
+
+    // trafo script parameter
+    options.addOption(Option.builder("t")
+                              .longOpt("trafo")
+                              .argName("groovyscript")
+                              .hasArgs()
+                              .desc("Specifies the path for a groovy script applying transformations (optional)")
+                              .build());
 
     // specify generate reports path
     options.addOption(Option.builder("genr")

@@ -58,9 +58,9 @@ repositories {
 
 task generateStatechartTRRules {}
 
-fileTree(dir: "$projectDir/src/main/models/triggered", include: '**/**.mtr').each {
+fileTree(dir: "$projectDir/src/main/models/uml", include: '**/**.mtr').each {
   def g = it
-  def taskname = "generateStatechartTRRules${it.getName().substring(0, it.getName().lastIndexOf('.'))}"
+  def taskname = "generateUMLStatechartTRRules${it.getName().substring(0, it.getName().lastIndexOf('.'))}"
   task "$taskname"(type: JavaExec) {
     group = "montitrans"
     classpath += sourceSets.main.runtimeClasspath
