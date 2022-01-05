@@ -54,6 +54,8 @@ based on MontiCore 6.4.0
 released: 09.10.2020  
 based on MontiCore 6.3.0
 
+* renamed CLI classes to Tool classes
+
 
 # 6.2.0
 released: 07.10.2020  

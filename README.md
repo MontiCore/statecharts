@@ -118,10 +118,11 @@ Afterwards, the jar of the tool is available in `sc-language/target/libs`.
 
 ## Tool Documentation
 
-The [StatechartsCLI](src/main/java/de/monticore/StatechartsCLI.java) offers the CLI for processing Statechart models.
+The [StatechartsTool](src/main/java/de/monticore/UMLStatechartsTool.java) offers options 
+for processing Statechart models.
 It provides through the CLI as follows:
 
-`java -jar StatechartsCLI.jar [-h] -i <fileName> [-path <p>] [-pp [<file>]] [-s [<file>]]`
+`java -jar StatechartsTool.jar [-h] -i <fileName> [-path <p>] [-pp [<file>]] [-s [<file>]]`
 
 where the arguments are:
 
@@ -141,8 +142,8 @@ where the arguments are:
 exemplary usage:
 
 ```
-  java -jar StatechartsCLI.jar -h
-  java -jar StatechartsCLI.jar -i Car.sc -pp
+  java -jar StatechartsTool.jar -h
+  java -jar StatechartsTool.jar -i Car.sc -pp
 ``` 
 
 ## Contribute

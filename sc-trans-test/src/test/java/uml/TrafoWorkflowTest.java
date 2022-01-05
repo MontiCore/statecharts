@@ -4,7 +4,7 @@ package uml;
 
 import de.monticore.scbasis.StateCollector;
 import de.monticore.scbasis._ast.ASTSCArtifact;
-import de.monticore.umlstatecharts.UMLStatechartsCLI;
+import de.monticore.umlstatecharts.UMLStatechartsTool;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 import de.se_rwth.commons.logging.Log;
@@ -31,19 +31,19 @@ public class TrafoWorkflowTest {
   }
 
   /**
-   * This test tests the groovy transformation workflow of the CLI
+   * This test tests the groovy transformation workflow of the tool
    * and compares the output.
    * This workflow adds two states, a transition between them, and a transition to the "B" state from every state
    */
   @Test
   public void testTrafoWorkflow() throws IOException {
     File ppFile = temporaryFolder.newFile();
-    UMLStatechartsCLI.main(new String[]{
+    UMLStatechartsTool.main(new String[]{
             "-i", "src/test/resources/TestStatechart.sc",
             "-t", "src/test/resources/TrafoWorkflow.groovy",
             "-pp", ppFile.getAbsolutePath()
     });
-    Assert.assertEquals("Errors during CLI call", 0, Log.getErrorCount());
+    Assert.assertEquals("Errors during tool call", 0, Log.getErrorCount());
     Optional<ASTSCArtifact> astOpt = UMLStatechartsMill.parser().parse(new BufferedReader(new FileReader(ppFile)));
 
     Assert.assertEquals("Errors during parsing", 0, Log.getErrorCount());

@@ -2,7 +2,7 @@
 package de.monticore;
 
 import de.monticore.cd4code.CD4CodeMill;
-import de.monticore.triggeredstatecharts.TriggeredStatechartsCLI;
+import de.monticore.triggeredstatecharts.TriggeredStatechartsTool;
 import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
 import de.monticore.triggeredstatecharts._symboltable.ITriggeredStatechartsGlobalScope;
 import de.se_rwth.commons.logging.Log;
@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class TriggeredStatechartsCLITest {
+public class TriggeredStatechartsToolTest {
 
   String resourcesDir = "src/test/resources/";
   String outputDir = "target/tooltest/";
@@ -53,7 +53,7 @@ public class TriggeredStatechartsCLITest {
 
   @Test
   public void testTriggeredStatecharts(){
-    new TriggeredStatechartsCLI().run(new String[]{
+    new TriggeredStatechartsTool().run(new String[]{
       "-i", resourcesDir + "examples/triggered/Door3.sc"
     });
     assertEquals("Door3.sc was not processed successfully", Log.getErrorCount(), 0);
@@ -61,7 +61,7 @@ public class TriggeredStatechartsCLITest {
 
   @Test
   public void testTriggeredStatechartsPP(){
-    new TriggeredStatechartsCLI().run(new String[]{
+    new TriggeredStatechartsTool().run(new String[]{
       "-i", resourcesDir + "examples/triggered/Door3.sc",
       "-pp"
     });
@@ -70,7 +70,7 @@ public class TriggeredStatechartsCLITest {
 
   @Test
   public void testTriggeredStatechartsPP2(){
-    new TriggeredStatechartsCLI().run(new String[]{
+    new TriggeredStatechartsTool().run(new String[]{
       "-i", resourcesDir + "tf/Example.sc",
       "-pp"
     });
@@ -79,7 +79,7 @@ public class TriggeredStatechartsCLITest {
 
   @Test
   public void testTriggeredStatechartsConverter(){
-    new TriggeredStatechartsCLI().run(new String[]{
+    new TriggeredStatechartsTool().run(new String[]{
       "-i", resourcesDir + "examples/triggered/DoorExample2.sc",
       "-gen", "target/gentest4"
     });
@@ -88,7 +88,7 @@ public class TriggeredStatechartsCLITest {
 
   @Test
   public void testTriggeredStatechartsConverterWithConfigTemplate(){
-    new TriggeredStatechartsCLI().run(new String[]{
+    new TriggeredStatechartsTool().run(new String[]{
       "-i", resourcesDir + "examples/triggered/DoorExample2.sc",
       "-gen", "target/gentest5",
       "-fp", "src/test/resources",
@@ -99,7 +99,7 @@ public class TriggeredStatechartsCLITest {
 
   @Test
   public void testTriggeredStatechartsConverterWithConfigTemplateAndTOP(){
-    new TriggeredStatechartsCLI().run(new String[]{
+    new TriggeredStatechartsTool().run(new String[]{
       "-i", resourcesDir + "examples/triggered/DoorExample2.sc",
       "-gen", "target/gentest6",
       "-fp", "src/test/resources",
@@ -111,7 +111,7 @@ public class TriggeredStatechartsCLITest {
 
   @Test
   public void testTriggeredStatechartsStore(){
-    new TriggeredStatechartsCLI().run(new String[]{
+    new TriggeredStatechartsTool().run(new String[]{
       "-i", resourcesDir + "examples/triggered/Door3.sc",
       "-s", outputDir + "door3/Door3.scsym"
     });
@@ -120,7 +120,7 @@ public class TriggeredStatechartsCLITest {
 
   @Test
   public void testTriggeredStatechartsStore2(){
-    new TriggeredStatechartsCLI().run(new String[]{
+    new TriggeredStatechartsTool().run(new String[]{
       "-i", resourcesDir + "examples/triggered/Car2.sc",
       "-s", outputDir + "car2/Car2.scsym"
     });
@@ -129,7 +129,7 @@ public class TriggeredStatechartsCLITest {
 
   @Test
   public void testTriggeredStatechartsStore3(){
-    new TriggeredStatechartsCLI().run(new String[]{
+    new TriggeredStatechartsTool().run(new String[]{
       "-i", resourcesDir + "tf/Example.sc",
       "-s", outputDir + "testsc/Example.scsym"
     });
@@ -139,7 +139,7 @@ public class TriggeredStatechartsCLITest {
 
   @Test
   public void testTriggeredStatechartsPP3(){
-    new TriggeredStatechartsCLI().run(new String[]{
+    new TriggeredStatechartsTool().run(new String[]{
       "-i", resourcesDir + "examples/triggered/Car2.sc",
       "-pp", outputDir + "testsc/Car2.sc"
     });
@@ -150,7 +150,7 @@ public class TriggeredStatechartsCLITest {
 
   @Test
   public void testTriggeredStatechartsReportDoor() throws IOException {
-    new TriggeredStatechartsCLI().run(new String[]{
+    new TriggeredStatechartsTool().run(new String[]{
       "-i", resourcesDir + "examples/triggered/Door3.sc",
       "-r", outputDir + "door3"
     });
@@ -175,7 +175,7 @@ public class TriggeredStatechartsCLITest {
 
   @Test
   public void testTriggeredStatechartsReportCar() throws IOException{
-    new TriggeredStatechartsCLI().run(new String[]{
+    new TriggeredStatechartsTool().run(new String[]{
       "-i", resourcesDir + "examples/triggered/Car2.sc",
       "-r", outputDir + "/car2"
     });
@@ -261,10 +261,10 @@ public class TriggeredStatechartsCLITest {
   public void testHelp(){
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     System.setOut(new PrintStream(out));
-    new TriggeredStatechartsCLI().run(new String[]{    "-h" });
+    new TriggeredStatechartsTool().run(new String[]{    "-h" });
     assertEquals(Log.getErrorCount(), 0);
     String result = out.toString().replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
-    assertEquals( "usage: TriggeredStatechartsCLI\n" +
+    assertEquals( "usage: TriggeredStatechartsTool\n" +
         " -ct,--configTemplate <file>       Provides a config template (optional)\n" +
         " -fp,--templatePath <pathlist>     List of directories to look for handwritten\n" +
         "                                   templates to integrate (optional)\n" +

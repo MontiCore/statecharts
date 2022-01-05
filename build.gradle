@@ -128,13 +128,13 @@ tasks.withType(JavaCompile) {
   
 }
 
-// all in one cli-jar
+// all in one tool-jar
 shadowJar {
   manifest {
-    attributes "Main-Class": "de.monticore.umlstatecharts.UML${archiveBaseName.get().capitalize()}CLI"
+    attributes "Main-Class": "de.monticore.umlstatecharts.UML${archiveBaseName.get().capitalize()}Tool"
   }
-  archiveClassifier = "cli"
-  archiveFileName = "${archiveBaseName.get().capitalize()}CLI.${archiveExtension.get()}"
+  archiveClassifier = "tool"
+  archiveFileName = "${archiveBaseName.get().capitalize()}Tool.${archiveExtension.get()}"
 }
 
 task uMLSCTransGenerator(type: ShadowJar) {
