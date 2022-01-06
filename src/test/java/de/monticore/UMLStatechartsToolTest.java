@@ -3,7 +3,7 @@ package de.monticore;
 
 import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
-import de.monticore.umlstatecharts.UMLStatechartsCLI;
+import de.monticore.umlstatecharts.UMLStatechartsTool;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsGlobalScope;
@@ -29,7 +29,7 @@ import java.util.stream.Stream;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class UMLStatechartsCLITest {
+public class UMLStatechartsToolTest {
   
   String resourcesDir = "src/test/resources/";
   String outputDir = "target/tooltest/";
@@ -70,7 +70,7 @@ public class UMLStatechartsCLITest {
   
   @Test
   public void testUMLStatecharts(){
-    new UMLStatechartsCLI().run(new String[]{
+    new UMLStatechartsTool().run(new String[]{
         "-i", resourcesDir + "examples/uml/Door.sc"
     });
     assertEquals("Door.sc was not processed successfully", Log.getErrorCount(), 0);
@@ -78,7 +78,7 @@ public class UMLStatechartsCLITest {
   
   @Test
   public void testUMLStatechartsPP(){
-    new UMLStatechartsCLI().run(new String[]{
+    new UMLStatechartsTool().run(new String[]{
         "-i", resourcesDir + "examples/uml/Door.sc",
         "-pp"
     });
@@ -87,7 +87,7 @@ public class UMLStatechartsCLITest {
   
   @Test
   public void testUMLStatechartsPP2(){
-    new UMLStatechartsCLI().run(new String[]{
+    new UMLStatechartsTool().run(new String[]{
         "-i", resourcesDir + "tf/Example.sc",
         "-pp"
     });
@@ -96,7 +96,7 @@ public class UMLStatechartsCLITest {
 
   @Test
   public void testUMLStatechartsConverter(){
-    new UMLStatechartsCLI().run(new String[]{
+    new UMLStatechartsTool().run(new String[]{
             "-i", resourcesDir + "examples/uml/DoorExample.sc",
             "-gen", "target/gentest"
     });
@@ -105,7 +105,7 @@ public class UMLStatechartsCLITest {
 
   @Test
   public void testUMLStatechartsConverterWithConfigTemplate(){
-    new UMLStatechartsCLI().run(new String[]{
+    new UMLStatechartsTool().run(new String[]{
             "-i", resourcesDir + "examples/uml/DoorExample.sc",
             "-gen", "target/gentest2",
             "-fp", "src/test/resources",
@@ -116,7 +116,7 @@ public class UMLStatechartsCLITest {
 
   @Test
   public void testUMLStatechartsConverterWithConfigTemplateAndTOP(){
-    new UMLStatechartsCLI().run(new String[]{
+    new UMLStatechartsTool().run(new String[]{
             "-i", resourcesDir + "examples/uml/DoorExample.sc",
             "-gen", "target/gentest3",
             "-fp", "src/test/resources",
@@ -128,7 +128,7 @@ public class UMLStatechartsCLITest {
 
   @Test
   public void testUMLStatechartsStore(){
-    new UMLStatechartsCLI().run(new String[]{
+    new UMLStatechartsTool().run(new String[]{
         "-i", resourcesDir + "examples/uml/Door.sc",
         "-s", outputDir + "door/Door.scsym"
     });
@@ -137,7 +137,7 @@ public class UMLStatechartsCLITest {
   
   @Test
   public void testUMLStatechartsStore2(){
-    new UMLStatechartsCLI().run(new String[]{
+    new UMLStatechartsTool().run(new String[]{
         "-i", resourcesDir + "examples/uml/Car.sc",
         "-s", outputDir + "car/Car.scsym"
     });
@@ -146,7 +146,7 @@ public class UMLStatechartsCLITest {
   
   @Test
   public void testUMLStatechartsStore3(){
-    new UMLStatechartsCLI().run(new String[]{
+    new UMLStatechartsTool().run(new String[]{
         "-i", resourcesDir + "valid/Test.sc",
         "-s", outputDir + "testsc/Test.scsym"
     });
@@ -155,7 +155,7 @@ public class UMLStatechartsCLITest {
 
   @Test
   public void testUMLStatechartsStore4(){
-    new UMLStatechartsCLI().run(new String[]{
+    new UMLStatechartsTool().run(new String[]{
         "-i", resourcesDir + "valid/Test2.sc",
         "-s", outputDir + "testsc2/Test2.scsym"
     });
@@ -165,7 +165,7 @@ public class UMLStatechartsCLITest {
 
   @Test
   public void testUMLStatechartsPP3(){
-    new UMLStatechartsCLI().run(new String[]{
+    new UMLStatechartsTool().run(new String[]{
         "-i", resourcesDir + "valid/Test.sc",
         "-pp", outputDir + "testsc/Test.sc"
     });
@@ -175,7 +175,7 @@ public class UMLStatechartsCLITest {
   
   @Test
   public void testUMLStatechartsEvent(){
-    new UMLStatechartsCLI().run(new String[]{
+    new UMLStatechartsTool().run(new String[]{
         "-i", resourcesDir + "flat/test6.sc"
     });
     Log.getFindings().forEach(System.out::println);
@@ -185,7 +185,7 @@ public class UMLStatechartsCLITest {
   
   @Test
   public void testUMLStatechartsReportDoor() throws IOException {
-    new UMLStatechartsCLI().run(new String[]{
+    new UMLStatechartsTool().run(new String[]{
         "-i", resourcesDir + "examples/uml/Door.sc",
         "-r", outputDir + "door"
     });
@@ -210,7 +210,7 @@ public class UMLStatechartsCLITest {
   
   @Test
   public void testUMLStatechartsReportCar() throws IOException{
-    new UMLStatechartsCLI().run(new String[]{
+    new UMLStatechartsTool().run(new String[]{
         "-i", resourcesDir + "examples/uml/Car.sc",
         "-r", outputDir + "/car"
     });
@@ -296,10 +296,10 @@ public class UMLStatechartsCLITest {
   public void testHelp(){
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     System.setOut(new PrintStream(out));
-    new UMLStatechartsCLI().run(new String[]{    "-h" });
+    new UMLStatechartsTool().run(new String[]{    "-h" });
     assertEquals(Log.getErrorCount(), 0);
     String result = out.toString().replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
-    assertEquals( "usage: UMLStatechartsCLI\n" +
+    assertEquals( "usage: UMLStatechartsTool\n" +
                           " -ct,--configTemplate <file>       Provides a config template (optional)\n" +
                           " -fp,--templatePath <pathlist>     List of directories to look for handwritten\n" +
                           "                                   templates to integrate (optional)\n" +

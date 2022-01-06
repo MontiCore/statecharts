@@ -6,7 +6,7 @@ import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scbasis._symboltable.SCStateSymbol;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
-import de.monticore.umlstatecharts.UMLStatechartsCLI;
+import de.monticore.umlstatecharts.UMLStatechartsTool;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsGlobalScope;
@@ -53,7 +53,7 @@ public class ResolvingTest {
   
   @Test
   public void testResolvingState() {
-    UMLStatechartsCLI tool = new UMLStatechartsCLI();
+    UMLStatechartsTool tool = new UMLStatechartsTool();
     BasicSymbolsMill.initializePrimitives();
     ASTSCArtifact ast = tool.parse("src/test/resources/valid/Test.sc");
     IUMLStatechartsArtifactScope st = tool.createSymbolTable(ast);

@@ -131,7 +131,7 @@ tasks.withType(JavaCompile) {
 // all in one cli-jar
 shadowJar {
   manifest {
-    attributes "Main-Class": "de.monticore.umlstatecharts.UML${archiveBaseName.get().capitalize()}CLI"
+    attributes "Main-Class": "de.monticore.umlstatecharts.UML${archiveBaseName.get().capitalize()}Tool"
   }
   archiveClassifier = "cli"
   archiveFileName = "${archiveBaseName.get().capitalize()}CLI.${archiveExtension.get()}"
