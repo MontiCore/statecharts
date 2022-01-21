@@ -37,7 +37,7 @@ deploy:
     - "gradle publish -PmavenPassword=$pass -PmavenUser=$user $GRADLE_OPT $ARGS2"
   artifacts:
     paths:
-      - target/libs/statecharts-cli.jar
+      - target/libs/MCStatecharts.jar
     expire_in: 1 week
   only:
     refs:

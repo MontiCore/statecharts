@@ -94,7 +94,7 @@ alt="Statecharts LFD"> <br><b>Figure 2:</b> Graphical Representation of the Door
 alt="Statecharts LFD"> <br><b>Figure 3:</b> Graphical Representation of the Car Statechart. </div><br> 
 
 ## Tool Download
-* [**Download UML Statecharts Tool**](http://www.monticore.de/download/StatechartsCLI.jar)
+* [**Download UML Statecharts Tool**](http://www.monticore.de/download/MCStatecharts.jar)
 
 Alternatively, the tools can be built from source code.
 
@@ -122,7 +122,7 @@ The [StatechartsTool](src/main/java/de/monticore/UMLStatechartsTool.java) offers
 for processing Statechart models.
 It provides through the CLI as follows:
 
-`java -jar StatechartsCLI.jar [-h] -i <fileName> [-path <p>] [-pp [<file>]] [-s [<file>]]`
+`java -jar MCStatecharts.jar [-h] -i <fileName> [-path <p>] [-pp [<file>]] [-s [<file>]]`
 
 where the arguments are:
 
@@ -142,8 +142,8 @@ where the arguments are:
 exemplary usage:
 
 ```
-  java -jar StatechartsCLI.jar -h
-  java -jar StatechartsCLI.jar -i Car.sc -pp
+  java -jar MCStatecharts.jar -h
+  java -jar MCStatecharts.jar -i Car.sc -pp
 ``` 
 
 ## Contribute
