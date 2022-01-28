@@ -2,7 +2,7 @@
 package de.monticore.scbasis._cocos;
 
 import de.monticore.scbasis._ast.ASTSCArtifact;
-import de.monticore.utils.Names;
+import de.se_rwth.commons.Names;
 import de.se_rwth.commons.logging.Log;
 
 /**
