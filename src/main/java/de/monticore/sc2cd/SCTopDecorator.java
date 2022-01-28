@@ -9,7 +9,7 @@ import de.monticore.cdinterfaceandenum._ast.ASTCDInterface;
 import de.monticore.io.paths.MCPath;
 
 import static de.monticore.generating.GeneratorEngine.existsHandwrittenClass;
-import static de.monticore.utils.Names.constructQualifiedName;
+import static de.se_rwth.commons.Names.constructQualifiedName;
 
 /**
  * Similar to the MontiCore generator TopDecorator,
