@@ -343,7 +343,7 @@ public class UMLStatechartsToolTest {
   }
   
     // ------------------------------------------------------
-/* TODO #3104 klappt nicht:, #3105
+// TODO #3104 klappt nicht:, #3105
 /*
   @Test
   public void testPingPong1A(){
