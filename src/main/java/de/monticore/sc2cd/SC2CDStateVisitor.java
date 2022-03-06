@@ -35,11 +35,11 @@ public class SC2CDStateVisitor
   protected ASTCDCompilationUnit cdCompilationUnit;
 
   /**
-   * The StateCharts class
+   * The main StateCharts class, i.e. the class that the Statechart maps to
    */
   protected ASTCDClass scClass;
   /**
-   * The super class for all state implementations
+   * The super class for all state implementations (defining the common signature)
    */
   protected ASTCDClass stateSuperClass;
   /**
@@ -136,14 +136,15 @@ public class SC2CDStateVisitor
   @Override
   public void visit(ASTSCState state) {
     if (state.getName().equals("state")) {
-      Log.error(ERROR_CODE + "State is named \"state\", which interferes with the attribute for the currently selected state");
+      Log.error(ERROR_CODE + "State is illegally named \"state\". Cannot generate code.");
     }
+    // if no explicit initial state given: robustly take the first
     if (initialState.isEmpty()) {
       initialState = state.getName();
     }
 
     // A class extending StateClass for this state
-    ASTCDClass stateClass = CDBasisMill.cDClassBuilder().setName(state.getName())
+    ASTCDClass stateClass = CDBasisMill.cDClassBuilder().setName(statechartName+"_"+state.getName())
             .setModifier(CDBasisMill.modifierBuilder().build())
             .setCDExtendUsage(CDBasisMill.cDExtendUsageBuilder().addSuperclass(qualifiedType(statechartName+"_State")).build())
             .build();
@@ -152,9 +153,9 @@ public class SC2CDStateVisitor
     this.stateToClassMap.put(state.getName(), stateClass);
 
     // Add reference to this in the main class, in form of an attribute
-    cd4C.addAttribute(scClass, "protected " + state.getName() + " " + StringUtils.uncapitalize(state.getName()) + ";");
+    cd4C.addAttribute(scClass, "protected " + statechartName+"_State " + StringUtils.uncapitalize(state.getName()) + ";");
 
-    // Set the initial state
+    // Set the initial state (does not check uniqueness here)
     if (state.getSCModifier().isInitial()) {
       this.initialState = state.getName();
     }

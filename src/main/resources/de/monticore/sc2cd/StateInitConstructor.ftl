@@ -7,7 +7,7 @@ ${tc.signature("classname", "states", "initialState")}
 ${cd4c.constructor("public ${classname}()")}
 {
   <#list states as state>
-    this.${state?uncap_first} = new ${state}();
+    this.${state?uncap_first} = new ${classname}_${state}();
   </#list>
   <#if initialState??>
     this.state = this.${initialState?uncap_first};
