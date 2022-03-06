@@ -115,7 +115,12 @@ To build the project, it is required to install a Java 8 JDK and git.
 ##### Step 2: Build Project with gradle
 
     gradle build --refresh-dependencies
-Afterwards, the jars of the tools are available in `target/libs`.
+
+##### Step 3: Find Results
+
+* The jars of the tools are now available in `target/libs`.
+* A report of executed tests of the tool is found in `target/reports/tests/test/index.html`.
+* Example generation results can be found in `gentest*`.
 
 ## Tool Documentation
 
