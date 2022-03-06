@@ -1,4 +1,5 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
+<!-- This is a MontiCore stable explanation. -->
 
 > NOTE: <br>
 This documentation is intended for  **modelers** who use the Statecharts languages.

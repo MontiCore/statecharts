@@ -1,4 +1,6 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
+<!-- This is a MontiCore stable explanation. -->
+
 [[_TOC_]]
 
 # Statecharts
