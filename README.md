@@ -115,7 +115,7 @@ To build the project, it is required to install a Java 8 JDK and git.
 ##### Step 2: Build Project with gradle
 
     gradle build --refresh-dependencies
-Afterwards, the jar of the tool is available in `sc-language/target/libs`.
+Afterwards, the jars of the tools are available in `target/libs`.
 
 ## Tool Documentation
 
