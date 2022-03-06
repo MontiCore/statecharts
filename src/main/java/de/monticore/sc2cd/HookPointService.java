@@ -6,6 +6,7 @@ import de.monticore.generating.templateengine.StringHookPoint;
 import de.monticore.generating.templateengine.TemplateHookPoint;
 import de.monticore.generating.templateengine.TemplateStringHookPoint;
 
+// TODO #3100: Die drei Methoden integrieren wir in den Tepmplatecontroller und machen so diese Klasse obsolet.
 import java.io.IOException;
 
 @SuppressWarnings("unused")

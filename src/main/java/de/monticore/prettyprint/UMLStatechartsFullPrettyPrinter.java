@@ -14,6 +14,16 @@ import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._ast.ASTUMLStatechartsNode;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 
+/**
+ * This PrettyPrinter for the full UMLStatecharts language composes
+ * from all pretty printers of its individual language components.
+ *
+ * This includes the StateChart language components,
+ * but also expressions, etc. 
+ *
+ * the constructor sets up a traverser that puts together all the individual 
+ * handlers for the language components.
+ */
 public class UMLStatechartsFullPrettyPrinter {
   protected IndentPrinter printer;
   
@@ -53,7 +63,6 @@ public class UMLStatechartsFullPrettyPrinter {
     traverser.setMCVarDeclarationStatementsHandler(new MCVarDeclarationStatementsPrettyPrinter(printer));
     traverser.setMCReturnStatementsHandler(new MCReturnStatementsPrettyPrinter(printer));
     
-
   }
 
   public String prettyprint(ASTUMLStatechartsNode node) {

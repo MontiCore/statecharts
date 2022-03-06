@@ -6,6 +6,13 @@ import de.monticore.scevents._ast.ASTSCFuncEventParameter;
 import de.monticore.scevents._visitor.SCEventsHandler;
 import de.monticore.scevents._visitor.SCEventsTraverser;
 
+/**
+ * This PrettyPrinter is designed to handle exactly the
+ * nonterminals from the respective language component (grammar).
+ * this ensures modularity by simply composing
+ * the individual pretty printers (or subclasses thereof)
+ *
+ */
 public class SCEventsPrettyPrinter implements SCEventsHandler {
   protected IndentPrinter printer;
 

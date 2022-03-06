@@ -5,6 +5,13 @@ import de.monticore.sccompleteness._ast.ASTSCCompleteness;
 import de.monticore.sccompleteness._visitor.SCCompletenessHandler;
 import de.monticore.sccompleteness._visitor.SCCompletenessTraverser;
 
+/**
+ * This PrettyPrinter is designed to handle exactly the
+ * nonterminals from the respective language component (grammar).
+ * this ensures modularity by simply composing
+ * the individual pretty printers (or subclasses thereof)
+ *
+ */
 public class SCCompletenessPrettyPrinter implements SCCompletenessHandler {
   protected IndentPrinter printer;
 

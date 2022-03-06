@@ -10,15 +10,27 @@ import de.monticore.triggeredstatecharts._visitor.TriggeredStatechartsTraverser;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 
+// TODO #3101: diese Klasse beinhaltet Funktionen für zwei verschiedene Statecharts --> trennen wegen MLC! 
+
 public class SC2CDConverter {
 
   /**
-   * Convert a SC to a CD
+   * Convert a SC to a CD:
+   * we apply a standard procedure for code generation, by mapping the
+   * original model into a class diagram with attributes and methods.
+   * The method bodies are kept in specific templates attached to the AST nodes
+   * for later evaluation, when producing the sources
+   * 
    * @param astscArtifact the SC
+   * @param config a valid GeneratorSetup, where the respective templates are stored 
    * @return the CD
    */
   public SC2CDData doConvertUML(ASTSCArtifact astscArtifact, GeneratorSetup config) {
+    // initialize the cd4c object 
     CD4C.init(config);
+    
+    // what to do, when no specific method body is given:
+    // this could also contain a warning on execution, or uncompilable code
     CD4C.getInstance().setEmptyBodyTemplate("de.monticore.sc2cd.gen.EmptyMethod");
 
     // Phase 1: Work on states
@@ -26,7 +38,9 @@ public class SC2CDConverter {
     UMLStatechartsTraverser traverser = UMLStatechartsMill.inheritanceTraverser();
     traverser.add4SCBasis(phase1Visitor);
 
+    // we use the CD4Code language for the CD (and now switch to it)
     CD4CodeMill.init();
+
     traverser.handle(astscArtifact);
 
     // Phase 2: Work with transitions
@@ -44,6 +58,7 @@ public class SC2CDConverter {
                          phase1Visitor.getStateSuperClass(),
                          phase1Visitor.getStateToClassMap().values());
   }
+
 
   /**
    * Convert a SC to a CD

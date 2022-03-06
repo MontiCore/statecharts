@@ -5,6 +5,13 @@ import de.monticore.sctransitions4code._ast.ASTTransitionBody;
 import de.monticore.sctransitions4code._visitor.SCTransitions4CodeHandler;
 import de.monticore.sctransitions4code._visitor.SCTransitions4CodeTraverser;
 
+/**
+ * This PrettyPrinter is designed to handle exactly the
+ * nonterminals from the respective language component (grammar).
+ * this ensures modularity by simply composing
+ * the individual pretty printers (or subclasses thereof)
+ *
+ */
 public class SCTransitions4CodePrettyPrinter implements SCTransitions4CodeHandler {
   protected IndentPrinter printer;
 

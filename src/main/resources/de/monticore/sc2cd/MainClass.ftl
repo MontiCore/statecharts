@@ -2,6 +2,8 @@
 <#--
   Generates a Java class
 
+//TODO: diese Datei existiert doppelt in zwei verschiedenen Varianten, eine davon ist zu entfernen oder umzubenennen #3099
+
 -->
 ${tc.signature("printer", "package")}
 

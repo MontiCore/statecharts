@@ -84,6 +84,8 @@ public class TriggeredStatechartsToolTest {
       "-gen", "target/gentest4"
     });
     assertEquals("Converting to SD of DoorExample2.sc was not successful", Log.getErrorCount(), 0);
+    // the content of the generated files will be checked later by Gradle, 
+    // by compilation and execution
   }
 
   @Test
@@ -95,6 +97,8 @@ public class TriggeredStatechartsToolTest {
       "-ct", "configTemplate/ct.ftl"
     });
     assertEquals("Converting to CD of DoorExample2.sc was not successful", Log.getErrorCount(), 0);
+    // the content of the generated files will be checked later by Gradle, 
+    // by compilation and execution
   }
 
   @Test
@@ -107,6 +111,8 @@ public class TriggeredStatechartsToolTest {
       "-hcp", "src/test/resources/handcoded"
     });
     assertEquals("Converting to CD of DoorExample2.sc was not successful", Log.getErrorCount(), 0);
+    // the content of the generated files will be checked later by Gradle, 
+    // by compilation and execution
   }
 
   @Test

@@ -98,9 +98,11 @@ public class UMLStatechartsToolTest {
   public void testUMLStatechartsConverter(){
     new UMLStatechartsTool().run(new String[]{
             "-i", resourcesDir + "examples/uml/DoorExample.sc",
-            "-gen", "target/gentest"
+            "-gen", "target/gentest1"
     });
     assertEquals("Converting to SD of Door.sc was not successful", Log.getErrorCount(), 0);
+    // the content of the generated files will be checked later by Gradle, 
+    // by compilation and execution
   }
 
   @Test
@@ -112,6 +114,8 @@ public class UMLStatechartsToolTest {
             "-ct", "configTemplate/ct.ftl"
     });
     assertEquals("Converting to CD of Door.sc was not successful", Log.getErrorCount(), 0);
+    // the content of the generated files will be checked later by Gradle, 
+    // by compilation and execution
   }
 
   @Test
@@ -124,6 +128,8 @@ public class UMLStatechartsToolTest {
             "-hcp", "src/test/resources/handcoded"
     });
     assertEquals("Converting to CD of Door.sc was not successful", Log.getErrorCount(), 0);
+    // the content of the generated files will be checked later by Gradle, 
+    // by compilation and execution
   }
 
   @Test
@@ -133,6 +139,7 @@ public class UMLStatechartsToolTest {
         "-s", outputDir + "door/Door.scsym"
     });
     assertEquals("Storing symbol table of Door.sc was not successful", Log.getErrorCount(), 0);
+    // the content of the generated files is to be checked manually at the moment
   }
   
   @Test
@@ -142,6 +149,7 @@ public class UMLStatechartsToolTest {
         "-s", outputDir + "car/Car.scsym"
     });
     assertEquals("Storing symbol table of Car.sc was not successful", Log.getErrorCount(), 0);
+    // the content of the generated files is to be checked manually at the moment
   }
   
   @Test
@@ -151,6 +159,7 @@ public class UMLStatechartsToolTest {
         "-s", outputDir + "testsc/Test.scsym"
     });
     assertEquals("Storing symbol table of Test.sc was not successful", Log.getErrorCount(), 0);
+    // the content of the generated files is to be checked manually at the moment
   }
 
   @Test
@@ -160,6 +169,7 @@ public class UMLStatechartsToolTest {
         "-s", outputDir + "testsc2/Test2.scsym"
     });
     assertEquals("Storing symbol table of Test2.sc was not successful", Log.getErrorCount(), 0);
+    // the content of the generated files is to be checked manually at the moment
   }
 
 
@@ -171,6 +181,7 @@ public class UMLStatechartsToolTest {
     });
     Log.getFindings().forEach(System.out::println);
     assertEquals("Pretty printing Test.sc was not successful", Log.getErrorCount(), 0);
+    // the content of the generated files is to be checked manually at the moment
   }
   
   @Test
@@ -180,6 +191,7 @@ public class UMLStatechartsToolTest {
     });
     Log.getFindings().forEach(System.out::println);
     assertEquals("Processing of test6.sc was not successful", Log.getErrorCount(), 0);
+    // the content of the generated files is to be checked manually at the moment
   }
   
   

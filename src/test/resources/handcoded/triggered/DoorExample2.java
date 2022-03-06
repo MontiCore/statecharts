@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package uml;
 
 public class DoorExample extends DoorExampleTOP {

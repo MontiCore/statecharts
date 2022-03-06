@@ -5,6 +5,13 @@ import de.monticore.umlstatecharts._ast.ASTSCUMLEvent;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsHandler;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 
+/**
+ * This PrettyPrinter is designed to handle exactly the
+ * nonterminals from the respective language component (grammar).
+ * this ensures modularity by simply composing
+ * the individual pretty printers (or subclasses thereof)
+ *
+ */
 public class UMLStatechartsPrettyPrinter implements UMLStatechartsHandler {
   protected IndentPrinter printer;
 

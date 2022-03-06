@@ -7,6 +7,13 @@ import de.monticore.scstatehierarchy._ast.ASTSCInternTransition;
 import de.monticore.scstatehierarchy._visitor.SCStateHierarchyHandler;
 import de.monticore.scstatehierarchy._visitor.SCStateHierarchyTraverser;
 
+/**
+ * This PrettyPrinter is designed to handle exactly the
+ * nonterminals from the respective language component (grammar).
+ * this ensures modularity by simply composing
+ * the individual pretty printers (or subclasses thereof)
+ *
+ */
 public class SCStateHierarchyPrettyPrinter implements SCStateHierarchyHandler {
   protected IndentPrinter printer;
 

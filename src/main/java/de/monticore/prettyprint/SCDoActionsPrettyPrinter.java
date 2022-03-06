@@ -5,6 +5,13 @@ import de.monticore.scdoactions._ast.ASTSCDoAction;
 import de.monticore.scdoactions._visitor.SCDoActionsHandler;
 import de.monticore.scdoactions._visitor.SCDoActionsTraverser;
 
+/**
+ * This PrettyPrinter is designed to handle exactly the
+ * nonterminals from the respective language component (grammar).
+ * this ensures modularity by simply composing
+ * the individual pretty printers (or subclasses thereof)
+ *
+ */
 public class SCDoActionsPrettyPrinter implements SCDoActionsHandler {
   protected IndentPrinter printer;
 

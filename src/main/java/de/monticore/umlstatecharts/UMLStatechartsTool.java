@@ -63,6 +63,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Tool for processing UML StateCharts as defined by the 
+ * UMLStatecharts language component:
+ *  * starts the tooling and processes the parameters (main / run)
+ *
+ *  * read the input model (i.e. a StateChart)
+ *  * and performs the required functionalities
+ *
+ *  * because the functions are relatively simple, they are all contained within
+ *  this class 
+ */
+ 
 public class UMLStatechartsTool extends UMLStatechartsToolTOP {
   
   public static void main(String[] args) {
@@ -71,6 +83,9 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
     tool.run(args);
   }
 
+  /**
+   * executes the tool by processing the arguments
+   */
   @Override
   public void run(String[] args){
     Options options = initOptions();
@@ -161,7 +176,6 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
         Reporting.flush(scartifact);
       }
 
-
     } catch (ParseException e) {
       // an unexpected error from the apache CLI parser:
       Log.error("0xA5C02 Could not process CLI parameters: " + e.getMessage());
@@ -241,19 +255,47 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
     print(stateNames, path, REPORT_STATE_NAMES);
   }
 
-  // names of the reports:
+  // names of the StateChart specific reports:
   public static final String REPORT_REACHABILITY = "reachability.txt";
   public static final String REPORT_BRANCHING_DEGREE = "branchingDegree.txt";
   public static final String REPORT_STATE_NAMES = "stateNames.txt";
 
+  /* TODO #3093: from BR
+     
+- [ ] re-factor the analysis functionalities in 1 or 3 own classes
+- [ ] re-factor `reportReachableStates` by extracting the individual collections for better re-usability
+- [ ] re-factor `reportBranchingDegree` by extracting the individual collections for better re-usability
+
+
+- [ ] check whether some of these analysis functionalities can be also applied into other variants of the SC language (i.e. with or without hierarchy, ...)
+- [ ] if analysis technique is not generally applicable: make variants e.g. through subclasses;  assign individual analysis techniques to Individual language components (through mlc files)
+
+--> the later is a good demonstration for modularity of analysis techniques
+
+   */
+   
+  /**
+   * Calculates the reachable states of a Statechart
+   * into a human-readable string (as a report).
+   * 
+   * This function can be used as a blueprint for certain forms of
+   * Analysis techniques on StateCharts, even though more efficient
+   * realizations would be possible, when abstracting the AST 
+   * to some kind of graph structure essence, or creating an additional
+   * graph structure linkage for efficient navigation.
+   *
+   * @param ast The Statechart-AST for which the report is created
+   */
   public String reportReachableStates(ASTSCArtifact ast) {
     UMLStatechartsTraverser traverser = UMLStatechartsMill.traverser();
-    // collect all states
+
+    // collect all states using a visitor
     // HierarchicalStateCollector vs StateCollector
     HierarchicalStateCollector stateCollector = new HierarchicalStateCollector();
     traverser.add4SCBasis(stateCollector);
     traverser.add4SCStateHierarchy(stateCollector);
     ast.accept(traverser);
+    
     Set<String> statesToBeChecked = stateCollector.getStates()
       .stream().map(e -> e.getName()).collect(Collectors.toSet());
 
@@ -261,7 +303,7 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
     traverser = UMLStatechartsMill.traverser();
     InitialStateCollector initialStateCollector = new InitialStateCollector();
     traverser.add4SCBasis(initialStateCollector);
-    //  only find real initial states
+    //  only find top-level initial states (but not within substates)
     traverser.setSCStateHierarchyHandler(new NoSubstatesHandler());
     ast.accept(traverser);
     Set<String> reachableStates = initialStateCollector.getStates();
@@ -269,7 +311,9 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
     // calculate reachable states
     Set<String> currentlyChecked = new HashSet<>(reachableStates);
     statesToBeChecked.removeAll(reachableStates);
+
     while (!currentlyChecked.isEmpty()) {
+
       // While the open list is not empty, check which states can be reached from it
       String from = currentlyChecked.iterator().next();
       currentlyChecked.remove(from);
@@ -277,6 +321,7 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
       traverser = UMLStatechartsMill.traverser();
       traverser.add4SCBasis(reachableStateCollector);
       ast.accept(traverser);
+
       for (String to : reachableStateCollector.getReachableStates()) {
         if (!reachableStates.contains(to)) {
           // In case a new reachable state is found, add it to the open list
@@ -286,14 +331,17 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
           statesToBeChecked.remove(to);
         }
       }
+
       // Handle all inner initial states
       Optional<SCStateSymbol> stateSymbol = ast.getEnclosingScope().resolveSCState(from);
       stateCollector.getStatesMap().clear();
       traverser.add4SCBasis(stateCollector);
       traverser.add4SCStateHierarchy(stateCollector);
-      if (!stateSymbol.isPresent())
-        throw new IllegalStateException("Failed to resolve state symbol " + from);
+      if (!stateSymbol.isPresent()) {
+        throw new IllegalStateException("0xDD476 Failed to resolve state symbol " + from);
+      }
       stateSymbol.get().getAstNode().accept(traverser);
+      
       for (ASTSCState innerReachableState : stateCollector.getStates(1)) {
         if (innerReachableState.getSCModifier().isInitial()) {
           reachableStates.add(innerReachableState.getName());
@@ -307,33 +355,54 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
       + "unreachable: " + String.join(",", statesToBeChecked) + System.lineSeparator() ;
   }
 
+
+  /**
+   * Calculates the branching degree of each state of a Statechart
+   * into a human-readable string (as a report).
+   * 
+   * @param ast The Statechart-AST for which the report is created
+   */
   public String reportBranchingDegree(ASTSCArtifact ast) {
-    BranchingDegreeCalculator branchingDegreeCalculator = new BranchingDegreeCalculator();
+    // calculate using a visitor
+    BranchingDegreeCalculator branchingDegreeCalculator = new BranchingDegreeCalculator();    
     UMLStatechartsTraverser traverser = UMLStatechartsMill.traverser();
     traverser.add4SCBasis(branchingDegreeCalculator);
     ast.accept(traverser);
+    
     return branchingDegreeCalculator.getBranchingDegrees().entrySet().stream()
       .map(e -> e.getKey() + ": " + e.getValue())
       .collect(Collectors.joining(System.lineSeparator())) + System.lineSeparator();
   }
 
+  /**
+   * Collects the state names of a Statechart
+   * into a human-readable string (as a report).
+   * 
+   * @param ast The Statechart-AST for which the report is created
+   */
   public String reportStateNames(ASTSCArtifact ast) {
+    // collect using a visitor
     StateCollector stateCollectorVisitor = new StateCollector();
     UMLStatechartsTraverser traverser = UMLStatechartsMill.traverser();
     traverser.add4SCBasis(stateCollectorVisitor);
     ast.accept(traverser);
+
     return String.join(", ", stateCollectorVisitor.getStates()
       .stream().map(e -> e.getName()).collect( Collectors.toSet())) + System.lineSeparator();
   }
 
+
   /**
-   * Checks whether ast satisfies all CoCos.
+   * Checks whether ast satisfies all desired CoCos.
    *
    * @param ast The ast of the SC.
    */
   @Override
   public void runDefaultCoCos(ASTSCArtifact ast) {
+    // instantiate the CoCo checker infrastructure 
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
+
+    // add all individual CoCo's to be checked
     checker.addCoCo(new UniqueStates());
     checker.addCoCo(new TransitionSourceTargetExists());
     UMLStatechartsTraverser t = UMLStatechartsMill.traverser();
@@ -345,8 +414,11 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
     checker.addCoCo(new SCNameIsArtifactName());
     checker.addCoCo(new NonCapitalEventNames());
     checker.addCoCo(new NonCapitalParamNames());
+
+    // execute the CoCo's
     checker.checkAll(ast);
   }
+
 
   /**
    * Apply transformation groovy workflow scripts
@@ -354,8 +426,11 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
    * @param trafoScripts the array of trafos groovy script to be applied
    */
   public void doTrafos(ASTSCArtifact ast, String[] trafoScripts) {
+  
     CompilerConfiguration config = new CompilerConfiguration();
-    config.setScriptBaseClass(TransformationScript.class.getName()); // Groovy base script providing trafo helpers
+    // Groovy base script providing trafo helpers
+    config.setScriptBaseClass(TransformationScript.class.getName()); 
+    
     // By default, import all trafos from the default de.monticore.tf package
     config.addCompilationCustomizers(new ImportCustomizer().addStarImports("de.monticore.tf"));
 
@@ -392,6 +467,7 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
   public void print(String content, String path, String file) {
     print(content, path.isEmpty()?path : path + "/"+ file);
   }
+
 
   /**
    * Prints the contents of the SD-AST to stdout or

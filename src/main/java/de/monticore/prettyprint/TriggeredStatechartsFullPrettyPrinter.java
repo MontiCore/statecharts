@@ -12,6 +12,16 @@ import de.monticore.triggeredstatecharts._ast.ASTTriggeredStatechartsNode;
 import de.monticore.triggeredstatecharts._visitor.TriggeredStatechartsTraverser;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 
+/**
+ * This PrettyPrinter for the full TriggeredStatechart language composes
+ * from all pretty printers of its individual language components.
+ *
+ * This includes the StateChart language components,
+ * but also expressions, etc. 
+ *
+ * the constructor sets up a traverser that puts together all the individual 
+ * handlers for the language components.
+ */
 public class TriggeredStatechartsFullPrettyPrinter {
   protected IndentPrinter printer;
   

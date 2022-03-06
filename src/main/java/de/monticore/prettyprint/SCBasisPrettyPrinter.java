@@ -6,6 +6,13 @@ import de.monticore.scbasis._visitor.SCBasisHandler;
 import de.monticore.scbasis._visitor.SCBasisTraverser;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 
+/**
+ * This PrettyPrinter is designed to handle exactly the
+ * nonterminals from the respective language component (grammar).
+ * this ensures modularity by simply composing
+ * the individual pretty printers (or subclasses thereof)
+ *
+ */
 public class SCBasisPrettyPrinter implements SCBasisHandler {
   protected IndentPrinter printer;
   
