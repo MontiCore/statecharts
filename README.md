@@ -120,7 +120,7 @@ To build the project, it is required to install a Java 8 JDK and git.
 
 * The jars of the tools are now available in `target/libs`.
 * A report of executed tests of the tool is found in `target/reports/tests/test/index.html`.
-* Example generation results can be found in `gentest*`.
+* Example generation results can be found in `target/gentest*` directories.
 
 ## Tool Documentation
 
