@@ -4,23 +4,22 @@ package de.monticore;
 /* This is a MontiCore stable grammar.
  * Adaptations -- if any -- are conservative. */
 
-
 import de.monticore.expressions.*;
 import de.monticore.statements.*;
 
 /**
- *  TriggeredStatecharts is the textual representation to
- * describe automata with hierarchical states.
+ *  TriggeredStatecharts 
+ *  describe automata with hierarchical states.
  *  It covers hierarchical states with optional invariants,
  *  entry-, and exit-actions, (internal) transitions with
  *  optional precondition and action statements.
  *
- *  The trigger is defined by a condition (e.g. checking values
- *  on input ports in a scheduled, regular form).
+ *  The trigger is defined by a condition 
+ *  (e.g. used for checking values on input ports).
  *  TriggeredStateCharts uses the code-oriented variant
  *  of Statecharts, i.e. no postconditions in actions.
  *
- *  The Expressions are from MontiCore's common expressions.
+ *  The Expressions are used from MontiCore's common expressions.
  *
  *  This grammar is part of a hierarchy of Statechart components, namely
  *  * SCBasis.mc4

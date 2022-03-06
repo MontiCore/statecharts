@@ -7,7 +7,7 @@ package de.monticore;
 import de.monticore.statements.*;
 
 /**
- * This grammar comprises a number of variants of transition bodies
+ * This grammar comprises several variants of transition bodies
  * with varying actions, preconditions, etc.
  * especially dedicated to event processing.
  *
