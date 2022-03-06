@@ -4,7 +4,7 @@
 
 -->
 ${tc.signature()}
-${cd4c.method("public void setState(StateClass k)")}
+${cd4c.method("public void setState("+ast.getName()+"_State k)")} 
 {
   this.state = k;
 }

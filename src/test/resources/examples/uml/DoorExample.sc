@@ -7,6 +7,7 @@ statechart DoorExample {
   state Locked;
 
   Opened -> Closed close()   ;               // transition with stimulus only
+  
                                              // transition with stimulus and body
   Closed -> Opened open()    / { System.out.println("riiing"); }; 
   Closed -> Locked timeOut() / { System.out.println("Locked"); } ;

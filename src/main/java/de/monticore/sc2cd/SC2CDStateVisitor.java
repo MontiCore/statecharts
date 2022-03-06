@@ -58,6 +58,12 @@ public class SC2CDStateVisitor
    */
   protected String initialState = "";
 
+  /** 
+   * Name of the Statechart (becomes Prefix of generated classes)
+   */
+  protected String statechartName = "None*$";
+
+
   public SC2CDStateVisitor(GlobalExtensionManagement glex) {
     this.cd4C = CD4C.getInstance();
     this.glex = glex;
@@ -82,6 +88,9 @@ public class SC2CDStateVisitor
 
   @Override
   public void visit(ASTNamedStatechart statechart) {
+    // remember SC name
+    statechartName = statechart.getName();
+
     // Add a CDDefinition for every statechart
     ASTCDDefinition astcdDefinition = CDBasisMill.cDDefinitionBuilder().setName(statechart.getName())
             .setModifier(UMLModifierMill.modifierBuilder().build()).build();
@@ -111,14 +120,14 @@ public class SC2CDStateVisitor
   @Override
   public void endVisit(ASTNamedStatechart statechart) {
     // The super class for states, has a handle{Stimulus} method
-    stateSuperClass = CDBasisMill.cDClassBuilder().setName("StateClass")
+    stateSuperClass = CDBasisMill.cDClassBuilder().setName(statechartName+"_State")
             .setModifier(CDBasisMill.modifierBuilder().setAbstract(true).build()).build();
     cdCompilationUnit.getCDDefinition().addCDElement(stateSuperClass);
 
     CD4CodeMill.scopesGenitorDelegator().createFromAST(cdCompilationUnit);
 
     // The "current state" attribute on the class
-    cd4C.addAttribute(scClass, "protected StateClass state;");
+    cd4C.addAttribute(scClass, "protected "+statechartName+"_State state;");
   }
 
   // TODO: public void visit(ASTUnnamedStatechart statechart)
@@ -136,7 +145,7 @@ public class SC2CDStateVisitor
     // A class extending StateClass for this state
     ASTCDClass stateClass = CDBasisMill.cDClassBuilder().setName(state.getName())
             .setModifier(CDBasisMill.modifierBuilder().build())
-            .setCDExtendUsage(CDBasisMill.cDExtendUsageBuilder().addSuperclass(qualifiedType("StateClass")).build())
+            .setCDExtendUsage(CDBasisMill.cDExtendUsageBuilder().addSuperclass(qualifiedType(statechartName+"_State")).build())
             .build();
     // Add the StateClassImpl to the CD and mapping
     this.cdCompilationUnit.getCDDefinition().addCDElement(stateClass);
