@@ -489,14 +489,13 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
     GlobalExtensionManagement glex = new GlobalExtensionManagement();
     setup.setGlex(glex);
 
-
     if (!outputDirectory.isEmpty()){
       // Prepare CD4C
       File targetDir = new File(outputDirectory);
       if (!targetDir.exists())
         targetDir.mkdirs();
       setup.setOutputDirectory(targetDir);
-      setup.setTracing(false);
+      // optionally: setup.setTracing(false);
     }
 
     SC2CDData sc2CDData = converter.doConvertUML(scartifact, setup);
