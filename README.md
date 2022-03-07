@@ -137,13 +137,16 @@ where the arguments are:
 | `-ct,--configTemplate <file>`     | Provides a config template (optional)|
 | `-fp,--templatePath <pathlist>`   | List of directories to look for handwritten templates to integrate (optional)" |
 | `-gen,--generate <dir>`           | Prints the state pattern CD-AST to stdout or the generated java classes to the specified folder (optional) |
+| `-genr,--genreport <dir>`         | Specifies the directory for printing reports about the given model.  |
 | `-h,--help`                       | Prints this help information   |
 | `-hcp,--handcodedPath <pathlist>` |   List of directories to look for handwritten code to integrate (optional) |
 | `-i,--input <file>`               | Reads the source file (mandatory) and parses the contents as a statechart |
-| `-pp,--prettyprint <file>`        | Prints the Statechart-AST to stdout or the specified file (optional) |
 | `-path <pathlist>`                | Sets the artifact path for imported symbols, space separated |
+| `-pp,--prettyprint <file>`        | Prints the Statechart-AST to stdout or the specified file (optional) |
 | `-r,--report <dir>`               | Prints reports of the statechart artifact to the specified directory. This includes e.g. reachable states and branching degrees  |
 | `-s,--symboltable <file>`         | Stores the symbol table of the given Statechart |
+| `-t,--trafo <groovyscript>`       | Specifies the path for a groovy script applying transformations (optional) |
+| `-var,--variant <name>`           | Choose the generation variant (possible e.g.: StatePat1 (default), StatePat2) |
 
 exemplary usage:
 
