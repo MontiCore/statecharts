@@ -146,7 +146,7 @@ where the arguments are:
 | `-r,--report <dir>`               | Prints reports of the statechart artifact to the specified directory. This includes e.g. reachable states and branching degrees  |
 | `-s,--symboltable <file>`         | Stores the symbol table of the given Statechart |
 | `-t,--trafo <groovyscript>`       | Specifies the path for a groovy script applying transformations (optional) |
-| `-var,--variant <name>`           | Choose the generation variant (possible e.g.: StatePat1 (default), StatePat2) |
+| `-var,--variant <name>`           | Choose the generation variant (possible e.g.: StatePattern1 (default), StatePattern2) |
 
 exemplary usage:
 
