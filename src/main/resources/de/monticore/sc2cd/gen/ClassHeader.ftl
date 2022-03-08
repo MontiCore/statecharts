@@ -19,6 +19,6 @@ ${ast.printModifier()}-->
     <#if ast.isPresentCDInterfaceUsage()>
         ${printer.prettyprint(ast.getCDInterfaceUsage())}
     </#if>
-  {
+
 </@compress>
 <#t>
