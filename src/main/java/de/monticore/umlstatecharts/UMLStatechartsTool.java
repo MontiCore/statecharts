@@ -21,6 +21,7 @@ import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.sc2cd.HookPointService;
 import de.monticore.sc2cd.SC2CDConverter;
+import de.monticore.sc2cd.SC2CDConverterUMLV2;
 import de.monticore.sc2cd.SC2CDData;
 import de.monticore.sc2cd.SCTopDecorator;
 import de.monticore.scbasis.BranchingDegreeCalculator;
@@ -83,6 +84,11 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
     tool.run(args);
   }
 
+  /**
+   * Contains the selected generation variant (option -var) 
+   */
+  protected String variant = "StatePattern1";
+   
   /**
    * executes the tool by processing the arguments
    */
@@ -149,6 +155,11 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
       if (cmd.hasOption("r")) {
         String path = cmd.getOptionValue("r", StringUtils.EMPTY);
         report(scartifact, path);
+      }
+
+      // -option variant
+      if (cmd.hasOption("var")) {
+        variant = cmd.getOptionValue("var", StringUtils.EMPTY);
       }
 
       // -option generate to CD
@@ -482,8 +493,6 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
                          String configTemplate,
                          String templatePath,
                          String handcodedPath) {
-    // pretty print AST
-    SC2CDConverter converter = new SC2CDConverter();
 
     GeneratorSetup setup = new GeneratorSetup();
     GlobalExtensionManagement glex = new GlobalExtensionManagement();
@@ -498,7 +507,27 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
       // optionally: setup.setTracing(false);
     }
 
-    SC2CDData sc2CDData = converter.doConvertUML(scartifact, setup);
+    // will contain pointers to the result
+    SC2CDData sc2CDData; 
+    
+    // select the conversion variant:
+    switch(variant) {
+      case "StatePattern1":
+         // default converter:
+         SC2CDConverter converter = new SC2CDConverter();
+         sc2CDData = converter.doConvertUML(scartifact, setup);
+         break;
+      case "StatePattern2":
+         // enhanced converter:
+         SC2CDConverterUMLV2 converter2 = new SC2CDConverterUMLV2();
+         sc2CDData = converter2.doConvertUMLV2(scartifact, setup);
+         break;
+      default: 
+         Log.error("0xCC742 Illegal generator variant '"+variant+"' selected. Aborting.");
+         SC2CDConverter c0 = new SC2CDConverter();   // dummy, only reached when error is Off
+         sc2CDData = c0.doConvertUML(scartifact, setup);  
+         break;
+    }
 
     if (!handcodedPath.isEmpty()) {
       SCTopDecorator topDecorator = new SCTopDecorator(new MCPath(handcodedPath));
@@ -636,6 +665,14 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
         .desc("Prints the state pattern CD-AST to stdout or the generated java classes to the specified folder (optional)")
         .build());
 
+    options.addOption(Option.builder("var")
+        .longOpt("variant")
+        .argName("name")
+        .optionalArg(false)
+        .numberOfArgs(1)
+        .desc("Choose the generation variant (possible e.g.: StatePattern1 (default), StatePattern2)")
+        .build());
+
     // configTemplate parameter
     options.addOption(Option.builder("ct")
         .longOpt("configTemplate")
@@ -682,9 +719,9 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
     // specify generate reports path
     options.addOption(Option.builder("genr")
                               .longOpt("genreport")
-                              .argName("path")
+                              .argName("dir")
                               .hasArgs()
-                              .desc("Specifies the directory for printing reports based on the given model.")
+                              .desc("Specifies the directory for printing reports about the given model.")
                               .build());
 
     return options;

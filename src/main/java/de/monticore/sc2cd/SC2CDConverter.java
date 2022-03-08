@@ -34,7 +34,7 @@ public class SC2CDConverter {
     CD4C.getInstance().setEmptyBodyTemplate("de.monticore.sc2cd.gen.EmptyMethod");
 
     // Phase 1: Work on states
-    SC2CDStateVisitor phase1Visitor = new SC2CDStateVisitor(config.getGlex());
+    SC2CDStateVisitorV1 phase1Visitor = new SC2CDStateVisitorV1(config.getGlex());
     UMLStatechartsTraverser traverser = UMLStatechartsMill.inheritanceTraverser();
     traverser.add4SCBasis(phase1Visitor);
 
@@ -70,7 +70,7 @@ public class SC2CDConverter {
     CD4C.getInstance().setEmptyBodyTemplate("de.monticore.sc2cd.gen.EmptyMethod");
 
     // Phase 1: Work on states
-    SC2CDStateVisitor phase1Visitor = new SC2CDStateVisitor(config.getGlex());
+    SC2CDStateVisitorV1 phase1Visitor = new SC2CDStateVisitorV1(config.getGlex());
     TriggeredStatechartsTraverser traverser = TriggeredStatechartsMill.inheritanceTraverser();
     traverser.add4SCBasis(phase1Visitor);
 

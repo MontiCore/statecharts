@@ -108,6 +108,18 @@ public class UMLStatechartsToolTest {
   }
 
   @Test
+  public void testUMLStatechartsConverterVariant2(){
+    new UMLStatechartsTool().run(new String[]{
+            "-i", resourcesDir + "examples/uml/DoorExample.sc",
+            "-var", "StatePattern2",
+            "-gen", "target/gentest1MitV2"
+    });
+    assertEquals("Converting to SD of Door.sc was not successful", Log.getErrorCount(), 0);
+    // the content of the generated files will be checked later by Gradle, 
+    // by compilation and execution
+  }
+
+  @Test
   public void testUMLStatechartsConverterWithConfigTemplate(){
     new UMLStatechartsTool().run(new String[]{
             "-i", resourcesDir + "examples/uml/DoorExample.sc",
@@ -313,33 +325,11 @@ public class UMLStatechartsToolTest {
     new UMLStatechartsTool().run(new String[]{    "-h" });
     assertEquals(Log.getErrorCount(), 0);
     String result = out.toString().replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
-    assertEquals( "usage: UMLStatechartsTool\n" +
+    assertTrue( result.contains("usage: UMLStatechartsTool\n" +
                           " -ct,--configTemplate <file>       Provides a config template (optional)\n" +
                           " -fp,--templatePath <pathlist>     List of directories to look for handwritten\n" +
-                          "                                   templates to integrate (optional)\n" +
-                          " -gen,--generate <dir>             Prints the state pattern CD-AST to stdout or\n" +
-                          "                                   the generated java classes to the specified\n" +
-                          "                                   folder (optional)\n" +
-                          " -genr,--genreport <path>          Specifies the directory for printing reports\n" +
-                          "                                   based on the given model.\n" +
-                          " -h,--help                         Prints this help dialog\n" +
-                          " -hcp,--handcodedPath <pathlist>   List of directories to look for handwritten\n" +
-                          "                                   code to integrate (optional)\n" +
-                          " -i,--input <file>                 Reads the source file (mandatory) and parses\n" +
-                          "                                   the contents as a statechart\n" +
-                          " -path <pathlist>                  Sets the artifact path for imported symbols,\n" +
-                          "                                   space separated.\n" +
-                          " -pp,--prettyprint <file>          Prints the Statechart-AST to stdout or the\n" +
-                          "                                   specified file (optional)\n" +
-                          " -r,--report <dir>                 Prints reports of the statechart artifact to\n" +
-                          "                                   the specified directory. Available reports:\n" +
-                          "                                   reachable states, branching degree, and state\n" +
-                          "                                   names\n" +
-                          " -s,--symboltable <file>           Serialized the Symbol table of the given\n" +
-                          "                                   Statechart\n" +
-                          " -t,--trafo <groovyscript>         Specifies the path for a groovy script\n" +
-                          "                                   applying transformations (optional)\n"
-            , result );
+                          "                                   templates to integrate (optional)\n"
+              ));
   }
   
     // ------------------------------------------------------

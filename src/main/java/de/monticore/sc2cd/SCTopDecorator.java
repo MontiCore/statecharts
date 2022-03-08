@@ -11,7 +11,7 @@ import de.monticore.io.paths.MCPath;
 import static de.monticore.generating.GeneratorEngine.existsHandwrittenClass;
 import static de.se_rwth.commons.Names.constructQualifiedName;
 
-// TODO #3102: Migrieren und verallgemeinern, in CD4Analysis 
+// TODO #3102: Migrieren und verallgemeinern, in CD4Analysis (oder direkt ins MC RTE)
 
 /**
  * Similar to the MontiCore generator TopDecorator,

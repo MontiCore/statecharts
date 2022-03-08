@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * Phase 1: Create the State Pattern classes based on the states
  */
-public class SC2CDStateVisitor
+public class SC2CDStateVisitorV2
         implements SCBasisVisitor2 {
 
   public final static String ERROR_CODE = "0xDC011";
@@ -64,7 +64,7 @@ public class SC2CDStateVisitor
   protected String statechartName = "None*$";
 
 
-  public SC2CDStateVisitor(GlobalExtensionManagement glex) {
+  public SC2CDStateVisitorV2(GlobalExtensionManagement glex) {
     this.cd4C = CD4C.getInstance();
     this.glex = glex;
   }
@@ -80,7 +80,7 @@ public class SC2CDStateVisitor
     // Generate the constructor of the class
     // It inits all state attributes
     // and the initial state
-    this.cd4C.addConstructor(this.scClass, "de.monticore.sc2cd.StateInitConstructor",
+    this.cd4C.addConstructor(this.scClass, "de.monticore.sc2cd.StateInitConstructorV2",
                              scClass.getName(),
                              this.stateToClassMap.keySet(),
                              this.initialState);
@@ -110,7 +110,7 @@ public class SC2CDStateVisitor
             .setModifier(CDBasisMill.modifierBuilder().setPublic(true).build()).build();
     astcdDefinition.addCDElement(scClass);
     // replace the template to add a setState method
-    glex.replaceTemplate("de.monticore.sc2cd.gen.Class", scClass, new TemplateHookPoint("de.monticore.sc2cd.MainClass"));
+    glex.replaceTemplate("de.monticore.sc2cd.gen.Class", scClass, new TemplateHookPoint("de.monticore.sc2cd.MainClassV2"));
 
   }
   
