@@ -101,7 +101,7 @@ public class SC2CDStateVisitorV1
             .setModifier(CDBasisMill.modifierBuilder().setPublic(true).build()).build();
     astcdDefinition.addCDElement(scClass);
     // replace the template to add a setState method
-    glex.replaceTemplate("de.monticore.sc2cd.gen.Class", scClass, new TemplateHookPoint("de.monticore.sc2cd.MainClassV1"));
+    glex.replaceTemplate("de.monticore.sc2cd.gen.Class", scClass, new TemplateHookPoint("de.monticore.sc2cd.PatternMainClassV1"));
 
   }
   

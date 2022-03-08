@@ -2,8 +2,6 @@
 <#--
   Generates a Java class
 
-//TODO: diese Datei existiert doppelt in zwei verschiedenen Varianten, eine davon ist zu entfernen oder umzubenennen #3099
-
 -->
 /* (c) https://github.com/MontiCore/monticore */
 ${tc.signature("printer", "package")}
