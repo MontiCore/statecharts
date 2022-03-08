@@ -153,6 +153,7 @@ exemplary usage:
 ```
   java -jar MCStatecharts.jar -h
   java -jar MCStatecharts.jar -i Car.sc -pp
+  java -jar MCStatecharts.jar -i DoorExample.sc -gen myDoors -var StatePattern2
 ``` 
 
 ## Contribute
