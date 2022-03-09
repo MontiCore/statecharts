@@ -9,6 +9,10 @@ ${tc.signature("printer", "package")}
   package ${package?join('.')};
 </#if>
 
+${glex.defineHookPoint(tc,"<Import>*gen.ClassHeader",ast)}
+
+<#-- TODO: hier fehlt die standardmaessige Ausgabe notwendiger Imports -->
+
 <@compress single_line=true>
 <#--${ast.printAnnotation()}
 ${ast.printModifier()}-->

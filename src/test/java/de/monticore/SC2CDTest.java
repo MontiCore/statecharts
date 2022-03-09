@@ -39,6 +39,7 @@ public class SC2CDTest {
     config.setAdditionalTemplatePaths(Lists.newArrayList(templatePath));
   
     System.out.println(fullPrettyPrinter.prettyprint(new SC2CDConverter().doConvertUML(opt.get(), config).getCompilationUnit()));
+    // the content of the generated files is to be checked manually at the moment
   }
 
   @Test
@@ -62,6 +63,7 @@ public class SC2CDTest {
     config.setAdditionalTemplatePaths(Lists.newArrayList(templatePath));
 
     System.out.println(fullPrettyPrinter.prettyprint(new SC2CDConverter().doConvertTriggered(opt.get(), config).getCompilationUnit()));
+    // the content of the generated files is to be checked manually at the moment
   }
 
 }

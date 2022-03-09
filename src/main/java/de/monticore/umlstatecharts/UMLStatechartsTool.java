@@ -524,7 +524,7 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
          break;
       default: 
          Log.error("0xCC742 Illegal generator variant '"+variant+"' selected. Aborting.");
-         SC2CDConverter c0 = new SC2CDConverter();   // dummy, only reached when error is Off
+         SC2CDConverter c0 = new SC2CDConverter();   // dummy, only reached when error flag is Off
          sc2CDData = c0.doConvertUML(scartifact, setup);  
          break;
     }
@@ -580,6 +580,7 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
                                           sc2CDData.getStateClasses());
         String qualifiedTemplateName = configTemplate.replaceAll(".ftl","");
         Reporting.reportTemplateStart(qualifiedTemplateName, sc2CDData.getCompilationUnit());
+        // processing the template, returned String result is thrown away
         hp.processValue(tc, sc2CDData.getCompilationUnit(), args);
         Reporting.reportTemplateEnd(qualifiedTemplateName, sc2CDData.getCompilationUnit());
       }

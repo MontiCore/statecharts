@@ -3,11 +3,14 @@
   Generates a Java class
 
 -->
+/* (c) https://github.com/MontiCore/monticore */
 ${tc.signature("printer", "package")}
 
 <#if package?has_content>
   package ${package?join('.')};
 </#if>
+
+${glex.defineHookPoint(tc,"<Import>*gen.MainClass",ast)}
 
 <@compress single_line=true>
 <#--${ast.printAnnotation()}
@@ -35,4 +38,7 @@ ${cd4c.addMethod(ast, "de.monticore.sc2cd.StateSetStateMethod")}
 <#list ast.getCDMethodList() as method>
     ${tc.includeArgs("de.monticore.sc2cd.gen.Method", [method, printer])}
 </#list>
+
+${glex.defineHookPoint(tc,"<ClassBodyDecl>*gen.MainClass:additionalBody",ast)}
+
 }

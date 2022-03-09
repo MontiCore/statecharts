@@ -5,4 +5,5 @@
 -->
 {
 // default empty body
+${glex.defineHookPoint(tc,"<Statement>*gen.EmptyMethod:end",ast)}
 }

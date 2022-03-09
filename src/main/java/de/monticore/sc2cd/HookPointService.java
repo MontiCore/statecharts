@@ -7,6 +7,8 @@ import de.monticore.generating.templateengine.TemplateHookPoint;
 import de.monticore.generating.templateengine.TemplateStringHookPoint;
 
 // TODO #3100: Die drei Methoden integrieren wir in den Tepmplatecontroller in MC selbst und machen so diese Klasse obsolet.
+//  besser nocH. Klasse einfach entfernen, denn es gibt Alternativen: zum Beispiel ${glex.bindStringHookPoint("
+
 import java.io.IOException;
 
 @SuppressWarnings("unused")

@@ -6,7 +6,7 @@
 ${tc.signature()}
 ${cd4c.method("public void setState("+ast.getName()+"_State k)")} 
 {
-  ${glex.defineHookPoint(tc,"<JavaBlock>?StateSetStateMethodV2:begin",ast)}
+  ${glex.defineHookPoint(tc,"<Statement>*StateSetStateMethodV2:begin",ast)}
   this.state = k;
-  ${glex.defineHookPoint(tc,"<JavaBlock>?StateSetStateMethodV2:end",ast)}
+  ${glex.defineHookPoint(tc,"<Statement>*StateSetStateMethodV2:end",ast)}
 }

@@ -17,3 +17,9 @@ ${tc.signature("printer")}
 <#list ast.getCDMethodList() as method>
     ${tc.includeArgs("de.monticore.sc2cd.gen.Method", [method, printer])}
 </#list>
+
+// TODO: dies sollte sein:
+// $ {glex.defineHookPoint(tc,"<ClassBodyDecl>*gen.ClassBody:additionalBody",ast, printer)}
+// es geht aber nur:
+${glex.defineHookPoint(tc,"<ClassBodyDecl>*gen.ClassBody:additionalBody",ast)}
+

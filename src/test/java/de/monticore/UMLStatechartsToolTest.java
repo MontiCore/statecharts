@@ -114,7 +114,22 @@ public class UMLStatechartsToolTest {
             "-var", "StatePattern2",
             "-gen", "target/gentest1MitV2"
     });
-    assertEquals("Converting to SD of Door.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals("Converting to SD of DoorExample.sc was not successful", Log.getErrorCount(), 0);
+    // the content of the generated files will be checked later by Gradle, 
+    // by compilation and execution
+  }
+
+  // Testing Version 3: much is configured in a StatePatternConfigV3 template
+  @Test
+  public void testUMLStatechartsConverterVariant3(){
+    new UMLStatechartsTool().run(new String[]{
+            "-i", resourcesDir + "examples/uml/DoorExample.sc",
+            "-gen", "target/gentest1MitV3",
+            "-var", "StatePattern2",
+            "-fp", "src/main/resources",
+            "-ct", "de/monticore/sc2cd/StatePatternConfigV3.ftl"
+    });
+    assertEquals("Converting to CD of DoorExample.sc was not successful", Log.getErrorCount(), 0);
     // the content of the generated files will be checked later by Gradle, 
     // by compilation and execution
   }
@@ -318,7 +333,7 @@ public class UMLStatechartsToolTest {
         .collect(Collectors.toSet());
   }
 
-  @Test
+  @Test 
   public void testHelp(){
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     System.setOut(new PrintStream(out));
