@@ -41,7 +41,7 @@ ${tc.signature("glex", "hpService", "scClass", "stateSuperClass", "stateClasses"
 
     // HP is defined in de/monticore/sc2cd/StateInitConstructorV2.ftl
 
-// TODO Dringend, Prio:
+// TODO Dringend, Prio: #3113
 // Ergebnis in target/gentest1MitV3/uml zeigt, dass dieser Hookpoint zwar existiert
 // aber nicht gemäß dem angegebenen Wert gebunden ist, sondern unbesetzt bleibt
 // .
@@ -57,7 +57,7 @@ ${glex.bindStringHookPoint("<Statement>*StateInitConstructorV2:end",
 
 
     // HP is defined in de/monticore/sc2cd/StateSetStateMethodV2.ftl
-            // BR@MB: hier klappt das korrekt wie in target/gentest1MitV3/uml zu besichtigen  (TODO: delete comment)
+            // BR@MB #3113: hier klappt das korrekt wie in target/gentest1MitV3/uml zu besichtigen  (TODO: delete comment)
 ${glex.bindStringHookPoint("<Statement>*StateSetStateMethodV2:end", 
                            "int demoVariableI11 = 0; /* ** myOwn Hookpoint1 ** */")}
 
@@ -65,11 +65,11 @@ ${glex.bindStringHookPoint("<Statement>*StateSetStateMethodV2:end",
 <!-- ====================================================================
      this HookPoint is added to all classes 
         
-// TODO it makes no sense to add it in all classes (: to be more specific XXX)
+// TODO it makes no sense to add it in all classes (: to be more specific)
 -->
 
     // HP is defined in de/monticore/sc2cd/gen/ClassBody.ftl (used for all classes)
-            // BR@MB: hier klappt das korrekt wie in target/gentest1MitV3/uml zu besichtigen  (TODO: delete comment)
+            // BR@MB #3113: hier klappt das korrekt wie in target/gentest1MitV3/uml zu besichtigen  (TODO: delete comment)
 ${glex.bindStringHookPoint("<ClassBodyDecl>*gen.ClassBody:additionalBody", 
                            "int demoVariableI21; /* ** myOwn Hookpoint4 ** */")}
 
