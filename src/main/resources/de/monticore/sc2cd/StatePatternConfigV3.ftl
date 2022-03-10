@@ -1,6 +1,6 @@
 <#-- (c) https://github.com/MontiCore/monticore -->
 <#--
-  This template controller configures StatePatterV3
+  This template controller configures StatePatternV3
 
   Call it using the CLI: .. -fp ssrc/main/resources -ct de/monticore/sc2cd/StatePatternConfigV3.ftl
 
@@ -14,9 +14,9 @@
   
   This template receives the following parameters:
     glex, tc:   -- as usual
-    TODO: was ist mit der Variable ast?
+    TODO: was ist mit der Variable ast?  ich vermute ASTCDCompilationUnit
     
-    HookPointService hpService:   a helper -- TODO #3100 to move that to tc
+    HookPointService hpService:   a helper -- TODO #3100 to remove (ersatz: glex)
 
     ASTCDClass scClass:           the class representing the state chart
     ASTCDClass stateSuperClass:   abstract super class for the states
@@ -57,9 +57,11 @@ ${glex.bindStringHookPoint("<Statement>*StateInitConstructorV2:end",
 
 
     // HP is defined in de/monticore/sc2cd/StateSetStateMethodV2.ftl
+    // count is added in de/monticore/sc2cd/MonitoringV3.ftl (see below)
             // BR@MB #3113: hier klappt das korrekt wie in target/gentest1MitV3/uml zu besichtigen  (TODO: delete comment)
 ${glex.bindStringHookPoint("<Statement>*StateSetStateMethodV2:end", 
-                           "int demoVariableI11 = 0; /* ** myOwn Hookpoint1 ** */")}
+                           "count++;
+                            int demoVariableI11 = 0; /* ** myOwn Hookpoint1 ** */")}
 
 
 <!-- ====================================================================
@@ -70,6 +72,16 @@ ${glex.bindStringHookPoint("<Statement>*StateSetStateMethodV2:end",
 
     // HP is defined in de/monticore/sc2cd/gen/ClassBody.ftl (used for all classes)
             // BR@MB #3113: hier klappt das korrekt wie in target/gentest1MitV3/uml zu besichtigen  (TODO: delete comment)
-${glex.bindStringHookPoint("<ClassBodyDecl>*gen.ClassBody:additionalBody", 
+$ {glex.bindStringHookPoint("<ClassBodyDecl>*gen.ClassBody:additionalBody", 
                            "int demoVariableI21; /* ** myOwn Hookpoint4 ** */")}
+
+<!-- ====================================================================
+     this HookPoint is added to each state 
+
+// TODO it makes no sense to add it in all classes (: to be more specific)
+
+-->
+
+${glex.bindTemplateHookPoint("<ClassBodyDecl>*gen.ClassBody:additionalBody", 
+                           "de/monticore/sc2cd/MonitoringV3.ftl")}
 
