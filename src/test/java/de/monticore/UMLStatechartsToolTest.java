@@ -346,20 +346,15 @@ public class UMLStatechartsToolTest {
                           "                                   templates to integrate (optional)\n"
               ));
   }
-  
-    // ------------------------------------------------------
-// TODO #3104 klappt nicht:, #3105
-/*
+
   @Test
-  public void testPingPong1A(){
+  public void testPingPong1A() {
     new UMLStatechartsTool().run(new String[]{
-            "-i", resourcesDir + "de/mine/PingPong.sc",
-            "-gen", "target/gentestPing1A"
+      "-i", resourcesDir + "de/mine/PingPong.sc",
+      "-gen", "target/gentestPing1A"
     });
     assertEquals("Converting of PingPong.sc was not successful", Log.getErrorCount(), 0);
     // the content of the generated files will be checked later by Gradle, 
     // by compilation and execution
   }
-*/
-  
 }

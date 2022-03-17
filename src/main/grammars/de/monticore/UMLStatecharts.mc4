@@ -6,6 +6,7 @@ package de.monticore;
 
 import de.monticore.expressions.*;
 import de.monticore.statements.*;
+import de.monticore.literals.*;
 
 /**
  *  Statecharts is the textual representation to describe UML statecharts
@@ -40,9 +41,11 @@ grammar UMLStatecharts
                   SCCompleteness,
                   SCTransitions4Modelling,
                   SCEvents,
+                  AssignmentExpressions,
                   CommonExpressions,
                   MCCommonStatements,
-                  MCReturnStatements {
+                  MCReturnStatements,
+                  MCCommonLiterals {
 
   start SCArtifact;
 

@@ -6,6 +6,7 @@ package de.monticore;
 
 import de.monticore.expressions.*;
 import de.monticore.statements.*;
+import de.monticore.literals.*;
 
 /**
  *  TriggeredStatecharts 
@@ -39,8 +40,10 @@ grammar TriggeredStatecharts
           extends SCActions,
                   SCStateHierarchy,
                   SCTransitions4Code,
+                  AssignmentExpressions,
                   CommonExpressions,
-                  MCCommonStatements {
+                  MCCommonStatements,
+                  MCCommonLiterals {
 
 
   start SCArtifact;
