@@ -10,7 +10,6 @@ import org.junit.Test;
 import java.io.IOException;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class SCDemoParseTest {
   
@@ -52,20 +51,18 @@ public class SCDemoParseTest {
     assertFalse(parser.hasErrors());
   }
   
-  
   @Test 
   public void testTestBumpControl() throws IOException {
     parser.parse("src/test/resources/invalid/BumpControl.aut");
-    assertTrue(parser.hasErrors());
+    assertFalse(parser.hasErrors());
   }
   
   @Test 
   public void testTestBumpSpeed() throws IOException {
     parser.parse("src/test/resources/invalid/BumpSpeed.aut");
-    assertTrue(parser.hasErrors());
+    assertFalse(parser.hasErrors());
   }
-  
-  
+
   
   @Test
   public void testStatechart() throws IOException {
