@@ -32,7 +32,7 @@ library](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/m
 **Statechart examples demonstrating the syntax are provided in the [README](../../../../../README.md) of the project.**
 
 
-<div align="center"> <img width="800" src="doc/Statecharts.LFD.png" 
+<div align="center"> <img width="800" src="../../../../../doc/Statecharts.LFD.png" 
 alt="Statecharts LFD"> <br><b>Figure 1:</b> Overview of the statecharts 
 language components and their relations (shown as language feature 
 diagram). </div><br> 
