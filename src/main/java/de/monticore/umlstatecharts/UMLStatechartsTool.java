@@ -41,6 +41,7 @@ import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.oosymbols.OOSymbolsMill;
 import de.monticore.types.DeriveSymTypeOfUMLStatecharts;
 import de.monticore.types.SynthesizeSymType;
+import de.monticore.types.check.TypeCalculator;
 import de.monticore.types.check.TypeCheck;
 import de.monticore.umlstatecharts._cocos.UMLStatechartsCoCoChecker;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
@@ -239,7 +240,7 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
 
     // complete symbols including type check
     UMLStatechartsTraverser completer = UMLStatechartsMill.traverser();
-    TypeCheck typeCheck = new TypeCheck(new SynthesizeSymType(),new DeriveSymTypeOfUMLStatecharts());
+    TypeCalculator typeCheck = new TypeCalculator(new SynthesizeSymType(),new DeriveSymTypeOfUMLStatecharts());
     completer.add4SCEvents(new SCEventsSTCompleter(typeCheck));
     ast.accept(completer);
 
