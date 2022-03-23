@@ -5,12 +5,18 @@
   Call it using the CLI: .. -fp src/test/resources -ct configTemplate/ct.ftl
 
 -->
-${tc.signature("glex", "hpService", "scClass", "stateSuperClass", "stateClasses")}
+${tc.signature("glex", "converter", "hwPath", "generator")}
+
+<#assign cdData=converter.doConvert(ast, glex)>
+
+<#assign topDecorator = tc.instantiate("de.monticore.sc2cd.SCTopDecorator", [hwPath])>
+${topDecorator.decorate(cdData.getCompilationUnit())}
 
 <#-- we override all Attribute templates -->
-<#assign hp = hpService.templateHP("configTemplate.CustomAttribute")>
-${glex.replaceTemplate("de.monticore.sc2cd.gen.Attribute", hp)}
+<#assign hp = tc.instantiate("de.monticore.generating.templateengine.TemplateHookPoint", ["configTemplate.CustomAttribute"])>
+${glex.replaceTemplate("cd2java.Attribute", hp)}
 
 <#-- We also add our own method to the -->
-<#assign superClassHP = hpService.templateHP("configTemplate.CustomStateSuperClass")>
-${glex.replaceTemplate("de.monticore.sc2cd.gen.Class", stateSuperClass, superClassHP)}
+${cd4c.addMethod(cdData.getStateSuperClass(), "configTemplate.CustomStateSuperClassGetName")}
+
+${generator.generate(cdData.getCompilationUnit())}

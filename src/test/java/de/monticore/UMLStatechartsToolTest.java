@@ -126,8 +126,8 @@ public class UMLStatechartsToolTest {
             "-i", resourcesDir + "examples/uml/DoorExample.sc",
             "-gen", "target/gentest1MitV3",
             "-var", "StatePattern2",
-            "-fp", "src/main/resources",
-            "-ct", "de/monticore/sc2cd/StatePatternConfigV3.ftl"
+            "-fp", "src/test/resources",
+            "-ct", "configTemplate/StatePatternConfigV3.ftl"
     });
     assertEquals("Converting to CD of DoorExample.sc was not successful", Log.getErrorCount(), 0);
     // the content of the generated files will be checked later by Gradle, 

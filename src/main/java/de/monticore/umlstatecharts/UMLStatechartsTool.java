@@ -3,10 +3,9 @@ package de.monticore.umlstatecharts;
 
 import com.google.common.collect.Lists;
 import de.monticore.TransformationScript;
-import de.monticore.cd4code.prettyprint.CD4CodeFullPrettyPrinter;
-import de.monticore.cdbasis._ast.ASTCDClass;
+import de.monticore.cd.codegen.CDGenerator;
+import de.monticore.cd.codegen.CdUtilsPrinter;
 import de.monticore.class2mc.Class2MCResolver;
-import de.monticore.generating.GeneratorEngine;
 import de.monticore.generating.GeneratorSetup;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.generating.templateengine.TemplateController;
@@ -17,13 +16,10 @@ import de.monticore.generating.templateengine.reporting.commons.ReportManager;
 import de.monticore.generating.templateengine.reporting.commons.ReportingRepository;
 import de.monticore.generating.templateengine.reporting.reporter.*;
 import de.monticore.io.paths.MCPath;
-import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
-import de.monticore.sc2cd.HookPointService;
 import de.monticore.sc2cd.SC2CDConverter;
 import de.monticore.sc2cd.SC2CDConverterUMLV2;
-import de.monticore.sc2cd.SC2CDData;
-import de.monticore.sc2cd.SCTopDecorator;
+import de.monticore.sc2cd.SC2CDTriggeredConverter;
 import de.monticore.scbasis.BranchingDegreeCalculator;
 import de.monticore.scbasis.InitialStateCollector;
 import de.monticore.scbasis.ReachableStateCollector;
@@ -58,12 +54,9 @@ import org.codehaus.groovy.control.customizers.ImportCustomizer;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Tool for processing UML StateCharts as defined by the 
@@ -498,6 +491,13 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
     GeneratorSetup setup = new GeneratorSetup();
     GlobalExtensionManagement glex = new GlobalExtensionManagement();
     setup.setGlex(glex);
+    if (!handcodedPath.isEmpty()) {
+      setup.setHandcodedPath(new MCPath(handcodedPath));
+    }
+    if (!templatePath.isEmpty()) {
+      setup.setAdditionalTemplatePaths(Lists.newArrayList(new File(templatePath)));
+    }
+    glex.setGlobalValue("cdPrinter", new CdUtilsPrinter());
 
     if (!outputDirectory.isEmpty()){
       // Prepare CD4C
@@ -508,91 +508,33 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
       // optionally: setup.setTracing(false);
     }
 
-    // will contain pointers to the result
-    SC2CDData sc2CDData; 
-    
+    //
+    configTemplate = configTemplate.isEmpty()?"de.monticore.sc2cd.SC2CD":configTemplate;
+    TemplateController tc = setup.getNewTemplateController(configTemplate);
+    CDGenerator generator = new CDGenerator(setup);
+    TemplateHookPoint hpp = new TemplateHookPoint(configTemplate);
+    List<Object> configTemplateArgs;
     // select the conversion variant:
     switch(variant) {
       case "StatePattern1":
-         // default converter:
-         SC2CDConverter converter = new SC2CDConverter();
-         sc2CDData = converter.doConvertUML(scartifact, setup);
-         break;
+        // default converter:
+        SC2CDConverter converter = new SC2CDConverter();
+        configTemplateArgs = Arrays.asList(glex, converter, setup.getHandcodedPath(), generator);
+        break;
       case "StatePattern2":
-         // enhanced converter:
-         SC2CDConverterUMLV2 converter2 = new SC2CDConverterUMLV2();
-         sc2CDData = converter2.doConvertUMLV2(scartifact, setup);
-         break;
-      default: 
-         Log.error("0xCC742 Illegal generator variant '"+variant+"' selected. Aborting.");
-         SC2CDConverter c0 = new SC2CDConverter();   // dummy, only reached when error flag is Off
-         sc2CDData = c0.doConvertUML(scartifact, setup);  
-         break;
+        // enhanced converter:
+        SC2CDConverterUMLV2 converter2 = new SC2CDConverterUMLV2();
+        configTemplateArgs = Arrays.asList(glex, converter2, setup.getHandcodedPath(), generator);
+        break;
+      default:
+        Log.error("0xCC742 Illegal generator variant '"+variant+"' selected. Aborting.");
+        SC2CDConverter c0 = new SC2CDConverter();   // dummy, only reached when error flag is Off
+        configTemplateArgs = Arrays.asList(glex, c0, setup.getHandcodedPath(), generator);
+        break;
     }
 
-    if (!handcodedPath.isEmpty()) {
-      SCTopDecorator topDecorator = new SCTopDecorator(new MCPath(handcodedPath));
-      topDecorator.decorate(sc2CDData.getCompilationUnit());
-    }
+    hpp.processValue(tc, scartifact, configTemplateArgs);
 
-    if (outputDirectory.isEmpty()) {
-      CD4CodeFullPrettyPrinter prettyPrinter = new CD4CodeFullPrettyPrinter();
-      String prettyOutput = prettyPrinter.prettyprint(sc2CDData.getCompilationUnit());
-      print(prettyOutput, outputDirectory);
-    }else{
-      final CD4CodeFullPrettyPrinter printer = new CD4CodeFullPrettyPrinter(new IndentPrinter());
-      GeneratorEngine generatorEngine = new GeneratorEngine(setup);
-
-      CD4CodeFullPrettyPrinter prettyPrinter = new CD4CodeFullPrettyPrinter();
-      String prettyOutput = prettyPrinter.prettyprint(sc2CDData.getCompilationUnit());
-      String cdName = sc2CDData.getCompilationUnit().getCDDefinition().getName() + ".cd";
-      print(prettyOutput, outputDirectory + "/" + cdName);
-
-
-      Path packageDir = Paths.get(".");
-      for (String pn : sc2CDData.getCompilationUnit().getCDPackageList()){
-        packageDir = Paths.get(packageDir.toString(), pn);
-      }
-
-      if (!configTemplate.isEmpty()) {
-        // Load a custom config template, if set
-        GeneratorSetup templateSetup = new GeneratorSetup();
-        templateSetup.setGlex(glex);
-
-        if (!templatePath.isEmpty()) {
-          List<File> files = Lists.newArrayList();
-          try (Stream<Path> paths = Files.walk(Paths.get(templatePath))) {
-            paths
-                .filter(Files::isRegularFile)
-                .forEach(f -> files.add(f.toFile()));
-          }
-          catch (IOException e) {
-            Log.error("0x5C701 Incorrect template path "+ templatePath);
-          }
-        }
-
-        TemplateController tc = templateSetup.getNewTemplateController(configTemplate);
-        TemplateHookPoint hp = new TemplateHookPoint(configTemplate);
-        // Provide the glex, a template helper, and the CD classes as args
-        List<Object> args = Arrays.asList(templateSetup.getGlex(),
-                                          new HookPointService(),
-                                          sc2CDData.getScClass(),
-                                          sc2CDData.getStateSuperClass(),
-                                          sc2CDData.getStateClasses());
-        String qualifiedTemplateName = configTemplate.replaceAll(".ftl","");
-        Reporting.reportTemplateStart(qualifiedTemplateName, sc2CDData.getCompilationUnit());
-        // processing the template, returned String result is thrown away
-        hp.processValue(tc, sc2CDData.getCompilationUnit(), args);
-        Reporting.reportTemplateEnd(qualifiedTemplateName, sc2CDData.getCompilationUnit());
-      }
-
-      for (ASTCDClass clazz : sc2CDData.getCompilationUnit().getCDDefinition().getCDClassesList()) {
-        Path out = Paths.get(packageDir.toString(), clazz.getName() + ".java");
-        generatorEngine.generate("de.monticore.sc2cd.gen.Class", out,
-                                 clazz, printer, sc2CDData.getCompilationUnit().getCDPackageList());
-      }
-
-    }
   }
 
   /**
