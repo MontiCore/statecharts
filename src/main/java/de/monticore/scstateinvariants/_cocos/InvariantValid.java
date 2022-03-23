@@ -2,13 +2,14 @@
 package de.monticore.scstateinvariants._cocos;
 
 import de.monticore.scstateinvariants._ast.ASTSCInvState;
+import de.monticore.types.check.TypeCalculator;
 import de.monticore.types.check.TypeCheck;
 import de.se_rwth.commons.logging.Log;
 
 public class InvariantValid implements SCStateInvariantsASTSCInvStateCoCo {
-  protected TypeCheck deriveSymType;
+  protected TypeCalculator deriveSymType;
   
-  public InvariantValid(TypeCheck deriveSymType) {
+  public InvariantValid(TypeCalculator deriveSymType) {
     this.deriveSymType = deriveSymType;
   }
   

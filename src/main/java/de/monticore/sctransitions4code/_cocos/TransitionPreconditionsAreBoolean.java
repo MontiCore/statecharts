@@ -7,6 +7,7 @@ import de.monticore.sctransitions4code._ast.ASTTransitionBody;
 import de.monticore.types.check.IDerive;
 import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.check.TypeCheck;
+import de.monticore.types.check.TypeCheckResult;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.Optional;
@@ -40,10 +41,12 @@ public class TransitionPreconditionsAreBoolean implements SCTransitions4CodeASTT
    */
   protected Optional<SymTypeExpression> extractTypeOf(ASTExpression expression) {
     Preconditions.checkNotNull(expression);
-
-    this.typeDeriver.init();
-    expression.accept(this.typeDeriver.getTraverser());
-    return this.typeDeriver.getResult();
+    TypeCheckResult tcr = this.typeDeriver.deriveType(expression);
+    if (tcr.isPresentCurrentResult()) {
+      return Optional.of(tcr.getCurrentResult());
+    } else {
+      return Optional.empty();
+    }
   }
 
   @Override

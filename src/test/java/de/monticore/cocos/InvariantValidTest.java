@@ -10,9 +10,9 @@ import de.monticore.symbols.oosymbols._symboltable.FieldSymbol;
 import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
 import de.monticore.types.DeriveSymTypeOfUMLStatecharts;
 import de.monticore.types.check.SymTypeExpressionFactory;
-import de.monticore.types.check.TypeCheck;
-import de.monticore.umlstatecharts.UMLStatechartsTool;
+import de.monticore.types.check.TypeCalculator;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
+import de.monticore.umlstatecharts.UMLStatechartsTool;
 import de.monticore.umlstatecharts._cocos.UMLStatechartsCoCoChecker;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
@@ -31,16 +31,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class InvariantValidTest {
-  
+
   protected UMLStatechartsParser parser = new UMLStatechartsParser();
-  
+
   @BeforeClass
   public static void beforeClass() throws Exception {
     LogStub.init();
     UMLStatechartsMill.init();
-    
+
   }
-  
+
   @Before
   public void setUp() throws Exception {
     Log.clearFindings();
@@ -48,7 +48,7 @@ public class InvariantValidTest {
     UMLStatechartsMill.globalScope().clear();
     BasicSymbolsMill.initializePrimitives();
   }
-  
+
   @Test
   public void testCoCoInvalid() throws IOException {
     Optional<ASTSCArtifact> ast = parser
@@ -57,17 +57,17 @@ public class InvariantValidTest {
     IUMLStatechartsArtifactScope st = new UMLStatechartsTool().createSymbolTable(ast.get());
     st.setName("Invariant");
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
-    checker.addCoCo(new InvariantValid(new TypeCheck(null, new DeriveSymTypeOfUMLStatecharts())));
+    checker.addCoCo(new InvariantValid(new TypeCalculator(null, new DeriveSymTypeOfUMLStatecharts())));
     try {
       checker.checkAll(ast.get());
-    } catch (NoSuchElementException e){ 
-      /* catch Optional Exception thrown due to LogStub instead of Log*/ 
+    } catch (NoSuchElementException e){
+      /* catch Optional Exception thrown due to LogStub instead of Log*/
     }
     assertEquals(1, Log.getErrorCount());
     assertTrue(Log.getFindings().stream().anyMatch(n -> n.getMsg().contains("0xED680")));
-    
+
   }
-  
+
   @Test
   public void testCoCoValid() throws IOException {
     Optional<ASTSCArtifact> ast = parser
@@ -76,18 +76,18 @@ public class InvariantValidTest {
     IUMLStatechartsArtifactScope st = new UMLStatechartsTool().createSymbolTable(ast.get());
     st.setName("Invariant2");
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
-    checker.addCoCo(new InvariantValid(new TypeCheck(null, new DeriveSymTypeOfUMLStatecharts())));
+    checker.addCoCo(new InvariantValid(new TypeCalculator(null, new DeriveSymTypeOfUMLStatecharts())));
     checker.checkAll(ast.get());
     assertEquals(0, Log.getErrorCount());
-    
+
   }
-  
+
   @Test
   public void testCoCoValid2() throws IOException {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/valid/Invariant3.sc");
     assertTrue("Invariant3.sc could not be parsed",  ast.isPresent());
-  
+
     IUMLStatechartsArtifactScope st = new UMLStatechartsTool()
         .createSymbolTable(ast.get());
     st.setName("Invariant3");
@@ -97,18 +97,18 @@ public class InvariantValidTest {
         ).build()
     );
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
-    checker.addCoCo(new InvariantValid(new TypeCheck(null, new DeriveSymTypeOfUMLStatecharts())));
+    checker.addCoCo(new InvariantValid(new TypeCalculator(null, new DeriveSymTypeOfUMLStatecharts())));
     checker.checkAll(ast.get());
     assertEquals(0, Log.getErrorCount());
-    
+
   }
-  
-  @Test 
+
+  @Test
   public void testCoCoValid3() throws IOException {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/valid/Invariant4.sc");
     assertTrue("Invariant3.sc could not be parsed",  ast.isPresent());
-    
+
     IUMLStatechartsArtifactScope st = new UMLStatechartsTool().createSymbolTable(ast.get());
     st.setName("Invariant4");
     OOTypeSymbol person = UMLStatechartsMill.oOTypeSymbolBuilder().setName("Person").build();
@@ -120,25 +120,25 @@ public class InvariantValidTest {
     UMLStatechartsMill.globalScope().add(person);
     UMLStatechartsMill.globalScope().add((TypeSymbol) person);
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
-    checker.addCoCo(new InvariantValid(new TypeCheck(null, new DeriveSymTypeOfUMLStatecharts())));
+    checker.addCoCo(new InvariantValid(new TypeCalculator(null, new DeriveSymTypeOfUMLStatecharts())));
     checker.checkAll(ast.get());
     assertEquals(0, Log.getErrorCount());
-    
+
   }
-  
+
   @Test
   public void testCoCoValid4() throws IOException {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/valid/Invariant5.sc");
     assertTrue("Invariant5.sc could not be parsed",  ast.isPresent());
-    
+
     IUMLStatechartsArtifactScope st = new UMLStatechartsTool().createSymbolTable(ast.get());
     st.setName("Invariant5");
     UMLStatechartsMill.globalScope().setSymbolPath(new MCPath(Paths.get("src/test/resources/symtab")));
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
-    checker.addCoCo(new InvariantValid(new TypeCheck(null, new DeriveSymTypeOfUMLStatecharts())));
+    checker.addCoCo(new InvariantValid(new TypeCalculator(null, new DeriveSymTypeOfUMLStatecharts())));
     checker.checkAll(ast.get());
     assertEquals(0, Log.getErrorCount());
-    
+
   }
 }

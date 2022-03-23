@@ -1,11 +1,11 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.types;
 
+import de.monticore.expressions.expressionsbasis._ast.ASTExpression;
+import de.monticore.literals.mcliteralsbasis._ast.ASTLiteral;
 import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
 import de.monticore.triggeredstatecharts._visitor.TriggeredStatechartsTraverser;
 import de.monticore.types.check.*;
-
-import java.util.Optional;
 
 public class DeriveSymTypeOfTriggeredStatecharts implements IDerive {
 
@@ -17,7 +17,7 @@ public class DeriveSymTypeOfTriggeredStatecharts implements IDerive {
   }
 
 
-  @Override public void init() {
+  public void init() {
 
     this.typeCheckResult = new TypeCheckResult();
     this.traverser = TriggeredStatechartsMill.traverser();
@@ -42,22 +42,25 @@ public class DeriveSymTypeOfTriggeredStatecharts implements IDerive {
 
   }
 
-  public TypeCheckResult getTypeCheckResult() {
+  protected TypeCheckResult getTypeCheckResult() {
     return typeCheckResult;
   }
 
-  @Override
-  public Optional<SymTypeExpression> getResult() {
-    if(typeCheckResult.isPresentCurrentResult()){
-      return Optional.ofNullable(typeCheckResult.getCurrentResult());
-    }
-    return Optional.empty();
-  }
-
-  @Override public TriggeredStatechartsTraverser getTraverser() {
+  protected TriggeredStatechartsTraverser getTraverser() {
     return traverser;
   }
 
+  @Override
+  public TypeCheckResult deriveType(ASTExpression expr) {
+    this.getTypeCheckResult().reset();
+    expr.accept(this.getTraverser());
+    return this.getTypeCheckResult().copy();
+  }
 
-
+  @Override
+  public TypeCheckResult deriveType(ASTLiteral lit) {
+    this.getTypeCheckResult().reset();
+    lit.accept(this.getTraverser());
+    return this.getTypeCheckResult().copy();
+  }
 }
