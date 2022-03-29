@@ -2,10 +2,13 @@
 package de.monticore;
 
 import com.google.common.collect.Lists;
+import de.monticore.cd.methodtemplates.CD4C;
 import de.monticore.cd4code.prettyprint.CD4CodeFullPrettyPrinter;
 import de.monticore.generating.GeneratorSetup;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.sc2cd.SC2CDConverter;
+import de.monticore.sc2cd.SC2CDData;
+import de.monticore.sc2cd.SC2CDTriggeredConverter;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
@@ -37,8 +40,9 @@ public class SC2CDTest {
     config.setTracing(false);
     File templatePath = new File("src/main/resources");
     config.setAdditionalTemplatePaths(Lists.newArrayList(templatePath));
-  
-    System.out.println(fullPrettyPrinter.prettyprint(new SC2CDConverter().doConvertUML(opt.get(), config).getCompilationUnit()));
+    SC2CDConverter converter = new SC2CDConverter();
+    SC2CDData result = converter.doConvert(opt.get(), config.getGlex());
+    fullPrettyPrinter.prettyprint(result.getCompilationUnit());
     // the content of the generated files is to be checked manually at the moment
   }
 
@@ -61,8 +65,11 @@ public class SC2CDTest {
     config.setTracing(false);
     File templatePath = new File("src/main/resources");
     config.setAdditionalTemplatePaths(Lists.newArrayList(templatePath));
+    CD4C.init(config);
 
-    System.out.println(fullPrettyPrinter.prettyprint(new SC2CDConverter().doConvertTriggered(opt.get(), config).getCompilationUnit()));
+    SC2CDTriggeredConverter converter = new SC2CDTriggeredConverter();
+    SC2CDData result = converter.doConvert(opt.get(), config.getGlex());
+    fullPrettyPrinter.prettyprint(result.getCompilationUnit());
     // the content of the generated files is to be checked manually at the moment
   }
 

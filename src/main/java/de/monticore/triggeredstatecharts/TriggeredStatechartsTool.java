@@ -2,21 +2,18 @@
 package de.monticore.triggeredstatecharts;
 
 import com.google.common.collect.Lists;
-import de.monticore.cd4code.prettyprint.CD4CodeFullPrettyPrinter;
-import de.monticore.cdbasis._ast.ASTCDClass;
+import de.monticore.cd.codegen.CDGenerator;
+import de.monticore.cd.codegen.CdUtilsPrinter;
 import de.monticore.class2mc.Class2MCResolver;
-import de.monticore.generating.GeneratorEngine;
 import de.monticore.generating.GeneratorSetup;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.generating.templateengine.TemplateController;
 import de.monticore.generating.templateengine.TemplateHookPoint;
 import de.monticore.io.paths.MCPath;
-import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.prettyprint.TriggeredStatechartsFullPrettyPrinter;
-import de.monticore.sc2cd.HookPointService;
 import de.monticore.sc2cd.SC2CDConverter;
-import de.monticore.sc2cd.SC2CDData;
-import de.monticore.sc2cd.SCTopDecorator;
+import de.monticore.sc2cd.SC2CDConverterUMLV2;
+import de.monticore.sc2cd.SC2CDTriggeredConverter;
 import de.monticore.scbasis.BranchingDegreeCalculator;
 import de.monticore.scbasis.InitialStateCollector;
 import de.monticore.scbasis.ReachableStateCollector;
@@ -282,13 +279,22 @@ public class TriggeredStatechartsTool extends TriggeredStatechartsToolTOP {
    * @param outputDirectory The target directory name for outputting the CD artifact. If empty,
    *          the content is printed to stdout instead
    */
-  public void generateCD(ASTSCArtifact scartifact, String outputDirectory, String configTemplate, String templatePath, String handcodedPath) {
-    // pretty print AST
-    SC2CDConverter converter = new SC2CDConverter();
+  public void generateCD(ASTSCArtifact scartifact,
+                         String outputDirectory,
+                         String configTemplate,
+                         String templatePath,
+                         String handcodedPath) {
 
     GeneratorSetup setup = new GeneratorSetup();
     GlobalExtensionManagement glex = new GlobalExtensionManagement();
     setup.setGlex(glex);
+    if (!handcodedPath.isEmpty()) {
+      setup.setHandcodedPath(new MCPath(handcodedPath));
+    }
+    if (!templatePath.isEmpty()) {
+      setup.setAdditionalTemplatePaths(Lists.newArrayList(new File(templatePath)));
+    }
+    glex.setGlobalValue("cdPrinter", new CdUtilsPrinter());
 
     if (!outputDirectory.isEmpty()){
       // Prepare CD4C
@@ -299,67 +305,18 @@ public class TriggeredStatechartsTool extends TriggeredStatechartsToolTOP {
       // optionally: setup.setTracing(false);
     }
 
-    SC2CDData sc2CDData = converter.doConvertTriggered(scartifact, setup);
+    //
+    configTemplate = configTemplate.isEmpty()?"de.monticore.sc2cd.SC2CD":configTemplate;
+    TemplateController tc = setup.getNewTemplateController(configTemplate);
+    CDGenerator generator = new CDGenerator(setup);
+    TemplateHookPoint hpp = new TemplateHookPoint(configTemplate);
+    List<Object> configTemplateArgs;
 
-    if (!handcodedPath.isEmpty()) {
-      SCTopDecorator topDecorator = new SCTopDecorator(new MCPath(handcodedPath));
-      topDecorator.decorate(sc2CDData.getCompilationUnit());
-    }
+    // instantiate converter
+    SC2CDTriggeredConverter converter = new SC2CDTriggeredConverter();
+    configTemplateArgs = Arrays.asList(glex, converter, setup.getHandcodedPath(), generator);
 
-    if (outputDirectory.isEmpty()) {
-      CD4CodeFullPrettyPrinter prettyPrinter = new CD4CodeFullPrettyPrinter();
-      String prettyOutput = prettyPrinter.prettyprint(sc2CDData.getCompilationUnit());
-      print(prettyOutput, outputDirectory);
-    }else{
-      final CD4CodeFullPrettyPrinter printer = new CD4CodeFullPrettyPrinter(new IndentPrinter());
-      GeneratorEngine generatorEngine = new GeneratorEngine(setup);
-
-      CD4CodeFullPrettyPrinter prettyPrinter = new CD4CodeFullPrettyPrinter();
-      String prettyOutput = prettyPrinter.prettyprint(sc2CDData.getCompilationUnit());
-      String cdName = sc2CDData.getCompilationUnit().getCDDefinition().getName() + ".cd";
-      print(prettyOutput, outputDirectory + "/" + cdName);
-
-
-      Path packageDir = Paths.get(".");
-      for (String pn : sc2CDData.getCompilationUnit().getCDPackageList()){
-        packageDir = Paths.get(packageDir.toString(), pn);
-      }
-
-      if (!configTemplate.isEmpty()) {
-        // Load a custom config template, if set
-        GeneratorSetup templateSetup = new GeneratorSetup();
-        templateSetup.setGlex(glex);
-
-        if (!templatePath.isEmpty()) {
-          List<File>  files = Lists.newArrayList();
-          try (Stream<Path> paths = Files.walk(Paths.get(templatePath))) {
-            paths
-              .filter(Files::isRegularFile)
-              .forEach(f -> files.add(f.toFile()));
-          }
-          catch (IOException e) {
-            Log.error("0x5C700 Incorrect template path "+ templatePath);
-          }
-        }
-
-        TemplateController tc = templateSetup.getNewTemplateController(configTemplate);
-        TemplateHookPoint hp = new TemplateHookPoint(configTemplate);
-        // Provide the glex, a template helper, and the CD classes as args
-        List<Object> args = Arrays.asList(templateSetup.getGlex(),
-          new HookPointService(),
-          sc2CDData.getScClass(),
-          sc2CDData.getStateSuperClass(),
-          sc2CDData.getStateClasses());
-        hp.processValue(tc, sc2CDData.getCompilationUnit(), args);
-      }
-
-      for (ASTCDClass clazz : sc2CDData.getCompilationUnit().getCDDefinition().getCDClassesList()) {
-        Path out = Paths.get(packageDir.toString(), clazz.getName() + ".java");
-        generatorEngine.generate("de.monticore.sc2cd.gen.Class", out,
-          clazz, printer, sc2CDData.getCompilationUnit().getCDPackageList());
-      }
-
-    }
+    hpp.processValue(tc, scartifact, configTemplateArgs);
   }
 
   /**

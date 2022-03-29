@@ -1,14 +1,13 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.sc2cd;
 
-import de.monticore.cd.methodtemplates.CD4C;
 import de.monticore.cd4code.CD4CodeMill;
-import de.monticore.generating.GeneratorSetup;
+import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 
-public class SC2CDConverterUMLV2 {
+public class SC2CDConverterUMLV2  {
 
   /**
    * Convert a SC to a CD using th StatePattern2 variant:
@@ -19,19 +18,12 @@ public class SC2CDConverterUMLV2 {
    * for later evaluation, when producing the sources
    * 
    * @param astscArtifact the SC
-   * @param config a valid GeneratorSetup, where the respective templates are stored 
+   * @param glex
    * @return the CD
    */
-  public SC2CDData doConvertUMLV2(ASTSCArtifact astscArtifact, GeneratorSetup config) {
-    // initialize the cd4c object 
-    CD4C.init(config);
-    
-    // what to do, when no specific method body is given:
-    // this could also contain a warning on execution, or uncompilable code
-    CD4C.getInstance().setEmptyBodyTemplate("de.monticore.sc2cd.gen.EmptyMethod");
-
+  public SC2CDData doConvert(ASTSCArtifact astscArtifact, GlobalExtensionManagement glex) {
     // Phase 1: Work on states
-    SC2CDStateVisitorV2 phase1Visitor = new SC2CDStateVisitorV2(config.getGlex());
+    SC2CDStateVisitorV2 phase1Visitor = new SC2CDStateVisitorV2(glex);
     UMLStatechartsTraverser traverser = UMLStatechartsMill.inheritanceTraverser();
     traverser.add4SCBasis(phase1Visitor);
 
