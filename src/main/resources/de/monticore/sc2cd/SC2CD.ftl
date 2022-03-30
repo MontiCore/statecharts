@@ -9,7 +9,7 @@ ${tc.signature("glex", "converter", "hwPath", "generator")}
 <!-- ====================================================================
      call TopDecorator
 -->
-<#assign topDecorator = tc.instantiate("de.monticore.sc2cd.SCTopDecorator", [hwPath])>
+<#assign topDecorator = tc.instantiate("de.monticore.cd.codegen.TopDecorator", [hwPath])>
 ${topDecorator.decorate(cdata.getCompilationUnit())}
 
 <!-- ====================================================================

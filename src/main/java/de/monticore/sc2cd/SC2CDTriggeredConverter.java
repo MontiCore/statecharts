@@ -25,7 +25,7 @@ public class SC2CDTriggeredConverter {
     traverser.handle(astscArtifact);
 
     // Phase 2: Work with transitions
-    SC2CDTransitionVisitor phase2Visitor = new SC2CDTransitionVisitor(phase1Visitor.getScClass(),
+    SC2CDTriggeredTransitionVisitor phase2Visitor = new SC2CDTriggeredTransitionVisitor(phase1Visitor.getScClass(),
       phase1Visitor.getStateToClassMap(),
       phase1Visitor.getStateSuperClass());
     traverser = TriggeredStatechartsMill.inheritanceTraverser();
