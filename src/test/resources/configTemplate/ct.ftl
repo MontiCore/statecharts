@@ -9,7 +9,7 @@ ${tc.signature("glex", "converter", "hwPath", "generator")}
 
 <#assign cdData=converter.doConvert(ast, glex)>
 
-<#assign topDecorator = tc.instantiate("de.monticore.sc2cd.SCTopDecorator", [hwPath])>
+<#assign topDecorator = tc.instantiate("de.monticore.cd.codegen.TopDecorator", [hwPath])>
 ${topDecorator.decorate(cdData.getCompilationUnit())}
 
 <#-- we override all Attribute templates -->
