@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.prettyprint;
 
+import de.monticore.sctransitions4code._ast.ASTAnteAction;
 import de.monticore.sctransitions4code._ast.ASTTransitionBody;
 import de.monticore.sctransitions4code._visitor.SCTransitions4CodeHandler;
 import de.monticore.sctransitions4code._visitor.SCTransitions4CodeTraverser;
@@ -33,6 +34,13 @@ public class SCTransitions4CodePrettyPrinter implements SCTransitions4CodeHandle
       getPrinter().print(" / ");
       node.getTransitionAction().accept(getTraverser());
     }
+  }
+
+  @Override
+  public void handle(ASTAnteAction node) {
+    getPrinter().print(" { ");
+    node.getMCBlockStatement().accept(this.getTraverser());
+    getPrinter().print(" }");
   }
   
   SCTransitions4CodeTraverser traverser;

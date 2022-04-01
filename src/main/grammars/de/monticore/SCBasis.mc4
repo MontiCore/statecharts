@@ -43,6 +43,8 @@ import de.monticore.symbols.*;
  *           e.g. for hierachical states
  *    SCStateElement
  *           e.g. for entry/exit/do actions
+ *    SCSAnte
+ *           e.g. for declaring initializing actions
  *    SCTBody
  *           e.g. for the desired form of transition body
  *           (is currently empty and must be filled)
@@ -78,7 +80,7 @@ component grammar SCBasis extends
   */
   /*scope symbol*/ NamedStatechart implements Diagram, Statechart =
     Stereotype?
-    "statechart" Name "{"
+    ("statechart" | "automaton") Name "{"
       SCStatechartElement*
     "}";
     
@@ -87,7 +89,7 @@ component grammar SCBasis extends
   */
   scope UnnamedStatechart implements Statechart =
       Stereotype?
-      "statechart" "{"
+      ("statechart" | "automaton") "{"
         SCStatechartElement*
       "}";
 
@@ -106,9 +108,11 @@ component grammar SCBasis extends
     A state has a name, some modifiers, such as initial or final
     and a body.
     The body may be empty or lead to a hierarchy of states.
+    The ante declaration may be empty or, e.g., contain actions
+    performed at statechart initialization.
   */
   symbol SCState implements SCStateElement, SCStatechartElement =
-    SCModifier "state" Name SCSBody ";";
+    SCModifier SCSAnte "state" Name SCSBody ";";
 
   SCModifier = Stereotype? (["initial"] | ["final"])*;
 
@@ -118,6 +122,14 @@ component grammar SCBasis extends
   */
   interface SCSBody;
   SCEmptyBody implements SCSBody = ;
+
+  /**
+    The ante declaration of a state may be empty, or contain actions performed
+    at statechart initialization.
+    SCBasis provides the empty ante declaration only.
+  */
+  interface SCSAnte;
+  SCEmptyAnte implements SCSAnte = ;
 
   /**
     Interface subsuming states and transitions
