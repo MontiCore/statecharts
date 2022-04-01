@@ -48,9 +48,18 @@ public class SC2CDTest {
 
   @Test
   public void testTriggeredSC2CD() throws IOException {
+    checkTriggeredSC2CD("src/test/resources/examples/triggered/DoorExample2.sc");
+  }
+
+  @Test
+  public void testTriggeredSC2CDWithInitBlock() throws IOException {
+    checkTriggeredSC2CD("src/test/resources/examples/triggered/LoopSystemOut.sc");
+  }
+
+  public void checkTriggeredSC2CD(String modelLocation) throws IOException {
     Log.enableFailQuick(false);
     TriggeredStatechartsMill.init();
-    Optional<ASTSCArtifact> opt = TriggeredStatechartsMill.parser().parse("src/test/resources/examples/triggered/DoorExample2.sc");
+    Optional<ASTSCArtifact> opt = TriggeredStatechartsMill.parser().parse(modelLocation);
 
     //Build ST
     TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(opt.get());
@@ -72,5 +81,4 @@ public class SC2CDTest {
     fullPrettyPrinter.prettyprint(result.getCompilationUnit());
     // the content of the generated files is to be checked manually at the moment
   }
-
 }

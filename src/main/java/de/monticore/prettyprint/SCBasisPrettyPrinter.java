@@ -70,6 +70,7 @@ public class SCBasisPrettyPrinter implements SCBasisHandler {
   @Override
   public void handle(ASTSCState node) {
     node.getSCModifier().accept(getTraverser());
+    node.getSCSAnte().accept(getTraverser());
     getPrinter().print(" state ");
     getPrinter().print(node.getName());
     node.getSCSBody().accept(getTraverser());
@@ -91,6 +92,11 @@ public class SCBasisPrettyPrinter implements SCBasisHandler {
 
   @Override
   public void handle(ASTSCEmptyBody node) {
+    // empty
+  }
+
+  @Override
+  public void handle(ASTSCEmptyAnte node) {
     // empty
   }
 
