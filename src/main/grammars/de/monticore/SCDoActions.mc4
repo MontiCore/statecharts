@@ -13,7 +13,7 @@ package de.monticore;
  *  * ^- SCActions.mc4
  *  *    ^- SCDoActions.mc4
  *  *    ^- SCTransitions4Code.mc4
- *  *    ^- SCTransitions4Modelling.mc4
+ *  *       ^- SCTransitions4Modelling.mc4
  *  * ^- SCCompleteness.mc4
  *  * ^- SCStateHierarchy.mc4
  *  *    ^- SCStateInvariants.mc4

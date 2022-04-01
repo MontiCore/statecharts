@@ -5,7 +5,7 @@ package de.monticore;
  * Adaptations -- if any -- are conservative. */
  
 import de.monticore.symbols.*;
-import  de.monticore.types.*;
+import de.monticore.types.*;
 
 component grammar SCEvents extends SCBasis, BasicSymbols, MCBasicTypes {
 
