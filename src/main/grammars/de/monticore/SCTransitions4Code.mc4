@@ -75,6 +75,6 @@ component grammar SCTransitions4Code
    * Imperative actions performed as statechart initialization.
    */
   scope(non_exporting ordered) AnteAction implements SCSAnte =
-    "{" MCBlockStatement "}" ;
+    "{" MCBlockStatement* "}" ;
 
 }
