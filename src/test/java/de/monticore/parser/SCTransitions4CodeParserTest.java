@@ -1,8 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.parser;
 
-import de.monticore.expressions.expressionsbasis._ast.ASTLiteralExpression;
-import de.monticore.expressions.expressionsbasis._ast.ASTNameExpression;
 import de.monticore.parser.util.TestUtils;
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.scbasis._ast.ASTSCEmptyAnte;
@@ -82,7 +80,7 @@ public class SCTransitions4CodeParserTest {
   }
 
   @Test
-  public void testEmptyAnteBlock() throws IOException {
+  public void testAbsentAnteBlock() throws IOException {
     Optional<ASTSCState> ast = parser.parse_StringSCState("state A;");
     TestUtils.check(parser);
 
@@ -101,6 +99,26 @@ public class SCTransitions4CodeParserTest {
   }
 
   @Test
+  public void testEmptyAnteBlock() throws IOException {
+    Optional<ASTSCState> ast = parser.parse_StringSCState("initial {} state A;");
+    TestUtils.check(parser);
+
+    assertTrue("No ast present", ast.isPresent());
+    assertFalse("Modifier",
+      ast.get().getSCModifier().isPresentStereotype()
+        || ast.get().getSCModifier().isFinal());
+    assertTrue("Initial", ast.get().getSCModifier().isInitial());
+    assertTrue("Ante", ast.get().getSCSAnte() instanceof ASTAnteAction);
+    assertEquals("Statement count", 0, ((ASTAnteAction) ast.get().getSCSAnte()).sizeMCBlockStatements());
+    assertEquals("State name", "A", ast.get().getName());
+
+    String pp = printer.prettyprint(ast.get());
+    Optional<ASTSCState> astPP = parser.parse_StringSCState(pp);
+    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
+    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
+  }
+
+  @Test
   public void testAnteBlock() throws IOException {
     Optional<ASTSCState> ast = parser.parse_StringSCState("initial { \"foo\"; } state Foo;");
     TestUtils.check(parser);
@@ -110,8 +128,32 @@ public class SCTransitions4CodeParserTest {
     assertFalse("final", ast.get().getSCModifier().isFinal());
     assertTrue("initial", ast.get().getSCModifier().isInitial());
     assertTrue("Ante", ast.get().getSCSAnte() instanceof ASTAnteAction);
+    assertEquals("Statement count", 1, ((ASTAnteAction) ast.get().getSCSAnte()).sizeMCBlockStatements());
     assertTrue("Expression",
-      ((ASTAnteAction) ast.get().getSCSAnte()).getMCBlockStatement() instanceof ASTExpressionStatement);
+      ((ASTAnteAction) ast.get().getSCSAnte()).getMCBlockStatement(0) instanceof ASTExpressionStatement);
+    assertEquals("State name", "Foo", ast.get().getName());
+
+    String pp = printer.prettyprint(ast.get());
+    Optional<ASTSCState> astPP = parser.parse_StringSCState(pp);
+    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
+    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
+  }
+
+  @Test
+  public void testBigAnteBlock() throws IOException {
+    Optional<ASTSCState> ast = parser.parse_StringSCState("initial { \"foo\"; \"bar\"; } state Foo;");
+    TestUtils.check(parser);
+
+    assertTrue("No ast present", ast.isPresent());
+    assertFalse("Stereotype", ast.get().getSCModifier().isPresentStereotype());
+    assertFalse("final", ast.get().getSCModifier().isFinal());
+    assertTrue("initial", ast.get().getSCModifier().isInitial());
+    assertTrue("Ante", ast.get().getSCSAnte() instanceof ASTAnteAction);
+    assertEquals("Statement count", 2, ((ASTAnteAction) ast.get().getSCSAnte()).sizeMCBlockStatements());
+    assertTrue("Expression #1",
+      ((ASTAnteAction) ast.get().getSCSAnte()).getMCBlockStatement(0) instanceof ASTExpressionStatement);
+    assertTrue("Expression #2",
+      ((ASTAnteAction) ast.get().getSCSAnte()).getMCBlockStatement(1) instanceof ASTExpressionStatement);
     assertEquals("State name", "Foo", ast.get().getName());
 
     String pp = printer.prettyprint(ast.get());

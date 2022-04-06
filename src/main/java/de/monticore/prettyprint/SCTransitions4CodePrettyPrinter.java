@@ -5,6 +5,7 @@ import de.monticore.sctransitions4code._ast.ASTAnteAction;
 import de.monticore.sctransitions4code._ast.ASTTransitionBody;
 import de.monticore.sctransitions4code._visitor.SCTransitions4CodeHandler;
 import de.monticore.sctransitions4code._visitor.SCTransitions4CodeTraverser;
+import de.monticore.statements.mcstatementsbasis._ast.ASTMCBlockStatement;
 
 /**
  * This PrettyPrinter is designed to handle exactly the
@@ -38,9 +39,16 @@ public class SCTransitions4CodePrettyPrinter implements SCTransitions4CodeHandle
 
   @Override
   public void handle(ASTAnteAction node) {
-    getPrinter().print(" { ");
-    node.getMCBlockStatement().accept(this.getTraverser());
-    getPrinter().print(" }");
+    getPrinter().println(" {");
+    getPrinter().indent();
+
+    for(ASTMCBlockStatement statement : node.getMCBlockStatementList()) {
+      statement.accept(getTraverser());
+      getPrinter().println();
+    }
+
+    getPrinter().unindent();
+    getPrinter().print("}");
   }
   
   SCTransitions4CodeTraverser traverser;
