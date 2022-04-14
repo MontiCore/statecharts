@@ -9,28 +9,35 @@ import java.util.ArrayList;
 
 public class UMLStatechartsScopesGenitor extends UMLStatechartsScopesGenitorTOP {
 
-  public UMLStatechartsScopesGenitor(){
+  public UMLStatechartsScopesGenitor() {
     super();
   }
 
   /**
-   * overrides the createFromAST method of the top class to set the name and package
+   * overrides the createFromAST method of the top class to set the name and
+   * package
    * name of the artifact scope
    */
   @Override
   public IUMLStatechartsArtifactScope createFromAST(ASTSCArtifact rootNode) {
     Log.errorIfNull(rootNode, "0xAE880 Internal Error: No symbol table defined, because empty (null) AST");
     IUMLStatechartsArtifactScope artifactScope = de.monticore.umlstatecharts.UMLStatechartsMill.artifactScope();
-    if(rootNode.isPresentPackage()) {
+    if (rootNode.isPresentPackage()) {
       artifactScope.setPackageName(rootNode.getPackage().getQName());
     }
-    if(rootNode.getStatechart().isPresentSCName()) {
+    if (rootNode.getStatechart().isPresentSCName()) {
       artifactScope.setName(rootNode.getStatechart().getSCName().get());
-    }else{
+    } else {
       String fileName = rootNode.getFilePath().getFileName().toString();
       artifactScope.setName(fileName.substring(0, fileName.lastIndexOf('.')));
     }
-    artifactScope.setImportsList(new ArrayList<>());
+    // artifactScope.setImportsList(new ArrayList<>());
+
+    if (!rootNode.isEmptyMCImportStatements()) {
+      ((IUMLStatechartsArtifactScope) artifactScope).setImportsList(rootNode.getMCImportStatementList().stream()
+          .map(i -> new ImportStatement(i.getQName(), i.isStar()))
+          .collect(Collectors.toList()));
+    }
     putOnStack(artifactScope);
     rootNode.accept(getTraverser());
     return artifactScope;
