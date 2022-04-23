@@ -1,7 +1,7 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
 <!-- This is a MontiCore stable explanation. -->
 
-[[_TOC_]]
+
 
 # Statecharts
 
@@ -350,4 +350,3 @@ The SC language defines the symbol kinds `SCStateSynbol` and `SCEventDefSymbol`.
 * [Best Practices](https://github.com/MontiCore/monticore/blob/dev/docs/BestPractices.md)
 * [Publications about MBSE and MontiCore](https://www.se-rwth.de/publications/)
 * [Licence definition](https://github.com/MontiCore/monticore/blob/master/00.org/Licenses/LICENSE-MONTICORE-3-LEVEL.md)
-
