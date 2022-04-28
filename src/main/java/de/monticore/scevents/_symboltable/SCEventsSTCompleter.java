@@ -27,7 +27,7 @@ public class SCEventsSTCompleter implements SCEventsVisitor2 {
     } else{
       typeResult = SymTypeExpressionFactory.createTypeVoid();
     }
-    funcSym.setReturnType(typeResult);
+    funcSym.setType(typeResult);
   }
 
   @Override public void visit(ASTSCFuncEventParameter ast) {
