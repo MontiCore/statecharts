@@ -4,7 +4,7 @@ package de.monticore.sctransitions4code._cocos;
 import com.google.common.base.Preconditions;
 import de.monticore.expressions.expressionsbasis._ast.ASTExpression;
 import de.monticore.sctransitions4code._ast.ASTTransitionBody;
-import de.monticore.types.check.IDerive;
+import de.monticore.types.check.AbstractDerive;
 import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.check.TypeCheck;
 import de.monticore.types.check.TypeCheckResult;
@@ -25,13 +25,13 @@ public class TransitionPreconditionsAreBoolean implements SCTransitions4CodeASTT
   /**
    * Used to extract the type to which the transition precondition evaluates to.
    */
-  protected final IDerive typeDeriver;
+  protected final AbstractDerive typeDeriver;
 
   /**
    * @param typeDeriver Used to derive the type that the {@link ASTExpression} representing the transition precondition
    *                    evaluates to.
    */
-  public TransitionPreconditionsAreBoolean(IDerive typeDeriver) {
+  public TransitionPreconditionsAreBoolean(AbstractDerive typeDeriver) {
     this.typeDeriver = typeDeriver;
   }
 
@@ -42,8 +42,8 @@ public class TransitionPreconditionsAreBoolean implements SCTransitions4CodeASTT
   protected Optional<SymTypeExpression> extractTypeOf(ASTExpression expression) {
     Preconditions.checkNotNull(expression);
     TypeCheckResult tcr = this.typeDeriver.deriveType(expression);
-    if (tcr.isPresentCurrentResult()) {
-      return Optional.of(tcr.getCurrentResult());
+    if (tcr.isPresentResult()) {
+      return Optional.of(tcr.getResult());
     } else {
       return Optional.empty();
     }

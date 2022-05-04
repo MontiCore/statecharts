@@ -8,7 +8,7 @@ import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
 import de.monticore.triggeredstatecharts._cocos.TriggeredStatechartsCoCoChecker;
 import de.monticore.triggeredstatecharts._parser.TriggeredStatechartsParser;
-import de.monticore.types.DeriveSymTypeOfTriggeredStatecharts;
+import de.monticore.types.FullTriggeredStatechartsDeriver;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
@@ -46,7 +46,7 @@ public class TransitionPreconditionsAreBooleanTest {
     TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(ast).setName("DummyScopeName");
 
     TriggeredStatechartsCoCoChecker checker =  new TriggeredStatechartsCoCoChecker();
-    checker.addCoCo(new TransitionPreconditionsAreBoolean(new DeriveSymTypeOfTriggeredStatecharts()));
+    checker.addCoCo(new TransitionPreconditionsAreBoolean(new FullTriggeredStatechartsDeriver()));
 
     // When
     checker.checkAll(ast);
@@ -62,7 +62,7 @@ public class TransitionPreconditionsAreBooleanTest {
     TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(ast).setName("DummyScopeName");
 
     TriggeredStatechartsCoCoChecker checker =  new TriggeredStatechartsCoCoChecker();
-    checker.addCoCo(new TransitionPreconditionsAreBoolean(new DeriveSymTypeOfTriggeredStatecharts()));
+    checker.addCoCo(new TransitionPreconditionsAreBoolean(new FullTriggeredStatechartsDeriver()));
 
     // When
     checker.checkAll(ast);

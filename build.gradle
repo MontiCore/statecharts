@@ -69,6 +69,9 @@ dependencies {
 }
 
 repositories {
+  if("true".equals(getProperty("useLocalRepo"))){
+    mavenLocal()
+  }
   maven {
     credentials.username mavenUser
     credentials.password mavenPassword
