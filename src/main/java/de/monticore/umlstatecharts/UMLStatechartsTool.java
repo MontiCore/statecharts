@@ -19,7 +19,6 @@ import de.monticore.io.paths.MCPath;
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.sc2cd.SC2CDConverter;
 import de.monticore.sc2cd.SC2CDConverterUMLV2;
-import de.monticore.sc2cd.SC2CDTriggeredConverter;
 import de.monticore.scbasis.BranchingDegreeCalculator;
 import de.monticore.scbasis.InitialStateCollector;
 import de.monticore.scbasis.ReachableStateCollector;
@@ -35,10 +34,9 @@ import de.monticore.scstatehierarchy.HierarchicalStateCollector;
 import de.monticore.scstatehierarchy.NoSubstatesHandler;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.oosymbols.OOSymbolsMill;
-import de.monticore.types.DeriveSymTypeOfUMLStatecharts;
-import de.monticore.types.SynthesizeSymType;
+import de.monticore.types.FullUMLStatechartsDeriver;
+import de.monticore.types.check.FullSynthesizeFromMCBasicTypes;
 import de.monticore.types.check.TypeCalculator;
-import de.monticore.types.check.TypeCheck;
 import de.monticore.umlstatecharts._cocos.UMLStatechartsCoCoChecker;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopesGenitorDelegator;
@@ -233,7 +231,7 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
 
     // complete symbols including type check
     UMLStatechartsTraverser completer = UMLStatechartsMill.traverser();
-    TypeCalculator typeCheck = new TypeCalculator(new SynthesizeSymType(),new DeriveSymTypeOfUMLStatecharts());
+    TypeCalculator typeCheck = new TypeCalculator(new FullSynthesizeFromMCBasicTypes(),new FullUMLStatechartsDeriver());
     completer.add4SCEvents(new SCEventsSTCompleter(typeCheck));
     ast.accept(completer);
 

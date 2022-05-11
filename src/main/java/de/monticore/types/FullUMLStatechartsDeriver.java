@@ -1,26 +1,22 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.types;
 
-import de.monticore.expressions.expressionsbasis._ast.ASTExpression;
-import de.monticore.literals.mcliteralsbasis._ast.ASTLiteral;
-import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
-import de.monticore.triggeredstatecharts._visitor.TriggeredStatechartsTraverser;
 import de.monticore.types.check.*;
+import de.monticore.umlstatecharts.UMLStatechartsMill;
+import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 
-public class DeriveSymTypeOfTriggeredStatecharts implements IDerive {
+public class FullUMLStatechartsDeriver extends AbstractDerive {
 
-  protected TypeCheckResult typeCheckResult;
-  protected TriggeredStatechartsTraverser traverser;
-
-  public DeriveSymTypeOfTriggeredStatecharts() {
-    init();
+  public FullUMLStatechartsDeriver() {
+    this(UMLStatechartsMill.traverser());
   }
 
+  public FullUMLStatechartsDeriver(UMLStatechartsTraverser traverser) {
+    super(traverser);
+    init(traverser);
+  }
 
-  public void init() {
-
-    this.typeCheckResult = new TypeCheckResult();
-    this.traverser = TriggeredStatechartsMill.traverser();
+  protected void init(UMLStatechartsTraverser traverser) {
     // initializes visitors used for typechecking
     final DeriveSymTypeOfLiterals deriveSymTypeOfLiterals = new DeriveSymTypeOfLiterals();
     deriveSymTypeOfLiterals.setTypeCheckResult(getTypeCheckResult());
@@ -39,28 +35,6 @@ public class DeriveSymTypeOfTriggeredStatecharts implements IDerive {
     deriveSymTypeOfCommonExpressions.setTypeCheckResult(getTypeCheckResult());
     traverser.add4CommonExpressions(deriveSymTypeOfCommonExpressions);
     traverser.setCommonExpressionsHandler(deriveSymTypeOfCommonExpressions);
-
   }
 
-  protected TypeCheckResult getTypeCheckResult() {
-    return typeCheckResult;
-  }
-
-  protected TriggeredStatechartsTraverser getTraverser() {
-    return traverser;
-  }
-
-  @Override
-  public TypeCheckResult deriveType(ASTExpression expr) {
-    this.getTypeCheckResult().reset();
-    expr.accept(this.getTraverser());
-    return this.getTypeCheckResult().copy();
-  }
-
-  @Override
-  public TypeCheckResult deriveType(ASTLiteral lit) {
-    this.getTypeCheckResult().reset();
-    lit.accept(this.getTraverser());
-    return this.getTypeCheckResult().copy();
-  }
 }

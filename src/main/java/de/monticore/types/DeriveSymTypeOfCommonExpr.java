@@ -25,9 +25,9 @@ public class DeriveSymTypeOfCommonExpr extends DeriveSymTypeOfCommonExpressions 
     CommonExpressionsFullPrettyPrinter printer = new CommonExpressionsFullPrettyPrinter(new IndentPrinter());
     SymTypeExpression innerResult;
     expr.getExpression().accept(getTraverser());
-    if (typeCheckResult.isPresentCurrentResult()) {
+    if (typeCheckResult.isPresentResult()) {
       //store the type of the inner expression in a variable
-      innerResult = typeCheckResult.getCurrentResult();
+      innerResult = typeCheckResult.getResult();
       //look for this type in our scope
       TypeSymbol innerResultType = innerResult.getTypeInfo();
       //search for a method, field or type in the scope of the type of the inner expression
@@ -42,7 +42,7 @@ public class DeriveSymTypeOfCommonExpr extends DeriveSymTypeOfCommonExpressions 
           VariableSymbol var = fieldSymbols.get(0);
           SymTypeExpression type = var.getType();
           typeCheckResult.setField();
-          typeCheckResult.setCurrentResult(type);
+          typeCheckResult.setResult(type);
         }
       } else if (typeSymbolOpt.isPresent()) {
         //no variable found, test type
@@ -52,7 +52,7 @@ public class DeriveSymTypeOfCommonExpr extends DeriveSymTypeOfCommonExpressions 
           SymTypeExpression wholeResult = SymTypeExpressionFactory
               .createTypeExpression(typeSymbol.getName(), typeSymbol.getEnclosingScope());
           typeCheckResult.setType();
-          typeCheckResult.setCurrentResult(wholeResult);
+          typeCheckResult.setResult(wholeResult);
       }else{
         typeCheckResult.reset();
         logError("0xA1316", expr.get_SourcePositionStart());
@@ -65,7 +65,7 @@ public class DeriveSymTypeOfCommonExpr extends DeriveSymTypeOfCommonExpressions 
         TypeSymbol typeSymbol = typeSymbolOpt.get();
         SymTypeExpression type = SymTypeExpressionFactory.createTypeExpression(typeSymbol);
         typeCheckResult.setType();
-        typeCheckResult.setCurrentResult(type);
+        typeCheckResult.setResult(type);
       } else {
         //the inner type has no result and there is no type found
         typeCheckResult.reset();
