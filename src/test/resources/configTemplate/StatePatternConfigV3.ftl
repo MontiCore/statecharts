@@ -14,17 +14,11 @@
   
   This template receives the following parameters:
     glex, tc:   -- as usual
-    TODO: was ist mit der Variable ast?  ich vermute ASTCDCompilationUnit
-    
-    HookPointService hpService:   a helper -- TODO #3100 to remove (ersatz: glex)
 
-    ASTCDClass scClass:           the class representing the state chart
-    ASTCDClass stateSuperClass:   abstract super class for the states
-    Collection<ASTCDClass> stateClasses:  collection of all states
-    
-    TODO: es fehlen: ASTCDCompilationUnit  und auch  das QuellModell: SCArtifact
-    am besten ist es wohl, dies alles in SC2CD Klasse zu verpacken und 
-    das Objekt als Ganzes zu Übergeben --> spart parameter
+    ASTSCArtifact ast:              the AST artifact
+    SC2CDConverterUMLV2 converter:  the SD to CD converter
+    MCPath hwPath:                  the path for the handwritten code
+    CDGenerator generator:          the generator that generates source code from class diagrams
 -->
 ${tc.signature("glex", "converter", "hwPath", "generator")}
 
