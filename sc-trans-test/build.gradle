@@ -5,7 +5,6 @@ plugins {
 }
 
 description = "sc-trans-test"
-sourceCompatibility = JavaVersion.VERSION_1_8
 buildDir = file("$projectDir/target")
 
 
