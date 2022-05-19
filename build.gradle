@@ -9,7 +9,6 @@ plugins {
 }
 
 description = "Statecharts"
-sourceCompatibility = JavaVersion.VERSION_1_8
 buildDir = file("$projectDir/target")
 
 
