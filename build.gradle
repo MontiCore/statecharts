@@ -1,11 +1,12 @@
 /* (c) https://github.com/MontiCore/monticore */
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import org.gradle.api.tasks.JavaExec
 
 plugins {
-  id "java"
-  id "monticore" version "$mc_version" // MontiCore Plugin
-  id "maven-publish"
-  id "com.github.johnrengelman.shadow" version "6.0.0"
+    id "java"
+    id "monticore" version "$mc_version" // MontiCore Plugin
+    id "maven-publish"
+    id "com.github.johnrengelman.shadow" version "6.0.0"
 }
 
 description = "Statecharts"
@@ -15,11 +16,9 @@ buildDir = file("$projectDir/target")
 def grammarDir = "src/main/grammars"
 def grammarOutDir = "$buildDir/generated-sources/mc"
 def testGrammarOutDir = "$buildDir/generated-test-sources/mc"
+def testSCOutDir = "$buildDir/generated-test-sources/sc"
+def testscgenDir = "$projectDir/src/testscgen"
 
-def guava_version = "30.1-jre"
-def junit_version = "4.13.1"
-def commons_cli_version = "1.4"
-def antlr_version = '4.7.1'
 
 // configure non-standard source sets
 sourceSets {
@@ -35,12 +34,26 @@ sourceSets {
       include "**/*.mc4"
     }
   }
+
+  testscgen {
+    java.srcDirs += ["$testSCOutDir"]
+
+    java {}
+  }
 }
 
-configurations { grammar }
+
+    //define the new source set (in this case the generated test classes in ./target/gentest
+
+
+configurations {
+  testscgenImplementation.extendsFrom(implementation)
+  testscgenImplementation.extendsFrom(testImplementation)
+  grammar
+}
 
 dependencies {
-  grammar ("de.monticore:monticore-grammar:$mc_version") {
+  grammar("de.monticore:monticore-grammar:$mc_version") {
     capabilities {
       requireCapability("de.monticore:monticore-grammar-grammars")
     }
@@ -51,28 +64,32 @@ dependencies {
   implementation "de.monticore:class2mc:$mc_version"
   implementation "de.se_rwth.commons:se-commons-logging:$mc_version"
   implementation "de.se_rwth.commons:se-commons-utilities:$mc_version"
-  implementation group:'org.antlr', name:'antlr4-runtime', version:antlr_version
-  implementation group:'de.monticore.lang', name:'cd4analysis', version:mc_version
+  implementation group: 'org.antlr', name: 'antlr4-runtime', version: antlr_version
+  implementation group: 'de.monticore.lang', name: 'cd4analysis', version: mc_version
   implementation "commons-cli:commons-cli:$commons_cli_version"
   implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
   implementation group: 'commons-io', name: 'commons-io', version: '2.8.0'
   testImplementation "junit:junit:$junit_version"
   implementation 'org.codehaus.groovy:groovy:3.0.7'
+
+  testscgenImplementation(sourceSets.main.output.classesDirs)
+  testscgenImplementation(sourceSets.test.output.classesDirs)
+
 }
 
 configurations {
-  ecj
+    ecj
 }
 dependencies {
-  ecj 'org.eclipse.jdt:ecj:3.26.0'
+    ecj 'org.eclipse.jdt:ecj:3.26.0'
 }
 
 repositories {
-  maven {
-    credentials.username mavenUser
-    credentials.password mavenPassword
-    url repo
-  }
+    maven {
+        credentials.username mavenUser
+        credentials.password mavenPassword
+        url repo
+    }
 }
 
 task generate {}
@@ -82,7 +99,7 @@ task generateTR {}
 fileTree(grammarDir).matching { include '**/*.mc4'}.each { g ->
   def taskname = "generateGrammar${g.getName().substring(0,g.getName().lastIndexOf('.'))}"
   task  "$taskname" (type: MCTask) {
-    
+
     grammar = g
     outputDir = file grammarOutDir
     dstlGen = true
@@ -105,65 +122,77 @@ fileTree(grammarDir).matching { include '**/*.mc4'}.each { g ->
 
 
 
-
 compileJava.dependsOn generate
 compileJava.dependsOn generateTR
 
+task generateSC(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+
+  mainClass = "de.monticore.umlstatecharts/UMLStatechartsTool"
+
+  args("-i", "${testscgenDir}/resources/examples/DoorExample.sc",
+          "-gen", "${testSCOutDir}",
+          "-hcp", "${testscgenDir}/java")
+}
+
+generateSC.dependsOn compileJava
+compileTestscgenJava.dependsOn generateSC
+check.dependsOn testscgenClasses
 
 tasks.withType(Test) {
-  maxParallelForks = Runtime.runtime.availableProcessors() ?: 1
+    maxParallelForks = Runtime.runtime.availableProcessors() ?: 1
 }
 
 tasks.withType(JavaCompile) {
-  options.fork = true
-  options.encoding = "UTF-8"
-  options.deprecation false
-  options.warnings = false
-  options.headerOutputDirectory.convention(null)
-  options.forkOptions.with {
-    executable = 'java'
-    jvmArgs = ['-classpath', project.configurations.ecj.asPath, 'org.eclipse.jdt.internal.compiler.batch.Main', '-nowarn', "-Xmx2048m"]
-  }
-  
+    options.fork = true
+    options.encoding = "UTF-8"
+    options.deprecation false
+    options.warnings = false
+    options.headerOutputDirectory.convention(null)
+    options.forkOptions.with {
+        executable = 'java'
+        jvmArgs = ['-classpath', project.configurations.ecj.asPath, 'org.eclipse.jdt.internal.compiler.batch.Main', '-nowarn', "-Xmx2048m"]
+    }
+
 }
 
 // all in one tool-jar
 shadowJar {
-  manifest {
-    attributes "Main-Class": "de.monticore.umlstatecharts.UML${archiveBaseName.get().capitalize()}Tool"
-  }
-  archiveClassifier = "mc-tool"
-  archiveFileName = "MC${archiveBaseName.get().capitalize()}.${archiveExtension.get()}"
+    manifest {
+        attributes "Main-Class": "de.monticore.umlstatecharts.UML${archiveBaseName.get().capitalize()}Tool"
+    }
+    archiveClassifier = "mc-tool"
+    archiveFileName = "MC${archiveBaseName.get().capitalize()}.${archiveExtension.get()}"
 }
 
 task uMLSCTransGenerator(type: ShadowJar) {
-  dependsOn shadowJar
-  group = "shadow"
-  manifest.attributes 'Main-Class': 'de.monticore.tr.UMLStatechartsTFGenTool'
-  archiveFileName = 'UMLSCTransGenerator.jar'
-  archiveClassifier.set('umltfgen')
-  from zipTree(shadowJar.archiveFile)
+    dependsOn shadowJar
+    group = "shadow"
+    manifest.attributes 'Main-Class': 'de.monticore.tr.UMLStatechartsTFGenTool'
+    archiveFileName = 'UMLSCTransGenerator.jar'
+    archiveClassifier.set('umltfgen')
+    from zipTree(shadowJar.archiveFile)
 }
 
 task triggeredSCTransGenerator(type: ShadowJar) {
-  dependsOn shadowJar
-  group = "shadow"
-  manifest.attributes 'Main-Class': 'de.monticore.tr.TriggeredStatechartsTFGenTool'
-  archiveFileName = 'TriggeredSCTransGenerator.jar'
-  archiveClassifier.set('triggeredtfgen')
-  from zipTree(shadowJar.archiveFile)
+    dependsOn shadowJar
+    group = "shadow"
+    manifest.attributes 'Main-Class': 'de.monticore.tr.TriggeredStatechartsTFGenTool'
+    archiveFileName = 'TriggeredSCTransGenerator.jar'
+    archiveClassifier.set('triggeredtfgen')
+    from zipTree(shadowJar.archiveFile)
 }
 
 task testReport(type: TestReport) {
-  destinationDir = file("$buildDir/reports/allTests")
-  // Include the results from the 'test' task
-  reportOn tasks.withType(Test)
+    destinationDir = file("$buildDir/reports/allTests")
+    // Include the results from the 'test' task
+    reportOn tasks.withType(Test)
 }
 
 /**
  * Integration with MLC language and tool
  */
-task checkArtifacts {group = 'mlc'}
+task checkArtifacts { group = 'mlc' }
 configurations { MLC }
 dependencies { MLC(group: 'de.monticore.lang', name: 'mlc-tool', version: mlc_version) }
 StringJoiner joiner = new StringJoiner(" ")
@@ -174,61 +203,61 @@ String mp = joiner.toString()
 
 // two tasks per MLC file
 fileTree("src").matching { include '**/*.mlc' }.each {
-  def f = it
-  def mlcName = it.getName().substring(0, it.getName().lastIndexOf('.'))
+    def f = it
+    def mlcName = it.getName().substring(0, it.getName().lastIndexOf('.'))
 
-  task "showArtifacts${mlcName}"(type: JavaExec) {
-    classpath = configurations.MLC
-    group = 'mlc'
-    mainClass = 'de.monticore.mlc.MLCTool'
-    args "-input", f, "-projectDir", projectDir, "-mp", mp, "-s", "-all"
-    dependsOn("generateGrammar${mlcName}")
-  }
+    task "showArtifacts${mlcName}"(type: JavaExec) {
+        classpath = configurations.MLC
+        group = 'mlc'
+        mainClass = 'de.monticore.mlc.MLCTool'
+        args "-input", f, "-projectDir", projectDir, "-mp", mp, "-s", "-all"
+        dependsOn("generateGrammar${mlcName}")
+    }
 
-  task "checkArtifacts${mlcName}"(type: JavaExec) {
-    classpath = configurations.MLC
-    group = 'MLC'
-    mainClass = 'de.monticore.mlc.MLCTool'
-    args "-input", f, "-projectDir", projectDir, "-mp", mp, "-s", "-check"
-    dependsOn("generateGrammar${mlcName}")
-    checkArtifacts.dependsOn("checkArtifacts${mlcName}")
-  }
+    task "checkArtifacts${mlcName}"(type: JavaExec) {
+        classpath = configurations.MLC
+        group = 'MLC'
+        mainClass = 'de.monticore.mlc.MLCTool'
+        args "-input", f, "-projectDir", projectDir, "-mp", mp, "-s", "-check"
+        dependsOn("generateGrammar${mlcName}")
+        checkArtifacts.dependsOn("checkArtifacts${mlcName}")
+    }
 }    // end integration with MLC
 
 
 java {
 //  withJavadocJar()
-  withSourcesJar()
-  registerFeature('grammars') {
-    usingSourceSet(sourceSets.grammars)
-  }
+    withSourcesJar()
+    registerFeature('grammars') {
+        usingSourceSet(sourceSets.grammars)
+    }
 }
 
-sourcesJar.dependsOn project.collect { it.tasks.withType(MCTask)}
+sourcesJar.dependsOn project.collect { it.tasks.withType(MCTask) }
 
 jar.dependsOn grammarsJar, shadowJar, triggeredSCTransGenerator, uMLSCTransGenerator
 
 // configure deployment
 publishing {
-  // configure what artifacts to publish
-  publications {
-    mavenJava(MavenPublication) {
-      from components.java
-      artifact triggeredSCTransGenerator
-      artifact uMLSCTransGenerator
+    // configure what artifacts to publish
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact triggeredSCTransGenerator
+            artifact uMLSCTransGenerator
+        }
     }
-  }
-  repositories.maven {
-    credentials.username mavenUser
-    credentials.password mavenPassword
-    def releasesRepoUrl = "https://nexus.se.rwth-aachen.de/content/repositories/monticore-releases/"
-    def snapshotsRepoUrl = "https://nexus.se.rwth-aachen.de/content/repositories/monticore-snapshots/"
-    url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
-  }
+    repositories.maven {
+        credentials.username mavenUser
+        credentials.password mavenPassword
+        def releasesRepoUrl = "https://nexus.se.rwth-aachen.de/content/repositories/monticore-releases/"
+        def snapshotsRepoUrl = "https://nexus.se.rwth-aachen.de/content/repositories/monticore-snapshots/"
+        url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
+    }
 }
 
 task buildAll(type: GradleBuild) {
-  tasks = [ 'build' ]
+    tasks = ['build']
 }
 
 defaultTasks('build')
