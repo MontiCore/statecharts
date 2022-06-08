@@ -93,7 +93,7 @@ public class InvariantValidTest {
     st.setName("Invariant3");
     UMLStatechartsMill.globalScope().add(
         UMLStatechartsMill.variableSymbolBuilder().setName("b").setType(
-            SymTypeExpressionFactory.createTypeConstant("boolean")
+            SymTypeExpressionFactory.createPrimitive("boolean")
         ).build()
     );
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
@@ -114,7 +114,7 @@ public class InvariantValidTest {
     OOTypeSymbol person = UMLStatechartsMill.oOTypeSymbolBuilder().setName("Person").build();
     person.setSpannedScope(UMLStatechartsMill.scope());
     FieldSymbol age = UMLStatechartsMill.fieldSymbolBuilder().setName("age").build();
-    age.setType(SymTypeExpressionFactory.createTypeConstant("int"));
+    age.setType(SymTypeExpressionFactory.createPrimitive("int"));
     age.setIsStatic(true);
     person.addFieldSymbol(age);
     UMLStatechartsMill.globalScope().add(person);
