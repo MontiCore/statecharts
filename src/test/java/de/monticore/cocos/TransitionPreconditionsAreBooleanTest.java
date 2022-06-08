@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.sctransitions4code._cocos.TransitionPreconditionsAreBoolean;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
+import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
 import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
 import de.monticore.triggeredstatecharts._cocos.TriggeredStatechartsCoCoChecker;
 import de.monticore.triggeredstatecharts._parser.TriggeredStatechartsParser;
@@ -37,6 +38,17 @@ public class TransitionPreconditionsAreBooleanTest {
     Log.clearFindings();
     TriggeredStatechartsMill.globalScope().clear();
     BasicSymbolsMill.initializePrimitives();
+    loadString();
+  }
+
+  public static void loadString() {
+    OOTypeSymbol string = TriggeredStatechartsMill.oOTypeSymbolBuilder()
+      .setName("String")
+      .setSpannedScope(TriggeredStatechartsMill.scope())
+      .build();
+
+    TriggeredStatechartsMill.globalScope().add(string);
+    string.setEnclosingScope(TriggeredStatechartsMill.globalScope());
   }
 
   @Test
@@ -56,7 +68,7 @@ public class TransitionPreconditionsAreBooleanTest {
   }
 
   @Test
-  public void testCocoInvalid() throws IOException {
+  public void testCocoInvalidNotBoolean() throws IOException {
     // Given
     ASTSCArtifact ast = parser.parse("src/test/resources/invalid/InvalidTransitionPrecondition.sc").get();
     TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(ast).setName("DummyScopeName");
@@ -75,6 +87,29 @@ public class TransitionPreconditionsAreBooleanTest {
 
     assertEquals(
       Lists.newArrayList(TransitionPreconditionsAreBoolean.ERROR_CODE, TransitionPreconditionsAreBoolean.ERROR_CODE),
+      findings);
+  }
+
+  @Test
+  public void testCocoInvalidConditionIsTypeReference() throws IOException {
+    // Given
+    ASTSCArtifact ast = parser.parse("src/test/resources/invalid/InvalidTransitionPreconditionIsTypeReference.sc").get();
+    TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(ast).setName("DummyScopeName");
+
+    TriggeredStatechartsCoCoChecker checker =  new TriggeredStatechartsCoCoChecker();
+    checker.addCoCo(new TransitionPreconditionsAreBoolean(new FullTriggeredStatechartsDeriver()));
+
+    // When
+    checker.checkAll(ast);
+
+    // Then
+    List<String> findings = Log.getFindings().stream()
+      .filter(Finding::isError)
+      .map(finding -> finding.getMsg().substring(0, TransitionPreconditionsAreBoolean.ERROR_CODE_TYPE_REF_CONDITION.length()))
+      .collect(Collectors.toList());
+
+    assertEquals(
+      Lists.newArrayList(TransitionPreconditionsAreBoolean.ERROR_CODE_TYPE_REF_CONDITION),
       findings);
   }
 }
