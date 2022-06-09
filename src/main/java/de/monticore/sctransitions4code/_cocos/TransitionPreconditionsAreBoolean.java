@@ -3,7 +3,7 @@ package de.monticore.sctransitions4code._cocos;
 
 import de.monticore.expressions.expressionsbasis._ast.ASTExpression;
 import de.monticore.sctransitions4code._ast.ASTTransitionBody;
-import de.monticore.types.check.AbstractDerive;
+import de.monticore.types.check.IDerive;
 import de.monticore.types.check.TypeCheck;
 import de.monticore.types.check.TypeCheckResult;
 import de.se_rwth.commons.logging.Log;
@@ -25,13 +25,13 @@ public class TransitionPreconditionsAreBoolean implements SCTransitions4CodeASTT
   /**
    * Used to extract the type to which the transition precondition evaluates to.
    */
-  protected final AbstractDerive typeDeriver;
+  protected final IDerive typeDeriver;
 
   /**
    * @param typeDeriver Used to derive the type that the {@link ASTExpression} representing the transition precondition
    *                    evaluates to.
    */
-  public TransitionPreconditionsAreBoolean(AbstractDerive typeDeriver) {
+  public TransitionPreconditionsAreBoolean(IDerive typeDeriver) {
     this.typeDeriver = typeDeriver;
   }
 
