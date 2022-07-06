@@ -199,7 +199,6 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
         TemplatesReporter templates = new TemplatesReporter(reportDirectory, lowerCaseName, repository);
         TransformationReporter transformations = new TransformationReporter(reportDirectory, lowerCaseName, repository);
         SuccessfulReporter finishReporter = new SuccessfulReporter(reportDirectory, lowerCaseName);
-        IncGenCheckReporter incGenCheck = new IncGenCheckReporter(reportDirectory, lowerCaseName);
         IncGenGradleReporter gradleReporter = new IncGenGradleReporter(reportDirectory, lowerCaseName);
 
         reports.addReportEventHandler(summary); // 01_Summary
@@ -208,7 +207,6 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
         reports.addReportEventHandler(templates); // 04_Templates
         reports.addReportEventHandler(transformations); // 14_Transformations
         reports.addReportEventHandler(finishReporter); // 19_Successful
-        reports.addReportEventHandler(incGenCheck); // IncGenCheck
         reports.addReportEventHandler(gradleReporter);
 
         return reports;
