@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import de.monticore.TransformationScript;
 import de.monticore.cd.codegen.CDGenerator;
 import de.monticore.cd.codegen.CdUtilsPrinter;
-import de.monticore.class2mc.Class2MCResolver;
+import de.monticore.class2mc.OOClass2MCResolver;
 import de.monticore.generating.GeneratorSetup;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.generating.templateengine.TemplateController;
@@ -114,7 +114,7 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
       }
       UMLStatechartsMill.globalScope().setSymbolPath(symbolPath);
       BasicSymbolsMill.initializePrimitives();
-      Class2MCResolver resolver = new Class2MCResolver();
+      OOClass2MCResolver resolver = new OOClass2MCResolver();
       OOSymbolsMill.globalScope().addAdaptedOOTypeSymbolResolver(resolver);
       OOSymbolsMill.globalScope().addAdaptedTypeSymbolResolver(resolver);
 
