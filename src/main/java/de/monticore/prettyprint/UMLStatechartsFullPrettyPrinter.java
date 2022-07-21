@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.prettyprint;
 
+import de.monticore.expressions.prettyprint.AssignmentExpressionsPrettyPrinter;
 import de.monticore.expressions.prettyprint.CommonExpressionsPrettyPrinter;
 import de.monticore.expressions.prettyprint.ExpressionsBasisPrettyPrinter;
 import de.monticore.literals.prettyprint.MCCommonLiteralsPrettyPrinter;
@@ -60,6 +61,7 @@ public class UMLStatechartsFullPrettyPrinter {
     // Common Expressions, MCCommonStatements, MCReturnStatements
     traverser.setCommonExpressionsHandler(new CommonExpressionsPrettyPrinter(printer));
     traverser.setMCCommonStatementsHandler(new MCCommonStatementsPrettyPrinter(printer));
+    traverser.setAssignmentExpressionsHandler(new AssignmentExpressionsPrettyPrinter(printer));
     traverser.setMCVarDeclarationStatementsHandler(new MCVarDeclarationStatementsPrettyPrinter(printer));
     traverser.setMCReturnStatementsHandler(new MCReturnStatementsPrettyPrinter(printer));
     

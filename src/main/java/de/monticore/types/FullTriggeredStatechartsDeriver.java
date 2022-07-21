@@ -1,25 +1,22 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.types;
 
-import de.monticore.expressions.expressionsbasis._ast.ASTExpression;
-import de.monticore.literals.mcliteralsbasis._ast.ASTLiteral;
+import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
+import de.monticore.triggeredstatecharts._visitor.TriggeredStatechartsTraverser;
 import de.monticore.types.check.*;
-import de.monticore.umlstatecharts.UMLStatechartsMill;
-import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 
-public class DeriveSymTypeOfUMLStatecharts implements IDerive {
+public class FullTriggeredStatechartsDeriver extends AbstractDerive {
 
-  protected TypeCheckResult typeCheckResult;
-  protected UMLStatechartsTraverser traverser;
-
-  public DeriveSymTypeOfUMLStatecharts() {
-    init();
+  public FullTriggeredStatechartsDeriver() {
+    this(TriggeredStatechartsMill.traverser());
   }
 
-  protected void init() {
+  public FullTriggeredStatechartsDeriver(TriggeredStatechartsTraverser traverser) {
+    super(traverser);
+    init(traverser);
+  }
 
-    this.typeCheckResult = new TypeCheckResult();
-    this.traverser = UMLStatechartsMill.traverser();
+  public void init(TriggeredStatechartsTraverser traverser) {
     // initializes visitors used for typechecking
     final DeriveSymTypeOfLiterals deriveSymTypeOfLiterals = new DeriveSymTypeOfLiterals();
     deriveSymTypeOfLiterals.setTypeCheckResult(getTypeCheckResult());
@@ -41,25 +38,4 @@ public class DeriveSymTypeOfUMLStatecharts implements IDerive {
 
   }
 
-  protected TypeCheckResult getTypeCheckResult() {
-    return typeCheckResult;
-  }
-
-  protected UMLStatechartsTraverser getTraverser() {
-    return traverser;
-  }
-
-  @Override
-  public TypeCheckResult deriveType(ASTExpression expr) {
-    this.getTypeCheckResult().reset();
-    expr.accept(this.getTraverser());
-    return this.getTypeCheckResult().copy();
-  }
-
-  @Override
-  public TypeCheckResult deriveType(ASTLiteral lit) {
-    this.getTypeCheckResult().reset();
-    lit.accept(this.getTraverser());
-    return this.getTypeCheckResult().copy();
-  }
 }

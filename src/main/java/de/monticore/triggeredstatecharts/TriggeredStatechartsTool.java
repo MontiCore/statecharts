@@ -4,15 +4,13 @@ package de.monticore.triggeredstatecharts;
 import com.google.common.collect.Lists;
 import de.monticore.cd.codegen.CDGenerator;
 import de.monticore.cd.codegen.CdUtilsPrinter;
-import de.monticore.class2mc.Class2MCResolver;
+import de.monticore.class2mc.OOClass2MCResolver;
 import de.monticore.generating.GeneratorSetup;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.generating.templateengine.TemplateController;
 import de.monticore.generating.templateengine.TemplateHookPoint;
 import de.monticore.io.paths.MCPath;
 import de.monticore.prettyprint.TriggeredStatechartsFullPrettyPrinter;
-import de.monticore.sc2cd.SC2CDConverter;
-import de.monticore.sc2cd.SC2CDConverterUMLV2;
 import de.monticore.sc2cd.SC2CDTriggeredConverter;
 import de.monticore.scbasis.BranchingDegreeCalculator;
 import de.monticore.scbasis.InitialStateCollector;
@@ -34,13 +32,9 @@ import org.apache.commons.cli.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class TriggeredStatechartsTool extends TriggeredStatechartsToolTOP {
 
@@ -80,7 +74,7 @@ public class TriggeredStatechartsTool extends TriggeredStatechartsToolTOP {
       }
       TriggeredStatechartsMill.globalScope().setSymbolPath(symbolPath);
       BasicSymbolsMill.initializePrimitives();
-      Class2MCResolver resolver = new Class2MCResolver();
+      OOClass2MCResolver resolver = new OOClass2MCResolver();
       OOSymbolsMill.globalScope().addAdaptedOOTypeSymbolResolver(resolver);
       OOSymbolsMill.globalScope().addAdaptedTypeSymbolResolver(resolver);
 

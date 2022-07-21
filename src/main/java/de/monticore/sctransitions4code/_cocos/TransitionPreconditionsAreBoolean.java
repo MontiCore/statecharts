@@ -1,16 +1,12 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.sctransitions4code._cocos;
 
-import com.google.common.base.Preconditions;
 import de.monticore.expressions.expressionsbasis._ast.ASTExpression;
 import de.monticore.sctransitions4code._ast.ASTTransitionBody;
 import de.monticore.types.check.IDerive;
-import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.check.TypeCheck;
 import de.monticore.types.check.TypeCheckResult;
 import de.se_rwth.commons.logging.Log;
-
-import java.util.Optional;
 
 /**
  * Checks that the preconditions of transitions evaluate to boolean values.
@@ -19,8 +15,12 @@ public class TransitionPreconditionsAreBoolean implements SCTransitions4CodeASTT
 
   public static final String ERROR_CODE = "0xCC111";
 
-  protected static final String MESSAGE =
-    " Guard expressions must be boolean. Your guard expression is of type '%s'.";
+  protected static final String MESSAGE = "Guard expressions must be boolean. Your guard expression is of type '%s'.";
+
+  public static final String ERROR_CODE_TYPE_REF_CONDITION = "0xCC113";
+
+  protected static final String MESSAGE_TYPE_REF_CONDITION = "Your guard expression represents the type '%s'. " +
+    "However, guard expressions must evaluate to boolean values (which type references do not do).";
 
   /**
    * Used to extract the type to which the transition precondition evaluates to.
@@ -35,27 +35,25 @@ public class TransitionPreconditionsAreBoolean implements SCTransitions4CodeASTT
     this.typeDeriver = typeDeriver;
   }
 
-  /**
-   * Checks to which type the {@code expression} evaluates to and returns it, wrapped in an optional. If the expression
-   * does not evaluate to a type, e.g., because it is malformed, the returned optional is empty.
-   */
-  protected Optional<SymTypeExpression> extractTypeOf(ASTExpression expression) {
-    Preconditions.checkNotNull(expression);
-    TypeCheckResult tcr = this.typeDeriver.deriveType(expression);
-    if (tcr.isPresentCurrentResult()) {
-      return Optional.of(tcr.getCurrentResult());
-    } else {
-      return Optional.empty();
-    }
-  }
-
   @Override
   public void check(ASTTransitionBody node) {
     if(node.isPresentPre()) {
-      Optional<SymTypeExpression> preType = extractTypeOf(node.getPre());
-      if(preType.isPresent() && !TypeCheck.isBoolean(preType.get())) {
+      TypeCheckResult preType = this.typeDeriver.deriveType(node.getPre());
+
+      if (!preType.isPresentResult()) {
+        Log.debug(String.format("Coco '%s' is not checked on transition guard expression at %s, because the " +
+          "expression is malformed.", this.getClass().getSimpleName(), node.get_SourcePositionStart()),
+          "Cocos");
+
+      } else if (preType.isType()) {
         Log.error(
-          String.format(ERROR_CODE + MESSAGE, preType.get().print()),
+          String.format(ERROR_CODE_TYPE_REF_CONDITION + " " + MESSAGE_TYPE_REF_CONDITION,
+            preType.getResult().print()),
+          node.get_SourcePositionStart(), node.get_SourcePositionEnd());
+
+      } else if(!TypeCheck.isBoolean(preType.getResult())) {
+        Log.error(
+          String.format(ERROR_CODE + " " + MESSAGE, preType.getResult().print()),
           node.get_SourcePositionStart(), node.get_SourcePositionEnd()
         );
       }

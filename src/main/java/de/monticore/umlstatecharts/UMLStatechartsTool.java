@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import de.monticore.TransformationScript;
 import de.monticore.cd.codegen.CDGenerator;
 import de.monticore.cd.codegen.CdUtilsPrinter;
-import de.monticore.class2mc.Class2MCResolver;
+import de.monticore.class2mc.OOClass2MCResolver;
 import de.monticore.generating.GeneratorSetup;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.generating.templateengine.TemplateController;
@@ -19,7 +19,6 @@ import de.monticore.io.paths.MCPath;
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.sc2cd.SC2CDConverter;
 import de.monticore.sc2cd.SC2CDConverterUMLV2;
-import de.monticore.sc2cd.SC2CDTriggeredConverter;
 import de.monticore.scbasis.BranchingDegreeCalculator;
 import de.monticore.scbasis.InitialStateCollector;
 import de.monticore.scbasis.ReachableStateCollector;
@@ -35,10 +34,9 @@ import de.monticore.scstatehierarchy.HierarchicalStateCollector;
 import de.monticore.scstatehierarchy.NoSubstatesHandler;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.oosymbols.OOSymbolsMill;
-import de.monticore.types.DeriveSymTypeOfUMLStatecharts;
-import de.monticore.types.SynthesizeSymType;
+import de.monticore.types.FullUMLStatechartsDeriver;
+import de.monticore.types.check.FullSynthesizeFromMCBasicTypes;
 import de.monticore.types.check.TypeCalculator;
-import de.monticore.types.check.TypeCheck;
 import de.monticore.umlstatecharts._cocos.UMLStatechartsCoCoChecker;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopesGenitorDelegator;
@@ -116,7 +114,7 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
       }
       UMLStatechartsMill.globalScope().setSymbolPath(symbolPath);
       BasicSymbolsMill.initializePrimitives();
-      Class2MCResolver resolver = new Class2MCResolver();
+      OOClass2MCResolver resolver = new OOClass2MCResolver();
       OOSymbolsMill.globalScope().addAdaptedOOTypeSymbolResolver(resolver);
       OOSymbolsMill.globalScope().addAdaptedTypeSymbolResolver(resolver);
 
@@ -201,7 +199,6 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
         TemplatesReporter templates = new TemplatesReporter(reportDirectory, lowerCaseName, repository);
         TransformationReporter transformations = new TransformationReporter(reportDirectory, lowerCaseName, repository);
         SuccessfulReporter finishReporter = new SuccessfulReporter(reportDirectory, lowerCaseName);
-        IncGenCheckReporter incGenCheck = new IncGenCheckReporter(reportDirectory, lowerCaseName);
         IncGenGradleReporter gradleReporter = new IncGenGradleReporter(reportDirectory, lowerCaseName);
 
         reports.addReportEventHandler(summary); // 01_Summary
@@ -210,7 +207,6 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
         reports.addReportEventHandler(templates); // 04_Templates
         reports.addReportEventHandler(transformations); // 14_Transformations
         reports.addReportEventHandler(finishReporter); // 19_Successful
-        reports.addReportEventHandler(incGenCheck); // IncGenCheck
         reports.addReportEventHandler(gradleReporter);
 
         return reports;
@@ -233,7 +229,7 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
 
     // complete symbols including type check
     UMLStatechartsTraverser completer = UMLStatechartsMill.traverser();
-    TypeCalculator typeCheck = new TypeCalculator(new SynthesizeSymType(),new DeriveSymTypeOfUMLStatecharts());
+    TypeCalculator typeCheck = new TypeCalculator(new FullSynthesizeFromMCBasicTypes(),new FullUMLStatechartsDeriver());
     completer.add4SCEvents(new SCEventsSTCompleter(typeCheck));
     ast.accept(completer);
 

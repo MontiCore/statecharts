@@ -12,11 +12,11 @@ ${tc.signature()}
 // counting attribute
 protected int count = 0;
 
-public getCount() {
+public int getCount() {
   return count;
 }
 
-protected intCount() {
+protected void intCount() {
   count++;
 }
 
