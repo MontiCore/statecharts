@@ -15,7 +15,7 @@ the internal state of a component. Statecharts have originally been
 invented and described in [Harel'87] and were given a sound semantical
 basis. They extend automata theory in various forms, including
 hierarchy, actions, etc. Statecharts are the foundational behavior
-description during which for modelling standards, such as UML and
+description during which for modeling standards, such as UML and
 SysML.
 
 Dependent on the application domain, several forms of Statecharts are
