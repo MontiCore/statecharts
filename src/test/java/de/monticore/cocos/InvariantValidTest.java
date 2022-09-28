@@ -37,6 +37,7 @@ public class InvariantValidTest {
   @BeforeClass
   public static void beforeClass() throws Exception {
     LogStub.init();
+    Log.enableFailQuick(false);
     UMLStatechartsMill.init();
 
   }
