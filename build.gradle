@@ -15,6 +15,7 @@ buildDir = file("$projectDir/target")
 
 def grammarDir = "src/main/grammars"
 def grammarOutDir = "$buildDir/generated-sources/mc"
+def grammarTROutDir = "$buildDir/generated-sources/mc_tr"
 def testGrammarOutDir = "$buildDir/generated-test-sources/mc"
 def testSCOutDir = "$buildDir/generated-test-sources/sc"
 def testscgenDir = "$projectDir/src/testscgen"
@@ -23,7 +24,7 @@ def testscgenDir = "$projectDir/src/testscgen"
 // configure non-standard source sets
 sourceSets {
   main {
-    java.srcDirs += ["$grammarOutDir"]
+    java.srcDirs += [grammarOutDir, grammarTROutDir]
   }
   test {
     java.srcDirs += ["$testGrammarOutDir"]
@@ -110,12 +111,14 @@ fileTree(grammarDir).matching { include '**/*.mc4'}.each { g ->
   generate.dependsOn ("$taskname")
   task  "${taskname}TR" (type: MCTask) {
     grammar = file(grammarOutDir + "/" + de.monticore.dstlgen.util.DSTLPathUtil.getTRGrammar([file("src/main/grammars").toString()], g)) // Replace with getTRFile(g) once the plugin is updated and in the upstream
-    outputDir = file grammarOutDir
+    outputDir = file grammarTROutDir
     dstlGen = false
     modelPath(grammarOutDir)
     modelPath(file("src/main/grammars").toString())
     def grammarIncludingPackage = file(grammarDir).toURI().relativize(g.toURI()).toString()
+    def trGrammarIncludingPackage = file(grammarOutDir).toURI().relativize(file(grammar).toURI()).toString()
     outputs.upToDateWhen { incCheck(grammarIncludingPackage)}
+    outputs.upToDateWhen { incCheck(trGrammarIncludingPackage) }
     dependsOn(generate)
   }
   generateTR.dependsOn("${taskname}TR")
