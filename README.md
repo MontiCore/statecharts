@@ -156,6 +156,14 @@ exemplary usage:
   java -jar MCStatecharts.jar -i DoorExample.sc -gen myDoors 
 ``` 
 
+## Transformation Engine
+
+The statechart language project also comes with a model transformations
+engine based on MontiTrans. It supports defining transformations utilizing 
+the concrete syntax of the language for a more intuitive mapping of model 
+elements. Look [here](./doc/Transformations.md) for further information.
+
+
 ## Contribute
 
 Please make sure that 
