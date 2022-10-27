@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class MaxOneInitialState implements SCBasisASTStatechartCoCo {
 
-  public static final String ERROR_CODE = "CC114";
+  public static final String ERROR_CODE = "0xCC114";
   public static final String ERROR_MSG = "Statecharts must not have more than one initial state";
 
 
