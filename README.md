@@ -15,7 +15,7 @@ the internal state of a component. Statecharts have originally been
 invented and described in [Harel'87] and were given a sound semantical
 basis. They extend automata theory in various forms, including
 hierarchy, actions, etc. Statecharts are the foundational behavior
-description during which for modelling standards, such as UML and
+description during which for modeling standards, such as UML and
 SysML.
 
 Dependent on the application domain, several forms of Statecharts are
@@ -155,6 +155,14 @@ exemplary usage:
   java -jar MCStatecharts.jar -i Car.sc -pp
   java -jar MCStatecharts.jar -i DoorExample.sc -gen myDoors 
 ``` 
+
+## Transformation Engine
+
+The statechart language project also comes with a model transformations
+engine based on MontiTrans. It supports defining transformations utilizing 
+the concrete syntax of the language for a more intuitive mapping of model 
+elements. Look [here](./doc/Transformations.md) for further information.
+
 
 ## Contribute
 
