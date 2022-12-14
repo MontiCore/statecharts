@@ -37,12 +37,13 @@ public class InvariantValidTest {
   @BeforeClass
   public static void beforeClass() throws Exception {
     LogStub.init();
+    Log.enableFailQuick(false);
     UMLStatechartsMill.init();
 
   }
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     Log.clearFindings();
     UMLStatechartsMill.init();
     UMLStatechartsMill.globalScope().clear();
@@ -64,7 +65,8 @@ public class InvariantValidTest {
       /* catch Optional Exception thrown due to LogStub instead of Log*/
     }
     assertEquals(1, Log.getErrorCount());
-    assertTrue(Log.getFindings().stream().anyMatch(n -> n.getMsg().contains("0xED680")));
+    System.out.println("AAA" + Log.getFindings());
+    assertTrue(Log.getFindings().stream().anyMatch(n -> n.getMsg().contains("0xA0240")));
 
   }
 
@@ -119,22 +121,6 @@ public class InvariantValidTest {
     person.addFieldSymbol(age);
     UMLStatechartsMill.globalScope().add(person);
     UMLStatechartsMill.globalScope().add((TypeSymbol) person);
-    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
-    checker.addCoCo(new InvariantValid(new TypeCalculator(null, new FullUMLStatechartsDeriver())));
-    checker.checkAll(ast.get());
-    assertEquals(0, Log.getErrorCount());
-
-  }
-
-  @Test
-  public void testCoCoValid4() throws IOException {
-    Optional<ASTSCArtifact> ast = parser
-        .parse("src/test/resources/valid/Invariant5.sc");
-    assertTrue("Invariant5.sc could not be parsed",  ast.isPresent());
-
-    IUMLStatechartsArtifactScope st = new UMLStatechartsTool().createSymbolTable(ast.get());
-    st.setName("Invariant5");
-    UMLStatechartsMill.globalScope().setSymbolPath(new MCPath(Paths.get("src/test/resources/symtab")));
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
     checker.addCoCo(new InvariantValid(new TypeCalculator(null, new FullUMLStatechartsDeriver())));
     checker.checkAll(ast.get());
