@@ -1,3 +1,4 @@
+<#-- (c) https://github.com/MontiCore/monticore -->
 /**
   * We have added this comment using the ConfigTemplate
   */

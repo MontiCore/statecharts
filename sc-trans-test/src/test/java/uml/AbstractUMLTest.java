@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package uml;
 
 import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
