@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 statechart Step09 {
   state OuterState{
 

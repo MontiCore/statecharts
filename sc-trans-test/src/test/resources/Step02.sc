@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 statechart Step02 {
   state A{
     -> [pre] ev / {foo();} ;
