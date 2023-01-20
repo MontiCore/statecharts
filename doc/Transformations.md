@@ -14,15 +14,16 @@ A more in-depth description is given in
 [MontiTrans: Agile, modellgetriebene Entwicklung von und mit domänenspezifischen, kompositionalen Transformationssprachen](https://www.se-rwth.de/phdtheses/Diss-Hoelldobler-MontiTrans-Agile-modellgetriebene-Entwicklung-von-und-mit-domaenenspezifischen-kompositionalen-Transformationssprachen.pdf)
 
 ## Transformation Grammar and Generator Generation
-By providing the MontiCore generator with the `--dstlGen true` option, the corresponding transformation 
-grammar with the suffix `TR` and sources for the transformation generator tool are generated.
+By executing the MontiCore generator with standard options, the corresponding transformation 
+grammar with the suffix `TR` is generated.
 ```
-java -jar monticore.jar -g Automata.mc4 -mp monticore-rt.jar -dstlGen true
+java -jar monticore.jar -g Automata.mc4 -mp monticore-rt.jar
 ```
 
-Aftwards, the MontiCore generator must be executed on the generated `TR` grammar again (without the dstlGen option).
+Aftwards, the MontiCore generator must be executed on the generated `TR` grammar again (with the `genDSTL` option) 
+to generate sources for the transformation generator tool.
 ```bash
-java -jar monticore.jar -g out/tr/AutomataTR.mc4 -mp monticore-rt.jar -dstlGen false
+java -jar monticore.jar -g out/tr/AutomataTR.mc4 -mp monticore-rt.jar -genDST=true false
 ```
 
 Hand-written extensions to the transformation grammar are possible.
