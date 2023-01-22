@@ -104,7 +104,6 @@ fileTree(grammarDir).matching { include '**/*.mc4'}.each { g ->
 
     grammar = g
     outputDir = file grammarOutDir
-    dstlGen = true
     def grammarIncludingPackage = file(grammarDir).toURI().relativize(g.toURI()).toString()
     outputs.upToDateWhen { incCheck(grammarIncludingPackage)}
   }
@@ -112,7 +111,7 @@ fileTree(grammarDir).matching { include '**/*.mc4'}.each { g ->
   task  "${taskname}TR" (type: MCTask) {
     grammar = file(grammarOutDir + "/" + de.monticore.dstlgen.util.DSTLPathUtil.getTRGrammar([file("src/main/grammars").toString()], g)) // Replace with getTRFile(g) once the plugin is updated and in the upstream
     outputDir = file grammarTROutDir
-    dstlGen = false
+    isDSTL = true
     modelPath(grammarOutDir)
     modelPath(file("src/main/grammars").toString())
     def grammarIncludingPackage = file(grammarDir).toURI().relativize(g.toURI()).toString()
