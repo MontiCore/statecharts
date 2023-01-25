@@ -2,9 +2,10 @@
 package de.monticore.parser;
 
 import de.monticore.parser.util.TestUtils;
-import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
+import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.scstateinvariants._ast.ASTSCInvState;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
+import de.monticore.umlstatecharts._prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +35,7 @@ public class SCStateInvariantsParserPPTest {
     TestUtils.check(parser);
     assertTrue("No ast present", ast.isPresent());
 
-    String pp = new UMLStatechartsFullPrettyPrinter().prettyprint(ast.get());
+    String pp = new UMLStatechartsFullPrettyPrinter(new IndentPrinter()).prettyprint(ast.get());
     Optional<ASTSCInvState> astPP = parser.parse_StringSCInvState(pp);
     assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
     assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));

@@ -5,8 +5,8 @@ import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.cdbasis.CDBasisMill;
 import de.monticore.cdbasis._ast.ASTCDClass;
 import de.monticore.prettyprint.IndentPrinter;
-import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.umlstatecharts._ast.ASTSCUMLEvent;
+import de.monticore.umlstatecharts._prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsVisitor2;
 import org.apache.commons.lang3.StringUtils;
 

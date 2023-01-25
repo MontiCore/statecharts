@@ -16,7 +16,7 @@ import de.monticore.generating.templateengine.reporting.commons.ReportManager;
 import de.monticore.generating.templateengine.reporting.commons.ReportingRepository;
 import de.monticore.generating.templateengine.reporting.reporter.*;
 import de.monticore.io.paths.MCPath;
-import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
+import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.sc2cd.SC2CDConverter;
 import de.monticore.sc2cd.SC2CDConverterUMLV2;
 import de.monticore.scbasis.BranchingDegreeCalculator;
@@ -38,6 +38,7 @@ import de.monticore.types.FullUMLStatechartsDeriver;
 import de.monticore.types.check.FullSynthesizeFromMCBasicTypes;
 import de.monticore.types.check.TypeCalculator;
 import de.monticore.umlstatecharts._cocos.UMLStatechartsCoCoChecker;
+import de.monticore.umlstatecharts._prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.UMLStatechartsScopesGenitorDelegator;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
@@ -459,9 +460,9 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
   @Override
   public void prettyPrint(ASTSCArtifact scartifact, String file) {
     // pretty print AST
-    UMLStatechartsFullPrettyPrinter prettyPrinterDelegator
-      = new UMLStatechartsFullPrettyPrinter();
-    String prettyOutput = prettyPrinterDelegator.prettyprint(scartifact);
+    UMLStatechartsFullPrettyPrinter prettyPrinter
+      = new UMLStatechartsFullPrettyPrinter(new IndentPrinter());
+    String prettyOutput = prettyPrinter.prettyprint(scartifact);
     print(prettyOutput, file);
   }
 

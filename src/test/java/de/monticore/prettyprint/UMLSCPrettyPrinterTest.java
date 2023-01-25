@@ -3,6 +3,7 @@ package de.monticore.prettyprint;
 
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
+import de.monticore.umlstatecharts._prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,7 +20,7 @@ import java.util.Optional;
  */
 public class UMLSCPrettyPrinterTest {
   UMLStatechartsParser parser = new UMLStatechartsParser();
-  UMLStatechartsFullPrettyPrinter prettyPrinterDelegator = new UMLStatechartsFullPrettyPrinter();
+  UMLStatechartsFullPrettyPrinter prettyPrinter = new de.monticore.umlstatecharts._prettyprint.UMLStatechartsFullPrettyPrinter(new IndentPrinter());
 
   @Before
   public void init() {
@@ -36,12 +37,12 @@ public class UMLSCPrettyPrinterTest {
       Optional<ASTSCArtifact> origAstOpt = parser.parse(fw);
 
       Assert.assertTrue("No ast parsed from file " + file.getName(), origAstOpt.isPresent());
-      String prettyOut = prettyPrinterDelegator.prettyprint(origAstOpt.get());
+      String prettyOut = prettyPrinter.prettyprint(origAstOpt.get());
 
       Optional<ASTSCArtifact> prettyAstOpt = parser.parse_String(prettyOut);
 
       Assert.assertTrue("No ast parsed from pretty: " + prettyOut, prettyAstOpt.isPresent());
-      Assert.assertTrue("ASTs not deep equaling: " + prettyAstOpt, prettyAstOpt.get().deepEquals(origAstOpt.get()));
+      Assert.assertTrue("ASTs not deep equaling: " + prettyOut + " in " + file.getName(), prettyAstOpt.get().deepEquals(origAstOpt.get()));
 
       System.out.println("File " + file.getName() + " passed the PP test");
     }

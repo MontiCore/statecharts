@@ -2,9 +2,10 @@
 package de.monticore.parser;
 
 import de.monticore.parser.util.TestUtils;
-import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
+import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.sccompleteness._ast.ASTSCCompleteness;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
+import de.monticore.umlstatecharts._prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +23,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class SCCompletenessParserPPTest {
   
-  UMLStatechartsFullPrettyPrinter printer = new UMLStatechartsFullPrettyPrinter();
+  UMLStatechartsFullPrettyPrinter printer = new UMLStatechartsFullPrettyPrinter(new IndentPrinter());
   
   UMLStatechartsParser parser = new UMLStatechartsParser();
   

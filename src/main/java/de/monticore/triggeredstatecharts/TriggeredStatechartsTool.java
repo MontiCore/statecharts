@@ -10,7 +10,7 @@ import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.generating.templateengine.TemplateController;
 import de.monticore.generating.templateengine.TemplateHookPoint;
 import de.monticore.io.paths.MCPath;
-import de.monticore.prettyprint.TriggeredStatechartsFullPrettyPrinter;
+import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.sc2cd.SC2CDTriggeredConverter;
 import de.monticore.scbasis.BranchingDegreeCalculator;
 import de.monticore.scbasis.InitialStateCollector;
@@ -25,6 +25,7 @@ import de.monticore.scstatehierarchy.NoSubstatesHandler;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.oosymbols.OOSymbolsMill;
 import de.monticore.triggeredstatecharts._cocos.TriggeredStatechartsCoCoChecker;
+import de.monticore.triggeredstatecharts._prettyprint.TriggeredStatechartsFullPrettyPrinter;
 import de.monticore.triggeredstatecharts._symboltable.ITriggeredStatechartsArtifactScope;
 import de.monticore.triggeredstatecharts._visitor.TriggeredStatechartsTraverser;
 import de.se_rwth.commons.logging.Log;
@@ -255,9 +256,7 @@ public class TriggeredStatechartsTool extends TriggeredStatechartsToolTOP {
   @Override
   public void prettyPrint(ASTSCArtifact scartifact, String file) {
     // pretty print AST
-    TriggeredStatechartsFullPrettyPrinter prettyPrinterDelegator
-      = new TriggeredStatechartsFullPrettyPrinter();
-    String prettyOutput = prettyPrinterDelegator.prettyprint(scartifact);
+    String prettyOutput = (new TriggeredStatechartsFullPrettyPrinter(new IndentPrinter())).prettyprint(scartifact);
     print(prettyOutput, file);
   }
 
