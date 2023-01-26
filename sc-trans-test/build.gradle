@@ -32,6 +32,7 @@ configurations { grammar }
 dependencies {
   implementation group: 'de.monticore', name: 'monticore-runtime', version: monticore_version
   implementation group: 'de.monticore', name: 'monticore-grammar', version: monticore_version
+  implementation group: 'de.monticore', name: 'monticore-grammar-trafo', version: monticore_version
   grammar group: 'de.monticore', name: 'monticore-grammar', version: monticore_version, classifier: 'grammars'
 
   implementation group: 'de.se_rwth.commons', name: 'se-commons-utilities', version: se_commons_version
