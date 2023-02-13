@@ -1,9 +1,10 @@
 /* (c) https://github.com/MontiCore/monticore */
 package uml;
 
-import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
+import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
+import de.monticore.umlstatecharts._prettyprint.UMLStatechartsFullPrettyPrinter;
 import org.junit.ComparisonFailure;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ public abstract class AbstractUMLTest {
     Optional<ASTSCArtifact> astSC = parser.parse(filename);
     assertTrue(astSC.isPresent());
 
-    UMLStatechartsFullPrettyPrinter fpp = new UMLStatechartsFullPrettyPrinter();
+    UMLStatechartsFullPrettyPrinter fpp = new UMLStatechartsFullPrettyPrinter(new IndentPrinter());
 
     if (!astscArtifact.deepEquals(astSC.get())){
       throw new ComparisonFailure("Control SC did not match",fpp.prettyprint(astSC.get()),

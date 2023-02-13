@@ -62,6 +62,7 @@ dependencies {
   implementation "com.google.guava:guava:$guava_version"
   implementation "de.monticore:monticore-runtime:$mc_version"
   implementation "de.monticore:monticore-grammar:$mc_version"
+  implementation "de.monticore:monticore-grammar-trafo:$mc_version"
   implementation "de.monticore:class2mc:$mc_version"
   implementation "de.se_rwth.commons:se-commons-logging:$mc_version"
   implementation "de.se_rwth.commons:se-commons-utilities:$mc_version"

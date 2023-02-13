@@ -2,7 +2,7 @@
 package de.monticore.parser;
 
 import de.monticore.parser.util.TestUtils;
-import de.monticore.prettyprint.UMLStatechartsFullPrettyPrinter;
+import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.scbasis._ast.ASTSCEmptyAnte;
 import de.monticore.scbasis._ast.ASTSCState;
 import de.monticore.scbasis._ast.ASTUnnamedStatechart;
@@ -10,6 +10,7 @@ import de.monticore.sctransitions4code._ast.ASTAnteAction;
 import de.monticore.sctransitions4code._ast.ASTTransitionBody;
 import de.monticore.statements.mccommonstatements._ast.ASTExpressionStatement;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
+import de.monticore.umlstatecharts._prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,7 @@ import static org.junit.Assert.*;
  */
 public class SCTransitions4CodeParserTest {
   
-  UMLStatechartsFullPrettyPrinter printer = new UMLStatechartsFullPrettyPrinter();
+  UMLStatechartsFullPrettyPrinter printer = new UMLStatechartsFullPrettyPrinter(new IndentPrinter());
   UMLStatechartsParser parser = new UMLStatechartsParser();
   
   @Before

@@ -5,10 +5,10 @@ import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.cdbasis.CDBasisMill;
 import de.monticore.cdbasis._ast.ASTCDClass;
 import de.monticore.prettyprint.IndentPrinter;
-import de.monticore.prettyprint.TriggeredStatechartsFullPrettyPrinter;
 import de.monticore.scbasis._visitor.SCBasisVisitor2;
 import de.monticore.sctransitions4code._visitor.SCTransitions4CodeVisitor2;
 import de.monticore.triggeredstatecharts._ast.ASTSCEmptyEvent;
+import de.monticore.triggeredstatecharts._prettyprint.TriggeredStatechartsFullPrettyPrinter;
 import de.monticore.triggeredstatecharts._visitor.TriggeredStatechartsVisitor2;
 import org.apache.commons.lang3.StringUtils;
 
@@ -69,9 +69,7 @@ public class SC2CDTriggeredTransitionVisitor extends SC2CDTransitionVisitor
     String action = "/* no action */";
     if (transitionBody.get().isPresentTransitionAction() && transitionBody.get().getTransitionAction()
       .isPresentMCBlockStatement()) {
-      IndentPrinter printer = new IndentPrinter();
-      new TriggeredStatechartsFullPrettyPrinter(printer).getTraverser().handle(transitionBody.get().getTransitionAction());
-      action = printer.getContent();
+      action = (new TriggeredStatechartsFullPrettyPrinter(new IndentPrinter())).prettyprint(transitionBody.get().getTransitionAction());
     }
     // Print the precondition as an expression, too
     String precondition = "true"; // by default true holds
