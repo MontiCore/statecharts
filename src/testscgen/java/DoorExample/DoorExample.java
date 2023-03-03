@@ -1,5 +1,5 @@
 /* (c) https://github.com/MontiCore/monticore */
-package doorexample;
+package DoorExample;
 
 public class DoorExample extends DoorExampleTOP {
     public void ringTheDoorBell() {
