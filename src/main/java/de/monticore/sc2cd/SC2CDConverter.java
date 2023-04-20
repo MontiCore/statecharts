@@ -2,6 +2,8 @@
 package de.monticore.sc2cd;
 
 import de.monticore.cd4code.CD4CodeMill;
+import de.monticore.cd4code._visitor.CD4CodeTraverser;
+import de.monticore.cdbasis.trafo.CDBasisDefaultPackageTrafo;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
@@ -41,10 +43,16 @@ public class SC2CDConverter {
     traverser.add4SCTransitions4Code(phase2Visitor);
     traverser.handle(astscArtifact);
 
-    // voila
-    return new SC2CDData(phase1Visitor.getCdCompilationUnit(), phase1Visitor.getScClass(),
-                         phase1Visitor.getStateSuperClass(),
-                         phase1Visitor.getStateToClassMap().values());
+    SC2CDData cdData = new SC2CDData(phase1Visitor.getCdCompilationUnit(), phase1Visitor.getScClass(),
+            phase1Visitor.getStateSuperClass(),
+            phase1Visitor.getStateToClassMap().values());
+
+    // apply default package trafo for generating proper java artifacts
+    CD4CodeTraverser cdTraverser = CD4CodeMill.traverser();
+    cdTraverser.add4CDBasis(new CDBasisDefaultPackageTrafo());
+    cdData.getCompilationUnit().accept(cdTraverser);
+
+    return cdData;
   }
 
 }
