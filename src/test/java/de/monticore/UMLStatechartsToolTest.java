@@ -29,26 +29,22 @@ import java.util.stream.Stream;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class UMLStatechartsToolTest {
+public class UMLStatechartsToolTest extends GeneralAbstractTest{
   
   String resourcesDir = "src/test/resources/";
   String outputDir = "target/tooltest/";
-  
-  @BeforeClass
-  public static void beforeClass() throws Exception {
-    LogStub.initPlusLog();
-    UMLStatechartsMill.init();
-  }
+
 
   @After
   public void after(){
     CD4CodeMill.reset();
   }
 
+  @Override
   @Before
   public void setUp() {
-    Log.clearFindings();
-    UMLStatechartsMill.init();
+    initLogger();
+    initUMLStatechartsMill();
     IUMLStatechartsGlobalScope gs = UMLStatechartsMill.globalScope();
     gs.clear();
     TypeSymbol stringType = UMLStatechartsMill

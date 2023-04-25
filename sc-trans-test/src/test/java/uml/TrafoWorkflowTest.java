@@ -8,8 +8,9 @@ import de.monticore.umlstatecharts.UMLStatechartsTool;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 import de.se_rwth.commons.logging.Log;
+import de.se_rwth.commons.logging.LogStub;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -24,12 +25,21 @@ public class TrafoWorkflowTest {
   @Rule
   public final TemporaryFolder temporaryFolder = new TemporaryFolder();
 
-  @BeforeClass
-  public static void disableFailQuick() {
-    UMLStatechartsMill.init();
+  private void initLogger() {
+    LogStub.init();
     Log.enableFailQuick(false);
   }
 
+  private void initMills() {
+    UMLStatechartsMill.reset();
+    UMLStatechartsMill.init();
+  }
+
+  @Before
+  public void setup() {
+    initLogger();
+    initMills();
+  }
   /**
    * This test tests the groovy transformation workflow of the tool
    * and compares the output.

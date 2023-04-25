@@ -1,9 +1,12 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.parser;
 
+import de.monticore.GeneralAbstractTest;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
+import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -11,16 +14,10 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertFalse;
 
-public class SCDemoParseTest {
+public class SCDemoParseTest extends GeneralAbstractTest {
   
   UMLStatechartsParser parser = new UMLStatechartsParser();
-  
-  @BeforeClass
-  public static void init(){
-    LogStub.init();
-    Log.enableFailQuick(false);
-  }
-  
+
   @Test
   public void testTeaser() throws IOException {
     parser.parse("src/test/resources/examples/uml/Door.sc");

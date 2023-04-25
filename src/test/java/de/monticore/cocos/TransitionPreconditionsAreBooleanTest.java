@@ -2,6 +2,7 @@
 package de.monticore.cocos;
 
 import com.google.common.collect.Lists;
+import de.monticore.GeneralAbstractTest;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.sctransitions4code._cocos.TransitionPreconditionsAreBoolean;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
@@ -23,20 +24,16 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TransitionPreconditionsAreBooleanTest {
+public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
 
   protected final TriggeredStatechartsParser parser = new TriggeredStatechartsParser();
 
-  @BeforeClass
-  public static void beforeClass() {
-    LogStub.init();
-    TriggeredStatechartsMill.init();
-  }
 
+  @Override
   @Before
-  public void clear(){
-    Log.clearFindings();
-    TriggeredStatechartsMill.globalScope().clear();
+  public void setUp() {
+    initLogger();
+    initTriggeredStatechartsMill();
     BasicSymbolsMill.initializePrimitives();
     loadString();
   }

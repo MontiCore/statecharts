@@ -2,11 +2,14 @@
 package de.monticore.parser;
 
 import com.google.common.base.Joiner;
+import de.monticore.GeneralAbstractTest;
 import de.monticore.scbasis._ast.ASTNamedStatechart;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scbasis._ast.ASTSCState;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
+import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.se_rwth.commons.logging.Log;
+import de.se_rwth.commons.logging.LogStub;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,14 +25,9 @@ import static org.junit.Assert.*;
  * This test parses example files (without cocos),
  * and checks against expected values
  */
-public class FlatSCFilesParserTest {
+public class FlatSCFilesParserTest extends GeneralAbstractTest {
 
   UMLStatechartsParser parser = new UMLStatechartsParser();
-
-  @Before
-  public void init() {
-    Log.enableFailQuick(false);
-  }
 
   @Test
   public void testStatechartFoo() throws IOException {

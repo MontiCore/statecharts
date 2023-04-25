@@ -12,21 +12,26 @@ import de.monticore.sc2cd.SC2CDTriggeredConverter;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
-import de.se_rwth.commons.logging.Log;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
-public class SC2CDTest {
-  
+public class SC2CDTest extends GeneralAbstractTest{
+
+  @Override
+  @Before
+  public void setUp() {
+      super.initLogger();
+  }
+
+
   @Test
   public void testUMLSC2CD() throws IOException {
-    Log.enableFailQuick(false);
-    UMLStatechartsMill.init();
+    initUMLStatechartsMill();
     Optional<ASTSCArtifact> opt = UMLStatechartsMill.parser().parse("src/test/resources/examples/uml/DoorExample.sc");
-  
     // Build ST
     UMLStatechartsMill.scopesGenitorDelegator().createFromAST(opt.get());
   
@@ -48,17 +53,18 @@ public class SC2CDTest {
 
   @Test
   public void testTriggeredSC2CD() throws IOException {
+    initTriggeredStatechartsMill();
     checkTriggeredSC2CD("src/test/resources/examples/triggered/DoorExample2.sc");
   }
 
   @Test
   public void testTriggeredSC2CDWithInitBlock() throws IOException {
+    initTriggeredStatechartsMill();
     checkTriggeredSC2CD("src/test/resources/examples/triggered/LoopSystemOut.sc");
   }
 
   public void checkTriggeredSC2CD(String modelLocation) throws IOException {
-    Log.enableFailQuick(false);
-    TriggeredStatechartsMill.init();
+    initTriggeredStatechartsMill();
     Optional<ASTSCArtifact> opt = TriggeredStatechartsMill.parser().parse(modelLocation);
 
     //Build ST

@@ -2,6 +2,7 @@
 package de.monticore.cocos;
 
 import com.google.common.collect.Lists;
+import de.monticore.GeneralAbstractTest;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.sctransitions4code._cocos.AnteBlocksOnlyForInitialStates;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
-public class AnteBlocksOnlyForInitialStatesTest {
+public class AnteBlocksOnlyForInitialStatesTest extends GeneralAbstractTest {
 
   private static final TriggeredStatechartsParser parser = new TriggeredStatechartsParser();
 
@@ -30,17 +31,15 @@ public class AnteBlocksOnlyForInitialStatesTest {
 
   @BeforeClass
   public static void beforeClass() {
-    LogStub.init();
-    Log.enableFailQuick(false);
-    TriggeredStatechartsMill.init();
-
     checker.addCoCo(new AnteBlocksOnlyForInitialStates());
   }
 
+
+  @Override
   @Before
-  public void clear(){
-    Log.clearFindings();
-    TriggeredStatechartsMill.globalScope().clear();
+  public void setUp(){
+    initLogger();
+    initTriggeredStatechartsMill();
     BasicSymbolsMill.initializePrimitives();
   }
 
