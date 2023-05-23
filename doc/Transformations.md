@@ -23,7 +23,7 @@ java -jar monticore.jar -g Automata.mc4 -mp monticore-rt.jar
 Aftwards, the MontiCore generator must be executed on the generated `TR` grammar again (with the `genDSTL` option) 
 to generate sources for the transformation generator tool.
 ```bash
-java -jar monticore.jar -g out/tr/AutomataTR.mc4 -mp monticore-rt.jar -genDST=true false
+java -jar monticore.jar -g out/tr/AutomataTR.mc4 -mp monticore-rt.jar -genDST=true
 ```
 
 Hand-written extensions to the transformation grammar are possible.
