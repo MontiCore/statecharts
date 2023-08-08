@@ -13,9 +13,7 @@ import de.monticore.triggeredstatecharts._parser.TriggeredStatechartsParser;
 import de.monticore.types.FullTriggeredStatechartsDeriver;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
-import de.se_rwth.commons.logging.LogStub;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -51,7 +49,7 @@ public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
   @Test
   public void testCocoValid() throws IOException {
     // Given
-    ASTSCArtifact ast = parser.parse("src/test/resources/valid/ValidTransitionPrecondition.sc").get();
+    ASTSCArtifact ast = parser.parse("src/test/resources/valid/ValidTransitionPrecondition.sc").orElseThrow();
     TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(ast).setName("DummyScopeName");
 
     TriggeredStatechartsCoCoChecker checker =  new TriggeredStatechartsCoCoChecker();
@@ -67,7 +65,7 @@ public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
   @Test
   public void testCocoInvalidNotBoolean() throws IOException {
     // Given
-    ASTSCArtifact ast = parser.parse("src/test/resources/invalid/InvalidTransitionPrecondition.sc").get();
+    ASTSCArtifact ast = parser.parse("src/test/resources/invalid/InvalidTransitionPrecondition.sc").orElseThrow();
     TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(ast).setName("DummyScopeName");
 
     TriggeredStatechartsCoCoChecker checker =  new TriggeredStatechartsCoCoChecker();
@@ -90,7 +88,7 @@ public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
   @Test
   public void testCocoInvalidConditionIsTypeReference() throws IOException {
     // Given
-    ASTSCArtifact ast = parser.parse("src/test/resources/invalid/InvalidTransitionPreconditionIsTypeReference.sc").get();
+    ASTSCArtifact ast = parser.parse("src/test/resources/invalid/InvalidTransitionPreconditionIsTypeReference.sc").orElseThrow();
     TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(ast).setName("DummyScopeName");
 
     TriggeredStatechartsCoCoChecker checker =  new TriggeredStatechartsCoCoChecker();
@@ -108,5 +106,23 @@ public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
     assertEquals(
       Lists.newArrayList(TransitionPreconditionsAreBoolean.ERROR_CODE_TYPE_REF_CONDITION),
       findings);
+  }
+
+  @Test
+  public void testCocoConditionHasObscureType() throws IOException {
+    // Given
+    ASTSCArtifact ast = parser.parse("src/test/resources/invalid/TransitionPreconditionIsObscure.sc").orElseThrow();
+    TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(ast).setName("DummyScopeName");
+
+    TriggeredStatechartsCoCoChecker checker =  new TriggeredStatechartsCoCoChecker();
+    checker.addCoCo(new TransitionPreconditionsAreBoolean(new FullTriggeredStatechartsDeriver()));
+
+    // When
+    checker.checkAll(ast);
+
+    // Then
+    assertEquals(1, Log.getFindingsCount());
+    // Only print the error that the variable symbol can not be found:
+    assertEquals("0xA0240", Log.getFindings().get(0).getMsg().substring(0, 7));
   }
 }

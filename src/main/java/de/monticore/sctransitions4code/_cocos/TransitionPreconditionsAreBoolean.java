@@ -40,7 +40,7 @@ public class TransitionPreconditionsAreBoolean implements SCTransitions4CodeASTT
     if(node.isPresentPre()) {
       TypeCheckResult preType = this.typeDeriver.deriveType(node.getPre());
 
-      if (!preType.isPresentResult()) {
+      if (!preType.isPresentResult() || preType.getResult().isObscureType()) {
         Log.debug(String.format("Coco '%s' is not checked on transition guard expression at %s, because the " +
           "expression is malformed.", this.getClass().getSimpleName(), node.get_SourcePositionStart()),
           "Cocos");
