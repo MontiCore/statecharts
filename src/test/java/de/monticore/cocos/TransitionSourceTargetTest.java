@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.cocos;
 
+import de.monticore.GeneralAbstractTest;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scbasis._cocos.TransitionSourceTargetExists;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
@@ -19,21 +20,9 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class TransitionSourceTargetTest {
+public class TransitionSourceTargetTest extends GeneralAbstractTest {
   
   protected UMLStatechartsParser parser = new UMLStatechartsParser();
-  
-  @BeforeClass
-  public static void beforeClass() throws Exception {
-    LogStub.init();
-    UMLStatechartsMill.init();
-  }
-  
-  @Before
-  public void clear(){
-    Log.clearFindings();
-    UMLStatechartsMill.globalScope().clear();
-  }
   
   @Test
   public void testCoCOInvalid() throws IOException {

@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.symboltable;
 
+import de.monticore.GeneralAbstractTest;
 import de.monticore.io.paths.MCPath;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scbasis._symboltable.SCStateSymbol;
@@ -21,17 +22,13 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertTrue;
 
-public class ResolvingTest {
-  
-  @BeforeClass
-  public static void beforeClass() throws Exception {
-    LogStub.init();
-  }
-  
+public class ResolvingTest extends GeneralAbstractTest {
+
+  @Override
   @Before
   public void setUp() throws Exception {
-    Log.clearFindings();
-    UMLStatechartsMill.init();
+    initLogger();
+    initUMLStatechartsMill();
     IUMLStatechartsGlobalScope gs = UMLStatechartsMill.globalScope();
     gs.clear();
     TypeSymbol stringType = UMLStatechartsMill

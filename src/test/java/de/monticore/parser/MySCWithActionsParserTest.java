@@ -1,7 +1,9 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.parser;
 
+import de.monticore.GeneralAbstractTest;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
+import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
@@ -12,14 +14,10 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertFalse;
 
-public class MySCWithActionsParserTest {
+public class MySCWithActionsParserTest extends GeneralAbstractTest {
   
   UMLStatechartsParser parser = new UMLStatechartsParser();
-  
-  @Before
-  public void init(){
-    Log.enableFailQuick(false);
-  }
+
   
   @Test
   public void testStatechart() throws IOException {

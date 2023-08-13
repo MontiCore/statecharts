@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.cocos;
 
+import de.monticore.GeneralAbstractTest;
 import de.monticore.io.paths.MCPath;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scstateinvariants._cocos.InvariantValid;
@@ -30,23 +31,15 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class InvariantValidTest {
+public class InvariantValidTest extends GeneralAbstractTest {
 
   protected UMLStatechartsParser parser = new UMLStatechartsParser();
 
-  @BeforeClass
-  public static void beforeClass() throws Exception {
-    LogStub.init();
-    Log.enableFailQuick(false);
-    UMLStatechartsMill.init();
-
-  }
-
+  @Override
   @Before
   public void setUp() {
-    Log.clearFindings();
-    UMLStatechartsMill.init();
-    UMLStatechartsMill.globalScope().clear();
+    initLogger();
+    initUMLStatechartsMill();
     BasicSymbolsMill.initializePrimitives();
   }
 

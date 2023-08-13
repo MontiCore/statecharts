@@ -1,12 +1,15 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.parser;
 
+import de.monticore.GeneralAbstractTest;
 import de.monticore.parser.util.TestUtils;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.scbasis._ast.*;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
+import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._prettyprint.UMLStatechartsFullPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
+import de.se_rwth.commons.logging.LogStub;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,15 +23,10 @@ import static org.junit.Assert.*;
  * checks it against expected values,
  * and validates that the PrettyPrinter returns an equivalent model
  */
-public class SCBasisParserPPTest {
+public class SCBasisParserPPTest extends GeneralAbstractTest {
 
   UMLStatechartsParser parser = new UMLStatechartsParser();
   UMLStatechartsFullPrettyPrinter prettyPrinter = new UMLStatechartsFullPrettyPrinter(new IndentPrinter());
-
-  @Before
-  public void init() {
-    Log.enableFailQuick(false);
-  }
 
   @Test
   public void testSCArtifact() throws IOException {

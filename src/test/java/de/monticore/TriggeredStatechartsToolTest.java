@@ -27,26 +27,21 @@ import java.util.stream.Stream;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class TriggeredStatechartsToolTest {
+public class TriggeredStatechartsToolTest extends GeneralAbstractTest{
 
   String resourcesDir = "src/test/resources/";
   String outputDir = "target/tooltest/";
-
-  @BeforeClass
-  public static void beforeClass() throws Exception {
-    LogStub.initPlusLog();
-    TriggeredStatechartsMill.init();
-  }
 
   @After
   public void after(){
     CD4CodeMill.reset();
   }
 
+  @Override
   @Before
   public void setUp() {
-    Log.clearFindings();
-    TriggeredStatechartsMill.init();
+    initLogger();
+    initTriggeredStatechartsMill();
     ITriggeredStatechartsGlobalScope gs = TriggeredStatechartsMill.globalScope();
     gs.clear();
   }

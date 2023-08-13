@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.cocos;
 
+import de.monticore.GeneralAbstractTest;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scbasis._cocos.UniqueStates;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
@@ -18,20 +19,9 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class UniqueStatesTest {
+public class UniqueStatesTest extends GeneralAbstractTest {
   
   protected UMLStatechartsParser parser = new UMLStatechartsParser();
-  
-  @BeforeClass
-  public static void beforeClass() throws Exception {
-    LogStub.init();
-  }
-  
-  @Before
-  public void setUp() throws Exception {
-    Log.clearFindings();
-    UMLStatechartsMill.init();
-  }
   
   @Test
   public void testCoCoInvalid() throws IOException {

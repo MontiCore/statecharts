@@ -6,7 +6,7 @@ import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.se_rwth.commons.logging.Log;
 import de.monticore.tf.*;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -16,10 +16,10 @@ import static org.junit.Assert.assertTrue;
 
 public class Step09Test extends AbstractUMLTest {
 
-  @BeforeClass
-  public static void disableFailQuick() {
-    UMLStatechartsMill.init();
-    Log.enableFailQuick(false);
+  @Before
+  public void setup() {
+    super.initLogger();
+    super.initMills();
   }
 
   @Test

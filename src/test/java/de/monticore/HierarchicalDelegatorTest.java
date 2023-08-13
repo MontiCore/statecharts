@@ -7,6 +7,7 @@ import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 import de.se_rwth.commons.logging.Log;
+import de.se_rwth.commons.logging.LogStub;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,13 +21,8 @@ import java.util.Optional;
  * visitor behaviour on various reporting utilities.
  * We use a statechart with hierarchical states.
  */
-public class HierarchicalDelegatorTest {
+public class HierarchicalDelegatorTest extends GeneralAbstractTest {
   UMLStatechartsParser parser = new UMLStatechartsParser();
-
-  @Before
-  public void init() {
-    Log.enableFailQuick(false);
-  }
 
   @Test
   public void testHierarchicalStateCollector() throws Exception {

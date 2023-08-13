@@ -2,6 +2,7 @@
 package de.monticore.cocos;
 
 import com.google.common.collect.Lists;
+import de.monticore.GeneralAbstractTest;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.sctransitions4code._cocos.TransitionPreconditionsAreBoolean;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
@@ -12,9 +13,7 @@ import de.monticore.triggeredstatecharts._parser.TriggeredStatechartsParser;
 import de.monticore.types.FullTriggeredStatechartsDeriver;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
-import de.se_rwth.commons.logging.LogStub;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -23,20 +22,16 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TransitionPreconditionsAreBooleanTest {
+public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
 
   protected final TriggeredStatechartsParser parser = new TriggeredStatechartsParser();
 
-  @BeforeClass
-  public static void beforeClass() {
-    LogStub.init();
-    TriggeredStatechartsMill.init();
-  }
 
+  @Override
   @Before
-  public void clear(){
-    Log.clearFindings();
-    TriggeredStatechartsMill.globalScope().clear();
+  public void setUp() {
+    initLogger();
+    initTriggeredStatechartsMill();
     BasicSymbolsMill.initializePrimitives();
     loadString();
   }
@@ -54,7 +49,7 @@ public class TransitionPreconditionsAreBooleanTest {
   @Test
   public void testCocoValid() throws IOException {
     // Given
-    ASTSCArtifact ast = parser.parse("src/test/resources/valid/ValidTransitionPrecondition.sc").get();
+    ASTSCArtifact ast = parser.parse("src/test/resources/valid/ValidTransitionPrecondition.sc").orElseThrow();
     TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(ast).setName("DummyScopeName");
 
     TriggeredStatechartsCoCoChecker checker =  new TriggeredStatechartsCoCoChecker();
@@ -70,7 +65,7 @@ public class TransitionPreconditionsAreBooleanTest {
   @Test
   public void testCocoInvalidNotBoolean() throws IOException {
     // Given
-    ASTSCArtifact ast = parser.parse("src/test/resources/invalid/InvalidTransitionPrecondition.sc").get();
+    ASTSCArtifact ast = parser.parse("src/test/resources/invalid/InvalidTransitionPrecondition.sc").orElseThrow();
     TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(ast).setName("DummyScopeName");
 
     TriggeredStatechartsCoCoChecker checker =  new TriggeredStatechartsCoCoChecker();
@@ -93,7 +88,7 @@ public class TransitionPreconditionsAreBooleanTest {
   @Test
   public void testCocoInvalidConditionIsTypeReference() throws IOException {
     // Given
-    ASTSCArtifact ast = parser.parse("src/test/resources/invalid/InvalidTransitionPreconditionIsTypeReference.sc").get();
+    ASTSCArtifact ast = parser.parse("src/test/resources/invalid/InvalidTransitionPreconditionIsTypeReference.sc").orElseThrow();
     TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(ast).setName("DummyScopeName");
 
     TriggeredStatechartsCoCoChecker checker =  new TriggeredStatechartsCoCoChecker();
@@ -111,5 +106,23 @@ public class TransitionPreconditionsAreBooleanTest {
     assertEquals(
       Lists.newArrayList(TransitionPreconditionsAreBoolean.ERROR_CODE_TYPE_REF_CONDITION),
       findings);
+  }
+
+  @Test
+  public void testCocoConditionHasObscureType() throws IOException {
+    // Given
+    ASTSCArtifact ast = parser.parse("src/test/resources/invalid/TransitionPreconditionIsObscure.sc").orElseThrow();
+    TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(ast).setName("DummyScopeName");
+
+    TriggeredStatechartsCoCoChecker checker =  new TriggeredStatechartsCoCoChecker();
+    checker.addCoCo(new TransitionPreconditionsAreBoolean(new FullTriggeredStatechartsDeriver()));
+
+    // When
+    checker.checkAll(ast);
+
+    // Then
+    assertEquals(1, Log.getFindingsCount());
+    // Only print the error that the variable symbol can not be found:
+    assertEquals("0xA0240", Log.getFindings().get(0).getMsg().substring(0, 7));
   }
 }
