@@ -15,6 +15,18 @@ import java.util.stream.Collectors;
 
 
 public class UniqueStates implements SCBasisASTStatechartCoCo {
+
+  protected SCBasisTraverser t;
+
+  public UniqueStates (){
+    super();
+    this.t = SCBasisMill.traverser();
+  }
+
+  public UniqueStates (SCBasisTraverser traverser){
+    super();
+    this.t = traverser;
+  }
   
   
   public static final String ERROR_CODE = "0xCC100";
@@ -23,13 +35,11 @@ public class UniqueStates implements SCBasisASTStatechartCoCo {
   
   @Override
   public void check(ASTStatechart node) {
-    SCBasisTraverser traverser = SCBasisMill
-        .traverser();
-    StateCollector vis = new StateCollector();
-    traverser.add4SCBasis(vis);
-    node.accept(traverser);
+    StateCollector collector = new StateCollector();
+    t.add4SCBasis(collector);
+    node.accept(t);
     Set<String> uniques = Sets.newHashSet();
-    List<ASTSCState> duplicates = vis.getStates().stream()
+    List<ASTSCState> duplicates = collector.getStates().stream()
         .filter(e -> !uniques.add(e.getName()))
         .collect(Collectors.toList());
     if(!duplicates.isEmpty()){
