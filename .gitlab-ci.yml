@@ -14,7 +14,7 @@ before_script:
 build:
   stage: build
   script:
-    - "gradle build $GRADLE_OPT $ARGS1"
+    - "gradle build $GRADLE_OPT $ARGS1 -PgenTR=true -PgenTagging=true"
   artifacts:
     paths:
       - target/
@@ -43,15 +43,14 @@ test:
   dependencies:
     - build
   script:
-    - "cd sc-trans-test"
-    - "gradle --include-build ../. test $GRADLE_OPT $ARGS1"
+    - "gradle test $GRADLE_OPT $ARGS1 -PgenTR=true -PgenTagging=true"
 
 deploy:
   stage: deploy
   dependencies:
     - build
   script:
-    - "gradle publish -PmavenPassword=$pass -PmavenUser=$user $GRADLE_OPT $ARGS2"
+    - "gradle publish -PmavenPassword=$pass -PmavenUser=$user $GRADLE_OPT $ARGS2 -PgenTR=true -PgenTagging=true"
   artifacts:
     paths:
       - target/libs/MCStatecharts.jar
