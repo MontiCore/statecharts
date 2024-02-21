@@ -15,12 +15,19 @@ import java.util.stream.Collectors;
  */
 public class StateCollector implements SCBasisVisitor2 {
 
+  protected int hierarchyLevel = 0;
 
   protected final Map<ASTSCState, Integer> states = new HashMap<>();
 
   @Override
   public void visit(ASTSCState node) {
     this.states.put(node, this.getHierarchyLevel());
+    hierarchyLevel++;
+  }
+
+  @Override
+  public void endVisit(ASTSCState node) {
+    hierarchyLevel--;
   }
 
   public Collection<ASTSCState> getStates() {
@@ -29,6 +36,7 @@ public class StateCollector implements SCBasisVisitor2 {
 
   /**
    * Get all states of a given hierarchy level
+   *
    * @param hierarchy the hierarchy level (0 being the root)
    * @return a collection of states
    */
@@ -43,9 +51,10 @@ public class StateCollector implements SCBasisVisitor2 {
   /**
    * Returns the hierarchy level to keep track of in the {@link #states}
    * By default 0, the root level is returned
+   *
    * @return the hierarchy level
    */
-  protected int getHierarchyLevel(){
-    return 0;
+  protected int getHierarchyLevel() {
+    return hierarchyLevel;
   }
 }

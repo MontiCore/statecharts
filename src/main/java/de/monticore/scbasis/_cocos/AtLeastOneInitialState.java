@@ -23,11 +23,12 @@ public class AtLeastOneInitialState implements SCBasisASTStatechartCoCo {
   
   public static final String ERROR_CODE = "0xCC102";
   
-  @Override public void check(ASTStatechart node) {
+  @Override
+  public void check(ASTStatechart node) {
     StateCollector collector = new StateCollector();
     t.add4SCBasis(collector);
     node.accept(t);
-    if(collector.getStates().stream().noneMatch(x -> x.getSCModifier().isInitial())){
+    if(collector.getStates(0).stream().noneMatch(x -> x.getSCModifier().isInitial())){
       Log.error(ERROR_CODE + " Statecharts need at least one initial state.", 
           node.get_SourcePositionStart());
     }

@@ -160,6 +160,7 @@ Using transformation workflow files written in groovy, we can write complex work
 The current MontiCore example does not yet support this.
 You can follow the examples by substituting the monticore-rt runtime with the *UMLSCTransGenerator* and the *de.monticore.tr.UMLStatechartsTFGenTool*.
 Please ensure you also run the correct language-specific TFGenTool.
+(The statechart TFGenTools are published in the separate `de.monticore.lang:statechart-trafo:$version` publication.)
 
 To run the tool with a given transformation workflow script on a model, the following can be used:
 ```bash

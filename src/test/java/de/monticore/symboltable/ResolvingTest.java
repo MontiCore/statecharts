@@ -11,6 +11,7 @@ import de.monticore.umlstatecharts.UMLStatechartsTool;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsGlobalScope;
+import de.monticore.umlstatecharts._symboltable.IUMLStatechartsScope;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
 import org.junit.Before;
@@ -66,6 +67,25 @@ public class ResolvingTest extends GeneralAbstractTest {
     gs.setSymbolPath(new MCPath(Paths.get("src/test/resources/symtab")));
     Optional<SCStateSymbol> stateSymbol = gs.resolveSCState("Test2.Parking");
     assertTrue("Could not resolve state Parking", stateSymbol.isPresent());
+  }
+
+  @Test
+  public void testResolvingStateShouldNotThrowError() {
+    // Given
+    UMLStatechartsTool tool = new UMLStatechartsTool();
+    BasicSymbolsMill.initializePrimitives();
+    ASTSCArtifact ast = tool.parse("src/test/resources/valid/Test.sc");
+    IUMLStatechartsArtifactScope st = tool.createSymbolTable(ast);
+    IUMLStatechartsScope scope = UMLStatechartsMill.scope();
+    scope.setName("S");
+    st.addSubScope(scope);
+
+    // When
+    // State does not exist and scope has the same name as the state
+    Optional<SCStateSymbol> stateSymbol = scope.resolveSCState("S");
+
+    // Then
+    assertTrue("Could resolve state S", stateSymbol.isEmpty());
   }
   
   @Test
