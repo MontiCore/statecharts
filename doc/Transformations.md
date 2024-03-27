@@ -2,7 +2,7 @@
 
 # MontiCore Transformations
 
-[[_TOC_]]
+
 
 This page describes the model transformation capabilities of MontiCore, also known as MontiTrans.
 Explicit examples and snippets are based on the MontiCore [Statechart language](https://github.com/MontiCore/statecharts).
