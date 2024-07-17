@@ -87,6 +87,7 @@ dependencies {
   testscgenImplementation(sourceSets.test.output.classesDirs)
 
   trafoImplementation "de.monticore:monticore-grammar-trafo:$mc_version"
+  grammar("de.mc:monticore-grammar-trafo:$mc_version:grammars") // TODO: Remove when migrating to the new MC plugin
   trafoCompileOnly project(path)
   trafoCompileOnly "de.monticore:monticore-runtime:$mc_version" // can be removed if java-library api is used above
   trafoCompileOnly "de.monticore:monticore-grammar:$mc_version" // can be removed if java-library api is used above
