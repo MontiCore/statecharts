@@ -4,8 +4,8 @@ import org.gradle.api.tasks.JavaExec
 
 plugins {
     id "java"
-    id "monticore" version "$mc_version" // MontiCore Plugin
     id "maven-publish"
+    id "de.monticore.generator-withtr" version "$mc_version" // MontiCore Plugin with TR support
     id "com.github.johnrengelman.shadow" version "6.0.0"
     id "io.github.themrmilchmann.ecj" version "0.2.0"
 }
@@ -14,31 +14,25 @@ description = "Statecharts"
 buildDir = file("$projectDir/target")
 
 
-def grammarDir = "src/main/grammars"
-def grammarOutDir = "$buildDir/generated-sources/mc"
-def grammarTROutDir = "$buildDir/generated-sources/mc_tr"
-def grammarTagOutDir = "$buildDir/generated-sources/mc_tag"
-def testGrammarOutDir = "$buildDir/generated-test-sources/mc"
 def testSCOutDir = "$buildDir/generated-test-sources/sc"
 def testscgenDir = "$projectDir/src/testscgen"
 
 def withTR = ("true").equals(getProperty('genTR'));
-def withTagging = ("true").equals(getProperty('genTagging'));
-
 
 // configure non-standard source sets
 sourceSets {
-  main {
-    java.srcDirs += [grammarOutDir]
-  }
-  test {
-    java.srcDirs += ["$testGrammarOutDir"]
-  }
-  grammars {
+  main { }
+  test { }
+  // The following is required as we still publish a Feature-variant (with usingSourceSet(grammarsForVariant))
+  grammarsForVariant {
+    java.srcDirs = []
     resources {
-      srcDirs(grammarDir)
+      // DO not include the grammars out dir here (with the TR grammars)
+      srcDirs(["src/main/grammars"])
       include "**/*.mc4"
+      include "**/*.mlc"
     }
+    grammars.srcDirs = []
   }
 
   testscgen {
@@ -46,55 +40,29 @@ sourceSets {
 
     java {}
   }
-  trafo {
-    java.srcDirs = [grammarTROutDir]
-  }
-  tagging {
-    java.srcDirs = [grammarTagOutDir]
-  }
 }
 
-// Trafo and Tagging related grammars & their artifacts are published separately
 configurations {
   testscgenImplementation.extendsFrom(implementation)
   testscgenImplementation.extendsFrom(testImplementation)
-  grammar
-  trafo
-  tagging
+  trafoGrammar // this configuration is actually further set up by the generator-withtr plugin
 }
 
 dependencies {
-  grammar("de.monticore:monticore-grammar:$mc_version") {
-    capabilities {
-      requireCapability("de.monticore:monticore-grammar-grammars")
-    }
-  }
-  implementation "com.google.guava:guava:$guava_version"
-  implementation  "de.monticore:monticore-runtime:$mc_version"
-  implementation "de.monticore:monticore-grammar:$mc_version"
+  // Depend on the monticore component grammars
+  grammar("de.monticore:monticore-grammar:$mc_version")
+  // and their respective trafo-components (as a grammar dependency of the trafo source set)
+  trafoGrammar grammar("de.monticore:monticore-grammar-trafo:$mc_version")
+
+  // normal, implementation dependencies
   implementation "de.monticore:class2mc:$mc_version"
-  implementation "de.se_rwth.commons:se-commons-logging:$mc_version"
-  implementation "de.se_rwth.commons:se-commons-utilities:$mc_version"
-  implementation group: 'org.antlr', name: 'antlr4-runtime', version: antlr_version
   implementation group: 'de.monticore.lang', name: 'cd4analysis', version: mc_version
-  implementation "commons-cli:commons-cli:$commons_cli_version"
   implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
-  implementation group: 'commons-io', name: 'commons-io', version: '2.8.0'
-  testImplementation "junit:junit:$junit_version"
   implementation 'org.apache.groovy:groovy:4.0.2'
+  testImplementation "junit:junit:$junit_version"
 
   testscgenImplementation(sourceSets.main.output.classesDirs)
   testscgenImplementation(sourceSets.test.output.classesDirs)
-
-  trafoImplementation "de.monticore:monticore-grammar-trafo:$mc_version"
-  trafoCompileOnly project(path)
-  trafoCompileOnly "de.monticore:monticore-runtime:$mc_version" // can be removed if java-library api is used above
-  trafoCompileOnly "de.monticore:monticore-grammar:$mc_version" // can be removed if java-library api is used above
-
-  taggingImplementation "de.monticore:monticore-grammar-tagging:$mc_version"
-  taggingCompileOnly project(path)
-  taggingCompileOnly "de.monticore:monticore-runtime:$mc_version" // can be removed if java-library api is used above
-  taggingCompileOnly "de.monticore:monticore-grammar:$mc_version" // can be removed if java-library api is used above
 }
 
 repositories {
@@ -108,64 +76,8 @@ repositories {
     }
 }
 
-task generate {}
-task generateTR {}
-task generateTag {}
 
-// one task per grammar file
-fileTree(grammarDir).matching { include '**/*.mc4'}.each { g ->
-  def taskname = "generateGrammar${g.getName().substring(0,g.getName().lastIndexOf('.'))}"
-  task  "$taskname" (type: MCTask) {
-    grammar = g
-    outputDir = file grammarOutDir
-    def grammarIncludingPackage = file(grammarDir).toURI().relativize(g.toURI()).toString()
-    outputs.upToDateWhen { incCheck(grammarIncludingPackage)}
-  }
-  generate.dependsOn ("$taskname")
-  task "${taskname}TR"(type: MCTask) {
-    onlyIf {withTR}
-    grammar = getTRFile(g, file(grammarOutDir))
-    // Replace with getTRFile(g) once the plugin is updated and in the upstream
-    outputDir = file grammarTROutDir
-    isDSTL = true
-    modelPath(grammarOutDir)
-    modelPath(file(grammarDir).toString())
-    def grammarIncludingPackage = file(grammarDir).toURI().relativize(g.toURI()).toString()
-    def trGrammarIncludingPackage = file(grammarOutDir).toURI().relativize(file(grammar).toURI()).toString()
-    outputs.upToDateWhen { incCheck(grammarIncludingPackage) }
-    outputs.upToDateWhen { incCheck(trGrammarIncludingPackage) }
-    dependsOn(generate)
-  }
-  generateTR.dependsOn("${taskname}TR")
-  task "${taskname}TagDef"(type: MCTask) {
-    onlyIf {withTagging}
-    grammar = getTagDefinitionFile(g, file(grammarOutDir))
-    outputDir = file grammarTagOutDir
-    modelPath(grammarOutDir)
-    modelPath(file(grammarDir).toString())
-    dependsOn(generate)
-    genTag = true
-  }
-  task "${taskname}TagSchema"(type: MCTask) {
-    onlyIf { withTagging }
-    grammar = getTagSchemaFile(g, file(grammarOutDir))
-    outputDir = file grammarTagOutDir
-    modelPath(grammarOutDir)
-    modelPath(file(grammarDir).toString())
-    dependsOn(generate)
-  }
-  generateTag.dependsOn("${taskname}TagDef")
-  generateTag.dependsOn("${taskname}TagSchema")
-}
-
-compileTrafoJava.dependsOn compileJava
-compileTaggingJava.dependsOn compileJava
-
-
-compileJava.dependsOn generate
-compileTrafoJava.dependsOn generateTR
-compileTaggingJava.dependsOn generateTag
-
+// A Task using the UMLStatechartsTool
 task generateSC(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
 
@@ -194,36 +106,6 @@ tasks.withType(JavaCompile) {
     options.headerOutputDirectory.convention(null)
 }
 
-// Bundle and publish the generated trafo artifacts separately as ${projectname}-trafo
-tasks.register('trafoJar', Jar) {
-  onlyIf {withTR}
-  from sourceSets.trafo.output
-  group 'build'
-}
-tasks.register('trafoSourcesJar', Jar) {
-  onlyIf {withTR}
-  from sourceSets.trafo.java
-  group 'build'
-}
-artifacts {
-  trafo(trafoJar)
-}
-
-// Bundle and publish the generated tagging artifacts separately as ${projectname}-tagging
-tasks.register('taggingJar', Jar) {
-  onlyIf {withTagging}
-  from sourceSets.tagging.output
-  group 'build'
-}
-tasks.register('taggingSourcesJar', Jar) {
-  onlyIf {withTagging}
-  from sourceSets.tagging.java
-  group 'build'
-}
-artifacts {
-  tagging(taggingJar)
-}
-
 // all in one tool-jar
 shadowJar {
     manifest {
@@ -233,8 +115,10 @@ shadowJar {
     archiveFileName = "MC${archiveBaseName.get().capitalize()}.${archiveExtension.get()}"
 }
 
-task uMLSCTransGenerator(type: ShadowJar) {
-    onlyIf {withTR}
+if (withTR) {
+  // all in one (umlp) tf-tool-jar
+  task uMLSCTransGenerator(type: ShadowJar) {
+    onlyIf { withTR }
     dependsOn shadowJar
     group = "shadow"
     manifest.attributes 'Main-Class': 'de.monticore.tr.UMLStatechartsTFGenTool'
@@ -243,10 +127,11 @@ task uMLSCTransGenerator(type: ShadowJar) {
     from zipTree(shadowJar.archiveFile)
     from zipTree(trafoJar.archiveFile)
     configurations += [project.configurations.trafoRuntimeClasspath]
-}
+  }
 
-task triggeredSCTransGenerator(type: ShadowJar) {
-    onlyIf {withTR}
+  // all in one (triggered) tf-tool-jar
+  task triggeredSCTransGenerator(type: ShadowJar) {
+    onlyIf { withTR }
     dependsOn shadowJar
     group = "shadow"
     manifest.attributes 'Main-Class': 'de.monticore.tr.TriggeredStatechartsTFGenTool'
@@ -255,6 +140,7 @@ task triggeredSCTransGenerator(type: ShadowJar) {
     from zipTree(shadowJar.archiveFile)
     from zipTree(trafoJar.archiveFile)
     configurations += [project.configurations.trafoRuntimeClasspath]
+  }
 }
 
 task testReport(type: TestReport) {
@@ -271,7 +157,7 @@ configurations { MLC }
 dependencies { MLC(group: 'de.monticore.lang', name: 'mlc-tool', version: mlc_version) }
 StringJoiner joiner = new StringJoiner(" ")
 configurations.compileClasspath.resolve().each { joiner.add(it.toString()) }
-configurations.grammar.resolve().each { joiner.add(it.toString()) }
+configurations.grammarSymbolDependencies.resolve().each { joiner.add(it.toString()) }
 joiner.add "$projectDir/target/symbols"
 String mp = joiner.toString()
 
@@ -300,10 +186,11 @@ fileTree("src").matching { include '**/*.mlc' }.each {
 
 
 java {
-    withSourcesJar()
-    registerFeature('grammars') {
-        usingSourceSet(sourceSets.grammars)
-    }
+  withSourcesJar()
+  // Deprecated feature, published for compatibility reasons
+  registerFeature('grammars') {
+    usingSourceSet(sourceSets.grammarsForVariant)
+  }
 }
 
 sourcesJar.dependsOn project.collect { it.tasks.withType(MCTask) }
@@ -320,22 +207,6 @@ publishing {
     publications {
       mavenJava(MavenPublication) {
         from components.java
-      }
-      if (withTR) {
-        "trafo"(MavenPublication) {
-          artifactId = project.name + "-trafo"
-          artifact tasks.trafoJar { appendix 'trafo' }
-          artifact tasks.trafoSourcesJar { appendix 'trafo'; classifier 'sources' }
-          artifact triggeredSCTransGenerator
-          artifact uMLSCTransGenerator
-        }
-      }
-      if (withTagging) {
-        "tagging"(MavenPublication) {
-          artifactId = project.name + "-tagging"
-          artifact tasks.taggingJar { appendix 'tagging' }
-          artifact tasks.taggingSourcesJar { appendix 'tagging'; classifier 'sources' }
-        }
       }
     }
     repositories.maven {
