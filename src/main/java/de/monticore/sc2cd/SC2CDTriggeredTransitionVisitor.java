@@ -74,7 +74,7 @@ public class SC2CDTriggeredTransitionVisitor extends SC2CDTransitionVisitor
     // Print the precondition as an expression, too
     String precondition = "true"; // by default true holds
     if (transitionBody.get().isPresentPre()) {
-      precondition = this.cd4CodeFullPrettyPrinter.prettyprint(transitionBody.get().getPre());
+      precondition = CD4CodeMill.prettyPrint(transitionBody.get().getPre(), true);
     }
     // Finally, add the method
     cd4C.addMethod(stateImplClass, "de.monticore.sc2cd.StateClassHandleStimulus", stimulus, scClass.getName(),

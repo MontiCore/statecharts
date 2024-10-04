@@ -3,7 +3,6 @@ package de.monticore.sc2cd;
 
 import de.monticore.cd.methodtemplates.CD4C;
 import de.monticore.cd4code.CD4CodeMill;
-import de.monticore.cd4code.prettyprint.CD4CodeFullPrettyPrinter;
 import de.monticore.cdbasis.CDBasisMill;
 import de.monticore.cdbasis._ast.ASTCDClass;
 import de.monticore.prettyprint.IndentPrinter;
@@ -33,7 +32,6 @@ abstract public class SC2CDTransitionVisitor
   protected final Map<String, ASTCDClass> stateToClassMap;
 
   protected final ASTMCReturnType voidReturnType;
-  protected final CD4CodeFullPrettyPrinter cd4CodeFullPrettyPrinter;
 
   protected final ASTCDClass stateSuperClass;
   protected final CD4C cd4C;
@@ -50,7 +48,6 @@ abstract public class SC2CDTransitionVisitor
     this.stateSuperClass = stateSuperClass;
     this.cd4C = CD4C.getInstance();
 
-    this.cd4CodeFullPrettyPrinter = new CD4CodeFullPrettyPrinter(new IndentPrinter());
     this.voidReturnType = CDBasisMill.mCReturnTypeBuilder().setMCVoidType(CDBasisMill.mCVoidTypeBuilder().build()).build();
   }
 

@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import de.monticore.cd.codegen.CDGenerator;
 import de.monticore.cd.codegen.CdUtilsPrinter;
 import de.monticore.cd.methodtemplates.CD4C;
-import de.monticore.cd4code.prettyprint.CD4CodeFullPrettyPrinter;
+import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.generating.GeneratorSetup;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.sc2cd.SC2CDConverter;
@@ -37,8 +37,7 @@ public class SC2CDTest extends GeneralAbstractTest{
     // Build ST
     UMLStatechartsMill.scopesGenitorDelegator().createFromAST(opt.get());
   
-    CD4CodeFullPrettyPrinter fullPrettyPrinter = new CD4CodeFullPrettyPrinter();
-  
+
     //    // Prepare CD4C
     GlobalExtensionManagement glex = new GlobalExtensionManagement();
     GeneratorSetup config = new GeneratorSetup();
@@ -50,7 +49,7 @@ public class SC2CDTest extends GeneralAbstractTest{
     config.setAdditionalTemplatePaths(Lists.newArrayList(templatePath));
     SC2CDConverter converter = new SC2CDConverter();
     SC2CDData result = converter.doConvert(opt.get(), config.getGlex());
-    fullPrettyPrinter.prettyprint(result.getCompilationUnit());
+    String unusedPretty = CD4CodeMill.prettyPrint(result.getCompilationUnit(), true);
     // the content of the generated files is to be checked manually at the moment
 
 
@@ -78,8 +77,6 @@ public class SC2CDTest extends GeneralAbstractTest{
     //Build ST
     TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(opt.get());
 
-    CD4CodeFullPrettyPrinter fullPrettyPrinter = new CD4CodeFullPrettyPrinter();
-
     //    // Prepare CD4C
     GlobalExtensionManagement glex = new GlobalExtensionManagement();
     GeneratorSetup config = new GeneratorSetup();
@@ -92,7 +89,7 @@ public class SC2CDTest extends GeneralAbstractTest{
 
     SC2CDTriggeredConverter converter = new SC2CDTriggeredConverter();
     SC2CDData result = converter.doConvert(opt.get(), config.getGlex());
-    fullPrettyPrinter.prettyprint(result.getCompilationUnit());
+    String unusedPretty = CD4CodeMill.prettyPrint(result.getCompilationUnit(), true);
     // the content of the generated files is to be checked manually at the moment
   }
 }
