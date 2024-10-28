@@ -5,6 +5,7 @@ import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
 import de.monticore.triggeredstatecharts._visitor.TriggeredStatechartsTraverser;
 import de.monticore.types.check.*;
 
+@Deprecated
 public class FullTriggeredStatechartsDeriver extends AbstractDerive {
 
   public FullTriggeredStatechartsDeriver() {

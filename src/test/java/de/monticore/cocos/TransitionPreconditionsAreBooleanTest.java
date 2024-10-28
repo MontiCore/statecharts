@@ -10,7 +10,7 @@ import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
 import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
 import de.monticore.triggeredstatecharts._cocos.TriggeredStatechartsCoCoChecker;
 import de.monticore.triggeredstatecharts._parser.TriggeredStatechartsParser;
-import de.monticore.types.FullTriggeredStatechartsDeriver;
+import de.monticore.umlstatecharts.check.UMLStatechartsTypeCheck;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import org.junit.Before;
@@ -26,13 +26,13 @@ public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
 
   protected final TriggeredStatechartsParser parser = new TriggeredStatechartsParser();
 
-
   @Override
   @Before
   public void setUp() {
     initLogger();
     initTriggeredStatechartsMill();
     BasicSymbolsMill.initializePrimitives();
+    UMLStatechartsTypeCheck.init();
     loadString();
   }
 
@@ -53,13 +53,13 @@ public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
     TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(ast).setName("DummyScopeName");
 
     TriggeredStatechartsCoCoChecker checker =  new TriggeredStatechartsCoCoChecker();
-    checker.addCoCo(new TransitionPreconditionsAreBoolean(new FullTriggeredStatechartsDeriver()));
+    checker.addCoCo(new TransitionPreconditionsAreBoolean());
 
     // When
     checker.checkAll(ast);
 
     // Then
-    assertEquals(0, Log.getErrorCount());
+    assertEquals(Log.getFindings().toString(), 0, Log.getErrorCount());
   }
 
   @Test
@@ -69,7 +69,7 @@ public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
     TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(ast).setName("DummyScopeName");
 
     TriggeredStatechartsCoCoChecker checker =  new TriggeredStatechartsCoCoChecker();
-    checker.addCoCo(new TransitionPreconditionsAreBoolean(new FullTriggeredStatechartsDeriver()));
+    checker.addCoCo(new TransitionPreconditionsAreBoolean());
 
     // When
     checker.checkAll(ast);
@@ -92,7 +92,7 @@ public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
     TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(ast).setName("DummyScopeName");
 
     TriggeredStatechartsCoCoChecker checker =  new TriggeredStatechartsCoCoChecker();
-    checker.addCoCo(new TransitionPreconditionsAreBoolean(new FullTriggeredStatechartsDeriver()));
+    checker.addCoCo(new TransitionPreconditionsAreBoolean());
 
     // When
     checker.checkAll(ast);
@@ -100,12 +100,10 @@ public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
     // Then
     List<String> findings = Log.getFindings().stream()
       .filter(Finding::isError)
-      .map(finding -> finding.getMsg().substring(0, TransitionPreconditionsAreBoolean.ERROR_CODE_TYPE_REF_CONDITION.length()))
+      .map(finding -> finding.getMsg().substring(0, "0xFD118".length()))
       .collect(Collectors.toList());
 
-    assertEquals(
-      Lists.newArrayList(TransitionPreconditionsAreBoolean.ERROR_CODE_TYPE_REF_CONDITION),
-      findings);
+    assertEquals(Lists.newArrayList("0xFD118"), findings);
   }
 
   @Test
@@ -115,7 +113,7 @@ public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
     TriggeredStatechartsMill.scopesGenitorDelegator().createFromAST(ast).setName("DummyScopeName");
 
     TriggeredStatechartsCoCoChecker checker =  new TriggeredStatechartsCoCoChecker();
-    checker.addCoCo(new TransitionPreconditionsAreBoolean(new FullTriggeredStatechartsDeriver()));
+    checker.addCoCo(new TransitionPreconditionsAreBoolean());
 
     // When
     checker.checkAll(ast);
@@ -123,6 +121,6 @@ public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
     // Then
     assertEquals(1, Log.getFindingsCount());
     // Only print the error that the variable symbol can not be found:
-    assertEquals("0xA0240", Log.getFindings().get(0).getMsg().substring(0, 7));
+    assertEquals("0xFD118", Log.getFindings().get(0).getMsg().substring(0, 7));
   }
 }
