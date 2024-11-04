@@ -49,6 +49,6 @@ jobs:
           arguments: publish ${{env.GRADLE_CLI_OPTS}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          mavenUser: ${{ secrets.SE_NEXUS_USER }}
-          mavenPassword: ${{ secrets.SE_NEXUS_PASSWORD }}
+          username: ${{ secrets.SE_NEXUS_USER }}
+          password: ${{ secrets.SE_NEXUS_PASSWORD }}
 
