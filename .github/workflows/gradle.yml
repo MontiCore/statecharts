@@ -46,9 +46,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: ${{env.GRADLE_VERSION}}
-          arguments: publish ${{env.GRADLE_CLI_OPTS}}
+          arguments: publish ${{env.GRADLE_CLI_OPTS}} -PmavenPassword=${{ secrets.SE_NEXUS_PASSWORD }} -PmavenUser=${{ secrets.SE_NEXUS_USER }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          username: ${{ secrets.SE_NEXUS_USER }}
-          password: ${{ secrets.SE_NEXUS_PASSWORD }}
 
