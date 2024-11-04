@@ -15,7 +15,7 @@ on:
 
 env:
   GRADLE_VERSION: 7.4 # Gradle version used
-  GRADLE_CLI_OPTS: "-Pci -PgenTR=true " # CLI options passed to Gradle
+  GRADLE_CLI_OPTS: "-Pci -PgenTR=true --build-cache " # CLI options passed to Gradle
 
 permissions:
   contents: read # This action may run somewhat unsafe code
@@ -49,6 +49,6 @@ jobs:
           arguments: publish ${{env.GRADLE_CLI_OPTS}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MAVEN_USER: ${{ secrets.SE_NEXUS_USER }}
-          MAVEN_PASSWORD: ${{ secrets.SE_NEXUS_PASSWORD }}
+          mavenUser: ${{ secrets.SE_NEXUS_USER }}
+          mavenPassword: ${{ secrets.SE_NEXUS_PASSWORD }}
 
