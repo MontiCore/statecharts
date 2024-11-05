@@ -97,6 +97,5 @@ githubmirror:
     - (git commit -m "[Mirror] Replace all internal links and references") || true
     - git remote add github git@github.com:MontiCore/statecharts.git
     - git push github $CI_COMMIT_BRANCH --force
-  only:
-    - dev
-    - master
+  rules:
+    - when: never
