@@ -28,6 +28,6 @@ component grammar SCStateInvariants extends SCBasis {
   /**
     States with a body allow to add State Invariants
   */
-  SCInvState extends SCState =  SCModifier "state" Name "[" Expression "]" SCSBody ";";
+  SCInvState extends SCState =  SCModifier SCSAnte "state" Name "[" Expression "]" SCSBody ";";
 
 }
