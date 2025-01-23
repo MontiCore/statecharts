@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 plugins {
   id "java"
-  id "monticore" version "$mc_version" // MontiCore Plugin
+  id "de.monticore.generator-withtr" version "$mc_version" // MontiCore Plugin (with TR support)
 }
 
 description = "sc-trans-test"
@@ -30,20 +30,29 @@ configurations { grammar }
 
 
 dependencies {
-  implementation group: 'de.monticore', name: 'monticore-runtime', version: mc_version
-  implementation group: 'de.monticore', name: 'monticore-grammar', version: mc_version
-  implementation group: 'de.monticore', name: 'monticore-grammar-trafo', version: mc_version
-  grammar group: 'de.monticore', name: 'monticore-grammar', version: mc_version, classifier: 'grammars'
-
-  implementation group: 'de.se_rwth.commons', name: 'se-commons-utilities', version: mc_version
-  implementation group: 'de.se_rwth.commons', name: 'se-commons-groovy', version: mc_version
-  implementation group: 'de.se_rwth.commons', name: 'se-commons-logging', version: mc_version
-
   testImplementation group: 'junit', name: 'junit', version: junit_version
 
+  // Depend on the rootProject (the module actually defining statecharts)
   grammar rootProject
-  implementation rootProject
-  implementation project(path: rootProject.path, configuration: 'trafo')
+
+  // add the dependency to sub1s trafos to the trafoGrammar config,
+  // adding it as a dependency to the trafo publication
+  // Note: This dependency will be substituted by its subproject
+  grammar(group: project.getGroup(), name: "statecharts-trafo", version: project.getVersion())
+
+  // use the grammar configuration (for trafos) to add transitive dependencies of :sub1
+  grammar(project(path: rootProject.path, configuration: 'trafoGrammar'))
+
+  // add the compiled trafo java classes of the subproject to the classpath
+  implementation files(rootProject.sourceSets.trafo.output.classesDirs)
+}
+
+configurations.configureEach {
+  resolutionStrategy.dependencySubstitution {
+    // Substitute statecharts-trafo with the actual (live) project,
+    // loosing the trafo configuration information (requiring the project(path:...,configuration:...) dependencies above)
+    substitute module("${project.getGroup()}:statecharts-trafo") using project(rootProject.path)
+  }
 }
 
 repositories {

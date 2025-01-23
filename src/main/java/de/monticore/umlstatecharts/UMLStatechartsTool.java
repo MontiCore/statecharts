@@ -192,7 +192,6 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
         String lowerCaseName = modelName.toLowerCase();
         ReportManager reports = new ReportManager(outputDirectory);
         ReportingRepository repository = new ReportingRepository(new ASTNodeIdentHelper());
-        repository.initAllTemplates();
 
         SummaryReporter summary = new SummaryReporter(reportDirectory, lowerCaseName, repository, UMLStatechartsMill.inheritanceTraverser());
         GeneratedFilesReporter generated = new GeneratedFilesReporter(reportDirectory, lowerCaseName, repository);
