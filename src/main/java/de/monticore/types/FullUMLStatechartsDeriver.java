@@ -5,6 +5,10 @@ import de.monticore.types.check.*;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 
+/**
+ * Use TypeCheck3 instead.
+ */
+@Deprecated
 public class FullUMLStatechartsDeriver extends AbstractDerive {
 
   public FullUMLStatechartsDeriver() {

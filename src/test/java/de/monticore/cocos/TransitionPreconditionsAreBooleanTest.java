@@ -32,7 +32,6 @@ public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
     initLogger();
     initTriggeredStatechartsMill();
     BasicSymbolsMill.initializePrimitives();
-    UMLStatechartsTypeCheck.init();
     loadString();
   }
 

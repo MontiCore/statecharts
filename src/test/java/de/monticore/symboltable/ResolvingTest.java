@@ -35,6 +35,7 @@ public class ResolvingTest extends GeneralAbstractTest {
     TypeSymbol stringType = UMLStatechartsMill
         .typeSymbolBuilder()
         .setEnclosingScope(gs)
+        .setSpannedScope(UMLStatechartsMill.scope())
         .setName("String")
         .build();
     UMLStatechartsMill.globalScope().add(stringType);
@@ -44,6 +45,7 @@ public class ResolvingTest extends GeneralAbstractTest {
     TypeSymbol personType = UMLStatechartsMill
         .typeSymbolBuilder()
         .setEnclosingScope(as)
+        .setSpannedScope(UMLStatechartsMill.scope())
         .setName("Person")
         .build();
     as.add(personType);

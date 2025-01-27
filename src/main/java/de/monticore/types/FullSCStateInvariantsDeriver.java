@@ -5,6 +5,10 @@ import de.monticore.scstateinvariants.SCStateInvariantsMill;
 import de.monticore.scstateinvariants._visitor.SCStateInvariantsTraverser;
 import de.monticore.types.check.*;
 
+/**
+ * Use TypeCheck3 instead.
+ */
+@Deprecated
 public class FullSCStateInvariantsDeriver extends AbstractDerive {
 
   public FullSCStateInvariantsDeriver() {

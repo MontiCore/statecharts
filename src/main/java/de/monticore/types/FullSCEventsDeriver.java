@@ -5,6 +5,10 @@ import de.monticore.scevents.SCEventsMill;
 import de.monticore.scevents._visitor.SCEventsTraverser;
 import de.monticore.types.check.*;
 
+/**
+ * Use TypeCheck3 instead.
+ */
+@Deprecated
 public class FullSCEventsDeriver extends AbstractDerive {
 
   public FullSCEventsDeriver(){

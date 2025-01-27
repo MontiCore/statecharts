@@ -5,6 +5,10 @@ import de.monticore.scbasis.SCBasisMill;
 import de.monticore.scbasis._visitor.SCBasisTraverser;
 import de.monticore.types.check.*;
 
+/**
+ * Use TypeCheck3 instead.
+ */
+@Deprecated
 public class FullSCBasisDeriver extends AbstractDerive {
 
   public FullSCBasisDeriver() {

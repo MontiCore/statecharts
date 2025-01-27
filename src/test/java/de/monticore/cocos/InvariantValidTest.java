@@ -9,7 +9,6 @@ import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.symbols.oosymbols._symboltable.FieldSymbol;
 import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
-import de.monticore.types.FullUMLStatechartsDeriver;
 import de.monticore.types.check.SymTypeExpressionFactory;
 import de.monticore.types.check.TypeCalculator;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
@@ -51,15 +50,14 @@ public class InvariantValidTest extends GeneralAbstractTest {
     IUMLStatechartsArtifactScope st = new UMLStatechartsTool().createSymbolTable(ast.get());
     st.setName("Invariant");
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
-    checker.addCoCo(new InvariantValid(new TypeCalculator(null, new FullUMLStatechartsDeriver())));
+    checker.addCoCo(new InvariantValid());
     try {
       checker.checkAll(ast.get());
     } catch (NoSuchElementException e){
       /* catch Optional Exception thrown due to LogStub instead of Log*/
     }
     assertEquals(1, Log.getErrorCount());
-    System.out.println("AAA" + Log.getFindings());
-    assertTrue(Log.getFindings().stream().anyMatch(n -> n.getMsg().contains("0xA0240")));
+    assertTrue(Log.getFindings().stream().anyMatch(n -> n.getMsg().contains("0xFD118")));
 
   }
 
@@ -71,7 +69,7 @@ public class InvariantValidTest extends GeneralAbstractTest {
     IUMLStatechartsArtifactScope st = new UMLStatechartsTool().createSymbolTable(ast.get());
     st.setName("Invariant2");
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
-    checker.addCoCo(new InvariantValid(new TypeCalculator(null, new FullUMLStatechartsDeriver())));
+    checker.addCoCo(new InvariantValid());
     checker.checkAll(ast.get());
     assertEquals(0, Log.getErrorCount());
 
@@ -92,7 +90,7 @@ public class InvariantValidTest extends GeneralAbstractTest {
         ).build()
     );
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
-    checker.addCoCo(new InvariantValid(new TypeCalculator(null, new FullUMLStatechartsDeriver())));
+    checker.addCoCo(new InvariantValid());
     checker.checkAll(ast.get());
     assertEquals(0, Log.getErrorCount());
 
@@ -111,11 +109,12 @@ public class InvariantValidTest extends GeneralAbstractTest {
     FieldSymbol age = UMLStatechartsMill.fieldSymbolBuilder().setName("age").build();
     age.setType(SymTypeExpressionFactory.createPrimitive("int"));
     age.setIsStatic(true);
+    age.setIsPublic(true);
     person.addFieldSymbol(age);
     UMLStatechartsMill.globalScope().add(person);
     UMLStatechartsMill.globalScope().add((TypeSymbol) person);
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
-    checker.addCoCo(new InvariantValid(new TypeCalculator(null, new FullUMLStatechartsDeriver())));
+    checker.addCoCo(new InvariantValid());
     checker.checkAll(ast.get());
     assertEquals(0, Log.getErrorCount());
 
@@ -129,7 +128,7 @@ public class InvariantValidTest extends GeneralAbstractTest {
     IUMLStatechartsArtifactScope st = new UMLStatechartsTool().createSymbolTable(ast.get());
     st.setName("InvariantWithAnte");
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
-    checker.addCoCo(new InvariantValid(new TypeCalculator(null, new FullUMLStatechartsDeriver())));
+    checker.addCoCo(new InvariantValid());
     checker.checkAll(ast.get());
     assertEquals(0, Log.getErrorCount());;
   }
