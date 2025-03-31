@@ -83,7 +83,7 @@ public class SCBasisParserPPTest extends GeneralAbstractTest {
 
     assertEquals(2, ast.get().getStereotype().getValuesList().size());
     assertEquals("stereotype", ast.get().getStereotype().getValues(0).getName());
-    assertNull(ast.get().getStereotype().getValues(0).getContent());
+    assertEquals("", ast.get().getStereotype().getValues(0).getValue());
 
     assertEquals("stereo", ast.get().getStereotype().getValues(1).getName());
 

@@ -50,7 +50,7 @@ public class SCHierarchyParserPPTest extends GeneralAbstractTest {
 
     assertEquals(1, ast.get().getStereotype().getValuesList().size());
     assertEquals("stereotype", ast.get().getStereotype().getValues(0).getName());
-    assertNull(ast.get().getStereotype().getValues(0).getContent());
+    assertEquals("", ast.get().getStereotype().getValues(0).getValue());
 
     String pp = printer.prettyprint(ast.get());
     Optional<ASTSCInternTransition> astPP = parser.parse_StringSCInternTransition(pp);
