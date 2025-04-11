@@ -155,33 +155,34 @@ task testReport(type: TestReport) {
 task checkArtifacts { group = 'mlc' }
 configurations { MLC }
 dependencies { MLC(group: 'de.monticore.lang', name: 'mlc-tool', version: mlc_version) }
-StringJoiner joiner = new StringJoiner(" ")
-configurations.compileClasspath.resolve().each { joiner.add(it.toString()) }
-configurations.grammarSymbolDependencies.resolve().each { joiner.add(it.toString()) }
-joiner.add "$projectDir/target/symbols"
-String mp = joiner.toString()
+def modelPath = []
+configurations.compileClasspath.resolve().each { modelPath.addAll(["-mp", it.toString()]) }
+configurations.grammarSymbolDependencies.resolve().each { modelPath.addAll(["-mp", it.toString()]) }
+modelPath.addAll(["-mp", "$projectDir/src/main/grammars/de/monticore"])
 
 // two tasks per MLC file
 fileTree("src").matching { include '**/*.mlc' }.each {
     def f = it
     def mlcName = it.getName().substring(0, it.getName().lastIndexOf('.'))
 
-    task "showArtifacts${mlcName}"(type: JavaExec) {
-        classpath = configurations.MLC
-        group = 'mlc'
-        mainClass = 'de.monticore.mlc.MLCTool'
-        args "-input", f, "-projectDir", projectDir, "-mp", mp, "-s", "-all"
-        dependsOn("generateGrammar${mlcName}")
-    }
+  tasks.register("showArtifacts${mlcName}", JavaExec) {
+    classpath = configurations.MLC
+    group = 'mlc'
+    mainClass = 'de.monticore.mlc.MLCTool'
+    args = ["-input", f, "-projectDir", projectDir, "-s", "-all"]
+    args += modelPath
+    dependsOn("generateMCGrammars")
+  }
 
-    task "checkArtifacts${mlcName}"(type: JavaExec) {
-        classpath = configurations.MLC
-        group = 'MLC'
-        mainClass = 'de.monticore.mlc.MLCTool'
-        args "-input", f, "-projectDir", projectDir, "-mp", mp, "-s", "-check"
-        dependsOn("generateGrammar${mlcName}")
-        checkArtifacts.dependsOn("checkArtifacts${mlcName}")
-    }
+  tasks.register("checkArtifacts${mlcName}", JavaExec) {
+    classpath = configurations.MLC
+    group = 'mlc'
+    mainClass = 'de.monticore.mlc.MLCTool'
+    args = ["-input", f, "-projectDir", projectDir, "-s", "-check"]
+    args += modelPath
+    dependsOn("generateMCGrammars")
+  }
+  checkArtifacts.dependsOn("checkArtifacts${mlcName}")
 }    // end integration with MLC
 
 
