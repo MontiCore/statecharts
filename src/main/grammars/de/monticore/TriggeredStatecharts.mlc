@@ -6,7 +6,7 @@ mlc TriggeredStatecharts {
     include "de/monticore/prettyprint/TriggeredStatechartsFullPrettyPrinter.java";
   }
 
-  export "$projectDir/target/generated-sources/mc" {
+  export "$projectDir/target/generated-sources/monticore" {
     include "de/monticore/triggeredstatecharts/**/*.java";
     include "de/monticore/triggeredstatecharts/*.java";
   }
@@ -19,6 +19,11 @@ mlc TriggeredStatecharts {
   local "src/main/java" {
   }
 */
+
+  promote mlc "SCActions";
+  promote mlc "SCStateHierarchy";
+  promote mlc "SCTransitions4Code";
+
   uses {
     include "$mp/java/**/*.*";
     include "$mp/de/monticore/generating/**/*.*";
@@ -26,8 +31,14 @@ mlc TriggeredStatecharts {
     include "$mp/de/monticore/prettyprint/*.*";
     include "$projectDir/src/main/java/de/monticore/scbasis/**/*.java";
     include "$mp/de/monticore/statements/**/*.*";
+    include "$mp/de/monticore/cd/**/*.*";
+    include "$mp/de/monticore/types3/**/*.*";
+    include "$mp/de/monticore/types3/*.*";
     include "$mp/de/monticore/expressions/**/*.*";
     include "$mp/de/monticore/literals/**/*.*";
     include "$mp/de/monticore/types/**/*.*";
+    include "$mp/de/monticore/class2mc/OOClass2MCResolver.java";
+    include "$mp/org/apache/commons/lang3/StringUtils.java";
+    include "$mp/com/google/common/base/Preconditions.java";
   }
 }

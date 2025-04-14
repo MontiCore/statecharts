@@ -5,7 +5,7 @@ mlc SCTransitions4Code {
     include "de/monticore/prettyprint/SCTransitions4CodePrettyPrinter.java";
   }
 
-  export "$projectDir/target/generated-sources/mc/" {
+  export "$projectDir/target/generated-sources/monticore/sourcecode/" {
       include "de/monticore/sctransitions4code/**/*.java";
       include "de/monticore/sctransitions4code/*.java";
   }
@@ -26,6 +26,8 @@ mlc SCTransitions4Code {
     include "$mp/de/monticore/utils/*.*";
     include "$mp/de/monticore/ast/*.*";
     include "$mp/de/monticore/prettyprint/*.*";
+    include "$mp/de/monticore/types3/*.*";
+    include "$mp/de/monticore/statements/**/*.*";
     include "$mp/com/google/**/*.*";
     include "$mp/org/apache/**/*.*";
     include "$mp/de/se_rwth/**/*.*";

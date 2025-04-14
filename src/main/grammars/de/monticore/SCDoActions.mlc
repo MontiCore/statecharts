@@ -5,7 +5,7 @@ mlc SCDoActions {
     include "de/monticore/prettyprint/SCDoActionsPrettyPrinter.java";
   }
   
-  export "$projectDir/target/generated-sources/mc/" {
+  export "$projectDir/target/generated-sources/monticore/sourcecode/" {
       include "de/monticore/scdoactions/**/*.java";
       include "de/monticore/scdoactions/*.java";
   }

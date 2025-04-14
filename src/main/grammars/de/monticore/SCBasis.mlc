@@ -5,7 +5,7 @@ mlc SCBasis {
     include "de/monticore/prettyprint/SCBasisPrettyPrinter.java";
   }
   
-  export "$projectDir/target/generated-sources/mc/" {
+  export "$projectDir/target/generated-sources/monticore/sourcecode/" {
       include "de/monticore/scbasis/**.java";
       include "de/monticore/scbasis/*.java";
   }
@@ -19,5 +19,9 @@ mlc SCBasis {
     mlc "de.monticore.types.MCBasicTypes";
     mlc "de.monticore.expressions.ExpressionsBasis";
     mlc "de.monticore.symbols.BasicSymbols";
+  }
+
+  uses {
+   include "$mp/org/apache/commons/io/FilenameUtils.java";
   }
 }
