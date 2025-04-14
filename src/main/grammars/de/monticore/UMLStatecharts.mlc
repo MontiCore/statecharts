@@ -6,7 +6,7 @@ mlc UMLStatecharts {
     include "de/monticore/prettyprint/UMLStatechartsFullPrettyPrinter.java";
   }
 
-  export "$projectDir/target/generated-sources/mc/" {
+  export "$projectDir/target/generated-sources/monticore/sourcecode/" {
     include "de/monticore/umlstatecharts/**/*.java";
     include "de/monticore/umlstatecharts/*.java";
   }

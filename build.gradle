@@ -152,7 +152,7 @@ task testReport(type: TestReport) {
 /**
  * Integration with MLC language and tool
  */
-task checkArtifacts { group = 'mlc' }
+tasks.register('checkArtifacts') { group = 'mlc' }
 configurations { MLC }
 dependencies { MLC(group: 'de.monticore.lang', name: 'mlc-tool', version: mlc_version) }
 def modelPath = []

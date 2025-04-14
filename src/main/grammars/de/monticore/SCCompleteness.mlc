@@ -5,7 +5,7 @@ mlc SCCompleteness {
     include "de/monticore/prettyprint/SCCompletenessPrettyPrinter.java";
   }
 
-  export "$projectDir/target/generated-sources/mc/" {
+  export "$projectDir/target/generated-sources/monticore/sourcecode/" {
     include "de/monticore/sccompleteness/**/*.java";
     include "de/monticore/sccompleteness/*.java";
   }
