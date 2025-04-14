@@ -10,24 +10,23 @@ import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
 import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
 import de.monticore.triggeredstatecharts._cocos.TriggeredStatechartsCoCoChecker;
 import de.monticore.triggeredstatecharts._parser.TriggeredStatechartsParser;
-import de.monticore.umlstatecharts.check.UMLStatechartsTypeCheck;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
 
   protected final TriggeredStatechartsParser parser = new TriggeredStatechartsParser();
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     initLogger();
     initTriggeredStatechartsMill();
@@ -58,7 +57,7 @@ public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
     checker.checkAll(ast);
 
     // Then
-    assertEquals(Log.getFindings().toString(), 0, Log.getErrorCount());
+    assertEquals(0, Log.getErrorCount(), Log.getFindings().toString());
   }
 
   @Test

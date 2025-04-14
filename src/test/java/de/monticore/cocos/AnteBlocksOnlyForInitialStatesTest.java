@@ -6,22 +6,20 @@ import de.monticore.GeneralAbstractTest;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.sctransitions4code._cocos.AnteBlocksOnlyForInitialStates;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
-import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
 import de.monticore.triggeredstatecharts._cocos.TriggeredStatechartsCoCoChecker;
 import de.monticore.triggeredstatecharts._parser.TriggeredStatechartsParser;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
-import de.se_rwth.commons.logging.LogStub;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AnteBlocksOnlyForInitialStatesTest extends GeneralAbstractTest {
 
@@ -29,14 +27,14 @@ public class AnteBlocksOnlyForInitialStatesTest extends GeneralAbstractTest {
 
   private static final TriggeredStatechartsCoCoChecker checker = new TriggeredStatechartsCoCoChecker();
 
-  @BeforeClass
+  @BeforeAll
   public static void beforeClass() {
     checker.addCoCo(new AnteBlocksOnlyForInitialStates());
   }
 
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp(){
     initLogger();
     initTriggeredStatechartsMill();

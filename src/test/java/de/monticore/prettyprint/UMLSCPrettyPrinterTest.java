@@ -5,17 +5,14 @@ import de.monticore.GeneralAbstractTest;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._prettyprint.UMLStatechartsFullPrettyPrinter;
-import de.monticore.umlstatecharts.UMLStatechartsMill;
-import de.se_rwth.commons.logging.Log;
-import de.se_rwth.commons.logging.LogStub;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Aim of this test is to verify the pretty printer output.
@@ -33,13 +30,13 @@ public class UMLSCPrettyPrinterTest extends GeneralAbstractTest {
     try (FileReader fw = new FileReader(file)) {
       Optional<ASTSCArtifact> origAstOpt = parser.parse(fw);
 
-      Assert.assertTrue("No ast parsed from file " + file.getName(), origAstOpt.isPresent());
+      assertTrue(origAstOpt.isPresent(), "No ast parsed from file " + file.getName());
       String prettyOut = prettyPrinter.prettyprint(origAstOpt.get());
 
       Optional<ASTSCArtifact> prettyAstOpt = parser.parse_String(prettyOut);
 
-      Assert.assertTrue("No ast parsed from pretty: " + prettyOut, prettyAstOpt.isPresent());
-      Assert.assertTrue("ASTs not deep equaling: " + prettyOut + " in " + file.getName(), prettyAstOpt.get().deepEquals(origAstOpt.get()));
+      assertTrue(prettyAstOpt.isPresent(), "No ast parsed from pretty: " + prettyOut);
+      assertTrue(prettyAstOpt.get().deepEquals(origAstOpt.get()), "ASTs not deep equaling: " + prettyOut + " in " + file.getName());
 
       System.out.println("File " + file.getName() + " passed the PP test");
     }

@@ -7,11 +7,8 @@ import de.monticore.scbasis._ast.ASTNamedStatechart;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scbasis._ast.ASTSCState;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
-import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.se_rwth.commons.logging.Log;
-import de.se_rwth.commons.logging.LogStub;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +16,7 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This test parses example files (without cocos),
@@ -32,7 +29,7 @@ public class FlatSCFilesParserTest extends GeneralAbstractTest {
   @Test
   public void testStatechartFoo() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/flat/foo.sc");
-    assertTrue(ast.getStatechart() instanceof ASTNamedStatechart);
+    assertInstanceOf(ASTNamedStatechart.class, ast.getStatechart());
     assertEquals("Foo", ((ASTNamedStatechart) ast.getStatechart()).getName());
     assertEquals(1, ast.getStatechart().getSCStatechartElementList().size());
     assertEquals("Bla", ((ASTSCState) ast.getStatechart().getSCStatechartElementList().get(0)).getName());
@@ -42,7 +39,7 @@ public class FlatSCFilesParserTest extends GeneralAbstractTest {
   @Test
   public void testStatechart2() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/flat/test2.sc");
-    assertTrue(ast.getStatechart() instanceof ASTNamedStatechart);
+    assertInstanceOf(ASTNamedStatechart.class, ast.getStatechart());
     assertEquals("Door2", ((ASTNamedStatechart) ast.getStatechart()).getName());
     assertEquals(3, ast.getStatechart().getSCStatechartElementList().size());
   }
@@ -50,7 +47,7 @@ public class FlatSCFilesParserTest extends GeneralAbstractTest {
   @Test
   public void testStatechart3() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/flat/test3.sc");
-    assertTrue(ast.getStatechart() instanceof ASTNamedStatechart);
+    assertInstanceOf(ASTNamedStatechart.class, ast.getStatechart());
     assertEquals("Door2", ((ASTNamedStatechart) ast.getStatechart()).getName());
     assertEquals(3, ast.getStatechart().getSCStatechartElementList().size());
   }
@@ -58,14 +55,14 @@ public class FlatSCFilesParserTest extends GeneralAbstractTest {
   @Test
   public void testStatechart4() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/flat/test4.sc");
-    assertTrue(ast.getStatechart() instanceof ASTNamedStatechart);
+    assertInstanceOf(ASTNamedStatechart.class, ast.getStatechart());
     assertEquals("Door1", ((ASTNamedStatechart) ast.getStatechart()).getName());
   }
 
   @Test
   public void testStatechart5() throws IOException {
     ASTSCArtifact ast = parse("src/test/resources/flat/test5.sc");
-    assertTrue(ast.getStatechart() instanceof ASTNamedStatechart);
+    assertInstanceOf(ASTNamedStatechart.class, ast.getStatechart());
     assertEquals("Door1", ((ASTNamedStatechart) ast.getStatechart()).getName());
     assertEquals(1, ast.getMCImportStatementList().size());
     assertEquals("java.util.List", ast.getMCImportStatement(0).getQName());
@@ -76,8 +73,8 @@ public class FlatSCFilesParserTest extends GeneralAbstractTest {
     List<String> files = Files.readAllLines(new File(file).toPath());
     Optional<ASTSCArtifact> opt = parser.parse_StringSCArtifact(Joiner.on(System.lineSeparator()).join(files));
     Log.getFindings().forEach(System.out::println);
-    assertFalse("Parsed with errors", parser.hasErrors());
-    assertTrue("No AST present", opt.isPresent());
+    assertFalse(parser.hasErrors(), "Parsed with errors");
+    assertTrue(opt.isPresent(), "No AST present");
     return opt.get();
   }
 
