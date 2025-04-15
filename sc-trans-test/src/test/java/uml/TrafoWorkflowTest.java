@@ -9,21 +9,23 @@ import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class TrafoWorkflowTest {
-  @Rule
-  public final TemporaryFolder temporaryFolder = new TemporaryFolder();
+  @TempDir
+  public Path temporaryFolder;
 
   private void initLogger() {
     LogStub.init();
@@ -35,7 +37,7 @@ public class TrafoWorkflowTest {
     UMLStatechartsMill.init();
   }
 
-  @Before
+  @BeforeEach
   public void setup() {
     initLogger();
     initMills();
@@ -47,24 +49,26 @@ public class TrafoWorkflowTest {
    */
   @Test
   public void testTrafoWorkflow() throws IOException {
-    File ppFile = temporaryFolder.newFile();
+    File ppFile = temporaryFolder.resolve("trafoOut.sc").toFile();
+    assertTrue(ppFile.createNewFile());
     UMLStatechartsTool.main(new String[]{
             "-i", "src/test/resources/TestStatechart.sc",
             "-t", "src/test/resources/TrafoWorkflow.groovy",
             "-pp", ppFile.getAbsolutePath()
     });
-    Assert.assertEquals("Errors during tool call", 0, Log.getErrorCount());
-    Optional<ASTSCArtifact> astOpt = UMLStatechartsMill.parser().parse(new BufferedReader(new FileReader(ppFile)));
-
-    Assert.assertEquals("Errors during parsing", 0, Log.getErrorCount());
-    Assert.assertTrue("Failed to parse", astOpt.isPresent());
-
+    assertEquals(0, Log.getErrorCount(), "Errors during tool call");
+    Optional<ASTSCArtifact> astOpt =
+        UMLStatechartsMill.parser().parse(new BufferedReader(new FileReader(ppFile)));
+    
+    assertEquals(0, Log.getErrorCount(), "Errors during parsing");
+    assertTrue(astOpt.isPresent(), "Failed to parse");
+    
     StateCollector stateCollector = new StateCollector();
     UMLStatechartsTraverser traverser = UMLStatechartsMill.traverser();
     traverser.add4SCBasis(stateCollector);
     astOpt.get().accept(traverser);
-    Assert.assertEquals("Invalid count of states", 4, stateCollector.getStates().size());
-    Assert.assertEquals("Invalid count of transitions", 4 + 3,
-                        astOpt.get().getStatechart().getSCStatechartElementList().size());
+    assertEquals(4, stateCollector.getStates().size(), "Invalid count of states");
+    assertEquals(4 + 3, astOpt.get().getStatechart().getSCStatechartElementList().size(),
+        "Invalid count of transitions");
   }
 }
