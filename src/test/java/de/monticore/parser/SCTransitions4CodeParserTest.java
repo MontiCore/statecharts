@@ -12,16 +12,12 @@ import de.monticore.sctransitions4code._ast.ASTTransitionBody;
 import de.monticore.statements.mccommonstatements._ast.ASTExpressionStatement;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._prettyprint.UMLStatechartsFullPrettyPrinter;
-import de.monticore.umlstatecharts.UMLStatechartsMill;
-import de.se_rwth.commons.logging.Log;
-import de.se_rwth.commons.logging.LogStub;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This test parses every non terminal of SCTransitions4Code,
@@ -38,14 +34,14 @@ public class SCTransitions4CodeParserTest extends GeneralAbstractTest {
   public void testTransitionBodyPre() throws IOException {
     Optional<ASTTransitionBody> ast = parser.parse_StringTransitionBody(" [ true ]");
     TestUtils.check(parser);
-    assertTrue("No ast present", ast.isPresent());
-    assertTrue("Pre", ast.get().isPresentPre());
-    assertFalse("action", ast.get().isPresentTransitionAction());
+    assertTrue(ast.isPresent(), "No ast present");
+    assertTrue(ast.get().isPresentPre(), "Pre");
+    assertFalse(ast.get().isPresentTransitionAction(), "action");
 
     String pp = printer.prettyprint(ast.get());
     Optional<ASTTransitionBody> astPP = parser.parse_StringTransitionBody(pp);
-    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
-    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
+    assertTrue(astPP.isPresent(), "Failed to parse from pp: " + pp);
+    assertTrue(astPP.get().deepEquals(ast.get()), "AST not equal after pp: " + pp);
   }
 
   @Test
@@ -53,30 +49,30 @@ public class SCTransitions4CodeParserTest extends GeneralAbstractTest {
       throws IOException {
     Optional<ASTTransitionBody> ast = parser.parse_StringTransitionBody(" [ true ] a.b.c");
     TestUtils.check(parser);
-    assertTrue("No ast present", ast.isPresent());
-    assertTrue("Pre", ast.get().isPresentPre());
-    assertTrue("event", ast.get().isPresentSCEvent());
-    assertFalse("action", ast.get().isPresentTransitionAction());
+    assertTrue(ast.isPresent(), "No ast present");
+    assertTrue(ast.get().isPresentPre(), "Pre");
+    assertTrue(ast.get().isPresentSCEvent(), "event");
+    assertFalse(ast.get().isPresentTransitionAction(), "action");
 
     String pp = printer.prettyprint(ast.get());
     Optional<ASTTransitionBody> astPP = parser.parse_StringTransitionBody(pp);
-    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
-    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
+    assertTrue(astPP.isPresent(), "Failed to parse from pp: " + pp);
+    assertTrue(astPP.get().deepEquals(ast.get()), "AST not equal after pp: " + pp);
   }
 
   @Test
   public void testTransitionBody() throws IOException {
     Optional<ASTTransitionBody> ast = parser.parse_StringTransitionBody(" [ true ] a.b.c / {doStuff(); }");
     TestUtils.check(parser);
-    assertTrue("No ast present", ast.isPresent());
-    assertTrue("Pre", ast.get().isPresentPre());
-    assertTrue("event", ast.get().isPresentSCEvent());
-    assertTrue("action", ast.get().isPresentTransitionAction());
+    assertTrue(ast.isPresent(), "No ast present");
+    assertTrue(ast.get().isPresentPre(), "Pre");
+    assertTrue(ast.get().isPresentSCEvent(), "event");
+    assertTrue(ast.get().isPresentTransitionAction(), "action");
 
     String pp = printer.prettyprint(ast.get());
     Optional<ASTTransitionBody> astPP = parser.parse_StringTransitionBody(pp);
-    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
-    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
+    assertTrue(astPP.isPresent(), "Failed to parse from pp: " + pp);
+    assertTrue(astPP.get().deepEquals(ast.get()), "AST not equal after pp: " + pp);
   }
 
   @Test
@@ -84,18 +80,18 @@ public class SCTransitions4CodeParserTest extends GeneralAbstractTest {
     Optional<ASTSCState> ast = parser.parse_StringSCState("state A;");
     TestUtils.check(parser);
 
-    assertTrue("No ast present", ast.isPresent());
-    assertFalse("Modifier",
-      ast.get().getSCModifier().isPresentStereotype()
+    assertTrue(ast.isPresent(), "No ast present");
+    assertFalse(ast.get().getSCModifier().isPresentStereotype()
       || ast.get().getSCModifier().isFinal()
-      || ast.get().getSCModifier().isInitial());
-    assertTrue("Ante", ast.get().getSCSAnte() instanceof ASTSCEmptyAnte);
-    assertEquals("State name", "A", ast.get().getName());
+      || ast.get().getSCModifier().isInitial(),
+        "Modifier");
+    assertInstanceOf(ASTSCEmptyAnte.class, ast.get().getSCSAnte(), "Ante");
+    assertEquals("A", ast.get().getName(), "State name");
 
     String pp = printer.prettyprint(ast.get());
     Optional<ASTSCState> astPP = parser.parse_StringSCState(pp);
-    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
-    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
+    assertTrue(astPP.isPresent(), "Failed to parse from pp: " + pp);
+    assertTrue(astPP.get().deepEquals(ast.get()), "AST not equal after pp: " + pp);
   }
 
   @Test
@@ -103,19 +99,19 @@ public class SCTransitions4CodeParserTest extends GeneralAbstractTest {
     Optional<ASTSCState> ast = parser.parse_StringSCState("initial {} state A;");
     TestUtils.check(parser);
 
-    assertTrue("No ast present", ast.isPresent());
-    assertFalse("Modifier",
-      ast.get().getSCModifier().isPresentStereotype()
-        || ast.get().getSCModifier().isFinal());
-    assertTrue("Initial", ast.get().getSCModifier().isInitial());
-    assertTrue("Ante", ast.get().getSCSAnte() instanceof ASTAnteAction);
-    assertEquals("Statement count", 0, ((ASTAnteAction) ast.get().getSCSAnte()).sizeMCBlockStatements());
-    assertEquals("State name", "A", ast.get().getName());
+    assertTrue(ast.isPresent(), "No ast present");
+    assertFalse(ast.get().getSCModifier().isPresentStereotype()
+        || ast.get().getSCModifier().isFinal(),
+        "Modifier");
+    assertTrue(ast.get().getSCModifier().isInitial(), "Initial");
+    assertInstanceOf(ASTAnteAction.class, ast.get().getSCSAnte(), "Ante");
+    assertEquals(0, ((ASTAnteAction) ast.get().getSCSAnte()).sizeMCBlockStatements(), "Statement count");
+    assertEquals("A", ast.get().getName(), "State name");
 
     String pp = printer.prettyprint(ast.get());
     Optional<ASTSCState> astPP = parser.parse_StringSCState(pp);
-    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
-    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
+    assertTrue(astPP.isPresent(), "Failed to parse from pp: " + pp);
+    assertTrue(astPP.get().deepEquals(ast.get()), "AST not equal after pp: " + pp);
   }
 
   @Test
@@ -123,20 +119,20 @@ public class SCTransitions4CodeParserTest extends GeneralAbstractTest {
     Optional<ASTSCState> ast = parser.parse_StringSCState("initial { \"foo\"; } state Foo;");
     TestUtils.check(parser);
 
-    assertTrue("No ast present", ast.isPresent());
-    assertFalse("Stereotype", ast.get().getSCModifier().isPresentStereotype());
-    assertFalse("final", ast.get().getSCModifier().isFinal());
-    assertTrue("initial", ast.get().getSCModifier().isInitial());
-    assertTrue("Ante", ast.get().getSCSAnte() instanceof ASTAnteAction);
-    assertEquals("Statement count", 1, ((ASTAnteAction) ast.get().getSCSAnte()).sizeMCBlockStatements());
-    assertTrue("Expression",
-      ((ASTAnteAction) ast.get().getSCSAnte()).getMCBlockStatement(0) instanceof ASTExpressionStatement);
-    assertEquals("State name", "Foo", ast.get().getName());
+    assertTrue(ast.isPresent(), "No ast present");
+    assertFalse(ast.get().getSCModifier().isPresentStereotype(), "Stereotype");
+    assertFalse(ast.get().getSCModifier().isFinal(), "final");
+    assertTrue(ast.get().getSCModifier().isInitial(), "initial");
+    assertInstanceOf(ASTAnteAction.class, ast.get().getSCSAnte(), "Ante");
+    assertEquals(1, ((ASTAnteAction) ast.get().getSCSAnte()).sizeMCBlockStatements(), "Statement count");
+    assertInstanceOf(ASTExpressionStatement.class,
+        ((ASTAnteAction) ast.get().getSCSAnte()).getMCBlockStatement(0), "Expression");
+    assertEquals("Foo", ast.get().getName(), "State name");
 
     String pp = printer.prettyprint(ast.get());
     Optional<ASTSCState> astPP = parser.parse_StringSCState(pp);
-    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
-    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
+    assertTrue(astPP.isPresent(), "Failed to parse from pp: " + pp);
+    assertTrue(astPP.get().deepEquals(ast.get()), "AST not equal after pp: " + pp);
   }
 
   @Test
@@ -144,22 +140,22 @@ public class SCTransitions4CodeParserTest extends GeneralAbstractTest {
     Optional<ASTSCState> ast = parser.parse_StringSCState("initial { \"foo\"; \"bar\"; } state Foo;");
     TestUtils.check(parser);
 
-    assertTrue("No ast present", ast.isPresent());
-    assertFalse("Stereotype", ast.get().getSCModifier().isPresentStereotype());
-    assertFalse("final", ast.get().getSCModifier().isFinal());
-    assertTrue("initial", ast.get().getSCModifier().isInitial());
-    assertTrue("Ante", ast.get().getSCSAnte() instanceof ASTAnteAction);
-    assertEquals("Statement count", 2, ((ASTAnteAction) ast.get().getSCSAnte()).sizeMCBlockStatements());
-    assertTrue("Expression #1",
-      ((ASTAnteAction) ast.get().getSCSAnte()).getMCBlockStatement(0) instanceof ASTExpressionStatement);
-    assertTrue("Expression #2",
-      ((ASTAnteAction) ast.get().getSCSAnte()).getMCBlockStatement(1) instanceof ASTExpressionStatement);
-    assertEquals("State name", "Foo", ast.get().getName());
+    assertTrue(ast.isPresent(), "No ast present");
+    assertFalse(ast.get().getSCModifier().isPresentStereotype(), "Stereotype");
+    assertFalse(ast.get().getSCModifier().isFinal(), "final");
+    assertTrue(ast.get().getSCModifier().isInitial(), "initial");
+    assertInstanceOf(ASTAnteAction.class, ast.get().getSCSAnte(), "Ante");
+    assertEquals(2, ((ASTAnteAction) ast.get().getSCSAnte()).sizeMCBlockStatements(), "Statement count");
+    assertInstanceOf(ASTExpressionStatement.class,
+        ((ASTAnteAction) ast.get().getSCSAnte()).getMCBlockStatement(0), "Expression #1");
+    assertInstanceOf(ASTExpressionStatement.class,
+        ((ASTAnteAction) ast.get().getSCSAnte()).getMCBlockStatement(1), "Expression #2");
+    assertEquals("Foo", ast.get().getName(), "State name");
 
     String pp = printer.prettyprint(ast.get());
     Optional<ASTSCState> astPP = parser.parse_StringSCState(pp);
-    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
-    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
+    assertTrue(astPP.isPresent(), "Failed to parse from pp: " + pp);
+    assertTrue(astPP.get().deepEquals(ast.get()), "AST not equal after pp: " + pp);
   }
 
   @Test
@@ -168,22 +164,22 @@ public class SCTransitions4CodeParserTest extends GeneralAbstractTest {
       parser.parse_StringUnnamedStatechart("statechart { initial state Foo; state Bar; }");
     TestUtils.check(parser);
 
-    assertTrue("No ast present", ast.isPresent());
-    assertEquals("Element count", 2, ast.get().sizeSCStatechartElements());
+    assertTrue(ast.isPresent(), "No ast present");
+    assertEquals(2, ast.get().sizeSCStatechartElements(), "Element count");
     ASTSCState firstState = ((ASTSCState) ast.get().getSCStatechartElement(0));
     ASTSCState secondState = ((ASTSCState) ast.get().getSCStatechartElement(1));
 
-    assertTrue("initial State",firstState.getSCModifier().isInitial());
-    assertEquals("initial State name", "Foo", firstState.getName());
-    assertTrue("initial state ante", firstState.getSCSAnte() instanceof ASTSCEmptyAnte);
+    assertTrue(firstState.getSCModifier().isInitial(), "initial State");
+    assertEquals("Foo", firstState.getName(), "initial State name");
+    assertInstanceOf(ASTSCEmptyAnte.class, firstState.getSCSAnte(), "initial state ante");
 
-    assertFalse("second State",secondState.getSCModifier().isInitial());
-    assertEquals("second State name", "Bar", secondState.getName());
-    assertTrue("second state ante", secondState.getSCSAnte() instanceof ASTSCEmptyAnte);
+    assertFalse(secondState.getSCModifier().isInitial(), "second State");
+    assertEquals("Bar", secondState.getName(), "second State name");
+    assertInstanceOf(ASTSCEmptyAnte.class, secondState.getSCSAnte(), "second state ante");
 
     String pp = printer.prettyprint(ast.get());
     Optional<ASTUnnamedStatechart> astPP = parser.parse_StringUnnamedStatechart(pp);
-    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
-    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
+    assertTrue(astPP.isPresent(), "Failed to parse from pp: " + pp);
+    assertTrue(astPP.get().deepEquals(ast.get()), "AST not equal after pp: " + pp);
   }
 }

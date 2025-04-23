@@ -8,11 +8,9 @@ import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsGlobalScope;
 import de.se_rwth.commons.logging.Log;
-import de.se_rwth.commons.logging.LogStub;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -26,8 +24,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UMLStatechartsToolTest extends GeneralAbstractTest{
   
@@ -35,13 +33,13 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
   String outputDir = "target/tooltest/";
 
 
-  @After
+  @AfterEach
   public void after(){
     CD4CodeMill.reset();
   }
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     initLogger();
     initUMLStatechartsMill();
@@ -73,7 +71,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
     new UMLStatechartsTool().run(new String[]{
         "-i", resourcesDir + "examples/uml/Door.sc"
     });
-    assertEquals("Door.sc was not processed successfully", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Door.sc was not processed successfully");
   }
   
   @Test
@@ -82,7 +80,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
         "-i", resourcesDir + "examples/uml/Door.sc",
         "-pp"
     });
-    assertEquals("Pretty printing of Door.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Pretty printing of Door.sc was not successful");
   }
   
   @Test
@@ -91,7 +89,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
         "-i", resourcesDir + "tf/Example.sc",
         "-pp"
     });
-    assertEquals("Pretty printing of Example.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Pretty printing of Example.sc was not successful");
   }
 
   @Test
@@ -100,7 +98,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
             "-i", resourcesDir + "examples/uml/DoorExample.sc",
             "-gen", "target/gentest1"
     });
-    assertEquals("Converting to SD of Door.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Converting to SD of Door.sc was not successful");
     // the content of the generated files will be checked later by Gradle, 
     // by compilation and execution
   }
@@ -112,7 +110,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
             "-var", "StatePattern2",
             "-gen", "target/gentest1MitV2"
     });
-    assertEquals("Converting to SD of DoorExample.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Converting to SD of DoorExample.sc was not successful");
     // the content of the generated files will be checked later by Gradle, 
     // by compilation and execution
   }
@@ -127,7 +125,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
             "-fp", "src/test/resources",
             "-ct", "configTemplate/StatePatternConfigV3.ftl"
     });
-    assertEquals("Converting to CD of DoorExample.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Converting to CD of DoorExample.sc was not successful");
     // the content of the generated files will be checked later by Gradle, 
     // by compilation and execution
   }
@@ -140,7 +138,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
             "-fp", "src/test/resources",
             "-ct", "configTemplate/ct.ftl"
     });
-    assertEquals("Converting to CD of Door.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Converting to CD of Door.sc was not successful");
     // the content of the generated files will be checked later by Gradle, 
     // by compilation and execution
   }
@@ -154,7 +152,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
             "-ct", "configTemplate/ct.ftl",
             "-hcp", "src/test/resources/handcoded"
     });
-    assertEquals("Converting to CD of Door.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Converting to CD of Door.sc was not successful");
     // the content of the generated files will be checked later by Gradle, 
     // by compilation and execution
   }
@@ -165,7 +163,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
         "-i", resourcesDir + "examples/uml/Door.sc",
         "-s", outputDir + "door/Door.scsym"
     });
-    assertEquals("Storing symbol table of Door.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Storing symbol table of Door.sc was not successful");
     // the content of the generated files is to be checked manually at the moment
   }
   
@@ -175,7 +173,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
         "-i", resourcesDir + "examples/uml/Car.sc",
         "-s", outputDir + "car/Car.scsym"
     });
-    assertEquals("Storing symbol table of Car.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Storing symbol table of Car.sc was not successful");
     // the content of the generated files is to be checked manually at the moment
   }
   
@@ -185,7 +183,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
         "-i", resourcesDir + "valid/Test.sc",
         "-s", outputDir + "testsc/Test.scsym"
     });
-    assertEquals("Storing symbol table of Test.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Storing symbol table of Test.sc was not successful");
     // the content of the generated files is to be checked manually at the moment
   }
 
@@ -195,7 +193,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
         "-i", resourcesDir + "valid/Test2.sc",
         "-s", outputDir + "testsc2/Test2.scsym"
     });
-    assertEquals("Storing symbol table of Test2.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Storing symbol table of Test2.sc was not successful");
     // the content of the generated files is to be checked manually at the moment
   }
 
@@ -207,7 +205,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
         "-pp", outputDir + "testsc/Test.sc"
     });
     Log.getFindings().forEach(System.out::println);
-    assertEquals("Pretty printing Test.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Pretty printing Test.sc was not successful");
     // the content of the generated files is to be checked manually at the moment
   }
   
@@ -217,7 +215,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
         "-i", resourcesDir + "flat/test6.sc"
     });
     Log.getFindings().forEach(System.out::println);
-    assertEquals("Processing of test6.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Processing of test6.sc was not successful");
     // the content of the generated files is to be checked manually at the moment
   }
   
@@ -228,23 +226,23 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
         "-i", resourcesDir + "examples/uml/Door.sc",
         "-r", outputDir + "door"
     });
-    assertEquals("Reporting for Door.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Reporting for Door.sc was not successful");
     // Test the branching degree
     Map<String, Integer> branchingDegree = loadBranchingDegree(new File(outputDir + "door/branchingDegree.txt"));
-    assertEquals("Branching Degree of Opened", Integer.valueOf(1), branchingDegree.getOrDefault("Opened", -1));
-    assertEquals("Branching Degree of Closed", Integer.valueOf(2), branchingDegree.getOrDefault("Closed", -1));
-    assertEquals("Branching Degree of Locked", Integer.valueOf(1), branchingDegree.getOrDefault("Locked", -1));
+    assertEquals(Integer.valueOf(1), branchingDegree.getOrDefault("Opened", -1), "Branching Degree of Opened");
+    assertEquals(Integer.valueOf(2), branchingDegree.getOrDefault("Closed", -1), "Branching Degree of Closed");
+    assertEquals(Integer.valueOf(1), branchingDegree.getOrDefault("Locked", -1), "Branching Degree of Locked");
 
     // Test reachability reports
     Map<String, String> reachability = loadReachability(new File(outputDir + "door/reachability.txt"));
-    assertEquals("Reachability of Closed", "reachable", reachability.get("Closed"));
-    assertEquals("Reachability of Opened", "reachable", reachability.get("Opened"));
-    assertEquals("Reachability of Locked", "reachable", reachability.get("Locked"));
+    assertEquals("reachable", reachability.get("Closed"), "Reachability of Closed");
+    assertEquals("reachable", reachability.get("Opened"), "Reachability of Opened");
+    assertEquals("reachable", reachability.get("Locked"), "Reachability of Locked");
 
     // Test state name report
     Set<String> stateNames= loadStateNames(new File(outputDir + "door/stateNames.txt"));
     for (String state : Arrays.asList("Closed", "Opened", "Locked"))
-      assertTrue("StateNames " + state, stateNames.contains(state));
+      assertTrue(stateNames.contains(state), "StateNames " + state);
   }
   
   @Test
@@ -253,24 +251,24 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
         "-i", resourcesDir + "examples/uml/Car.sc",
         "-r", outputDir + "/car"
     });
-    assertEquals("Reporting for Car.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Reporting for Car.sc was not successful");
     // Test the branching degree
     Map<String, Integer> branchingDegree = loadBranchingDegree(new File(outputDir + "car/branchingDegree.txt"));
-    assertEquals("Branching Degree of EngineOff", Integer.valueOf(1), branchingDegree.getOrDefault("EngineOff", -1));
-    assertEquals("Branching Degree of EngineRunning", Integer.valueOf(1), branchingDegree.getOrDefault("EngineRunning", -1));
-    assertEquals("Branching Degree of Parking", Integer.valueOf(0), branchingDegree.getOrDefault("Parking", -1));
+    assertEquals(Integer.valueOf(1), branchingDegree.getOrDefault("EngineOff", -1), "Branching Degree of EngineOff");
+    assertEquals(Integer.valueOf(1), branchingDegree.getOrDefault("EngineRunning", -1), "Branching Degree of EngineRunning");
+    assertEquals(Integer.valueOf(0), branchingDegree.getOrDefault("Parking", -1), "Branching Degree of Parking");
 
     // Test reachability reports
     Map<String, String> reachability = loadReachability(new File(outputDir + "car/reachability.txt"));
-    assertEquals("Reachability of EngineOff", "reachable", reachability.get("EngineOff"));
-    assertEquals("Reachability of EngineRunning", "reachable", reachability.get("EngineRunning"));
-    assertEquals("Reachability of Driving", "unreachable", reachability.get("Driving"));
-    assertEquals("Reachability of Parking", "reachable", reachability.get("Parking"));
+    assertEquals("reachable", reachability.get("EngineOff"), "Reachability of EngineOff");
+    assertEquals("reachable", reachability.get("EngineRunning"), "Reachability of EngineRunning");
+    assertEquals("unreachable", reachability.get("Driving"), "Reachability of Driving");
+    assertEquals("reachable", reachability.get("Parking"), "Reachability of Parking");
 
     // Test state name report
     Set<String> stateNames= loadStateNames(new File(outputDir + "car/stateNames.txt"));
     for (String state : Arrays.asList("EngineOff", "EngineRunning", "Driving", "Parking"))
-      assertTrue("StateNames " + state, stateNames.contains(state));
+      assertTrue(stateNames.contains(state), "StateNames " + state);
 
   }
 
@@ -282,7 +280,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
    */
   private Map<String, Integer> loadBranchingDegree(File file)
       throws IOException {
-    assertTrue("branchingDegree report missing", file.exists());
+    assertTrue(file.exists(), "branchingDegree report missing");
     return Files.readAllLines(file.toPath()).stream()
         .map(l -> l.split(":", 2))
         .collect(Collectors.toMap(e -> e[0], e -> Integer.parseInt(e[1].trim())));
@@ -296,7 +294,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
    */
   private Map<String, String> loadReachability(File file)
       throws IOException {
-    assertTrue("reachability report missing", file.exists());
+    assertTrue(file.exists(), "reachability report missing");
     return Files.readAllLines(file.toPath()).stream()
         .map(l -> l.split(":", 2)) // Split (un)reachable -> S1,S2
         .map(e -> splitCommaSeparatedStream(e[1], e[0].trim()))
@@ -323,7 +321,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
    */
   private Set<String> loadStateNames(File file)
       throws IOException {
-    assertTrue("stateNames report missing", file.exists());
+    assertTrue(file.exists(), "stateNames report missing");
     return Files.readAllLines(file.toPath()).stream()
         .map(l -> Stream.of(l.split(",")))
         .flatMap(Stream::unordered)
@@ -351,7 +349,7 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
       "-i", resourcesDir + "de/mine/PingPong.sc",
       "-gen", "target/gentestPing1A"
     });
-    assertEquals("Converting of PingPong.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Converting of PingPong.sc was not successful");
     // the content of the generated files will be checked later by Gradle, 
     // by compilation and execution
   }

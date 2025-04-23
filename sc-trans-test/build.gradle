@@ -30,7 +30,9 @@ configurations { grammar }
 
 
 dependencies {
-  testImplementation group: 'junit', name: 'junit', version: junit_version
+  testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
+  testImplementation "org.junit.jupiter:junit-jupiter-engine:$junit_version"
+  testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_version"
 
   // Depend on the rootProject (the module actually defining statecharts)
   grammar rootProject
@@ -62,6 +64,10 @@ repositories {
     credentials.password mavenPassword
     url repo
   }
+}
+
+test {
+  useJUnitPlatform()
 }
 
 

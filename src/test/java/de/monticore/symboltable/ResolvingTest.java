@@ -12,21 +12,18 @@ import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsGlobalScope;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsScope;
-import de.se_rwth.commons.logging.Log;
-import de.se_rwth.commons.logging.LogStub;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.nio.file.Paths;
 import java.util.Optional;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ResolvingTest extends GeneralAbstractTest {
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     initLogger();
     initUMLStatechartsMill();
@@ -59,7 +56,7 @@ public class ResolvingTest extends GeneralAbstractTest {
     IUMLStatechartsArtifactScope st = tool.createSymbolTable(ast);
     st.setName("Test");
     Optional<SCStateSymbol> stateSymbol = st.resolveSCState("Parking");
-    assertTrue("Could not resolve state Parking", stateSymbol.isPresent());
+    assertTrue(stateSymbol.isPresent(), "Could not resolve state Parking");
   }
   
   @Test
@@ -68,7 +65,7 @@ public class ResolvingTest extends GeneralAbstractTest {
         .globalScope();
     gs.setSymbolPath(new MCPath(Paths.get("src/test/resources/symtab")));
     Optional<SCStateSymbol> stateSymbol = gs.resolveSCState("Test2.Parking");
-    assertTrue("Could not resolve state Parking", stateSymbol.isPresent());
+    assertTrue(stateSymbol.isPresent(), "Could not resolve state Parking");
   }
 
   @Test
@@ -87,7 +84,7 @@ public class ResolvingTest extends GeneralAbstractTest {
     Optional<SCStateSymbol> stateSymbol = scope.resolveSCState("S");
 
     // Then
-    assertTrue("Could resolve state S", stateSymbol.isEmpty());
+    assertTrue(stateSymbol.isEmpty(), "Could resolve state S");
   }
   
   @Test
@@ -97,6 +94,6 @@ public class ResolvingTest extends GeneralAbstractTest {
     BasicSymbolsMill.initializePrimitives();
     gs.setSymbolPath(new MCPath(Paths.get("src/test/resources/symtab")));
     Optional<TypeSymbol> typeSymbol = gs.resolveType("mytypes.Address");
-    assertTrue("Could not resolve type mytypes.Address", typeSymbol.isPresent());
+    assertTrue(typeSymbol.isPresent(), "Could not resolve type mytypes.Address");
   }
 }

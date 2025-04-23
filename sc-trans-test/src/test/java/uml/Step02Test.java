@@ -7,17 +7,17 @@ import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.se_rwth.commons.logging.Log;
 import de.monticore.tf.Step02ChangeInternTrans;
 import de.monticore.tf.Step02RemoveDuplicatedSubstates;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Optional;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Step02Test extends AbstractUMLTest {
 
-  @Before
+  @BeforeEach
   public void setup() {
     super.initLogger();
     super.initMills();

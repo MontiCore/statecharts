@@ -2,7 +2,6 @@
 package de.monticore.cocos;
 
 import de.monticore.GeneralAbstractTest;
-import de.monticore.io.paths.MCPath;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.scstateinvariants._cocos.InvariantValid;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
@@ -10,32 +9,28 @@ import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.symbols.oosymbols._symboltable.FieldSymbol;
 import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
 import de.monticore.types.check.SymTypeExpressionFactory;
-import de.monticore.types.check.TypeCalculator;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts.UMLStatechartsTool;
 import de.monticore.umlstatecharts._cocos.UMLStatechartsCoCoChecker;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.se_rwth.commons.logging.Log;
-import de.se_rwth.commons.logging.LogStub;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class InvariantValidTest extends GeneralAbstractTest {
 
   protected UMLStatechartsParser parser = new UMLStatechartsParser();
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     initLogger();
     initUMLStatechartsMill();
@@ -46,7 +41,7 @@ public class InvariantValidTest extends GeneralAbstractTest {
   public void testCoCoInvalid() throws IOException {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/invalid/Invariant.sc");
-    assertTrue("Invariant.sc could not be parsed",  ast.isPresent());
+    assertTrue(ast.isPresent(), "Invariant.sc could not be parsed");
     IUMLStatechartsArtifactScope st = new UMLStatechartsTool().createSymbolTable(ast.get());
     st.setName("Invariant");
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
@@ -65,7 +60,7 @@ public class InvariantValidTest extends GeneralAbstractTest {
   public void testCoCoValid() throws IOException {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/valid/Invariant2.sc");
-    assertTrue("Invariant2.sc could not be parsed",  ast.isPresent());
+    assertTrue(ast.isPresent(), "Invariant2.sc could not be parsed");
     IUMLStatechartsArtifactScope st = new UMLStatechartsTool().createSymbolTable(ast.get());
     st.setName("Invariant2");
     UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
@@ -79,7 +74,7 @@ public class InvariantValidTest extends GeneralAbstractTest {
   public void testCoCoValid2() throws IOException {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/valid/Invariant3.sc");
-    assertTrue("Invariant3.sc could not be parsed",  ast.isPresent());
+    assertTrue(ast.isPresent(), "Invariant3.sc could not be parsed");
 
     IUMLStatechartsArtifactScope st = new UMLStatechartsTool()
         .createSymbolTable(ast.get());
@@ -100,7 +95,7 @@ public class InvariantValidTest extends GeneralAbstractTest {
   public void testCoCoValid3() throws IOException {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/valid/Invariant4.sc");
-    assertTrue("Invariant3.sc could not be parsed",  ast.isPresent());
+    assertTrue(ast.isPresent(), "Invariant3.sc could not be parsed");
 
     IUMLStatechartsArtifactScope st = new UMLStatechartsTool().createSymbolTable(ast.get());
     st.setName("Invariant4");
@@ -123,7 +118,7 @@ public class InvariantValidTest extends GeneralAbstractTest {
   @Test
   public void testCoCoValid4() throws IOException {
     Optional<ASTSCArtifact> ast = parser.parse("src/test/resources/valid/InvariantWithAnte.sc");
-    assertTrue("InvariantWithAnte.sc could not be parsed",  ast.isPresent());
+    assertTrue(ast.isPresent(), "InvariantWithAnte.sc could not be parsed");
 
     IUMLStatechartsArtifactScope st = new UMLStatechartsTool().createSymbolTable(ast.get());
     st.setName("InvariantWithAnte");

@@ -10,16 +10,13 @@ import de.monticore.umlstatecharts._cocos.UMLStatechartsCoCoChecker;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.se_rwth.commons.logging.Log;
-import de.se_rwth.commons.logging.LogStub;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PackageCorrespondsToFoldersTest extends GeneralAbstractTest {
   
@@ -28,7 +25,7 @@ public class PackageCorrespondsToFoldersTest extends GeneralAbstractTest {
   public void testCoCOInvalid() throws IOException {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/invalid/InvalidPackage.sc");
-    assertTrue("InvalidPackage.sc could not be parsed",  ast.isPresent());
+    assertTrue(ast.isPresent(), "InvalidPackage.sc could not be parsed");
     check(ast.get());
     assertEquals(1, Log.getErrorCount());
     assertTrue(Log.getFindings().stream().anyMatch(n -> n.getMsg().contains(PackageCorrespondsToFolders.ERROR_CODE)));
@@ -39,7 +36,7 @@ public class PackageCorrespondsToFoldersTest extends GeneralAbstractTest {
   public void testCoCOValid() throws IOException {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/examples/uml/Door.sc");
-    assertTrue("Door.sc could not be parsed",  ast.isPresent());
+    assertTrue(ast.isPresent(), "Door.sc could not be parsed");
     check(ast.get());
     assertEquals(0, Log.getErrorCount());
     
@@ -51,7 +48,7 @@ public class PackageCorrespondsToFoldersTest extends GeneralAbstractTest {
   public void testCoCoValidCar() throws IOException {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/examples/uml/Car.sc");
-    assertTrue("Car.sc could not be parsed",  ast.isPresent());
+    assertTrue(ast.isPresent(), "Car.sc could not be parsed");
     check(ast.get());
     assertEquals(0, Log.getErrorCount());
     
@@ -61,7 +58,7 @@ public class PackageCorrespondsToFoldersTest extends GeneralAbstractTest {
   public void testCoCoValidPackage() throws IOException {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/valid/ValidPackage.sc");
-    assertTrue("ValidPackage.sc could not be parsed",  ast.isPresent());
+    assertTrue(ast.isPresent(), "ValidPackage.sc could not be parsed");
     check(ast.get());
     assertEquals(0, Log.getErrorCount());
     
@@ -71,7 +68,7 @@ public class PackageCorrespondsToFoldersTest extends GeneralAbstractTest {
   public void testCoCoValidPackageTrig() throws IOException {
     Optional<ASTSCArtifact> ast = new TriggeredStatechartsParser()
         .parse("src/test/resources/valid/ValidPackage.sc");
-    assertTrue("ValidPackage.sc could not be parsed",  ast.isPresent());
+    assertTrue(ast.isPresent(), "ValidPackage.sc could not be parsed");
     check(ast.get());
     assertEquals(0, Log.getErrorCount());
     

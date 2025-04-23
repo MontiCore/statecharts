@@ -7,17 +7,13 @@ import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.sccompleteness._ast.ASTSCCompleteness;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._prettyprint.UMLStatechartsFullPrettyPrinter;
-import de.monticore.umlstatecharts.UMLStatechartsMill;
-import de.se_rwth.commons.logging.Log;
-import de.se_rwth.commons.logging.LogStub;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Optional;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This test parses every non terminal of SCCompleteness,
@@ -34,14 +30,14 @@ public class SCCompletenessParserPPTest extends GeneralAbstractTest {
   public void testSCCompletenessComplete() throws IOException {
     Optional<ASTSCCompleteness> ast = parser.parse_StringSCCompleteness("(c)");
     TestUtils.check(parser);
-    assertTrue("No ast present", ast.isPresent());
-    assertTrue("Expected complete", ast.get().isComplete());
-    assertFalse("Expected not incomplete", ast.get().isIncomplete());
+    assertTrue(ast.isPresent(), "No ast present");
+    assertTrue(ast.get().isComplete(), "Expected complete");
+    assertFalse(ast.get().isIncomplete(), "Expected not incomplete");
 
     String pp = printer.prettyprint(ast.get());
     Optional<ASTSCCompleteness> astPP = parser.parse_StringSCCompleteness(pp);
-    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
-    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
+    assertTrue(astPP.isPresent(), "Failed to parse from pp: " + pp);
+    assertTrue(astPP.get().deepEquals(ast.get()), "AST not equal after pp: " + pp);
   }
 
   @Test
@@ -49,14 +45,14 @@ public class SCCompletenessParserPPTest extends GeneralAbstractTest {
       throws IOException {
     Optional<ASTSCCompleteness> ast = parser.parse_StringSCCompleteness("(...)");
     TestUtils.check(parser);
-    assertTrue("No ast present", ast.isPresent());
-    assertFalse("Expected not complete", ast.get().isComplete());
-    assertTrue("Expected incomplete", ast.get().isIncomplete());
+    assertTrue(ast.isPresent(), "No ast present");
+    assertFalse(ast.get().isComplete(), "Expected not complete");
+    assertTrue(ast.get().isIncomplete(), "Expected incomplete");
 
     String pp = printer.prettyprint(ast.get());
     Optional<ASTSCCompleteness> astPP = parser.parse_StringSCCompleteness(pp);
-    assertTrue("Failed to parse from pp: " + pp, astPP.isPresent());
-    assertTrue("AST not equal after pp: " + pp, astPP.get().deepEquals(ast.get()));
+    assertTrue(astPP.isPresent(), "Failed to parse from pp: " + pp);
+    assertTrue(astPP.get().deepEquals(ast.get()), "AST not equal after pp: " + pp);
   }
 
 }

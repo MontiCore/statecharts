@@ -6,11 +6,9 @@ import de.monticore.triggeredstatecharts.TriggeredStatechartsTool;
 import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
 import de.monticore.triggeredstatecharts._symboltable.ITriggeredStatechartsGlobalScope;
 import de.se_rwth.commons.logging.Log;
-import de.se_rwth.commons.logging.LogStub;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -24,21 +22,21 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TriggeredStatechartsToolTest extends GeneralAbstractTest{
 
   String resourcesDir = "src/test/resources/";
   String outputDir = "target/tooltest/";
 
-  @After
+  @AfterEach
   public void after(){
     CD4CodeMill.reset();
   }
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     initLogger();
     initTriggeredStatechartsMill();
@@ -51,7 +49,7 @@ public class TriggeredStatechartsToolTest extends GeneralAbstractTest{
     new TriggeredStatechartsTool().run(new String[]{
       "-i", resourcesDir + "examples/triggered/Door3.sc"
     });
-    assertEquals("Door3.sc was not processed successfully", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Door3.sc was not processed successfully");
   }
 
   @Test
@@ -60,7 +58,7 @@ public class TriggeredStatechartsToolTest extends GeneralAbstractTest{
       "-i", resourcesDir + "examples/triggered/Door3.sc",
       "-pp"
     });
-    assertEquals("Pretty printing of Door3.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Pretty printing of Door3.sc was not successful");
   }
 
   @Test
@@ -69,7 +67,7 @@ public class TriggeredStatechartsToolTest extends GeneralAbstractTest{
       "-i", resourcesDir + "tf/Example.sc",
       "-pp"
     });
-    assertEquals("Pretty printing of Example.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Pretty printing of Example.sc was not successful");
   }
 
   @Test
@@ -78,7 +76,7 @@ public class TriggeredStatechartsToolTest extends GeneralAbstractTest{
       "-i", resourcesDir + "examples/triggered/DoorExample2.sc",
       "-gen", "target/gentest4"
     });
-    assertEquals("Converting to SD of DoorExample2.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Converting to SD of DoorExample2.sc was not successful");
     // the content of the generated files will be checked later by Gradle, 
     // by compilation and execution
   }
@@ -91,7 +89,7 @@ public class TriggeredStatechartsToolTest extends GeneralAbstractTest{
       "-fp", "src/test/resources",
       "-ct", "configTemplate/ct.ftl"
     });
-    assertEquals("Converting to CD of DoorExample2.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Converting to CD of DoorExample2.sc was not successful");
     // the content of the generated files will be checked later by Gradle, 
     // by compilation and execution
   }
@@ -105,7 +103,7 @@ public class TriggeredStatechartsToolTest extends GeneralAbstractTest{
       "-ct", "configTemplate/ct.ftl",
       "-hcp", "src/test/resources/handcoded"
     });
-    assertEquals("Converting to CD of DoorExample2.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Converting to CD of DoorExample2.sc was not successful");
     // the content of the generated files will be checked later by Gradle, 
     // by compilation and execution
   }
@@ -116,7 +114,7 @@ public class TriggeredStatechartsToolTest extends GeneralAbstractTest{
       "-i", resourcesDir + "examples/triggered/Door3.sc",
       "-s", outputDir + "door3/Door3.scsym"
     });
-    assertEquals("Storing symbol table of Door3.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Storing symbol table of Door3.sc was not successful");
   }
 
   @Test
@@ -125,7 +123,7 @@ public class TriggeredStatechartsToolTest extends GeneralAbstractTest{
       "-i", resourcesDir + "examples/triggered/Car2.sc",
       "-s", outputDir + "car2/Car2.scsym"
     });
-    assertEquals("Storing symbol table of Car2.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Storing symbol table of Car2.sc was not successful");
   }
 
   @Test
@@ -134,7 +132,7 @@ public class TriggeredStatechartsToolTest extends GeneralAbstractTest{
       "-i", resourcesDir + "tf/Example.sc",
       "-s", outputDir + "testsc/Example.scsym"
     });
-    assertEquals("Storing symbol table of Example.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Storing symbol table of Example.sc was not successful");
   }
 
 
@@ -145,7 +143,7 @@ public class TriggeredStatechartsToolTest extends GeneralAbstractTest{
       "-pp", outputDir + "testsc/Car2.sc"
     });
     Log.getFindings().forEach(System.out::println);
-    assertEquals("Pretty printing Car2.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Pretty printing Car2.sc was not successful");
   }
 
 
@@ -155,23 +153,23 @@ public class TriggeredStatechartsToolTest extends GeneralAbstractTest{
       "-i", resourcesDir + "examples/triggered/Door3.sc",
       "-r", outputDir + "door3"
     });
-    assertEquals("Reporting for Door3.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Reporting for Door3.sc was not successful");
     // Test the branching degree
     Map<String, Integer> branchingDegree = loadBranchingDegree(new File(outputDir + "door3/branchingDegree.txt"));
-    assertEquals("Branching Degree of Opened", Integer.valueOf(1), branchingDegree.getOrDefault("Opened", -1));
-    assertEquals("Branching Degree of Closed", Integer.valueOf(2), branchingDegree.getOrDefault("Closed", -1));
-    assertEquals("Branching Degree of Locked", Integer.valueOf(1), branchingDegree.getOrDefault("Locked", -1));
+    assertEquals(Integer.valueOf(1), branchingDegree.getOrDefault("Opened", -1), "Branching Degree of Opened");
+    assertEquals(Integer.valueOf(2), branchingDegree.getOrDefault("Closed", -1), "Branching Degree of Closed");
+    assertEquals(Integer.valueOf(1), branchingDegree.getOrDefault("Locked", -1), "Branching Degree of Locked");
 
     // Test reachability reports
     Map<String, String> reachability = loadReachability(new File(outputDir + "door3/reachability.txt"));
-    assertEquals("Reachability of Closed", "reachable", reachability.get("Closed"));
-    assertEquals("Reachability of Opened", "reachable", reachability.get("Opened"));
-    assertEquals("Reachability of Locked", "reachable", reachability.get("Locked"));
+    assertEquals("reachable", reachability.get("Closed"), "Reachability of Closed");
+    assertEquals("reachable", reachability.get("Opened"), "Reachability of Opened");
+    assertEquals("reachable", reachability.get("Locked"), "Reachability of Locked");
 
     // Test state name report
     Set<String> stateNames= loadStateNames(new File(outputDir + "door3/stateNames.txt"));
     for (String state : Arrays.asList("Closed", "Opened", "Locked"))
-      assertTrue("StateNames " + state, stateNames.contains(state));
+      assertTrue(stateNames.contains(state), "StateNames " + state);
   }
 
   @Test
@@ -180,24 +178,24 @@ public class TriggeredStatechartsToolTest extends GeneralAbstractTest{
       "-i", resourcesDir + "examples/triggered/Car2.sc",
       "-r", outputDir + "/car2"
     });
-    assertEquals("Reporting for Car.sc was not successful", Log.getErrorCount(), 0);
+    assertEquals(Log.getErrorCount(), 0, "Reporting for Car.sc was not successful");
     // Test the branching degree
     Map<String, Integer> branchingDegree = loadBranchingDegree(new File(outputDir + "car2/branchingDegree.txt"));
-    assertEquals("Branching Degree of EngineOff", Integer.valueOf(1), branchingDegree.getOrDefault("EngineOff", -1));
-    assertEquals("Branching Degree of EngineRunning", Integer.valueOf(1), branchingDegree.getOrDefault("EngineRunning", -1));
-    assertEquals("Branching Degree of Parking", Integer.valueOf(0), branchingDegree.getOrDefault("Parking", -1));
+    assertEquals(Integer.valueOf(1), branchingDegree.getOrDefault("EngineOff", -1), "Branching Degree of EngineOff");
+    assertEquals(Integer.valueOf(1), branchingDegree.getOrDefault("EngineRunning", -1), "Branching Degree of EngineRunning");
+    assertEquals(Integer.valueOf(0), branchingDegree.getOrDefault("Parking", -1), "Branching Degree of Parking");
 
     // Test reachability reports
     Map<String, String> reachability = loadReachability(new File(outputDir + "car2/reachability.txt"));
-    assertEquals("Reachability of EngineOff", "reachable", reachability.get("EngineOff"));
-    assertEquals("Reachability of EngineRunning", "reachable", reachability.get("EngineRunning"));
-    assertEquals("Reachability of Driving", "unreachable", reachability.get("Driving"));
-    assertEquals("Reachability of Parking", "reachable", reachability.get("Parking"));
+    assertEquals("reachable", reachability.get("EngineOff"), "Reachability of EngineOff");
+    assertEquals("reachable", reachability.get("EngineRunning"), "Reachability of EngineRunning");
+    assertEquals("unreachable", reachability.get("Driving"), "Reachability of Driving");
+    assertEquals("reachable", reachability.get("Parking"), "Reachability of Parking");
 
     // Test state name report
     Set<String> stateNames= loadStateNames(new File(outputDir + "car2/stateNames.txt"));
     for (String state : Arrays.asList("EngineOff", "EngineRunning", "Driving", "Parking"))
-      assertTrue("StateNames " + state, stateNames.contains(state));
+      assertTrue(stateNames.contains(state), "StateNames " + state);
 
   }
 
@@ -209,7 +207,7 @@ public class TriggeredStatechartsToolTest extends GeneralAbstractTest{
    */
   private Map<String, Integer> loadBranchingDegree(File file)
     throws IOException {
-    assertTrue("branchingDegree report missing", file.exists());
+    assertTrue(file.exists(), "branchingDegree report missing");
     return Files.readAllLines(file.toPath()).stream()
       .map(l -> l.split(":", 2))
       .collect(Collectors.toMap(e -> e[0], e -> Integer.parseInt(e[1].trim())));
@@ -223,7 +221,7 @@ public class TriggeredStatechartsToolTest extends GeneralAbstractTest{
    */
   private Map<String, String> loadReachability(File file)
     throws IOException {
-    assertTrue("reachability report missing", file.exists());
+    assertTrue(file.exists(), "reachability report missing");
     return Files.readAllLines(file.toPath()).stream()
       .map(l -> l.split(":", 2)) // Split (un)reachable -> S1,S2
       .map(e -> splitCommaSeparatedStream(e[1], e[0].trim()))
@@ -250,7 +248,7 @@ public class TriggeredStatechartsToolTest extends GeneralAbstractTest{
    */
   private Set<String> loadStateNames(File file)
     throws IOException {
-    assertTrue("stateNames report missing", file.exists());
+    assertTrue(file.exists(), "stateNames report missing");
     return Files.readAllLines(file.toPath()).stream()
       .map(l -> Stream.of(l.split(",")))
       .flatMap(Stream::unordered)

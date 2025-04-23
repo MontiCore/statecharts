@@ -6,15 +6,14 @@ import de.monticore.scstatehierarchy.HierarchicalStateCollector;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._visitor.UMLStatechartsTraverser;
-import de.se_rwth.commons.logging.Log;
-import de.se_rwth.commons.logging.LogStub;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileReader;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Aim of this test is to verify the default delegator
@@ -30,7 +29,7 @@ public class HierarchicalDelegatorTest extends GeneralAbstractTest {
     try (FileReader fw = new FileReader(file)) {
       Optional<ASTSCArtifact> origAstOpt = parser.parse(fw);
 
-      Assert.assertTrue("No ast parsed from file " + file.getName(), origAstOpt.isPresent());
+      assertTrue(origAstOpt.isPresent(), "No ast parsed from file " + file.getName());
 
       HierarchicalStateCollector stateCollectorVisitor = new HierarchicalStateCollector();
 
@@ -40,7 +39,7 @@ public class HierarchicalDelegatorTest extends GeneralAbstractTest {
 
       origAstOpt.get().accept(traverser);
 
-      Assert.assertEquals(4, stateCollectorVisitor.getStates().size());
+      assertEquals(4, stateCollectorVisitor.getStates().size());
     }
   }
 

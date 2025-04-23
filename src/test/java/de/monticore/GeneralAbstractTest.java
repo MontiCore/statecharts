@@ -4,7 +4,7 @@ import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
 import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public abstract class GeneralAbstractTest {
     protected void initLogger() {
@@ -22,7 +22,7 @@ public abstract class GeneralAbstractTest {
         TriggeredStatechartsMill.init();
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         initLogger();
         initUMLStatechartsMill();

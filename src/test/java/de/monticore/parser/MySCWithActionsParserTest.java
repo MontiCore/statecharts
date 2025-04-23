@@ -3,16 +3,13 @@ package de.monticore.parser;
 
 import de.monticore.GeneralAbstractTest;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
-import de.monticore.umlstatecharts.UMLStatechartsMill;
 import de.se_rwth.commons.logging.Finding;
-import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class MySCWithActionsParserTest extends GeneralAbstractTest {
   

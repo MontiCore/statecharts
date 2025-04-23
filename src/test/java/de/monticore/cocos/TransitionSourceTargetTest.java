@@ -9,16 +9,13 @@ import de.monticore.umlstatecharts._cocos.UMLStatechartsCoCoChecker;
 import de.monticore.umlstatecharts._parser.UMLStatechartsParser;
 import de.monticore.umlstatecharts._symboltable.IUMLStatechartsArtifactScope;
 import de.se_rwth.commons.logging.Log;
-import de.se_rwth.commons.logging.LogStub;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TransitionSourceTargetTest extends GeneralAbstractTest {
   
@@ -28,7 +25,7 @@ public class TransitionSourceTargetTest extends GeneralAbstractTest {
   public void testCoCOInvalid() throws IOException {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/invalid/InvalidSourceTarget.sc");
-    assertTrue("InvalidSourceTarget.sc could not be parsed",  ast.isPresent());
+    assertTrue(ast.isPresent(), "InvalidSourceTarget.sc could not be parsed");
     check(ast.get());
     assertEquals(2, Log.getErrorCount());
     assertTrue(Log.getFindings().stream().anyMatch(n -> n.getMsg().contains(TransitionSourceTargetExists.SOURCE_ERROR_CODE)));
@@ -40,7 +37,7 @@ public class TransitionSourceTargetTest extends GeneralAbstractTest {
   public void testCoCOValid() throws IOException {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/examples/uml/Door.sc");
-    assertTrue("Door.sc could not be parsed",  ast.isPresent());
+    assertTrue( ast.isPresent(), "Door.sc could not be parsed");
     check(ast.get());
     assertEquals(0, Log.getErrorCount());
     
@@ -52,7 +49,7 @@ public class TransitionSourceTargetTest extends GeneralAbstractTest {
   public void testCoCoValidCar() throws IOException {
     Optional<ASTSCArtifact> ast = parser
         .parse("src/test/resources/examples/uml/Car.sc");
-    assertTrue("Car.sc could not be parsed",  ast.isPresent());
+    assertTrue(ast.isPresent(), "Car.sc could not be parsed");
     check(ast.get());
     assertEquals(0, Log.getErrorCount());
     
