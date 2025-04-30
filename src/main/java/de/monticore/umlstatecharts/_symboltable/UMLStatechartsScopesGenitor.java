@@ -2,10 +2,12 @@
 package de.monticore.umlstatecharts._symboltable;
 
 import de.monticore.scbasis._ast.ASTSCArtifact;
+import de.monticore.symboltable.ImportStatement;
+import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 import de.se_rwth.commons.logging.Log;
 
-import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 public class UMLStatechartsScopesGenitor extends UMLStatechartsScopesGenitorTOP {
 
@@ -30,7 +32,11 @@ public class UMLStatechartsScopesGenitor extends UMLStatechartsScopesGenitorTOP 
       String fileName = rootNode.getFilePath().getFileName().toString();
       artifactScope.setName(fileName.substring(0, fileName.lastIndexOf('.')));
     }
-    artifactScope.setImportsList(new ArrayList<>());
+    List<ImportStatement> imports = new ArrayList<>();
+    for (ASTMCImportStatement it : rootNode.getMCImportStatementList()) {
+      imports.add(new ImportStatement(it.getQName(), it.isStar()));
+    }
+    artifactScope.setImportsList(imports);
     putOnStack(artifactScope);
     rootNode.accept(getTraverser());
     return artifactScope;
