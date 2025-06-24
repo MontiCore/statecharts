@@ -6,7 +6,7 @@ plugins {
     id "java"
     id "maven-publish"
     id "de.monticore.generator-withtr" version "$mc_version" // MontiCore Plugin with TR support
-    id "com.github.johnrengelman.shadow" version "6.0.0"
+    id "com.github.johnrengelman.shadow" version "$shadow_plugin_version"
     id "io.github.themrmilchmann.ecj" version "0.2.0"
 }
 
