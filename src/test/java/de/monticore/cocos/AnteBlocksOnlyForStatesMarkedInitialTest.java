@@ -1,10 +1,9 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.cocos;
 
-import com.google.common.collect.Lists;
 import de.monticore.GeneralAbstractTest;
 import de.monticore.scbasis._ast.ASTSCArtifact;
-import de.monticore.sctransitions4code._cocos.AnteBlocksOnlyForInitialStates;
+import de.monticore.sctransitions4code._cocos.AnteBlocksOnlyForStatesMarkedInitial;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.triggeredstatecharts._cocos.TriggeredStatechartsCoCoChecker;
 import de.monticore.triggeredstatecharts._parser.TriggeredStatechartsParser;
@@ -12,7 +11,8 @@ import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AnteBlocksOnlyForInitialStatesTest extends GeneralAbstractTest {
+public class AnteBlocksOnlyForStatesMarkedInitialTest extends GeneralAbstractTest {
 
   private static final TriggeredStatechartsParser parser = new TriggeredStatechartsParser();
 
@@ -29,7 +29,7 @@ public class AnteBlocksOnlyForInitialStatesTest extends GeneralAbstractTest {
 
   @BeforeAll
   public static void beforeClass() {
-    checker.addCoCo(new AnteBlocksOnlyForInitialStates());
+    checker.addCoCo(new AnteBlocksOnlyForStatesMarkedInitial());
   }
 
 
@@ -55,33 +55,40 @@ public class AnteBlocksOnlyForInitialStatesTest extends GeneralAbstractTest {
     assertEquals(expectedErrorCodes, actualErrors);
   }
 
+  @ParameterizedTest
+  @ValueSource(strings = {
+    "statechart SC1 { " +
+      "  state S; " +
+      "}",
+    "statechart SC2 { " +
+      "  final state S; " +
+      "}",
+    "statechart SC3 { " +
+      "  initial { initS(); } state S; " +
+      "}",
+    "statechart SC4 { " +
+      "  state S1 { " +
+      "    initial { initS1S1(); } state S1S1; " +
+      "  }; " +
+      "}",
+  })
+  public void testCocoValid4(String model) throws IOException {
+    // When && Then
+    ASTSCArtifact ast = parser.parse_StringSCArtifact(model)
+      .orElseThrow(() -> new IllegalArgumentException("Findings: " + Log.getFindings()));
 
-  @Test
-  public void testCocoValid4Ante() throws IOException {
-    ASTSCArtifact ast = parser.parse("src/test/resources/valid/ValidWithAnte.sc").get();
+    // Then
     checkExpectedErrors(ast, new ArrayList<>());
   }
 
-  @Test
-  public void testCocoValid4NoAnte() throws IOException {
-    ASTSCArtifact ast = parser.parse("src/test/resources/valid/ValidWithoutAnte.sc").get();
+  public void testCocoInvalid1(l) throws IOException {
+    // Given
+    String model =
+      "";
+
+    // When && Then
+    ASTSCArtifact ast = parser.parse_StringSCArtifact(model)
+      .orElseThrow(() -> new IllegalArgumentException("Findings: " + Log.getFindings()));
     checkExpectedErrors(ast, new ArrayList<>());
-  }
-
-  @Test
-  public void testCocoValid4StereoAnte() throws IOException {
-    ASTSCArtifact ast = parser.parse("src/test/resources/valid/ValidWithStereoAnte.sc").get();
-    checkExpectedErrors(ast, new ArrayList<>());
-  }
-
-  @Test
-  public void testCocoInvalid4AnteWithoutInitial() throws IOException {
-    ASTSCArtifact ast = parser.parse("src/test/resources/invalid/AnteWithoutInitialState.sc").get();
-    List<String> expectedErrors = Lists.newArrayList(
-      AnteBlocksOnlyForInitialStates.ERROR_CODE, AnteBlocksOnlyForInitialStates.ERROR_CODE,
-      AnteBlocksOnlyForInitialStates.ERROR_CODE, AnteBlocksOnlyForInitialStates.ERROR_CODE
-    );
-
-    checkExpectedErrors(ast, expectedErrors);
   }
 }
