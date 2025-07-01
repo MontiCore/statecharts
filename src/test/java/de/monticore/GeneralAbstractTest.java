@@ -51,7 +51,6 @@ public abstract class GeneralAbstractTest {
 
   public static String[] getLoggedErrorCodes() {
     return Log.getFindings().stream()
-      .filter(Finding::isError)
       .map(Finding::getMsg)
       .map(msg -> msg.substring(0, 7))
       .filter(Pattern.compile("0x[0-9a-fA-F]{5}").asPredicate())
