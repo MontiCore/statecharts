@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.sctransitions4code._cocos;
 
+import de.monticore.scbasis.SCBasisMill;
 import de.monticore.scbasis._ast.ASTSCState;
 import de.monticore.scbasis._cocos.SCBasisASTSCStateCoCo;
 import de.monticore.sctransitions4code.SCTransitions4CodeMill;
@@ -23,8 +24,7 @@ public class AnteBlocksOnlyForStatesMarkedInitial implements SCBasisASTSCStateCo
 
   @Override
   public void check(ASTSCState node) {
-    if (SCTransitions4CodeMill.typeDispatcher()
-      .isSCTransitions4CodeASTTransitionAction(node.getSCSAnte())
+    if (!SCBasisMill.typeDispatcher().isSCBasisASTSCEmptyAnte(node.getSCSAnte())
       && !node.getSCModifier().isInitial()) {
       Log.warn(ERROR_CODE + " " + String.format(MESSAGE, node.getName()),
         node.get_SourcePositionStart()

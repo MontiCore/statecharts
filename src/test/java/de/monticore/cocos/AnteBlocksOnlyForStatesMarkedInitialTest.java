@@ -3,14 +3,17 @@ package de.monticore.cocos;
 
 import de.monticore.GeneralAbstractTest;
 import de.monticore.scbasis._ast.ASTSCArtifact;
+import de.monticore.sctransitions4code.SCTransitions4CodeMill;
 import de.monticore.sctransitions4code._cocos.AnteBlocksOnlyForStatesMarkedInitial;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
+import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
 import de.monticore.triggeredstatecharts._cocos.TriggeredStatechartsCoCoChecker;
 import de.monticore.triggeredstatecharts._parser.TriggeredStatechartsParser;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -20,10 +23,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static de.monticore.sctransitions4code._cocos.AnteBlocksOnlyForStatesMarkedInitial.ERROR_CODE;
 
 public class AnteBlocksOnlyForStatesMarkedInitialTest extends GeneralAbstractTest {
-
-  private static final TriggeredStatechartsParser parser = new TriggeredStatechartsParser();
 
   private static final TriggeredStatechartsCoCoChecker checker = new TriggeredStatechartsCoCoChecker();
 
@@ -49,7 +51,7 @@ public class AnteBlocksOnlyForStatesMarkedInitialTest extends GeneralAbstractTes
 
     // Then
     List<String> actualErrors = Log.getFindings().stream()
-      .filter(Finding::isError)
+      .filter(Finding::isWarning)
       .map(err -> err.getMsg().split(" ")[0])
       .collect(Collectors.toList());
     assertEquals(expectedErrorCodes, actualErrors);
@@ -72,23 +74,71 @@ public class AnteBlocksOnlyForStatesMarkedInitialTest extends GeneralAbstractTes
       "  }; " +
       "}",
   })
-  public void testCocoValid4(String model) throws IOException {
+  public void testCoCoValid4(String model) throws IOException {
     // When && Then
-    ASTSCArtifact ast = parser.parse_StringSCArtifact(model)
+    ASTSCArtifact ast = TriggeredStatechartsMill.parser().parse_StringSCArtifact(model)
       .orElseThrow(() -> new IllegalArgumentException("Findings: " + Log.getFindings()));
 
     // Then
     checkExpectedErrors(ast, new ArrayList<>());
   }
 
-  public void testCocoInvalid1(l) throws IOException {
+  @Test
+  public void testCoCoInvalid1() throws IOException {
     // Given
     String model =
-      "";
+      "statechart SC { " +
+        "  { initS(); } state S; " +
+        "}";
 
     // When && Then
-    ASTSCArtifact ast = parser.parse_StringSCArtifact(model)
+    ASTSCArtifact ast = TriggeredStatechartsMill.parser().parse_StringSCArtifact(model)
       .orElseThrow(() -> new IllegalArgumentException("Findings: " + Log.getFindings()));
-    checkExpectedErrors(ast, new ArrayList<>());
+    checkExpectedErrors(ast, List.of(ERROR_CODE));
+  }
+
+  @Test
+  public void testCoCoInvalid2() throws IOException {
+    // Given
+    String model =
+      "statechart SC { " +
+        "  final { initS(); } state S; " +
+        "}";
+
+    // When && Then
+    ASTSCArtifact ast = TriggeredStatechartsMill.parser().parse_StringSCArtifact(model)
+      .orElseThrow(() -> new IllegalArgumentException("Findings: " + Log.getFindings()));
+    checkExpectedErrors(ast, List.of(ERROR_CODE));
+  }
+
+  @Test
+  public void testCoCoInvalid3() throws IOException {
+    // Given
+    String model =
+      "statechart SC { " +
+        "  state S1 { " +
+        "    { initS1S1(); } state S1S1; " +
+        "  }; " +
+        "}";
+
+    // When && Then
+    ASTSCArtifact ast = TriggeredStatechartsMill.parser().parse_StringSCArtifact(model)
+      .orElseThrow(() -> new IllegalArgumentException("Findings: " + Log.getFindings()));
+    checkExpectedErrors(ast, List.of(ERROR_CODE));
+  }
+
+  @Test
+  public void testCoCoInvalid4() throws IOException {
+    // Given
+    String model =
+      "statechart SC { " +
+        "  { initS(); } state S1; " +
+        "  { initS(); } state S2; " +
+        "}";
+
+    // When && Then
+    ASTSCArtifact ast = TriggeredStatechartsMill.parser().parse_StringSCArtifact(model)
+      .orElseThrow(() -> new IllegalArgumentException("Findings: " + Log.getFindings()));
+    checkExpectedErrors(ast, List.of(ERROR_CODE, ERROR_CODE));
   }
 }
