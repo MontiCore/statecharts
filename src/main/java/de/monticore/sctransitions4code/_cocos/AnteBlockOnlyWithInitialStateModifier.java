@@ -4,8 +4,6 @@ package de.monticore.sctransitions4code._cocos;
 import de.monticore.scbasis.SCBasisMill;
 import de.monticore.scbasis._ast.ASTSCState;
 import de.monticore.scbasis._cocos.SCBasisASTSCStateCoCo;
-import de.monticore.sctransitions4code.SCTransitions4CodeMill;
-import de.monticore.sctransitions4code._ast.ASTAnteAction;
 import de.se_rwth.commons.logging.Log;
 
 /**
@@ -15,7 +13,7 @@ import de.se_rwth.commons.logging.Log;
  * an actually initial state of the statechart (a state is only an initial
  * state if it and all its super states are initial states).
  */
-public class AnteBlocksOnlyForStatesMarkedInitial implements SCBasisASTSCStateCoCo {
+public class AnteBlockOnlyWithInitialStateModifier implements SCBasisASTSCStateCoCo {
 
   public static final String ERROR_CODE = "0xCC112";
 
