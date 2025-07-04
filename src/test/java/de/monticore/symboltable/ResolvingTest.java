@@ -24,7 +24,7 @@ public class ResolvingTest extends GeneralAbstractTest {
 
   @Override
   @BeforeEach
-  public void setUp() throws Exception {
+  public void setUp() {
     initLogger();
     initUMLStatechartsMill();
     IUMLStatechartsGlobalScope gs = UMLStatechartsMill.globalScope();
