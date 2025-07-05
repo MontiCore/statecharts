@@ -6,7 +6,7 @@ import de.monticore.scbasis._ast.ASTSCState;
 import de.se_rwth.commons.logging.Log;
 
 /**
- * An ante block should only be used if the corresponding states has an
+ * An ante block should only be used if the corresponding state has an
  * {@code initial} state modifier. This coco checks this coding convention.
  * Note that the coco does not check whether the state is an actually initial
  * state of the statechart (a state is only an initial state if it and all
