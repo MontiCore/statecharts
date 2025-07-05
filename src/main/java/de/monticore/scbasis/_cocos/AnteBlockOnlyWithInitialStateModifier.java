@@ -1,9 +1,8 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore.sctransitions4code._cocos;
+package de.monticore.scbasis._cocos;
 
 import de.monticore.scbasis.SCBasisMill;
 import de.monticore.scbasis._ast.ASTSCState;
-import de.monticore.scbasis._cocos.SCBasisASTSCStateCoCo;
 import de.se_rwth.commons.logging.Log;
 
 /**

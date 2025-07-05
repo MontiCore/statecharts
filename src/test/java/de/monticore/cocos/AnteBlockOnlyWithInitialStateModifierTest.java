@@ -3,7 +3,7 @@ package de.monticore.cocos;
 
 import de.monticore.GeneralAbstractTest;
 import de.monticore.scbasis._ast.ASTSCArtifact;
-import de.monticore.sctransitions4code._cocos.AnteBlockOnlyWithInitialStateModifier;
+import de.monticore.scbasis._cocos.AnteBlockOnlyWithInitialStateModifier;
 import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
 import de.monticore.triggeredstatecharts._cocos.TriggeredStatechartsCoCoChecker;
 import de.se_rwth.commons.logging.Log;
@@ -14,9 +14,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
-import java.util.List;
 
-import static de.monticore.sctransitions4code._cocos.AnteBlockOnlyWithInitialStateModifier.ERROR_CODE;
+import static de.monticore.scbasis._cocos.AnteBlockOnlyWithInitialStateModifier.ERROR_CODE;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
