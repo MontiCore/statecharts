@@ -18,6 +18,7 @@ import java.io.IOException;
 import static de.monticore.scbasis._cocos.AnteBlockOnlyWithInitialStateModifier.ERROR_CODE;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AnteBlockOnlyWithInitialStateModifierTest extends GeneralAbstractTest {
 
@@ -79,6 +80,7 @@ public class AnteBlockOnlyWithInitialStateModifierTest extends GeneralAbstractTe
     // Then
     assertEquals(1, Log.getFindings().size(), () -> Log.getFindings().toString());
     assertArrayEquals(new String[] {ERROR_CODE}, getLoggedErrorCodes(), () -> Log.getFindings().toString());
+    assertTrue(Log.getFindings().get(0).isWarning());
   }
 
   @Test
@@ -98,6 +100,7 @@ public class AnteBlockOnlyWithInitialStateModifierTest extends GeneralAbstractTe
     // Then
     assertEquals(1, Log.getFindings().size(), () -> Log.getFindings().toString());
     assertArrayEquals(new String[] {ERROR_CODE}, getLoggedErrorCodes(), () -> Log.getFindings().toString());
+    assertTrue(Log.getFindings().get(0).isWarning());
   }
 
   @Test
@@ -118,6 +121,8 @@ public class AnteBlockOnlyWithInitialStateModifierTest extends GeneralAbstractTe
     // Then
     assertEquals(2, Log.getFindings().size(), () -> Log.getFindings().toString());
     assertArrayEquals(new String[] {ERROR_CODE, ERROR_CODE}, getLoggedErrorCodes(), () -> Log.getFindings().toString());
+    assertTrue(Log.getFindings().get(0).isWarning());
+    assertTrue(Log.getFindings().get(1).isWarning());
   }
 
   @Test
@@ -139,6 +144,7 @@ public class AnteBlockOnlyWithInitialStateModifierTest extends GeneralAbstractTe
     // Then
     assertEquals(1, Log.getFindings().size(), () -> Log.getFindings().toString());
     assertArrayEquals(new String[] {ERROR_CODE}, getLoggedErrorCodes(), () -> Log.getFindings().toString());
+    assertTrue(Log.getFindings().get(0).isWarning());
   }
 
   @Test
@@ -161,6 +167,8 @@ public class AnteBlockOnlyWithInitialStateModifierTest extends GeneralAbstractTe
     // Then
     assertEquals(2, Log.getFindings().size(), () -> Log.getFindings().toString());
     assertArrayEquals(new String[] {ERROR_CODE, ERROR_CODE}, getLoggedErrorCodes(), () -> Log.getFindings().toString());
+    assertTrue(Log.getFindings().get(0).isWarning());
+    assertTrue(Log.getFindings().get(1).isWarning());
   }
 
   @Test
@@ -185,5 +193,7 @@ public class AnteBlockOnlyWithInitialStateModifierTest extends GeneralAbstractTe
     // Then
     assertEquals(2, Log.getFindings().size(), () -> Log.getFindings().toString());
     assertArrayEquals(new String[] {ERROR_CODE, ERROR_CODE}, getLoggedErrorCodes(), () -> Log.getFindings().toString());
+    assertTrue(Log.getFindings().get(0).isWarning());
+    assertTrue(Log.getFindings().get(1).isWarning());
   }
 }
