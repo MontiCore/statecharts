@@ -6,11 +6,10 @@ import de.monticore.scbasis._ast.ASTSCState;
 import de.se_rwth.commons.logging.Log;
 
 /**
- * An ante block should only be used if the corresponding state has an
- * {@code initial} state modifier. This coco checks this coding convention.
- * Note that the coco does not check whether the state is an actually initial
- * state of the statechart (a state is only an initial state if it and all
- * its super states are initial states).
+ * An ante block must be used together with an {@code initial} state modifier.
+ * Note that the coco does not check whether the state is actually an initial
+ * state of the statechart (a state is only an initial state of the statechart
+ * if it and all its super states are initial states of their super state).
  */
 public class AnteBlockOnlyWithInitialStateModifier implements SCBasisASTSCStateCoCo {
 
@@ -23,7 +22,7 @@ public class AnteBlockOnlyWithInitialStateModifier implements SCBasisASTSCStateC
   public void check(ASTSCState node) {
     if (!SCBasisMill.typeDispatcher().isSCBasisASTSCEmptyAnte(node.getSCSAnte())
       && !node.getSCModifier().isInitial()) {
-      Log.warn(ERROR_CODE + " " + String.format(MESSAGE, node.getName()),
+      Log.error(ERROR_CODE + " " + String.format(MESSAGE, node.getName()),
         node.get_SourcePositionStart()
       );
     }
