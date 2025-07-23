@@ -65,7 +65,7 @@ component grammar SCTransitions4Code
    * All actions are imperative
    */
   TransitionAction implements SCABody =
-    MCBlockStatement? ;
+    MCStatement? ;
 
   //***********************************************************
   // Ante Actions
