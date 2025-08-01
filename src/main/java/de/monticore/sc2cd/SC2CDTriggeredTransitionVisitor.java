@@ -67,8 +67,7 @@ public class SC2CDTriggeredTransitionVisitor extends SC2CDTransitionVisitor
 
     // Print the action using the TriggeredStatechartsFullPrettyPrinter
     String action = "/* no action */";
-    if (transitionBody.get().isPresentTransitionAction() && transitionBody.get().getTransitionAction()
-      .isPresentMCStatement()) {
+    if (transitionBody.get().isPresentTransitionAction()) {
       action = (new TriggeredStatechartsFullPrettyPrinter(new IndentPrinter())).prettyprint(transitionBody.get().getTransitionAction());
     }
     // Print the precondition as an expression, too

@@ -43,6 +43,6 @@ component grammar SCTransitions4Modelling
    * to an imperative approach:
    */
   EventTransitionAction implements SCABody =
-    MCBlockStatement? ("[" post:Expression "]")? ;
+    MCStatement? ("[" post:Expression "]")? ;
 
 }

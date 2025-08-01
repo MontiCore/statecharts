@@ -12,10 +12,10 @@
  */
 
 state $A {
-    [[ -> SCTBody $C; :- ]]
+    [[ -> SCTBody $C :- ]]
     [[ :- final initial state $B;]]
-    [[ :- $B -> $B SCTBody $C; ]]
-};
+    [[ :- $B -> $B SCTBody $C ]]
+}
 
 
 assign {

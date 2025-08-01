@@ -1,15 +1,18 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
 
-# 7.1.0-SNAPSHOT
-to be released  
-based on MontiCore 7.1.0-SNAPSHOT
+# 7.8.0-SNAPSHOT
+based on MontiCore 7.8.0-SNAPSHOT
+* changed the concrete syntax to remove semicolons after curly brackets
+* removed ante actions
+
+# 7.1.0
+based on MontiCore 7.1.0
 * added the functionality to generate CDs using state patterns using the `gen` option
 * added `ct` and `fp` options to influence the generation with a config template and a template path respectively
 * added `hcp` option to specify a hand-written path (for the TOP mechanism of the generation)
 
-# 6.8.0-SNAPSHOT
-to be released  
-based on MontiCore 6.8.0-SNAPSHOT
+# 6.8.0
+based on MontiCore 6.8.0
 
 # 6.7.0
 released: 05.02.2021  

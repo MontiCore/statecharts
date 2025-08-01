@@ -4,5 +4,5 @@ statechart NoInitialState2 {
   state EngineRunning {  
     initial state Parking;            
     state Driving;
-  };
+  }
 }

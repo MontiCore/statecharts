@@ -46,6 +46,6 @@ component grammar SCStateHierarchy extends SCBasis {
     describing a loop transition starting and ending in this same state
   */
   SCInternTransition implements SCStateElement =
-    Stereotype? "->" SCTBody ";";
+    Stereotype? "->" SCTBody ;
 
 }

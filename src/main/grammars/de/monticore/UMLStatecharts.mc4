@@ -50,9 +50,8 @@ grammar UMLStatecharts
   start SCArtifact;
 
   /**
-    An event is named and has optional arguments.
-    Epsilon (spontaneous) transitions are possible.
+    An UML event is named and has optional arguments.
   */
-  SCUMLEvent implements SCEvent = (name:MCQualifiedName Arguments?)?;
+  SCUMLEvent implements SCEvent = name:MCQualifiedName Arguments? ;
 
 }

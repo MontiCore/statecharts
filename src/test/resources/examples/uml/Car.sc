@@ -6,7 +6,7 @@ statechart Car {
     initial state Parking;              // substate
     state Driving;
     exit / {lightsOff();}               // exit action
-  };
+  }
   
   EngineOff -> EngineRunning;
   EngineRunning -> EngineOff;

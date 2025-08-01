@@ -78,12 +78,12 @@ public class SCDemoParseTest extends GeneralAbstractTest {
         + "  initial state Closed;"
         + "  state Opened {"
         + "    do / { ringTheDoorBell(); }"
-        + "  };"
+        + "  }"
         + "  state Locked;"
         + ""
         + "  Opened -> Closed close()  ;"
-        + "  Closed -> Opened open()  / {ringTheDoorBell();};"
-        + "  Closed -> Locked [!doorIsLocked] timeOut() / { lockDoor(); } ;   "
+        + "  Closed -> Opened open()  / {ringTheDoorBell();}"
+        + "  Closed -> Locked [!doorIsLocked] timeOut() / { lockDoor(); }   "
         + "  Locked -> Closed [isAuthorized] unlock() ;"
         + "}");
     assertFalse(parser.hasErrors());
@@ -98,13 +98,13 @@ public class SCDemoParseTest extends GeneralAbstractTest {
   
   @Test
   public void testState2() throws IOException {
-    parser.parse_StringSCState("state Opened { /* … */ };");
+    parser.parse_StringSCState("state Opened { /* … */ }");
     assertFalse(parser.hasErrors());
   }
   
   @Test
   public void testState3() throws IOException {
-    parser.parse_StringSCState("state Opened  [!Locked] {} ;");
+    parser.parse_StringSCState("state Opened  [!Locked] {}");
     assertFalse(parser.hasErrors());
   }
   
@@ -112,7 +112,7 @@ public class SCDemoParseTest extends GeneralAbstractTest {
   public void testState4() throws IOException {
     parser.parse_StringSCState("state Opened {"
         + "  entry / { ringTheDoorBell(); }"
-        + "};");
+        + "}");
     assertFalse(parser.hasErrors());
   }
   
@@ -121,7 +121,7 @@ public class SCDemoParseTest extends GeneralAbstractTest {
     parser.parse_StringSCState("state Opened {"
         + "  state Ajar;"
         + "  state WideOpen;"
-        + "};");
+        + "}");
     assertFalse(parser.hasErrors());
   }
   
@@ -140,15 +140,14 @@ public class SCDemoParseTest extends GeneralAbstractTest {
   
   @Test
   public void testTransition3() throws IOException {
-    parser.parse_StringSCTransition("Closed -> Opened open() / {ringTheDoorBell();};");
+    parser.parse_StringSCTransition("Closed -> Opened open() / {ringTheDoorBell();}");
     assertFalse(parser.hasErrors());
   }
   
   @Test
   public void testTransition4() throws IOException {
     parser.parse_StringSCTransition("Closed -> Locked [!doorIsLocked] timeOut() / "
-        + "          { lockDoor(); }"
-        + "          ;");
+        + "          { lockDoor(); }");
     assertFalse(parser.hasErrors());
   }
   
@@ -160,7 +159,7 @@ public class SCDemoParseTest extends GeneralAbstractTest {
   
   @Test
   public void testInternTransition() throws IOException {
-    parser.parse_StringSCInternTransition("-> [!doorIsLocked] timeOut() / { lockDoor(); } ;");
+    parser.parse_StringSCInternTransition("-> [!doorIsLocked] timeOut() / { lockDoor(); }");
     assertFalse(parser.hasErrors());
   }
   
@@ -175,7 +174,7 @@ public class SCDemoParseTest extends GeneralAbstractTest {
     parser.parse_String("import a.b.Person;\n"
         + "\n"
         + "statechart Door4 {\n"
-        + "  Closed -> Opened open() / { String foo = age;};\n"
+        + "  Closed -> Opened open() / { String foo = age;}\n"
         + "}\n");
     assertFalse(parser.hasErrors());
   }

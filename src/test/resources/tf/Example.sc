@@ -5,6 +5,6 @@ statechart Example {
     
    state Other { 
        initial state Inner;
-   };
+   }
    Some -> Other;
 }

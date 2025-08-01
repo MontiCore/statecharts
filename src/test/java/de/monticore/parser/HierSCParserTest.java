@@ -20,7 +20,7 @@ public class HierSCParserTest extends GeneralAbstractTest {
    parser.parse_StringStatechart("statechart Foo {"
         + "  state Bla {"
         + "    state S;"
-        + "  };"
+        + "  }"
         + "}");
     check(parser);
   }
@@ -53,7 +53,7 @@ public class HierSCParserTest extends GeneralAbstractTest {
     parser.parse_StringStatechart("statechart Door1 {"
         + "  state Opened {"
         + "    state Ajar;"
-        + "  };"
+        + "  }"
         + "}");
     check(parser);
   }
@@ -68,7 +68,7 @@ public class HierSCParserTest extends GeneralAbstractTest {
     if (parser.hasErrors()) {
       for(Finding f : LogStub.getFindings()){
         System.out.println(f.buildMsg());
-      };
+      }
     }
     assertFalse(parser.hasErrors());
   }

@@ -52,8 +52,7 @@ public class SC2CDUMLTransitionVisitor extends SC2CDTransitionVisitor
 
     // Print the action using the UMLStatechartsFullPrettyPrinter
     String action = "/* no action */";
-    if (transitionBody.get().isPresentTransitionAction() && transitionBody.get().getTransitionAction()
-            .isPresentMCStatement()) {
+    if (transitionBody.get().isPresentTransitionAction()) {
       IndentPrinter printer = new IndentPrinter();
       new UMLStatechartsFullPrettyPrinter(printer).getTraverser().handle(transitionBody.get().getTransitionAction());
       action = printer.getContent();

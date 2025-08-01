@@ -4,7 +4,7 @@ statechart Step09 {
     <<stereo>> state InnerState {
       state InnerInnerState{
 
-      };
-    };
-  };
+      }
+    }
+  }
 }

@@ -34,16 +34,4 @@ public class SCStateInvariantsParserPPTest extends GeneralAbstractTest {
     assertTrue(astPP.isPresent(), "Failed to parse from pp: " + pp);
     assertTrue(astPP.get().deepEquals(ast.get()), "AST not equal after pp: " + pp);
   }
-
-  @Test
-  public void testSCStateInvariantWithAnte() throws IOException {
-    Optional<ASTSCInvState> ast = parser.parse_StringSCInvState("initial { System.out.println(\"Ante allowed here\"); } state Foo [ true && !false];");
-    TestUtils.check(parser);
-    assertTrue(ast.isPresent(), "No ast present");
-
-    String pp = new UMLStatechartsFullPrettyPrinter(new IndentPrinter()).prettyprint(ast.get());
-    Optional<ASTSCInvState> astPP = parser.parse_StringSCInvState(pp);
-    assertTrue(astPP.isPresent(), "Failed to parse from pp: " + pp);
-    assertTrue(astPP.get().deepEquals(ast.get()), "AST not equal after pp: " + pp);
-  }
 }

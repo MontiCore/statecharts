@@ -42,27 +42,23 @@ public class TriggeredStatechartsTypeCheck extends MapBasedTypeCheck3 {
     initTC3Delegate(
       TriggeredStatechartsMill.inheritanceTraverser(),
       new Type4Ast(),
-      new InferenceContext4Ast(),
-      new WithinScopeBasicSymbolsResolver(),
-      new WithinTypeBasicSymbolsResolver()
+      new InferenceContext4Ast()
     );
   }
 
   protected static void initTC3Delegate(TriggeredStatechartsTraverser traverser,
                                         Type4Ast type4Ast,
-                                        InferenceContext4Ast ctx4Ast,
-                                        WithinScopeBasicSymbolsResolver inScopeResolver,
-                                        WithinTypeBasicSymbolsResolver inTypeResolver) {
+                                        InferenceContext4Ast ctx4Ast) {
     Preconditions.checkNotNull(traverser);
     Preconditions.checkNotNull(type4Ast);
     Preconditions.checkNotNull(ctx4Ast);
-    Preconditions.checkNotNull(inScopeResolver);
-    Preconditions.checkNotNull(inTypeResolver);
     Log.trace("Start initializing the TriggeredStatecharts type-check delegate", "TriggeredStatechartsTypeCheck");
-    initExpressionBasisTypeVisitor(traverser, type4Ast, ctx4Ast, inScopeResolver);
-    initMCBasicTypesTypeVisitor(traverser, type4Ast, ctx4Ast, inScopeResolver, inTypeResolver);
+    WithinScopeBasicSymbolsResolver.init();
+    WithinTypeBasicSymbolsResolver.init();
+    initExpressionBasisTypeVisitor(traverser, type4Ast, ctx4Ast);
+    initMCBasicTypesTypeVisitor(traverser, type4Ast, ctx4Ast);
     initMCCommonLiteralsTypeVisitor(traverser, type4Ast, ctx4Ast);
-    initCommonExpressionsTypeVisitor(traverser, type4Ast, ctx4Ast, inScopeResolver, inTypeResolver);
+    initCommonExpressionsTypeVisitor(traverser, type4Ast, ctx4Ast);
     initAssignmentExpressionsTypeVisitor(traverser, type4Ast, ctx4Ast);
     Log.trace("Set the TriggeredStatecharts type-check delegate as global TC3 delegate", "TriggeredStatechartsTypeCheck");
     setDelegate(new TriggeredStatechartsTypeCheck(traverser, type4Ast, ctx4Ast));
@@ -72,37 +68,28 @@ public class TriggeredStatechartsTypeCheck extends MapBasedTypeCheck3 {
 
   protected static void initExpressionBasisTypeVisitor(TriggeredStatechartsTraverser traverser,
                                                        Type4Ast type4Ast,
-                                                       InferenceContext4Ast ctx4Ast,
-                                                       WithinScopeBasicSymbolsResolver inScopeResolver) {
+                                                       InferenceContext4Ast ctx4Ast) {
     Preconditions.checkNotNull(traverser);
     Preconditions.checkNotNull(type4Ast);
     Preconditions.checkNotNull(ctx4Ast);
-    Preconditions.checkNotNull(inScopeResolver);
     Log.trace("Start initializing the ExpressionBasis visitor of the type-check delegate", "TriggeredStatechartsTypeCheck");
     ExpressionBasisTypeVisitor visitor = new ExpressionBasisTypeVisitor();
     visitor.setType4Ast(type4Ast);
     visitor.setContext4Ast(ctx4Ast);
-    visitor.setWithinScopeResolver(inScopeResolver);
     traverser.add4ExpressionsBasis(visitor);
     Log.trace("Finish initializing the ExpressionBasis visitor of the type-check delegate", "TriggeredStatechartsTypeCheck");
   }
 
   protected static void initMCBasicTypesTypeVisitor(TriggeredStatechartsTraverser traverser,
                                                     Type4Ast type4Ast,
-                                                    InferenceContext4Ast ctx4Ast,
-                                                    WithinScopeBasicSymbolsResolver inScopeResolver,
-                                                    WithinTypeBasicSymbolsResolver inTypeResolver) {
+                                                    InferenceContext4Ast ctx4Ast) {
     Preconditions.checkNotNull(traverser);
     Preconditions.checkNotNull(type4Ast);
     Preconditions.checkNotNull(ctx4Ast);
-    Preconditions.checkNotNull(inScopeResolver);
-    Preconditions.checkNotNull(inTypeResolver);
     Log.trace("Start initializing the MCBasicTypes visitor of the type-check delegate", "TriggeredStatechartsTypeCheck");
     MCBasicTypesTypeVisitor visitor = new MCBasicTypesTypeVisitor();
     visitor.setType4Ast(type4Ast);
     visitor.setContext4Ast(ctx4Ast);
-    visitor.setWithinScopeResolver(inScopeResolver);
-    visitor.setWithinTypeResolver(inTypeResolver);
     traverser.add4MCBasicTypes(visitor);
     Log.trace("Finish initializing the MCBasicTypes visitor of the type-check delegate", "TriggeredStatechartsTypeCheck");
   }
@@ -121,20 +108,14 @@ public class TriggeredStatechartsTypeCheck extends MapBasedTypeCheck3 {
 
   protected static void initCommonExpressionsTypeVisitor(TriggeredStatechartsTraverser traverser,
                                                          Type4Ast type4Ast,
-                                                         InferenceContext4Ast ctx4Ast,
-                                                         WithinScopeBasicSymbolsResolver inScopeResolver,
-                                                         WithinTypeBasicSymbolsResolver inTypeResolver) {
+                                                         InferenceContext4Ast ctx4Ast) {
     Preconditions.checkNotNull(traverser);
     Preconditions.checkNotNull(type4Ast);
     Preconditions.checkNotNull(ctx4Ast);
-    Preconditions.checkNotNull(inScopeResolver);
-    Preconditions.checkNotNull(inTypeResolver);
     Log.trace("Start initializing the CommonExpressions visitor of the type-check delegate", "TriggeredStatechartsTypeCheck");
     CommonExpressionsCTTIVisitor visitor = new CommonExpressionsCTTIVisitor();
     visitor.setType4Ast(type4Ast);
     visitor.setContext4Ast(ctx4Ast);
-    visitor.setWithinTypeBasicSymbolsResolver(inTypeResolver);
-    visitor.setWithinScopeResolver(inScopeResolver);
     traverser.add4CommonExpressions(visitor);
     traverser.setCommonExpressionsHandler(visitor);
     Log.trace("Finish initializing the CommonExpressions visitor of the type-check delegate", "TriggeredStatechartsTypeCheck");

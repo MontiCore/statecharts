@@ -11,8 +11,8 @@ statechart Door2 {
   event boolean unlock();
 
   Opened -> Closed close() ;
-  Closed -> Opened open(true) / {ringTheDoorBell();};
-  Closed -> Opened open(false) / ;
-  Closed -> Locked timeOut() / { lockDoor(); } ;
-  Locked -> Closed [isAuthorized] unlock() / {return true;};
+  Closed -> Opened open(true) / {ringTheDoorBell();}
+  Closed -> Opened open(false);
+  Closed -> Locked timeOut() / { lockDoor(); }
+  Locked -> Closed [isAuthorized] unlock() / {return true;}
 }

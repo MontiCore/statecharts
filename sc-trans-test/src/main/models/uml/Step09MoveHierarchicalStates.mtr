@@ -12,7 +12,7 @@ statechart $_ {
         //capture an inner state $I and delete it
         // [[$I [[ state $_;]] :- ]]
          [[SCState $I :- ]]
-    };
+    }
 
     //and insert it into the top level of the statechart
      [[ :- SCState $I ]]

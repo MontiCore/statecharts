@@ -40,7 +40,7 @@ import de.monticore.symbols.*;
  *
  * Relevant extension points:
  *    SCSBody:
- *           e.g. for hierachical states
+ *           e.g. for hierarchical states
  *    SCStateElement
  *           e.g. for entry/exit/do actions
  *    SCSAnte
@@ -112,24 +112,15 @@ component grammar SCBasis extends
     performed at statechart initialization.
   */
   symbol SCState implements SCStateElement, SCStatechartElement =
-    SCModifier SCSAnte "state" Name SCSBody ";";
+    SCModifier "state" Name (SCSBody | ";");
 
   SCModifier = Stereotype? (["initial"] | ["final"])*;
 
   /**
     The Body of a state may be empty (or contain { states ... }).
-    SCBasis provides the empty body only and thus only flat statemachines.
+    SCBasis provides the no body and thus only flat statemachines.
   */
   interface SCSBody;
-  SCEmptyBody implements SCSBody = ;
-
-  /**
-    The ante declaration of a state may be empty, or contain actions performed
-    at statechart initialization.
-    SCBasis provides the empty ante declaration only.
-  */
-  interface SCSAnte;
-  SCEmptyAnte implements SCSAnte = ;
 
   /**
     Interface subsuming states and transitions
@@ -147,7 +138,7 @@ component grammar SCBasis extends
     body describing stimulus as well as potential actions, postconditions, etc.
   */
   SCTransition implements SCStateElement, SCStatechartElement =
-   Stereotype? sourceName:Name@SCState "->" targetName:Name@SCState SCTBody ";" ;
+   Stereotype? sourceName:Name@SCState "->" targetName:Name@SCState SCTBody ;
 
   /**
     The body of a transition is for extension

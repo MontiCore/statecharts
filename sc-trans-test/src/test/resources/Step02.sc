@@ -1,32 +1,32 @@
 /* (c) https://github.com/MontiCore/monticore */
 statechart Step02 {
   state A{
-    -> [pre] ev / {foo();} ;
-  };
+    -> [pre] ev / {foo();}
+  }
   state B{
-    -> ev / {foo();} ;
-  };
+    -> ev / {foo();}
+  }
   state C{
-    -> [pre] ev / {foo();};
-  };
+    -> [pre] ev / {foo();}
+  }
   state D{
-    -> [pre] / {foo();} ;
-  };
+    -> [pre] / {foo();}
+  }
   state E{
-    -> [pre] ev / ;
-  };
+    -> [pre] ev;
+  }
   state F{
-    -> [pre] ev / {} ;
-  };
+    -> [pre] ev / {}
+  }
   state G{
-    -> / ;
-  };
+    -> ;
+  }
 
   state H{
-    -> [pre] ev / {foo();} ;
-    -> [pre2] ev2 / {foo2();} ;
-    -> [pre3] /;
-  };
+    -> [pre] ev / {foo();}
+    -> [pre2] ev2 / {foo2();}
+    -> [pre3];
+  }
 
 
 }
