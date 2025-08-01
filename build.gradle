@@ -6,7 +6,7 @@ plugins {
     id "java"
     id "maven-publish"
     id "de.monticore.generator-withtr" version "$mc_version" // MontiCore Plugin with TR support
-    id "com.github.johnrengelman.shadow" version "$shadow_plugin_version"
+    id "com.gradleup.shadow" version "$shadow_plugin_version"
     id "io.github.themrmilchmann.ecj" version "0.2.0"
 }
 
@@ -57,11 +57,10 @@ dependencies {
   // normal, implementation dependencies
   implementation "de.monticore:class2mc:$mc_version"
   implementation group: 'de.monticore.lang', name: 'cd4analysis', version: mc_version
-  implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
-  implementation 'org.apache.groovy:groovy:4.0.2'
-  testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
-  testImplementation "org.junit.jupiter:junit-jupiter-engine:$junit_version"
-  testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_version"
+  implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.18.0'
+  implementation 'org.apache.groovy:groovy:4.0.28'
+  testImplementation "org.junit.jupiter:junit-jupiter:$junit_version"
+  testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
   testscgenImplementation(sourceSets.main.output.classesDirs)
   testscgenImplementation(sourceSets.test.output.classesDirs)
