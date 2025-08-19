@@ -114,4 +114,17 @@ public class InvariantValidTest extends GeneralAbstractTest {
     assertEquals(0, Log.getErrorCount());
 
   }
+
+  @Test
+  public void testCoCoValid4() throws IOException {
+    Optional<ASTSCArtifact> ast = parser.parse("src/test/resources/valid/InvariantWithAnte.sc");
+    assertTrue(ast.isPresent(), "InvariantWithAnte.sc could not be parsed");
+
+    IUMLStatechartsArtifactScope st = new UMLStatechartsTool().createSymbolTable(ast.get());
+    st.setName("InvariantWithAnte");
+    UMLStatechartsCoCoChecker checker = new UMLStatechartsCoCoChecker();
+    checker.addCoCo(new InvariantValid());
+    checker.checkAll(ast.get());
+    assertEquals(0, Log.getErrorCount());;
+  }
 }

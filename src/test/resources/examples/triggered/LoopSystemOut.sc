@@ -3,7 +3,7 @@ package triggered;
 
 statechart LoopSystemOut {
   state Hashtag;
-  initial state Dashes;
+  initial { System.out.println("----- initialization -----"); } state Dashes;
 
   Dashes -> Hashtag / { System.out.println("#"); }
   Hashtag -> Dashes / { System.out.println("---"); }

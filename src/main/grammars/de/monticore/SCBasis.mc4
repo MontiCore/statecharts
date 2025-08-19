@@ -112,7 +112,7 @@ component grammar SCBasis extends
     performed at statechart initialization.
   */
   symbol SCState implements SCStateElement, SCStatechartElement =
-    SCModifier "state" Name (SCSBody | ";");
+    SCModifier SCSAnte? "state" Name (SCSBody | ";");
 
   SCModifier = Stereotype? (["initial"] | ["final"])*;
 
@@ -121,6 +121,13 @@ component grammar SCBasis extends
     SCBasis provides the no body and thus only flat statemachines.
   */
   interface SCSBody;
+
+  /**
+    The ante declaration of a state may be empty, or contain actions performed
+    at statechart initialization.
+    SCBasis provides the empty ante declaration only.
+  */
+  interface SCSAnte;
 
   /**
     Interface subsuming states and transitions
