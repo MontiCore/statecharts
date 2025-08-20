@@ -3,7 +3,6 @@
 # 7.8.0-SNAPSHOT
 based on MontiCore 7.8.0-SNAPSHOT
 * changed the concrete syntax to remove semicolons after curly brackets
-* removed ante actions
 
 # 7.1.0
 based on MontiCore 7.1.0
