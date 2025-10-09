@@ -32,18 +32,20 @@ public class TransitionPreconditionsAreBoolean implements SCTransitions4CodeASTT
     this.typeDeriver = typeDeriver;
   }
 
-  public TransitionPreconditionsAreBoolean() { this(null); }
+  public TransitionPreconditionsAreBoolean() {
+    this(null);
+  }
 
   @Override
   public void check(ASTTransitionBody node) {
-    if(node.isPresentPre()) {
+    if (node.isPresentPre()) {
       SymTypeExpression preType = TypeCheck3.typeOf(node.getPre());
       if (preType.isObscureType()) {
         Log.debug(String.format("Coco '%s' is not checked on transition guard expression at %s, because the " +
           "expression is malformed.", this.getClass().getSimpleName(), node.get_SourcePositionStart()), "Cocos");
-      } else if(!SymTypeRelations.isBoolean(preType)) {
-        Log.error(
-          String.format(ERROR_CODE + " " + MESSAGE, preType.print()),
+      }
+      if (!SymTypeRelations.isBoolean(preType)) {
+        Log.error(String.format(ERROR_CODE + " " + MESSAGE, preType.print()),
           node.get_SourcePositionStart(), node.get_SourcePositionEnd()
         );
       }

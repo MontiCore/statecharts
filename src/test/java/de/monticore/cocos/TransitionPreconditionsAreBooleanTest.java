@@ -101,7 +101,7 @@ public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
       .map(finding -> finding.getMsg().substring(0, "0xFD118".length()))
       .collect(Collectors.toList());
 
-    assertEquals(Lists.newArrayList("0xFD118"), findings);
+    assertEquals(Lists.newArrayList("0xFD118", "0xCC111"), findings);
   }
 
   @Test
@@ -117,8 +117,11 @@ public class TransitionPreconditionsAreBooleanTest extends GeneralAbstractTest {
     checker.checkAll(ast);
 
     // Then
-    assertEquals(1, Log.getFindingsCount());
-    // Only print the error that the variable symbol can not be found:
-    assertEquals("0xFD118", Log.getFindings().get(0).getMsg().substring(0, 7));
+    List<String> findings = Log.getFindings().stream()
+      .filter(Finding::isError)
+      .map(finding -> finding.getMsg().substring(0, "0xFD118".length()))
+      .collect(Collectors.toList());
+
+    assertEquals(Lists.newArrayList("0xFD118", "0xCC111"), findings);
   }
 }
