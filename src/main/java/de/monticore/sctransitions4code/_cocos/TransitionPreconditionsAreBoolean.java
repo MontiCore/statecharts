@@ -46,7 +46,7 @@ public class TransitionPreconditionsAreBoolean implements SCTransitions4CodeASTT
       }
       if (!SymTypeRelations.isBoolean(preType)) {
         Log.error(String.format(ERROR_CODE + " " + MESSAGE, preType.print()),
-          node.get_SourcePositionStart(), node.get_SourcePositionEnd()
+          node.getPre().get_SourcePositionStart(), node.getPre().get_SourcePositionEnd()
         );
       }
     }
