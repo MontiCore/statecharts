@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.umlstatecharts._symboltable;
 
+import com.google.common.base.Preconditions;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.symboltable.ImportStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
@@ -21,7 +22,7 @@ public class UMLStatechartsScopesGenitor extends UMLStatechartsScopesGenitorTOP 
    */
   @Override
   public IUMLStatechartsArtifactScope createFromAST(ASTSCArtifact rootNode) {
-    Log.errorIfNull(rootNode, "0xAE880 Internal Error: No symbol table defined, because empty (null) AST");
+    Preconditions.checkNotNull(rootNode, "0xAE880 Internal Error: No symbol table defined, because empty (null) AST");
     IUMLStatechartsArtifactScope artifactScope = de.monticore.umlstatecharts.UMLStatechartsMill.artifactScope();
     if(rootNode.isPresentPackage()) {
       artifactScope.setPackageName(rootNode.getPackage().getQName());

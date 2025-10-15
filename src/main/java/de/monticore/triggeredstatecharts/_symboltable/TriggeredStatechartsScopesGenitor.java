@@ -1,5 +1,6 @@
 package de.monticore.triggeredstatecharts._symboltable;
 
+import com.google.common.base.Preconditions;
 import de.monticore.scbasis._ast.ASTSCArtifact;
 import de.monticore.symboltable.ImportStatement;
 import de.monticore.triggeredstatecharts.TriggeredStatechartsMill;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class TriggeredStatechartsScopesGenitor extends TriggeredStatechartsScopesGenitorTOP {
     public ITriggeredStatechartsArtifactScope createFromAST(ASTSCArtifact rootNode){
-      Log.errorIfNull(rootNode, "0xAE880 Internal Error: No symbol table defined, because empty (null) AST");
+      Preconditions.checkNotNull(rootNode, "0xAE880 Internal Error: No symbol table defined, because empty (null) AST");
       ITriggeredStatechartsArtifactScope artifactScope = TriggeredStatechartsMill.artifactScope();
       if(rootNode.isPresentPackage()) {
         artifactScope.setPackageName(rootNode.getPackage().getQName());
