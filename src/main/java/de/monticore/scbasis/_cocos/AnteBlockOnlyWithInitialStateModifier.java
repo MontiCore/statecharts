@@ -1,7 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.scbasis._cocos;
 
-import de.monticore.scbasis.SCBasisMill;
 import de.monticore.scbasis._ast.ASTSCState;
 import de.se_rwth.commons.logging.Log;
 
@@ -20,8 +19,7 @@ public class AnteBlockOnlyWithInitialStateModifier implements SCBasisASTSCStateC
 
   @Override
   public void check(ASTSCState node) {
-    if (!SCBasisMill.typeDispatcher().isSCBasisASTSCEmptyAnte(node.getSCSAnte())
-      && !node.getSCModifier().isInitial()) {
+    if (node.isPresentSCSAnte() && !node.getSCModifier().isInitial()) {
       Log.error(ERROR_CODE + " " + String.format(MESSAGE, node.getName()),
         node.get_SourcePositionStart()
       );

@@ -59,13 +59,13 @@ component grammar SCTransitions4Code
    * The event may be omitted (describing an epsilon-transition)
    */
   TransitionBody implements SCTBody =
-    ("[" pre:Expression "]")? SCEvent? ("/" TransitionAction)? ;
+    ("[" pre:Expression "]")? SCEvent? ("/" TransitionAction | ";") ;
 
   /**
    * All actions are imperative
    */
   TransitionAction implements SCABody =
-    MCStatement? ;
+    MCStatement ;
 
   //***********************************************************
   // Ante Actions

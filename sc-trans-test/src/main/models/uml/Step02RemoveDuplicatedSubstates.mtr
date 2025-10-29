@@ -10,4 +10,4 @@
 state $_ {
     state $A;
     [[ state $A; :- ]]
-};
+}

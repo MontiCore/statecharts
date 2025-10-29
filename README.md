@@ -44,10 +44,10 @@ statechart Door {
   initial state Closed;
   state Locked;
                                 // transitions 
-  Opened -> Closed  close() ;
-  Closed -> Opened  open()    / { count++; ringTheDoorBell(); };
-  Closed -> Locked  timeOut() / lockDoor(); ;
-  Locked -> Closed  [isAuthorized() && keyFits()] unlock() ;
+  Opened -> Closed  close();
+  Closed -> Opened  open()    / { count++; ringTheDoorBell(); }
+  Closed -> Locked  timeOut() / lockDoor();
+  Locked -> Closed  [isAuthorized() && keyFits()] unlock();
 }
 ```
 
@@ -71,11 +71,11 @@ and an *invariant*:
 statechart Car {
   initial state EngineOff;
   state EngineRunning [!fuelIsEmpty] {  // state with substates and state invariant (Boolean expression)
-    entry / {lightsOn(); }              // entry / exit action
-    exit  / {lightsOff();}
+    entry / { lightsOn(); }              // entry / exit action
+    exit  / { lightsOff(); }
     initial state Parking;              // substates
     state Driving;
-  };
+  }
 }
 ```
 
@@ -88,10 +88,10 @@ Further example models such as [`Door.sc`](src/test/resources/examples/uml/Door.
 
 Graphical representations of the examples above:
 
-<div align="center"> <img width="600" src="doc/Door.sc.png" 
+<div style="text-align: center;"> <img width="600" src="doc/Door.sc.png" 
 alt="Statecharts LFD"> <br><b>Figure 2:</b> Graphical Representation of the Door Statechart. </div><br> 
 
-<div align="center"> <img width="600" src="doc/Car.sc.png" 
+<div style="text-align: center;"> <img width="600" src="doc/Car.sc.png" 
 alt="Statecharts LFD"> <br><b>Figure 3:</b> Graphical Representation of the Car Statechart. </div><br> 
 
 ## Tool Download

@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import de.monticore.TransformationScript;
 import de.monticore.cd.codegen.CDGenerator;
 import de.monticore.cd.codegen.CdUtilsPrinter;
+import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.class2mc.OOClass2MCResolver;
 import de.monticore.generating.GeneratorSetup;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
@@ -55,7 +56,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Tool for processing UML StateCharts as defined by the 
+ * Tool for processing UML StateCharts as defined by the
  * UMLStatecharts language component:
  *  * starts the tooling and processes the parameters (main / run)
  *
@@ -63,11 +64,11 @@ import java.util.stream.Collectors;
  *  * and performs the required functionalities
  *
  *  * because the functions are relatively simple, they are all contained within
- *  this class 
+ *  this class
  */
- 
+
 public class UMLStatechartsTool extends UMLStatechartsToolTOP {
-  
+
   public static void main(String[] args) {
     UMLStatechartsTool tool = new UMLStatechartsTool();
     tool.init();
@@ -75,10 +76,10 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
   }
 
   /**
-   * Contains the selected generation variant (option -var) 
+   * Contains the selected generation variant (option -var)
    */
   protected String variant = "StatePattern1";
-   
+
   /**
    * executes the tool by processing the arguments
    */
@@ -270,14 +271,14 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
 --> the later is a good demonstration for modularity of analysis techniques
 
    */
-   
+
   /**
    * Calculates the reachable states of a Statechart
    * into a human-readable string (as a report).
-   * 
+   *
    * This function can be used as a blueprint for certain forms of
    * Analysis techniques on StateCharts, even though more efficient
-   * realizations would be possible, when abstracting the AST 
+   * realizations would be possible, when abstracting the AST
    * to some kind of graph structure essence, or creating an additional
    * graph structure linkage for efficient navigation.
    *
@@ -292,7 +293,7 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
     traverser.add4SCBasis(stateCollector);
     traverser.add4SCStateHierarchy(stateCollector);
     ast.accept(traverser);
-    
+
     Set<String> statesToBeChecked = stateCollector.getStates()
       .stream().map(e -> e.getName()).collect(Collectors.toSet());
 
@@ -338,7 +339,7 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
         throw new IllegalStateException("0xDD476 Failed to resolve state symbol " + from);
       }
       stateSymbol.get().getAstNode().accept(traverser);
-      
+
       for (ASTSCState innerReachableState : stateCollector.getStates(1)) {
         if (innerReachableState.getSCModifier().isInitial()) {
           reachableStates.add(innerReachableState.getName());
@@ -356,16 +357,16 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
   /**
    * Calculates the branching degree of each state of a Statechart
    * into a human-readable string (as a report).
-   * 
+   *
    * @param ast The Statechart-AST for which the report is created
    */
   public String reportBranchingDegree(ASTSCArtifact ast) {
     // calculate using a visitor
-    BranchingDegreeCalculator branchingDegreeCalculator = new BranchingDegreeCalculator();    
+    BranchingDegreeCalculator branchingDegreeCalculator = new BranchingDegreeCalculator();
     UMLStatechartsTraverser traverser = UMLStatechartsMill.traverser();
     traverser.add4SCBasis(branchingDegreeCalculator);
     ast.accept(traverser);
-    
+
     return branchingDegreeCalculator.getBranchingDegrees().entrySet().stream()
       .map(e -> e.getKey() + ": " + e.getValue())
       .collect(Collectors.joining(System.lineSeparator())) + System.lineSeparator();
@@ -374,7 +375,7 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
   /**
    * Collects the state names of a Statechart
    * into a human-readable string (as a report).
-   * 
+   *
    * @param ast The Statechart-AST for which the report is created
    */
   public String reportStateNames(ASTSCArtifact ast) {
@@ -423,11 +424,11 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
    * @param trafoScripts the array of trafos groovy script to be applied
    */
   public void doTrafos(ASTSCArtifact ast, String[] trafoScripts) {
-  
+
     CompilerConfiguration config = new CompilerConfiguration();
     // Groovy base script providing trafo helpers
-    config.setScriptBaseClass(TransformationScript.class.getName()); 
-    
+    config.setScriptBaseClass(TransformationScript.class.getName());
+
     // By default, import all trafos from the default de.monticore.tf package
     config.addCompilationCustomizers(new ImportCustomizer().addStarImports("de.monticore.tf"));
 
@@ -480,6 +481,7 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
                          String templatePath,
                          String handcodedPath) {
 
+    CD4CodeMill.init();
     GeneratorSetup setup = new GeneratorSetup();
     GlobalExtensionManagement glex = new GlobalExtensionManagement();
     setup.setGlex(glex);

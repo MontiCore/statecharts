@@ -4,7 +4,6 @@ package de.monticore.parser;
 import de.monticore.GeneralAbstractTest;
 import de.monticore.parser.util.TestUtils;
 import de.monticore.prettyprint.IndentPrinter;
-import de.monticore.scbasis._ast.ASTSCEmptyAnte;
 import de.monticore.scbasis._ast.ASTSCState;
 import de.monticore.scbasis._ast.ASTUnnamedStatechart;
 import de.monticore.sctransitions4code._ast.ASTAnteAction;
@@ -20,19 +19,19 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * This test parses every non terminal of SCTransitions4Code,
+ * This test parses every non-terminal of SCTransitions4Code,
  * checks it against expected values,
  * and validates that the PrettyPrinter returns an equivalent model
  */
 public class SCTransitions4CodeParserTest extends GeneralAbstractTest {
-  
+
   UMLStatechartsFullPrettyPrinter printer = new UMLStatechartsFullPrettyPrinter(new IndentPrinter());
   UMLStatechartsParser parser = new UMLStatechartsParser();
 
 
   @Test
   public void testTransitionBodyPre() throws IOException {
-    Optional<ASTTransitionBody> ast = parser.parse_StringTransitionBody(" [ true ]");
+    Optional<ASTTransitionBody> ast = parser.parse_StringTransitionBody(" [ true ] ;");
     TestUtils.check(parser);
     assertTrue(ast.isPresent(), "No ast present");
     assertTrue(ast.get().isPresentPre(), "Pre");
@@ -47,7 +46,7 @@ public class SCTransitions4CodeParserTest extends GeneralAbstractTest {
   @Test
   public void testTransitionBodyPreAndEvent()
       throws IOException {
-    Optional<ASTTransitionBody> ast = parser.parse_StringTransitionBody(" [ true ] a.b.c");
+    Optional<ASTTransitionBody> ast = parser.parse_StringTransitionBody(" [ true ] a.b.c ;");
     TestUtils.check(parser);
     assertTrue(ast.isPresent(), "No ast present");
     assertTrue(ast.get().isPresentPre(), "Pre");
@@ -85,7 +84,7 @@ public class SCTransitions4CodeParserTest extends GeneralAbstractTest {
       || ast.get().getSCModifier().isFinal()
       || ast.get().getSCModifier().isInitial(),
         "Modifier");
-    assertInstanceOf(ASTSCEmptyAnte.class, ast.get().getSCSAnte(), "Ante");
+    assertFalse(ast.get().isPresentSCSAnte(), "Ante");
     assertEquals("A", ast.get().getName(), "State name");
 
     String pp = printer.prettyprint(ast.get());
@@ -171,11 +170,11 @@ public class SCTransitions4CodeParserTest extends GeneralAbstractTest {
 
     assertTrue(firstState.getSCModifier().isInitial(), "initial State");
     assertEquals("Foo", firstState.getName(), "initial State name");
-    assertInstanceOf(ASTSCEmptyAnte.class, firstState.getSCSAnte(), "initial state ante");
+    assertFalse(firstState.isPresentSCSAnte(), "initial state ante");
 
     assertFalse(secondState.getSCModifier().isInitial(), "second State");
     assertEquals("Bar", secondState.getName(), "second State name");
-    assertInstanceOf(ASTSCEmptyAnte.class, secondState.getSCSAnte(), "second state ante");
+    assertFalse(secondState.isPresentSCSAnte(), "second state ante");
 
     String pp = printer.prettyprint(ast.get());
     Optional<ASTUnnamedStatechart> astPP = parser.parse_StringUnnamedStatechart(pp);

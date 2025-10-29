@@ -13,5 +13,5 @@ statechart Test2 {
     initial state Parking;
     state Driving;
     exit / {lightsOff(); String foo = b;}
-  };
+  }
 }

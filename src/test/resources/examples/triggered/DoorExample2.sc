@@ -7,7 +7,7 @@ statechart DoorExample2 {
   state Locked;
 
   Opened -> Closed ;                        // transition without pre condition and body
-  Closed -> Opened / {System.out.println("riiing");} ;   // transition with body
-  Closed -> Locked / { System.out.println("Locked"); } ;
+  Closed -> Opened / {System.out.println("riiing");}   // transition with body
+  Closed -> Locked / { System.out.println("Locked"); }
   Locked -> Closed [1+1>1] ;        // transition with pre condition
 }

@@ -48,7 +48,7 @@ public class AnteBlockOnlyWithInitialStateModifierTest extends GeneralAbstractTe
     "statechart SC4 { " +
       "  state S1 { " +
       "    initial { initS1S1(); } state S1S1; " +
-      "  }; " +
+      "  } " +
       "}",
   })
   public void testCoCoValid(String model) throws IOException {
@@ -130,7 +130,7 @@ public class AnteBlockOnlyWithInitialStateModifierTest extends GeneralAbstractTe
       "statechart SC { " +
         "  state S1 { " +
         "    { initS1S1(); } state S1S1; " +
-        "  }; " +
+        "  } " +
         "}";
 
     ASTSCArtifact ast = TriggeredStatechartsMill.parser().parse_StringSCArtifact(model)
@@ -153,7 +153,7 @@ public class AnteBlockOnlyWithInitialStateModifierTest extends GeneralAbstractTe
         "  state S1 { " +
         "    { initS1S1(); } state S1S1; " +
         "    { initS1S2(); } state S1S2; " +
-        "  }; " +
+        "  } " +
         "}";
 
     ASTSCArtifact ast = TriggeredStatechartsMill.parser().parse_StringSCArtifact(model)
@@ -176,10 +176,10 @@ public class AnteBlockOnlyWithInitialStateModifierTest extends GeneralAbstractTe
       "statechart SC { " +
         "  state S1 { " +
         "    { initS1S1(); } state S1S1; " +
-        "  }; " +
+        "  } " +
         "  state S2 { " +
         "    { initS2S1(); } state S2S1; " +
-        "  }; " +
+        "  } " +
         "}";
 
     ASTSCArtifact ast = TriggeredStatechartsMill.parser().parse_StringSCArtifact(model)
