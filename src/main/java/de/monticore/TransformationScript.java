@@ -9,7 +9,7 @@ import groovy.lang.MissingMethodException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -19,7 +19,7 @@ import java.util.Map;
  * withTransformation acts as a custom alias import for transformation classes.
  */
 public abstract class TransformationScript extends groovy.lang.Script {
-  protected final Map<String, String> transformationAliases = new HashMap<>();
+  protected final Map<String, String> transformationAliases = new LinkedHashMap<>();
 
   /**
    * the groovy shell, which will be used to respect imports

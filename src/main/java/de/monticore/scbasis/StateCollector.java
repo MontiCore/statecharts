@@ -6,7 +6,7 @@ import de.monticore.scbasis._visitor.SCBasisVisitor2;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -17,7 +17,7 @@ public class StateCollector implements SCBasisVisitor2 {
 
   protected int hierarchyLevel = 0;
 
-  protected final Map<ASTSCState, Integer> states = new HashMap<>();
+  protected final Map<ASTSCState, Integer> states = new LinkedHashMap<>();
 
   @Override
   public void visit(ASTSCState node) {

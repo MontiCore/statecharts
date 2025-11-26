@@ -4,7 +4,7 @@ package de.monticore.scbasis;
 import de.monticore.scbasis._ast.ASTSCState;
 import de.monticore.scbasis._visitor.SCBasisVisitor2;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class InitialStateCollector implements SCBasisVisitor2 {
 
-  protected final Set<String> states = new HashSet<>();
+  protected final Set<String> states = new LinkedHashSet<>();
 
   @Override
   public void visit(ASTSCState node) {

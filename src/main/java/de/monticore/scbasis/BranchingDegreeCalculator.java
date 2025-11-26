@@ -5,7 +5,7 @@ import de.monticore.scbasis._ast.ASTSCState;
 import de.monticore.scbasis._ast.ASTSCTransition;
 import de.monticore.scbasis._visitor.SCBasisVisitor2;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class BranchingDegreeCalculator implements SCBasisVisitor2 {
 
-  protected final Map<String, Integer> branchingDegree = new HashMap<>();
+  protected final Map<String, Integer> branchingDegree = new LinkedHashMap<>();
 
   @Override
   public void visit(ASTSCState node) {

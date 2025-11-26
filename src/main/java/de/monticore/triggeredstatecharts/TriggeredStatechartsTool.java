@@ -167,7 +167,7 @@ public class TriggeredStatechartsTool extends TriggeredStatechartsToolTOP {
     Set<String> reachableStates = initialStateCollector.getStates();
 
     // calculate reachable states
-    Set<String> currentlyChecked = new HashSet<>(reachableStates);
+    Set<String> currentlyChecked = new LinkedHashSet<>(reachableStates);
     statesToBeChecked.removeAll(reachableStates);
     while (!currentlyChecked.isEmpty()) {
       // While the open list is not empty, check which states can be reached from it
@@ -223,7 +223,7 @@ public class TriggeredStatechartsTool extends TriggeredStatechartsToolTOP {
     traverser.add4SCBasis(stateCollectorVisitor);
     ast.accept(traverser);
     return String.join(", ", stateCollectorVisitor.getStates()
-      .stream().map(ASTSCState::getName).collect( Collectors.toSet())) + System.lineSeparator();
+      .stream().map(ASTSCState::getName).collect(Collectors.toCollection(LinkedHashSet::new))) + System.lineSeparator();
   }
 
   /**

@@ -307,7 +307,7 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
     Set<String> reachableStates = initialStateCollector.getStates();
 
     // calculate reachable states
-    Set<String> currentlyChecked = new HashSet<>(reachableStates);
+    Set<String> currentlyChecked = new LinkedHashSet<>(reachableStates);
     statesToBeChecked.removeAll(reachableStates);
 
     while (!currentlyChecked.isEmpty()) {
@@ -386,7 +386,7 @@ public class UMLStatechartsTool extends UMLStatechartsToolTOP {
     ast.accept(traverser);
 
     return String.join(", ", stateCollectorVisitor.getStates()
-      .stream().map(e -> e.getName()).collect( Collectors.toSet())) + System.lineSeparator();
+      .stream().map(e -> e.getName()).collect(Collectors.toCollection(LinkedHashSet::new))) + System.lineSeparator();
   }
 
 

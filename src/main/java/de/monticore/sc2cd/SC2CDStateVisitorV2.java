@@ -19,7 +19,7 @@ import de.se_rwth.commons.Splitters;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +46,7 @@ public class SC2CDStateVisitorV2
   /**
    * Mapping of the state implementation classes for every state
    */
-  protected final Map<String, ASTCDClass> stateToClassMap = new HashMap<>();
+  protected final Map<String, ASTCDClass> stateToClassMap = new LinkedHashMap<>();
   /**
    * Code template reference
    */
