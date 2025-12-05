@@ -28,7 +28,7 @@ public class TransitionSourceTargetExists implements SCBasisASTSCTransitionCoCo 
     }
 
     if (!node.isPresentTargetNameSymbol()) {
-      Log.error(CANT_FIND_TARGET_ERROR_CODE + " " + String.format(CANT_FIND_TARGET_ERROR_MSG, node.getSourceName()),
+      Log.error(CANT_FIND_TARGET_ERROR_CODE + " " + String.format(CANT_FIND_TARGET_ERROR_MSG, node.getTargetName()),
         node.get_SourcePositionStart(),
         node.get_SourcePositionEnd()
       );
