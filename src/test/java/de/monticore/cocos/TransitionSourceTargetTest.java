@@ -28,8 +28,12 @@ public class TransitionSourceTargetTest extends GeneralAbstractTest {
     assertTrue(ast.isPresent(), "InvalidSourceTarget.sc could not be parsed");
     check(ast.get());
     assertEquals(2, Log.getErrorCount());
-    assertTrue(Log.getFindings().stream().anyMatch(n -> n.getMsg().contains(TransitionSourceTargetExists.SOURCE_ERROR_CODE)));
-    assertTrue(Log.getFindings().stream().anyMatch(n -> n.getMsg().contains(TransitionSourceTargetExists.TARGET_ERROR_CODE)));
+    assertTrue(Log.getFindings().stream().anyMatch(n -> n.getMsg()
+      .contains(TransitionSourceTargetExists.CANT_FIND_SOURCE_ERROR_CODE))
+    );
+    assertTrue(Log.getFindings().stream().anyMatch(n -> n.getMsg()
+      .contains(TransitionSourceTargetExists.CANT_FIND_TARGET_ERROR_CODE))
+    );
     
   }
   
