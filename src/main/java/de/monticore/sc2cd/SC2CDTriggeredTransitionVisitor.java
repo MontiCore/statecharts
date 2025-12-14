@@ -28,11 +28,11 @@ public class SC2CDTriggeredTransitionVisitor extends SC2CDTransitionVisitor
   public void visit(ASTSCEmptyEvent node) {
     if (!transition.isPresent() || !transitionBody.isPresent() ) return;
 
-    String stimulus = transition.get().getSourceName() + transition.get().getTargetName();
+    String stimulus = transition.get().getSource().getName() + transition.get().getTarget().getName();
 
     //try next numbers
     while (stimuli.contains(stimulus)) {
-      if(stimulus.equals(transition.get().getSourceName() + transition.get().getTargetName())){
+      if(stimulus.equals(transition.get().getSource().getName() + transition.get().getTarget().getName())){
         stimulus = stimulus + "2";
       }else{
         int number = Integer.parseInt(stimulus.substring(stimulus.length()-1));
@@ -55,14 +55,14 @@ public class SC2CDTriggeredTransitionVisitor extends SC2CDTransitionVisitor
     String s = stimulus;
 
     //Add handleTransition(Class k) method to the source-state StateClass impl
-    if (!this.stateToClassMap.containsKey(this.transition.get().getSourceName())) {
-      throw new IllegalStateException("No source state " + this.transition.get().getSourceName() + " found!");
+    if (!this.stateToClassMap.containsKey(this.transition.get().getSource().getName())) {
+      throw new IllegalStateException("No source state " + this.transition.get().getSource().getName() + " found!");
     }
-    ASTCDClass stateImplClass = this.stateToClassMap.get(this.transition.get().getSourceName());
+    ASTCDClass stateImplClass = this.stateToClassMap.get(this.transition.get().getSource().getName());
     if (stateImplClass.getCDMethodList().stream()
       .anyMatch(x -> x.getName().equals("handle" + StringUtils.capitalize(s)))) {
       // This might occur due to stimuli with arguments
-      throw new IllegalStateException("Duplicate transition " + stimulus + " in " + this.transition.get().getSourceName() + " found!");
+      throw new IllegalStateException("Duplicate transition " + stimulus + " in " + this.transition.get().getSource().getName() + " found!");
     }
 
     // Print the action using the TriggeredStatechartsFullPrettyPrinter
@@ -77,6 +77,6 @@ public class SC2CDTriggeredTransitionVisitor extends SC2CDTransitionVisitor
     }
     // Finally, add the method
     cd4C.addMethod(stateImplClass, "de.monticore.sc2cd.StateClassHandleStimulus", stimulus, scClass.getName(),
-      transition.get().getTargetName(), action, precondition);
+      transition.get().getTarget().getName(), action, precondition);
   }
 }
