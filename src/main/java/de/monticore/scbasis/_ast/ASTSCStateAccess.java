@@ -5,7 +5,7 @@ public class ASTSCStateAccess extends ASTSCStateAccessTOP {
 
   @Override
   protected void updateNameSymbol() {
-    if (getEnclosingScope() != null && ( nameSymbol == null || !getName().equals(nameSymbol.getName()))) {
+    if (getEnclosingScope() != null && (nameSymbol == null || !getName().equals(nameSymbol.getName()))) {
       nameSymbol = getEnclosingScope().resolveSCStateDownMany(getName()).stream().findFirst().orElse(null);
     }
   }
