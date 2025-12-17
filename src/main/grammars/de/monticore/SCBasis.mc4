@@ -142,7 +142,6 @@ component grammar SCBasis extends
 
    /**
       Reference to an existing state by name.
-      Modeled as a dedicated AST node to attach source positions and support Name@SCState-based symbol resolution.
     */
    SCStateAccess = name:Name@SCState;
 
