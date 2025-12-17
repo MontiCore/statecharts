@@ -140,11 +140,16 @@ component grammar SCBasis extends
   // Transitions
   //***********************************************************
 
+   /**
+      Reference to an existing state by name.
+      Modeled as a dedicated AST node to attach source positions and support Name@SCState-based symbol resolution.
+    */
+   SCStateAccess = name:Name@SCState;
+
   /**
     A Transition has a source and a target state and a
     body describing stimulus as well as potential actions, postconditions, etc.
   */
-  SCStateAccess = name:Name@SCState;
   SCTransition implements SCStateElement, SCStatechartElement =
    Stereotype? source:SCStateAccess "->" target:SCStateAccess SCTBody ;
 
