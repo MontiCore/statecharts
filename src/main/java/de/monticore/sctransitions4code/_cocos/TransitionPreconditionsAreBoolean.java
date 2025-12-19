@@ -50,13 +50,13 @@ public class TransitionPreconditionsAreBoolean implements SCTransitions4CodeASTT
         Log.debug(() -> String.format(
           "Coco '%s' skipped for transition guard at %s. The type is obscure, an error should already have been logged.",
           this.getClass().getSimpleName(),
-          node.get_SourcePositionStart()),
+          node.getPre().get_SourcePositionStart()),
           "Cocos"
         );
       } else if (!SymTypeRelations.isBoolean(preType)) {
         Log.error(
           String.format(ERROR_CODE + " " + GUARD_NOT_BOOLEAN_ERROR_MSG, BOOLEAN, preType.print()),
-          node.get_SourcePositionStart(), node.get_SourcePositionEnd()
+          node.getPre().get_SourcePositionStart(), node.getPre().get_SourcePositionEnd()
         );
       }
     }

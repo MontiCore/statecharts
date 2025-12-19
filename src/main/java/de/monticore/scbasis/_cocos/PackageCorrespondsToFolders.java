@@ -12,16 +12,17 @@ import de.se_rwth.commons.logging.Log;
 public class PackageCorrespondsToFolders implements SCBasisASTSCArtifactCoCo {
 
   public static final String ERROR_CODE = "0xCC107";
-  
-  protected static final String MESSAGE = 
-          " Package name '%s' does not correspond to the file path '%s'.";
+
+  protected static final String MESSAGE =
+    " Package name '%s' does not correspond to the file path '%s'.";
 
   @Override
   public void check(ASTSCArtifact node) {
     if (node.isPresentPackage()) {
       String packageName = node.getPackage().getQName();
       if (node.getFilePath() != null && !node.getFilePath().getParent().endsWith(Names.getPathFromPackage(packageName))) {
-        Log.error(String.format(ERROR_CODE + MESSAGE, packageName, node.getFilePath().toString()));
+        Log.error(String.format(ERROR_CODE + MESSAGE, packageName, node.getFilePath().toString()),
+          node.getPackage().get_SourcePositionStart(), node.getPackage().get_SourcePositionEnd());
       }
     }
   }

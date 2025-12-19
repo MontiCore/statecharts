@@ -16,23 +16,22 @@ import java.util.stream.Collectors;
 
 public class UniqueStates implements SCBasisASTStatechartCoCo {
 
+  public static final String ERROR_CODE = "0xCC100";
+
+  public static final String ERROR_MSG_FORMAT = " State names must be unique but %s was duplicated.";
+
   protected SCBasisTraverser t;
 
-  public UniqueStates (){
+  public UniqueStates() {
     super();
     this.t = SCBasisMill.traverser();
   }
 
-  public UniqueStates (SCBasisTraverser traverser){
+  public UniqueStates(SCBasisTraverser traverser) {
     super();
     this.t = traverser;
   }
-  
-  
-  public static final String ERROR_CODE = "0xCC100";
-  
-  public static final String ERROR_MSG_FORMAT = " State names must be unique but %s was duplicated." ;
-  
+
   @Override
   public void check(ASTStatechart node) {
     StateCollector collector = new StateCollector();
@@ -40,11 +39,11 @@ public class UniqueStates implements SCBasisASTStatechartCoCo {
     node.accept(t);
     Set<String> uniques = Sets.newHashSet();
     List<ASTSCState> duplicates = collector.getStates().stream()
-        .filter(e -> !uniques.add(e.getName()))
-        .collect(Collectors.toList());
-    if(!duplicates.isEmpty()){
+      .filter(e -> !uniques.add(e.getName()))
+      .collect(Collectors.toList());
+    if (!duplicates.isEmpty()) {
       Log.error(String.format(ERROR_CODE + ERROR_MSG_FORMAT, duplicates.get(0).getName()),
-          duplicates.get(0).get_SourcePositionStart());
+        duplicates.get(0).get_SourcePositionStart(), duplicates.get(0).get_SourcePositionEnd());
     }
   }
 }

@@ -16,7 +16,7 @@ public class InvariantValid implements SCStateInvariantsASTSCInvStateCoCo {
     SymTypeExpression symType = TypeCheck3.typeOf(node.getExpression());
 
     if (!symType.isObscureType() && !SymTypeRelations.isBoolean(symType)) {
-      Log.error(ERROR_CODE + " Invariant of " + node.getName() + " not of type boolean", node.get_SourcePositionStart());
+      Log.error(ERROR_CODE + " Invariant of " + node.getName() + " not of type boolean", node.get_SourcePositionStart(),  node.get_SourcePositionEnd());
     }
   }
 }

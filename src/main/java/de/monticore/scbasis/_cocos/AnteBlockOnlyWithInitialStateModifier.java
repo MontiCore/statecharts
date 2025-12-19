@@ -21,7 +21,7 @@ public class AnteBlockOnlyWithInitialStateModifier implements SCBasisASTSCStateC
   public void check(ASTSCState node) {
     if (node.isPresentSCSAnte() && !node.getSCModifier().isInitial()) {
       Log.error(ERROR_CODE + " " + String.format(MESSAGE, node.getName()),
-        node.get_SourcePositionStart()
+        node.get_SourcePositionStart(), node.get_SourcePositionEnd()
       );
     }
   }
