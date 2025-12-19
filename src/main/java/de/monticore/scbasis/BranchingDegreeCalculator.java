@@ -24,8 +24,8 @@ public class BranchingDegreeCalculator implements SCBasisVisitor2 {
 
   @Override
   public void visit(ASTSCTransition node) {
-    int cur = this.branchingDegree.getOrDefault(node.getSourceName(), 0);
-    this.branchingDegree.put(node.getSourceName(), cur + 1);
+    int cur = this.branchingDegree.getOrDefault(node.getSource().getName(), 0);
+    this.branchingDegree.put(node.getSource().getName(), cur + 1);
   }
 
   public Map<String, Integer> getBranchingDegrees() {

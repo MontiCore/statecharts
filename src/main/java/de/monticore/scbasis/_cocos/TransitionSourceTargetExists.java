@@ -20,17 +20,17 @@ public class TransitionSourceTargetExists implements SCBasisASTSCTransitionCoCo 
   @Override
   public void check(ASTSCTransition node) {
 
-    if (!node.isPresentSourceNameSymbol()) {
-      Log.error(CANT_FIND_SOURCE_ERROR_CODE + " " + String.format(CANT_FIND_SOURCE_ERROR_MSG, node.getSourceName()),
-        node.get_SourcePositionStart(),
-        node.get_SourcePositionEnd()
+    if (!node.getSource().isPresentNameSymbol()) {
+      Log.error(CANT_FIND_SOURCE_ERROR_CODE + " " + String.format(CANT_FIND_SOURCE_ERROR_MSG, node.getSource().getName()),
+        node.getSource().get_SourcePositionStart(),
+        node.getSource().get_SourcePositionEnd()
       );
     }
 
-    if (!node.isPresentTargetNameSymbol()) {
-      Log.error(CANT_FIND_TARGET_ERROR_CODE + " " + String.format(CANT_FIND_TARGET_ERROR_MSG, node.getTargetName()),
-        node.get_SourcePositionStart(),
-        node.get_SourcePositionEnd()
+    if (!node.getTarget().isPresentNameSymbol()) {
+      Log.error(CANT_FIND_TARGET_ERROR_CODE + " " + String.format(CANT_FIND_TARGET_ERROR_MSG, node.getTarget().getName()),
+        node.getTarget().get_SourcePositionStart(),
+        node.getTarget().get_SourcePositionEnd()
       );
     }
   }

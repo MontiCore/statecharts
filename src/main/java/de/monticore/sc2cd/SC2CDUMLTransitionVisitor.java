@@ -40,14 +40,14 @@ public class SC2CDUMLTransitionVisitor extends SC2CDTransitionVisitor
     if (!transition.isPresent() || !transitionBody.isPresent() ) return;
 
     // Add handleStimulus(Class k) method to the source-state StateClass impl
-    if (!this.stateToClassMap.containsKey(this.transition.get().getSourceName())) {
-      throw new IllegalStateException("No source state " + this.transition.get().getSourceName() + " found!");
+    if (!this.stateToClassMap.containsKey(this.transition.get().getSource().getName())) {
+      throw new IllegalStateException("No source state " + this.transition.get().getSource().getName() + " found!");
     }
-    ASTCDClass stateImplClass = this.stateToClassMap.get(this.transition.get().getSourceName());
+    ASTCDClass stateImplClass = this.stateToClassMap.get(this.transition.get().getSource().getName());
     if (stateImplClass.getCDMethodList().stream()
             .anyMatch(x -> x.getName().equals("handle" + StringUtils.capitalize(stimulus)))) {
       // This might occur due to stimuli with arguments
-      throw new IllegalStateException("Duplicate transition " + stimulus + " in " + this.transition.get().getSourceName() + " found!");
+      throw new IllegalStateException("Duplicate transition " + stimulus + " in " + this.transition.get().getSource().getName() + " found!");
     }
 
     // Print the action using the UMLStatechartsFullPrettyPrinter
@@ -64,7 +64,7 @@ public class SC2CDUMLTransitionVisitor extends SC2CDTransitionVisitor
     }
     // Finally, add the method
     cd4C.addMethod(stateImplClass, "de.monticore.sc2cd.StateClassHandleStimulus", stimulus, scClass.getName(),
-                   transition.get().getTargetName(), action, precondition);
+                   transition.get().getTarget().getName(), action, precondition);
   }
 
 }

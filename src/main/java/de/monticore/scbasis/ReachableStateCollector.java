@@ -22,8 +22,8 @@ public class ReachableStateCollector implements SCBasisVisitor2 {
 
   @Override
   public void visit(ASTSCTransition node) {
-    if (node.getSourceName().equals(this.fromState)) {
-      this.reachableStates.add(node.getTargetName());
+    if (node.getSource().getName().equals(this.fromState)) {
+      this.reachableStates.add(node.getTarget().getName());
     }
   }
 

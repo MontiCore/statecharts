@@ -84,8 +84,8 @@ public class SCBasisParserPPTest extends GeneralAbstractTest {
 
     assertEquals("stereo", ast.get().getStereotype().getValues(1).getName());
 
-    assertEquals("S1", ast.get().getSourceName());
-    assertEquals("S2", ast.get().getTargetName());
+    assertEquals("S1", ast.get().getSource().getName());
+    assertEquals("S2", ast.get().getTarget().getName());
 
     String pp = prettyPrinter.prettyprint(ast.get());
     Optional<ASTSCTransition> astPP = parser.parse_StringSCTransition(pp);
