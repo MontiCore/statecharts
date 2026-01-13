@@ -51,7 +51,7 @@ public class TrafoWorkflowTest {
   public void testTrafoWorkflow() throws IOException {
     File ppFile = temporaryFolder.resolve("trafoOut.sc").toFile();
     assertTrue(ppFile.createNewFile());
-    UMLStatechartsTool.main(new String[]{
+    new UMLStatechartsTool().run(new String[]{
             "-i", "src/test/resources/TestStatechart.sc",
             "-t", "src/test/resources/TrafoWorkflow.groovy",
             "-pp", ppFile.getAbsolutePath()
