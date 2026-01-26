@@ -77,12 +77,8 @@ tasks.withType(Test) {
 
 java {
   withSourcesJar()
-  registerFeature('grammars') {
-    usingSourceSet(sourceSets.grammars)
-  }
 }
 
-jar.dependsOn grammarsJar
 
 task buildAll(type: GradleBuild) {
   tasks = ['build']
