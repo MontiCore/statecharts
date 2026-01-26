@@ -59,10 +59,12 @@ fileTree(dir: "$projectDir/src/main/models/uml", include: '**/**.mtr').each {
     classpath += sourceSets.main.runtimeClasspath
     main = 'de.monticore.tr.UMLStatechartsTFGenTool'
     args += ["-i", "$g",
-             "-o", "$buildDir/generated-sources"]
+             "-o", "$buildDir/generated-trafo-sources"]
   }
   generateStatechartTRRules.dependsOn("$taskname")
 }
+
+sourceSets.test.java.srcDirs += ["$buildDir/generated-trafo-sources"]
 
 
 compileTestJava.dependsOn += generateStatechartTRRules
