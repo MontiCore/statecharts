@@ -8,27 +8,6 @@ description = "sc-trans-test"
 buildDir = file("$projectDir/target")
 
 
-def grammarDir = "src/main/grammars"
-def grammarOutDir = "$buildDir/generated-sources"
-def testGrammarOutDir = "$buildDir/generated-test-sources/mc"
-
-
-// configure non-standard source sets
-sourceSets {
-  test {
-    java.srcDirs += ["$grammarOutDir", "$testGrammarOutDir"]
-  }
-  grammars {
-    resources {
-      srcDirs(grammarDir)
-      include "**/*.mc4"
-    }
-  }
-}
-
-configurations { grammar }
-
-
 dependencies {
   testImplementation "org.junit.jupiter:junit-jupiter:$junit_version"
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -80,10 +59,12 @@ fileTree(dir: "$projectDir/src/main/models/uml", include: '**/**.mtr').each {
     classpath += sourceSets.main.runtimeClasspath
     main = 'de.monticore.tr.UMLStatechartsTFGenTool'
     args += ["-i", "$g",
-             "-o", "$buildDir/generated-sources"]
+             "-o", "$buildDir/generated-trafo-sources"]
   }
   generateStatechartTRRules.dependsOn("$taskname")
 }
+
+sourceSets.test.java.srcDirs += ["$buildDir/generated-trafo-sources"]
 
 
 compileTestJava.dependsOn += generateStatechartTRRules
@@ -98,12 +79,8 @@ tasks.withType(Test) {
 
 java {
   withSourcesJar()
-  registerFeature('grammars') {
-    usingSourceSet(sourceSets.grammars)
-  }
 }
 
-jar.dependsOn grammarsJar
 
 task buildAll(type: GradleBuild) {
   tasks = ['build']

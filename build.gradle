@@ -77,6 +77,16 @@ repositories {
     }
 }
 
+// Use Java21
+allprojects {
+  java {
+    toolchain {
+      languageVersion = JavaLanguageVersion.of(21)
+    }
+  }
+}
+
+
 test {
   useJUnitPlatform()
 }
