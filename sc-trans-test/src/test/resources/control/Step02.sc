@@ -30,9 +30,9 @@ statechart Step02 {
   }
 
   state H{
-      H_intern -> H_intern [pre] ev / {foo();}
-    H_intern -> H_intern [pre2] ev2 / {foo2();}
     initial final state H_intern;
+    H_intern -> H_intern [pre] ev / {foo();}
+    H_intern -> H_intern [pre2] ev2 / {foo2();}
     H_intern -> H_intern [pre3];
   }
 
