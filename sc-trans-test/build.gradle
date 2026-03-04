@@ -7,6 +7,9 @@ plugins {
 description = "sc-trans-test"
 buildDir = file("$projectDir/target")
 
+configurations {
+  scGenerator
+}
 
 dependencies {
   testImplementation "org.junit.jupiter:junit-jupiter:$junit_version"
@@ -25,6 +28,7 @@ dependencies {
 
   // add the compiled trafo java classes of the subproject to the classpath
   implementation files(rootProject.sourceSets.trafo.output.classesDirs)
+  scGenerator project(path: rootProject.path, configuration: "umlscTransGenerator")
 }
 
 configurations.configureEach {
@@ -56,10 +60,13 @@ fileTree(dir: "$projectDir/src/main/models/uml", include: '**/**.mtr').each {
   def taskname = "generateUMLStatechartTRRules${it.getName().substring(0, it.getName().lastIndexOf('.'))}"
   task "$taskname"(type: JavaExec) {
     group = "montitrans"
-    classpath += sourceSets.main.runtimeClasspath
+    classpath = configurations.scGenerator
     main = 'de.monticore.tr.UMLStatechartsTFGenTool'
     args += ["-i", "$g",
              "-o", "$buildDir/generated-trafo-sources"]
+    doFirst {
+      println configurations.scGenerator.resolve()
+    }
   }
   generateStatechartTRRules.dependsOn("$taskname")
 }
