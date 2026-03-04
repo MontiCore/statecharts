@@ -46,6 +46,12 @@ configurations {
   testscgenImplementation.extendsFrom(implementation)
   testscgenImplementation.extendsFrom(testImplementation)
   trafoGrammar // this configuration is actually further set up by the generator-withtr plugin
+  if (withTR) {
+    umlscTransGenerator {
+      canBeConsumed = true
+      canBeResolved = false
+    }
+  }
 }
 
 dependencies {
@@ -84,6 +90,9 @@ allprojects {
       languageVersion = JavaLanguageVersion.of(21)
     }
   }
+  ecj {
+    compilerVersion = "3.43.0"
+  }
 }
 
 
@@ -112,8 +121,6 @@ tasks.withType(Test) {
 }
 
 tasks.withType(JavaCompile) {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
     options.fork = true
     options.encoding = "UTF-8"
     options.deprecation false
@@ -142,6 +149,12 @@ if (withTR) {
     from zipTree(shadowJar.archiveFile)
     from zipTree(trafoJar.archiveFile)
     configurations += [project.configurations.trafoRuntimeClasspath]
+  }
+
+  artifacts {
+    umlscTransGenerator(uMLSCTransGenerator.archiveFile) {
+      builtBy uMLSCTransGenerator
+    }
   }
 
   // all in one (triggered) tf-tool-jar
@@ -200,6 +213,11 @@ fileTree("src").matching { include '**/*.mlc' }.each {
   checkArtifacts.dependsOn("checkArtifacts${mlcName}")
 }    // end integration with MLC
 
+tasks.withType(JavaExec).configureEach {
+  javaLauncher = javaToolchains.launcherFor {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
+}
 
 java {
   withSourcesJar()
