@@ -201,6 +201,11 @@ fileTree("src").matching { include '**/*.mlc' }.each {
   checkArtifacts.dependsOn("checkArtifacts${mlcName}")
 }    // end integration with MLC
 
+tasks.withType(JavaExec).configureEach {
+  javaLauncher = javaToolchains.launcherFor {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
+}
 
 java {
   withSourcesJar()

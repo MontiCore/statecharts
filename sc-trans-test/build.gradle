@@ -64,6 +64,12 @@ fileTree(dir: "$projectDir/src/main/models/uml", include: '**/**.mtr').each {
   generateStatechartTRRules.dependsOn("$taskname")
 }
 
+tasks.withType(JavaExec).configureEach {
+  javaLauncher = javaToolchains.launcherFor {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
+}
+
 sourceSets.test.java.srcDirs += ["$buildDir/generated-trafo-sources"]
 
 
