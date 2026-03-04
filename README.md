@@ -105,7 +105,7 @@ for the SC languages from the source code of the tool. Alternatively, the
 tool can be [downloaded](#Tool-Download).
 
 ##### Prerequisites
-To build the project, it is required to install a Java 8 JDK and git.
+To build the project, it is required to install a Java 21 JDK, Gradle 8.4, and git.
 
 ##### Step 1: Clone Project with git
 
