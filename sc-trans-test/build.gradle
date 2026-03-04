@@ -7,6 +7,12 @@ plugins {
 description = "sc-trans-test"
 buildDir = file("$projectDir/target")
 
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
+}
+
 configurations {
   scGenerator
 }
@@ -64,9 +70,6 @@ fileTree(dir: "$projectDir/src/main/models/uml", include: '**/**.mtr').each {
     main = 'de.monticore.tr.UMLStatechartsTFGenTool'
     args += ["-i", "$g",
              "-o", "$buildDir/generated-trafo-sources"]
-    doFirst {
-      println configurations.scGenerator.resolve()
-    }
   }
   generateStatechartTRRules.dependsOn("$taskname")
 }
