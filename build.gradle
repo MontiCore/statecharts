@@ -84,6 +84,9 @@ allprojects {
       languageVersion = JavaLanguageVersion.of(21)
     }
   }
+  ecj {
+    compilerVersion = "3.43.0"
+  }
 }
 
 
