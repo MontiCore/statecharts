@@ -1,21 +1,21 @@
 /* (c) https://github.com/MontiCore/monticore */
+
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import org.gradle.api.tasks.JavaExec
 
 plugins {
     id "java"
     id "maven-publish"
     id "de.monticore.generator-withtr" version "$mc_version" // MontiCore Plugin with TR support
-    id "com.github.johnrengelman.shadow" version "$shadow_plugin_version"
+    id "com.gradleup.shadow" version "$shadow_plugin_version"
     id "io.github.themrmilchmann.ecj" version "0.2.0"
 }
 
 description = "Statecharts"
-buildDir = file("$projectDir/target")
+layout.buildDirectory = layout.projectDirectory.dir("target")
 
 
-def testSCOutDir = "$buildDir/generated-test-sources/sc"
-def testscgenDir = "$projectDir/src/testscgen"
+def testSCOutDir = layout.buildDirectory.dir("generated-test-sources/sc").get().asFile.absolutePath
+def testSCGenDir  = layout.projectDirectory.dir("src/testscgen").asFile.absolutePath
 
 def withTR = ("true").equals(getProperty('genTR'));
 
@@ -62,11 +62,11 @@ dependencies {
 
   // normal, implementation dependencies
   implementation "de.monticore:class2mc:$mc_version"
-  implementation group: 'de.monticore.lang', name: 'cd4analysis', version: mc_version
-  implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.18.0'
-  implementation 'org.apache.groovy:groovy:4.0.28'
+  implementation "de.monticore.lang:cd4analysis:$mc_version"
+  implementation "org.apache.commons:commons-lang3:$commons_lang3_version"
+  implementation "org.apache.groovy:groovy:$groovy_version"
   testImplementation "org.junit.jupiter:junit-jupiter:$junit_version"
-  testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+  testRuntimeOnly "org.junit.platform:junit-platform-launcher"
 
   testscgenImplementation(sourceSets.main.output.classesDirs)
   testscgenImplementation(sourceSets.test.output.classesDirs)
@@ -77,9 +77,9 @@ repositories {
         mavenLocal()
     }
     maven {
-        credentials.username mavenUser
-        credentials.password mavenPassword
-        url repo
+        credentials.username = mavenUser
+        credentials.password = mavenPassword
+        url = repo
     }
 }
 
@@ -102,30 +102,30 @@ test {
 
 
 // A Task using the UMLStatechartsTool
-task generateSC(type: JavaExec) {
+tasks.register('generateSC', JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
 
   mainClass = "de.monticore.umlstatecharts/UMLStatechartsTool"
 
-  args("-i", "${testscgenDir}/resources/examples/DoorExample.sc",
-          "-gen", "${testSCOutDir}",
-          "-hcp", "${testscgenDir}/java")
+  args("-i", "${testSCGenDir}/resources/examples/DoorExample.sc",
+      "-gen", "${testSCOutDir}",
+      "-hcp", "${testSCGenDir}/java")
 }
 
 generateSC.dependsOn compileJava
 compileTestscgenJava.dependsOn generateSC
 check.dependsOn testscgenClasses
 
-tasks.withType(Test) {
-    maxParallelForks = Runtime.runtime.availableProcessors() ?: 1
+tasks.withType(Test).configureEach {
+  maxParallelForks = Runtime.runtime.availableProcessors() ?: 1
 }
 
-tasks.withType(JavaCompile) {
-    options.fork = true
-    options.encoding = "UTF-8"
-    options.deprecation false
-    options.warnings = false
-    options.headerOutputDirectory.convention(null)
+tasks.withType(JavaCompile).configureEach {
+  options.fork = true
+  options.encoding = "UTF-8"
+  options.deprecation = false
+  options.warnings = false
+  options.headerOutputDirectory.convention(null)
 }
 
 // all in one tool-jar
@@ -139,13 +139,13 @@ shadowJar {
 
 if (withTR) {
   // all in one (umlp) tf-tool-jar
-  task uMLSCTransGenerator(type: ShadowJar) {
+  tasks.register('uMLSCTransGenerator', ShadowJar) {
     onlyIf { withTR }
     dependsOn shadowJar
     group = "shadow"
     manifest.attributes 'Main-Class': 'de.monticore.tr.UMLStatechartsTFGenTool'
-    archiveFileName = 'UMLSCTransGenerator.jar'
-    archiveClassifier.set('umltfgen')
+    archiveFileName = "UMLSCTransGenerator.jar"
+    archiveClassifier = "umltfgen"
     from zipTree(shadowJar.archiveFile)
     from zipTree(trafoJar.archiveFile)
     configurations += [project.configurations.trafoRuntimeClasspath]
@@ -158,23 +158,24 @@ if (withTR) {
   }
 
   // all in one (triggered) tf-tool-jar
-  task triggeredSCTransGenerator(type: ShadowJar) {
+  tasks.register('triggeredSCTransGenerator', ShadowJar) {
     onlyIf { withTR }
     dependsOn shadowJar
     group = "shadow"
     manifest.attributes 'Main-Class': 'de.monticore.tr.TriggeredStatechartsTFGenTool'
-    archiveFileName = 'TriggeredSCTransGenerator.jar'
-    archiveClassifier.set('triggeredtfgen')
+    archiveFileName = "TriggeredSCTransGenerator.jar"
+    archiveClassifier = "triggeredtfgen"
     from zipTree(shadowJar.archiveFile)
     from zipTree(trafoJar.archiveFile)
     configurations += [project.configurations.trafoRuntimeClasspath]
   }
 }
 
-task testReport(type: TestReport) {
-    destinationDir = file("$buildDir/reports/allTests")
-    // Include the results from the 'test' task
-    reportOn tasks.withType(Test)
+tasks.register('testReport', TestReport) {
+  destinationDirectory = layout.buildDirectory.dir("reports/allTests")
+  // Include the results from the 'test' task
+  dependsOn(tasks.withType(Test))
+  testResults.from(tasks.withType(Test).collect { it.binaryResultsDirectory})
 }
 
 /**
@@ -182,7 +183,7 @@ task testReport(type: TestReport) {
  */
 tasks.register('checkArtifacts') { group = 'mlc' }
 configurations { MLC }
-dependencies { MLC(group: 'de.monticore.lang', name: 'mlc-tool', version: mlc_version) }
+dependencies { MLC("de.monticore.lang:mlc-tool:$mlc_version") }
 def modelPath = []
 configurations.compileClasspath.resolve().each { modelPath.addAll(["-mp", it.toString()]) }
 configurations.grammarSymbolDependencies.resolve().each { modelPath.addAll(["-mp", it.toString()]) }
@@ -244,16 +245,16 @@ publishing {
       }
     }
     repositories.maven {
-        credentials.username mavenUser
-        credentials.password mavenPassword
+        credentials.username = mavenUser
+        credentials.password = mavenPassword
         def releasesRepoUrl = "https://nexus.se.rwth-aachen.de/content/repositories/monticore-releases/"
         def snapshotsRepoUrl = "https://nexus.se.rwth-aachen.de/content/repositories/monticore-snapshots/"
         url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
     }
 }
 
-task buildAll(type: GradleBuild) {
-    tasks = ['build']
+tasks.register('buildAll', GradleBuild) {
+  tasks = ['build']
 }
 
 defaultTasks('build')

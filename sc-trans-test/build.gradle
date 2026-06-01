@@ -5,7 +5,7 @@ plugins {
 }
 
 description = "sc-trans-test"
-buildDir = file("$projectDir/target")
+layout.buildDirectory = layout.projectDirectory.dir("target")
 
 java {
   toolchain {
@@ -27,10 +27,10 @@ dependencies {
   // add the dependency to sub1s trafos to the trafoGrammar config,
   // adding it as a dependency to the trafo publication
   // Note: This dependency will be substituted by its subproject
-  grammar(group: project.getGroup(), name: "statecharts-trafo", version: project.getVersion())
+  grammar "${project.getGroup()}:statecharts-trafo:${project.getVersion()}"
 
   // use the grammar configuration (for trafos) to add transitive dependencies of :sub1
-  grammar(project(path: rootProject.path, configuration: 'trafoGrammar'))
+  grammar project(path: rootProject.path, configuration: 'trafoGrammar')
 
   // add the compiled trafo java classes of the subproject to the classpath
   implementation files(rootProject.sourceSets.trafo.output.classesDirs)
@@ -48,9 +48,9 @@ configurations.configureEach {
 repositories {
   mavenLocal()
   maven {
-    credentials.username mavenUser
-    credentials.password mavenPassword
-    url repo
+    credentials.username = mavenUser
+    credentials.password = mavenPassword
+    url = repo
   }
 }
 
@@ -59,19 +59,26 @@ test {
 }
 
 
-task generateStatechartTRRules {}
+tasks.register('generateStatechartTRRules') {}
 
-fileTree(dir: "$projectDir/src/main/models/uml", include: '**/**.mtr').each {
-  def g = it
-  def taskname = "generateUMLStatechartTRRules${it.getName().substring(0, it.getName().lastIndexOf('.'))}"
-  task "$taskname"(type: JavaExec) {
+def testModelsDir = layout.projectDirectory.dir("src/main/models/uml").asFile
+def outDir = layout.buildDirectory.dir("generated-trafo-sources").get().asFile.absolutePath
+
+fileTree(dir: testModelsDir, include: "**/*.mtr").each { File g ->
+  def baseName = g.getName().substring(0, g.getName().lastIndexOf('.'))
+  def taskName = "generateUMLStatechartTRRules${baseName}"
+
+  def genTask = tasks.register(taskName, JavaExec) {
     group = "montitrans"
     classpath = configurations.scGenerator
-    main = 'de.monticore.tr.UMLStatechartsTFGenTool'
-    args += ["-i", "$g",
-             "-o", "$buildDir/generated-trafo-sources"]
+    mainClass.set("de.monticore.tr.UMLStatechartsTFGenTool")
+    args("-i", g.absolutePath,
+        "-o", outDir)
   }
-  generateStatechartTRRules.dependsOn("$taskname")
+
+  tasks.named("generateStatechartTRRules") {
+    dependsOn(genTask)
+  }
 }
 
 tasks.withType(JavaExec).configureEach {
@@ -88,7 +95,7 @@ compileTestJava.dependsOn += generateStatechartTRRules
 // Fixes issue with java plugin in projects without resources
 compileTestJava.doFirst { mkdir sourceSets.test.output.resourcesDir }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
   maxParallelForks = Runtime.runtime.availableProcessors() ?: 1
 }
 
@@ -98,6 +105,6 @@ java {
 }
 
 
-task buildAll(type: GradleBuild) {
+tasks.register('buildAll', GradleBuild) {
   tasks = ['build']
 }
