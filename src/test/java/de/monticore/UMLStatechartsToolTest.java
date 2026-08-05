@@ -336,11 +336,9 @@ public class UMLStatechartsToolTest extends GeneralAbstractTest{
     new UMLStatechartsTool().run(new String[]{    "-h" });
     assertEquals(Log.getErrorCount(), 0);
     String result = out.toString().replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
-    assertTrue( result.contains("usage: UMLStatechartsTool\n" +
-                          " -ct,--configTemplate <file>       Provides a config template (optional)\n" +
-                          " -fp,--templatePath <pathlist>     List of directories to look for handwritten\n" +
-                          "                                   templates to integrate (optional)\n"
-              ));
+    assertTrue(result.contains("usage:  UMLStatechartsTool [-ct <file>] [-fp <pathlist>] [-gen <dir>]"));
+    assertTrue(result.contains("--help"));
+    assertTrue(result.contains("-pp"));
   }
 
   @Test
