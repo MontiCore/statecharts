@@ -1,0 +1,19 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore;
+
+grammar StatechartWithTimer extends de.monticore.TriggeredStatecharts,
+                                   de.monticore.temporal.TimeTriggerConditions {
+  start SCArtifact;
+
+  TimerEvent implements SCEvent =
+    timerCondition:TimeTriggerCondition;
+
+  // TriggeredStatecharts combines an optional SCEvent with SCEmptyEvent, which
+  // itself matches the empty string. Requiring SCEvent preserves the accepted
+  // language because SCEmptyEvent still represents an omitted event, while it
+  // avoids an ambiguous nested optional in the generated ANTLR grammar.
+  @Override
+  TransitionBody implements SCTBody =
+    ("[" pre:Expression "]")? SCEvent ("/" TransitionAction | ";");
+
+}
