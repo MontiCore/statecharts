@@ -3,12 +3,12 @@ package de.monticore.temporal.timetriggerconditions.cocos;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import de.monticore.temporal.timetriggerconditions._cocos.AfterISOPeriodConditionHasValidPeriod;
+import de.monticore.temporal.timetriggerconditions._cocos.AfterConditionHasValidPeriod;
 import de.monticore.temporal.timetriggerconditions._cocos.TimeTriggerConditionsCoCoChecker;
 
 import java.io.IOException;
 
-public class AfterISOPeriodConditionHasValidPeriodTest extends AbstractTimerConditionCoCoTest {
+public class AfterConditionHasValidPeriodTest extends AbstractTimerConditionCoCoTest {
   
   @ParameterizedTest(name = "positive ISO period: {0}")
   @ValueSource(strings = { "after P1Y", "after P2M", "after P1Y2M3DT4H5M6S", "after P2D",
@@ -23,13 +23,13 @@ public class AfterISOPeriodConditionHasValidPeriodTest extends AbstractTimerCond
       "after P0W", "after PT0H", "after PT0M", "after PT0S", "after PT0.0H", "after PT0.0M",
       "after PT0.0S", "after P0Y0M0DT0H0M0.000S" })
   public void testZeroIsoPeriodsAreInvalidInStatecharts(String input) throws IOException {
-    checkInvalid(input, AfterISOPeriodConditionHasValidPeriod.NON_POSITIVE_PERIOD);
+    checkInvalid(input, AfterConditionHasValidPeriod.NON_POSITIVE_PERIOD);
   }
   
   @Override
   protected TimeTriggerConditionsCoCoChecker checker() {
     TimeTriggerConditionsCoCoChecker checker = new TimeTriggerConditionsCoCoChecker();
-    checker.addCoCo(new AfterISOPeriodConditionHasValidPeriod());
+    checker.addCoCo(new AfterConditionHasValidPeriod());
     return checker;
   }
   

@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import de.monticore.statechartwithtimer.StatechartWithTimerMill;
 import de.monticore.statechartwithtimer._cocos.StatechartWithTimerCoCoChecker;
 import de.monticore.statechartwithtimer._parser.StatechartWithTimerParser;
-import de.monticore.temporal.timetriggerconditions._cocos.AfterDurationConditionHasValidDuration;
-import de.monticore.temporal.timetriggerconditions._cocos.AfterISOPeriodConditionHasValidPeriod;
+import de.monticore.temporal.timetriggerconditions._cocos.AfterConditionHasValidDuration;
+import de.monticore.temporal.timetriggerconditions._cocos.AfterConditionHasValidPeriod;
 import de.monticore.temporal.timetriggerconditions._cocos.CronExpressionIsValid;
 import de.monticore.temporal.timetriggerconditions._cocos.EveryTimeConditionHasValidRepetitions;
 import de.monticore.temporal.timetriggerconditions._cocos.OnConditionHasValidValue;
@@ -55,8 +55,8 @@ public class TimeTriggerConditionsCoCosTest {
     checker.addChecker(TimeTriggerConditionsCoCos.createChecker());
     checker.checkAll(result.get());
     
-    assertHasFinding(AfterDurationConditionHasValidDuration.NON_POSITIVE_DURATION);
-    assertHasFinding(AfterISOPeriodConditionHasValidPeriod.NON_POSITIVE_PERIOD);
+    assertHasFinding(AfterConditionHasValidDuration.NON_POSITIVE_DURATION);
+    assertHasFinding(AfterConditionHasValidPeriod.NON_POSITIVE_PERIOD);
     assertHasFinding(OnConditionHasValidValue.INVALID_DATE_TIME);
     assertHasFinding(EveryTimeConditionHasValidRepetitions.NON_POSITIVE_REPETITIONS);
     assertHasFinding(CronExpressionIsValid.INVALID_STEP);

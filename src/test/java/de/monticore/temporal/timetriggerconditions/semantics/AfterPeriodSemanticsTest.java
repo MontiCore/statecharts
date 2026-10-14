@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import de.monticore.statechartwithtimer.StatechartWithTimerMill;
 import de.monticore.statechartwithtimer._ast.ASTTimerEvent;
 import de.monticore.statechartwithtimer._parser.StatechartWithTimerParser;
-import de.monticore.temporal.timetriggerconditions._ast.ASTAfterISOPeriodCondition;
+import de.monticore.temporal.timetriggerconditions._ast.ASTAfterCondition;
 
 import java.io.IOException;
 import java.lang.reflect.Proxy;
@@ -63,7 +63,7 @@ public class AfterPeriodSemanticsTest {
     assertThrows(IllegalArgumentException.class, () -> AfterPeriodSemantics.classify(period));
   }
   
-  protected ASTAfterISOPeriodCondition parse(String source) throws IOException {
+  protected ASTAfterCondition parse(String source) throws IOException {
     StatechartWithTimerParser parser = StatechartWithTimerMill.parser();
     var result = parser.parse_StringSCArtifact("""
         statechart AfterPeriodSemanticsTest {
@@ -76,14 +76,15 @@ public class AfterPeriodSemanticsTest {
     assertFalse(parser.hasErrors(), source);
     assertTrue(result.isPresent(), source);
     
-    List<ASTAfterISOPeriodCondition> conditions = new ArrayList<>();
+    List<ASTAfterCondition> conditions = new ArrayList<>();
     var traverser = StatechartWithTimerMill.inheritanceTraverser();
     traverser.add4StatechartWithTimer(
         new de.monticore.statechartwithtimer._visitor.StatechartWithTimerVisitor2() {
           
           @Override
           public void visit(ASTTimerEvent node) {
-            if (node.getTimerCondition() instanceof ASTAfterISOPeriodCondition condition) {
+            if (node.getTimerCondition() instanceof ASTAfterCondition condition
+                && condition.isPresentPeriod()) {
               conditions.add(condition);
             }
           }

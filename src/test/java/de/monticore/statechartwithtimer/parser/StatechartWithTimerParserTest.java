@@ -10,11 +10,10 @@ import de.monticore.statechartwithtimer.StatechartWithTimerMill;
 import de.monticore.statechartwithtimer._ast.ASTTimerEvent;
 import de.monticore.statechartwithtimer._parser.StatechartWithTimerParser;
 import de.monticore.statechartwithtimer.lang.AbstractTest;
-import de.monticore.temporal.timetriggerconditions._ast.ASTAfterDurationCondition;
-import de.monticore.temporal.timetriggerconditions._ast.ASTAfterISOPeriodCondition;
+import de.monticore.temporal.timetriggerconditions._ast.ASTAfterCondition;
 import de.monticore.temporal.timetriggerconditions._ast.ASTEveryTimeCondition;
 import de.monticore.temporal.timetriggerconditions._ast.ASTOnCondition;
-import de.monticore.temporal.timetriggerconditions._cocos.AfterDurationConditionHasValidDuration;
+import de.monticore.temporal.timetriggerconditions._cocos.AfterConditionHasValidDuration;
 import de.monticore.temporal.timetriggerconditions._cocos.EveryTimeConditionHasValidRepetitions;
 import de.monticore.temporal.timetriggerconditions._cocos.OnConditionHasValidValue;
 import de.monticore.temporal.timetriggerconditions._cocos.TimeTriggerConditionsCoCoChecker;
@@ -150,7 +149,7 @@ public class StatechartWithTimerParserTest extends AbstractTest {
   public void testTimerConditionCoCoOnStatechart() {
     ASTSCArtifact statechart = parseModel(
         "src/test/resources/statechartwithtimer/parser/TimerStatechart.sc");
-    List<ASTAfterDurationCondition> conditions = findAfterConditions(statechart);
+    List<ASTAfterCondition> conditions = findAfterConditions(statechart);
     
     assertFalse(conditions.isEmpty());
     conditions.forEach(this::checkAfterCondition);
@@ -170,19 +169,20 @@ public class StatechartWithTimerParserTest extends AbstractTest {
     findAfterConditions(statechart).forEach(this::checkAfterCondition);
     
     assertTrue(Log.getFindings().stream().anyMatch(finding -> finding.getMsg().contains(
-        AfterDurationConditionHasValidDuration.NON_POSITIVE_DURATION)));
+        AfterConditionHasValidDuration.NON_POSITIVE_DURATION)));
   }
   
-  protected List<ASTAfterDurationCondition> findAfterConditions(ASTSCArtifact statechart) {
-    List<ASTAfterDurationCondition> conditions = new ArrayList<>();
+  protected List<ASTAfterCondition> findAfterConditions(ASTSCArtifact statechart) {
+    List<ASTAfterCondition> conditions = new ArrayList<>();
     var traverser = StatechartWithTimerMill.inheritanceTraverser();
     traverser.add4StatechartWithTimer(
         new de.monticore.statechartwithtimer._visitor.StatechartWithTimerVisitor2() {
           
           @Override
           public void visit(ASTTimerEvent node) {
-            if (node.getTimerCondition() instanceof ASTAfterDurationCondition) {
-              conditions.add((ASTAfterDurationCondition) node.getTimerCondition());
+            if (node.getTimerCondition() instanceof ASTAfterCondition condition
+                && condition.isPresentDuration()) {
+              conditions.add(condition);
             }
           }
           
@@ -191,16 +191,17 @@ public class StatechartWithTimerParserTest extends AbstractTest {
     return conditions;
   }
   
-  protected List<ASTAfterISOPeriodCondition> findIsoAfterConditions(ASTSCArtifact statechart) {
-    List<ASTAfterISOPeriodCondition> conditions = new ArrayList<>();
+  protected List<ASTAfterCondition> findIsoAfterConditions(ASTSCArtifact statechart) {
+    List<ASTAfterCondition> conditions = new ArrayList<>();
     var traverser = StatechartWithTimerMill.inheritanceTraverser();
     traverser.add4StatechartWithTimer(
         new de.monticore.statechartwithtimer._visitor.StatechartWithTimerVisitor2() {
           
           @Override
           public void visit(ASTTimerEvent node) {
-            if (node.getTimerCondition() instanceof ASTAfterISOPeriodCondition) {
-              conditions.add((ASTAfterISOPeriodCondition) node.getTimerCondition());
+            if (node.getTimerCondition() instanceof ASTAfterCondition condition
+                && condition.isPresentPeriod()) {
+              conditions.add(condition);
             }
           }
           
@@ -209,9 +210,9 @@ public class StatechartWithTimerParserTest extends AbstractTest {
     return conditions;
   }
   
-  protected void checkAfterCondition(ASTAfterDurationCondition condition) {
+  protected void checkAfterCondition(ASTAfterCondition condition) {
     TimeTriggerConditionsCoCoChecker checker = new TimeTriggerConditionsCoCoChecker();
-    checker.addCoCo(new AfterDurationConditionHasValidDuration());
+    checker.addCoCo(new AfterConditionHasValidDuration());
     checker.checkAll(condition);
   }
   
