@@ -12,6 +12,7 @@ import de.monticore.types.mcbasictypes.types3.MCBasicTypesTypeVisitor;
 import de.monticore.types3.Type4Ast;
 import de.monticore.types3.generics.context.InferenceContext4Ast;
 import de.monticore.types3.util.MapBasedTypeCheck3;
+import de.monticore.types3.util.PostTypeCheckNodeReplacer;
 import de.monticore.types3.util.WithinScopeBasicSymbolsResolver;
 import de.monticore.types3.util.WithinTypeBasicSymbolsResolver;
 import de.monticore.visitor.ITraverser;
@@ -55,6 +56,7 @@ public class TriggeredStatechartsTypeCheck extends MapBasedTypeCheck3 {
     Log.trace("Start initializing the TriggeredStatecharts type-check delegate", "TriggeredStatechartsTypeCheck");
     WithinScopeBasicSymbolsResolver.init();
     WithinTypeBasicSymbolsResolver.init();
+    PostTypeCheckNodeReplacer.init();
     initExpressionBasisTypeVisitor(traverser, type4Ast, ctx4Ast);
     initMCBasicTypesTypeVisitor(traverser, type4Ast, ctx4Ast);
     initMCCommonLiteralsTypeVisitor(traverser, type4Ast, ctx4Ast);
@@ -77,6 +79,7 @@ public class TriggeredStatechartsTypeCheck extends MapBasedTypeCheck3 {
     visitor.setType4Ast(type4Ast);
     visitor.setContext4Ast(ctx4Ast);
     traverser.add4ExpressionsBasis(visitor);
+    traverser.setExpressionsBasisHandler(visitor);
     Log.trace("Finish initializing the ExpressionBasis visitor of the type-check delegate", "TriggeredStatechartsTypeCheck");
   }
 
